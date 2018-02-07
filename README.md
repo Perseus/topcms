@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/gn3iwchinktiscso/branch/master?svg=true)](https://ci.appveyor.com/project/Perseus/topcms/branch/master)
