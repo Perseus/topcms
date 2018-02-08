@@ -20,8 +20,8 @@
                 <div class="ui dropdown pointing top right ">
                     <div class="text"><small>{{ this.user[0] }}</small></div><small><i class="dropdown icon"></i></small>
                     <div class="menu">
-                        <div class="item"><a :href="accountLink"><small>Account Settings</small></a></div>
-                        <div v-if="this.user[2] == 1" class="item"><small><a :href="panelLink">Admin Panel</a></small></div>
+                        <a class="nav-options" :href="accountLink"><div class="item"><small>Account Settings</small></div></a>
+                        <a class="nav-options" :href="panelLink"><div v-if="this.user[2] == 1" class="item"><small>Admin Panel</small></div></a>
                     </div>
                 </div>
 
@@ -68,5 +68,7 @@
     padding: 10px;
     width: 14em;
 }
+
+
 
 </style>

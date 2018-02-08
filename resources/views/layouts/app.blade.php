@@ -20,6 +20,8 @@
     <link href="{{ asset('semantic/semantic.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('semantic/components/modal.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('semantic/components/dimmer.min.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -81,9 +83,13 @@
     <script src="{{ asset('semantic/semantic.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('semantic/components/transition.min.js')}}"></script>
+    <script src="{{ asset('semantic/components/dimmer.min.js') }}"></script>
+    <script src="{{ asset('semantic/components/modal.min.js') }}"></script>
     <script src="{{ asset('semantic/components/dropdown.min.js')}}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
 
+
+    @yield('js_scripts')
     
     @if (getenv('APP_ENV') === 'local')
         <script id="__bs_script__">//<![CDATA[

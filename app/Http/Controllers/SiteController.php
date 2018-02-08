@@ -24,7 +24,7 @@ class SiteController extends Controller
     public function getSmallNewsFeed() {   
 
         try {
-            $newsArticles = News::orderBy('created_at', 'desc')->get()->take(5)->toJson();
+            $newsArticles = News::orderBy('updated_at', 'desc')->get()->take(5)->toJson();
             return $newsArticles;
         } catch(Exception $e) {
             return $e->getMessage();
@@ -97,5 +97,58 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * editNews
+     * 
+     * Edits a news article
+     *
+     * @param Request $request
+     * @param int $id
+     * @return void
+     */
+    public function editNews(Request $request, $id)
+    {
+        if($request->ajax()) {
+            $this->validate($request, [
+                'title' => 'required|string',
+                'author' => 'required|integer',
+                'category' => 'required|integer',
+                'content' => 'required|string'
+            ]);
+            $news = News::find($id);
+            $news->title = $request->title;
+            $news->author = $request->author;
+            $news->category = $request->category;
+            $news->content = $request->content;
+            try {
+                $news->save();
+                return response()->json(['success' => true, 'url' => '/panel']);
+            } catch(Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+
+
+        } else {
+            return response()->json([ 'error' => 'Invalid request!']);
+        }
+    }
+
+    /**
+     * deleteNews
+     * Deletes a given news article
+     *
+     * @param Request $request
+     * @param [type] $id
+     * @return void
+     */
+    public function deleteNews(Request $request, $id) {
+        try {
+            $news = News::find($id);
+            $news->delete();
+            return response()->json(['success' => true]);
+        } catch(Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
 
 }

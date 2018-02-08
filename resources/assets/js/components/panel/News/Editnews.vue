@@ -28,7 +28,7 @@
                          <froala :tag="'textarea'" v-model="content"></froala>
                     </div>
                     
-                    <button class="ui button" type="submit" @click="createNews">Submit</button>
+                    <button class="ui button" type="submit" @click="editNews">Submit</button>
                 </form>
             </div>
             <div class="ui error message" v-if="this.errors.length != 0">
@@ -39,23 +39,22 @@
             </div>
         </div>
     </div>
-</template>
 
+</template>
 
 
 
 
 <script>
 
-    $(function() { $('textarea').froalaEditor() });
 
     export default {
 
-        /**
-         * created()
-         * Runs when the Vue component is initialized. Retrieves a list of the authors that exist in the database.
-         */
+
+        
         created() {
+            this.articleData = article[0];
+            this.title = this.articleData.title;
             axios.get('/authors/get')
             .then((response) => {
                 this.authors = response.data;
@@ -72,7 +71,13 @@
             .catch((error) => {
                 console.log(error);
             });
+            this.author = this.articleData.author.id;
+            this.category = this.articleData.category;
+            this.content = this.articleData.content;
         },
+
+
+
 
         data() {
             return {
@@ -83,19 +88,17 @@
                 category: "",
                 errors: [],
                 categories: [],
+                articleData: [],
+            
             }
         },
 
-        methods: {
 
-            /** 
-             * createNews()
-             * Sends out a POST request to create a news article
-             */
-            createNews() {
-                
+
+        methods: {
+            editNews() {
                 if(this.validateForm()) {
-                    axios.post('/news/create', {
+                    axios.post(`/panel/news/edit/${this.articleData.id}`, {
                         'title': this.title,
                         'author': this.author,
                         'content': this.content,
@@ -108,7 +111,7 @@
                             this.errors.push(response.data.error);
                         } else if(response.data.success != null) {
                             this.refreshForm();
-                            toastr.success("News article created! Redirecting to panel.");
+                            toastr.success("News article edited! Redirecting to panel.");
                             window.setTimeout(() => {
                                 window.location = APP_URL + response.data.url;
                             }, 2000);
@@ -151,7 +154,14 @@
                 this.content = '';
                 this.category = '';
             }
+            
         }
+
+
+
+
+
+
     }
 
 </script>

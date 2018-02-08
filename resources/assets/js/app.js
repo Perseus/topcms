@@ -24,10 +24,18 @@ require('froala-editor/css/froala_style.min.css');
  */
 
 import config from './config.js';
+
+// Main components
 import Navbar from './components/layouts/Navbar';
 import Breadcrumbs from './components/layouts/Breadcrumbs';
+
+// Page components
 import Panel from './components/panel/Panel';
-import Create from './components/panel/News/Create';
+// Sub-components
+import Createnews from './components/panel/News/Createnews';
+import Editnews from './components/panel/News/Editnews';
+
+// 3rd party assets
 import VueFroala from 'vue-froala-wysiwyg';
 
 
@@ -38,6 +46,7 @@ const app = new Vue({
     props: ['config'], 
     created() {
         this.config = config;
+        
     },
-    components: { Navbar, Breadcrumbs, Panel, Create },
+    components: { Navbar, Breadcrumbs, Panel, Createnews, Editnews },
 });
