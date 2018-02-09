@@ -22,7 +22,7 @@ class CreateDownloadsTable extends Migration
             $table->timestamps();
 
 
-            $table->foreign('category')->references('id')->on('download_categories');
+            $table->foreign('category')->references('id')->on('downloads_categories');
             $table->foreign('author')->references('id')->on('authors');
         });
     }
