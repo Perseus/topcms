@@ -30,7 +30,8 @@ init:
     - SET COMPOSER_NO_INTERACTION=1
     - SET PHP=1 # This var is connected to PHP install cache
     - SET ANSICON=121x90 (121x90)
-
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 ## Install PHP and composer, and run the appropriate composer command
 install:
     - choco install googlechrome
@@ -98,8 +99,7 @@ install:
     - composer update
     - choco install urlrewrite --force /y 
     - php artisan migrate
-
-
+   
 ## Run the actual test
 test_script:
     - cd c:\inetpub\wwwroot\topcms\
