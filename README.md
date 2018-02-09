@@ -28,6 +28,10 @@ Generate a key for your application using `php artisan key:generate`.
 Next, generate your website database using `php artisan migrate`.
 Make sure your .sqlite file exists before running this command.
 
+Next, run `composer install` to install all the PHP dependencies.
+
+Then, run `npm install` to install all the JavaScript dependencies.
+
 When you run your Apache server, your website should be accessible at
 localhost/website_folder/public
 
