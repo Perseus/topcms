@@ -17,7 +17,7 @@ $factory->define(App\Models\AccountServer\AccountLogin::class, function (Faker $
     static $password;
 
     return [
-        'name' => $faker->name,
+        'name' => $faker->firstName,
         'email' => $faker->unique()->safeEmail,
         'originalPassword' => $password ? $password : 'secret',
         'password' => $password ? strtoupper(md5($password)) : $password = strtoupper(md5('secret')),

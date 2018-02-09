@@ -78,9 +78,7 @@ install:
     - cd c:\inetpub\wwwroot\topcms
     - ps: "c:\\inetpub\\wwwroot\\topcms\\setup.ps1"
     - ps: cat .env
-    - IF %dependencies%==lowest appveyor-retry composer update --prefer-lowest --no-progress --profile -n
     - IF %dependencies%==current appveyor-retry composer install --no-progress --profile
-    - IF %dependencies%==highest appveyor-retry composer update --no-progress --profile -n
     - composer show
     - ps: Install-Product node $env:nodejs_version
     
@@ -99,6 +97,7 @@ install:
     - NET START W3SVC
     - composer update
     - choco install urlrewrite --force /y 
+    - php artisan migrate
 
 
 ## Run the actual test

@@ -5,6 +5,7 @@ namespace App\Models\SiteInfo;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SiteInfo\Author;
 use Carbon\Carbon;
+use App\Models\SiteInfo\NewsCategory;
 
 class News extends Model
 {
@@ -33,6 +34,11 @@ class News extends Model
     public function getAuthorAttribute($value) {
         $author = Author::find($value);
         return $author;
+    }
+
+    public function getCategoryAttribute($value) {
+        $category = NewsCategory::find($value);
+        return $category;
     }
     
 }

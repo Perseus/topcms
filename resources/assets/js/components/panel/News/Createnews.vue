@@ -23,12 +23,18 @@
                             </option>
                         </select>
                     </div>
-                    <div class="field">
+                    <div  v-if="this.config.wysiwyg==true" class="field">
                         <label for="">Content</label>
-                         <froala :tag="'textarea'" v-model="content"></froala>
+                         <froala :tag="'textarea'" id="content" name="content" v-model="content"></froala>
+                        
                     </div>
+                    <div v-else class="field">
+                         <label for="">Content</label>
+                         <textarea v-model="content" id="content" name="content"></textarea>
+                    </div>
+
                     
-                    <button class="ui button" type="submit" @click="createNews">Submit</button>
+                    <input class="ui button" id="submit" value="Submit" type="submit" @click="createNews">
                 </form>
             </div>
             <div class="ui error message" v-if="this.errors.length != 0">
@@ -46,8 +52,6 @@
 
 
 <script>
-
-    $(function() { $('textarea').froalaEditor() });
 
     export default {
 
@@ -73,6 +77,8 @@
                 console.log(error);
             });
         },
+
+        props: ['config'],
 
         data() {
             return {

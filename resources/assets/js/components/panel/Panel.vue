@@ -57,11 +57,11 @@
             Are you sure you want to delete this news article? 
         </div>
         <div class="actions">
-            <div @click="dontDeleteNews" class="ui red basic cancel inverted button">
+            <div @click="dontDeleteNews" dusk="dont-delete" class="ui red basic cancel inverted button">
                 <i class="remove icon"></i>
                 No
             </div>
-            <div @click="deleteNews" class="ui green ok inverted button">
+            <div @click="deleteNews" dusk="delete"  class="ui green ok inverted button">
                 <i class="checkmark icon"></i>
                 Yes
             </div>

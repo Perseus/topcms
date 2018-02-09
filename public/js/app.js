@@ -44052,7 +44052,8 @@ exports.push([module.i, "/*!\n * froala_editor v2.7.5 (https://www.froala.com/wy
 /***/ (function(module, exports) {
 
 var config = {
-    logoPath: 'images/logo.png'
+    logoPath: 'images/logo.png',
+    wysiwyg: false
 };
 
 module.exports = config;
@@ -44823,6 +44824,7 @@ var render = function() {
           "div",
           {
             staticClass: "ui red basic cancel inverted button",
+            attrs: { dusk: "dont-delete" },
             on: { click: _vm.dontDeleteNews }
           },
           [
@@ -44835,6 +44837,7 @@ var render = function() {
           "div",
           {
             staticClass: "ui green ok inverted button",
+            attrs: { dusk: "delete" },
             on: { click: _vm.deleteNews }
           },
           [
@@ -44996,11 +44999,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
-
-$(function () {
-    $('textarea').froalaEditor();
-});
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -45023,6 +45028,10 @@ $(function () {
             console.log(error);
         });
     },
+
+
+    props: ['config'],
+
     data: function data() {
         return {
             authors: [],
@@ -45244,35 +45253,60 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "field" },
-              [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Content")]),
-                _vm._v(" "),
-                _c("froala", {
-                  attrs: { tag: "textarea" },
-                  model: {
-                    value: _vm.content,
-                    callback: function($$v) {
-                      _vm.content = $$v
-                    },
-                    expression: "content"
-                  }
-                })
-              ],
-              1
-            ),
+            this.config.wysiwyg == true
+              ? _c(
+                  "div",
+                  { staticClass: "field" },
+                  [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Content")]),
+                    _vm._v(" "),
+                    _c("froala", {
+                      attrs: {
+                        tag: "textarea",
+                        id: "content",
+                        name: "content"
+                      },
+                      model: {
+                        value: _vm.content,
+                        callback: function($$v) {
+                          _vm.content = $$v
+                        },
+                        expression: "content"
+                      }
+                    })
+                  ],
+                  1
+                )
+              : _c("div", { staticClass: "field" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Content")]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.content,
+                        expression: "content"
+                      }
+                    ],
+                    attrs: { id: "content", name: "content" },
+                    domProps: { value: _vm.content },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.content = $event.target.value
+                      }
+                    }
+                  })
+                ]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "ui button",
-                attrs: { type: "submit" },
-                on: { click: _vm.createNews }
-              },
-              [_vm._v("Submit")]
-            )
+            _c("input", {
+              staticClass: "ui button",
+              attrs: { id: "submit", value: "Submit", type: "submit" },
+              on: { click: _vm.createNews }
+            })
           ]
         )
       ]),
@@ -45404,6 +45438,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -45427,6 +45466,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.category = this.articleData.category;
         this.content = this.articleData.content;
     },
+
+
+    props: ['config'],
+
     data: function data() {
         return {
             authors: [],
@@ -45646,25 +45689,54 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "field" },
-              [
-                _c("label", { attrs: { for: "" } }, [_vm._v("Content")]),
-                _vm._v(" "),
-                _c("froala", {
-                  attrs: { tag: "textarea" },
-                  model: {
-                    value: _vm.content,
-                    callback: function($$v) {
-                      _vm.content = $$v
-                    },
-                    expression: "content"
-                  }
-                })
-              ],
-              1
-            ),
+            this.config.wysiwyg == true
+              ? _c(
+                  "div",
+                  { staticClass: "field" },
+                  [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Content")]),
+                    _vm._v(" "),
+                    _c("froala", {
+                      attrs: {
+                        tag: "textarea",
+                        id: "content",
+                        name: "content"
+                      },
+                      model: {
+                        value: _vm.content,
+                        callback: function($$v) {
+                          _vm.content = $$v
+                        },
+                        expression: "content"
+                      }
+                    })
+                  ],
+                  1
+                )
+              : _c("div", { staticClass: "field" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Content")]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.content,
+                        expression: "content"
+                      }
+                    ],
+                    attrs: { id: "content", name: "content" },
+                    domProps: { value: _vm.content },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.content = $event.target.value
+                      }
+                    }
+                  })
+                ]),
             _vm._v(" "),
             _c(
               "button",
