@@ -10,6 +10,7 @@ $startPath = "$($env:appveyor_build_folder)\database\mdfs\"
         $ldfFile2 = join-path $startPath "GameDB_log.ldf"
         sqlcmd -S "$sqlInstance" -Q "Use [master]; CREATE DATABASE [$dbName] ON (FILENAME = '$mdfFile1'),(FILENAME = '$ldfFile1') for ATTACH"
         sqlcmd -S "$sqlInstance" -Q "Use [master]; CREATE DATABASE [$db2Name] ON (FILENAME = '$mdfFile2'),(FILENAME = '$ldfFile2') for ATTACH"
+        sqlcmd -S "$sqlInstance" -Q "Use [GameDB]; UPDATE account SET gm='99' WHERE act_id='44'"
         $duskEnvConfig = "
         APP_NAME=topCMS
         APP_ENV=local
@@ -127,7 +128,7 @@ $startPath = "$($env:appveyor_build_folder)\database\mdfs\"
         PUSHER_APP_CLUSTER=mt1"
         $envFile = "$($env:appveyor_build_folder)\.env"
         $duskEnvFile = "$($env:appveyor_build_folder)\.env.dusk.local"
-        
+        Remove-Item -path C:\inetpub\wwwroot\topcms\.env.dusk.local
         Add-Content $duskEnvFile $duskEnvConfig
         Add-Content $envFile $envConfig
         $webConfig = '<?xml version="1.0" encoding="utf-8"?>
