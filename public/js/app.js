@@ -45463,7 +45463,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(error);
         });
         this.author = this.articleData.author.id;
-        this.category = this.articleData.category;
+        this.category = this.articleData.category.id;
         this.content = this.articleData.content;
     },
 
