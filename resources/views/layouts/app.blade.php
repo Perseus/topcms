@@ -11,25 +11,29 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <script>
     const APP_URL = {!! json_encode(url('/')) !!};
-    const USER = {!! json_encode(Auth::user() ? [Auth::user()->name, Auth::user()->id] : null) !!}; 
+    const USER = {!! json_encode(Auth::user() ? [Auth::user()->name, Auth::user()->id, Auth::user()->isAdmin()] : null) !!}; 
 
     </script>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="{{ asset('semantic/semantic.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('semantic/components/modal.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('semantic/components/dimmer.min.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
         <Navbar :config="config"></Navbar>
         <div class="ui two relaxed column grid container">
             <div class="row">
-      
-                <div class="three wide column"> 
+                <div class="three wide column computer only"> 
                     <div class="ui top attached header">
                         Navigate
                     </div>
-                    <div class="ui attached segment">
+                    <div class="ui attached segment ">
                         @if(Auth::user())
                         <div class="ui link list">
                             <a href="{{ url('/') }}" class="item">Home</a>
@@ -75,14 +79,17 @@
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
     crossorigin="anonymous"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
- 
+    <script src="{{ asset('js/toastr.min.js') }}"></script>
     <script src="{{ asset('semantic/semantic.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    
     <script src="{{ asset('semantic/components/transition.min.js')}}"></script>
-    
+    <script src="{{ asset('semantic/components/dimmer.min.js') }}"></script>
+    <script src="{{ asset('semantic/components/modal.min.js') }}"></script>
     <script src="{{ asset('semantic/components/dropdown.min.js')}}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
+
+
+    @yield('js_scripts')
     
     @if (getenv('APP_ENV') === 'local')
         <script id="__bs_script__">//<![CDATA[

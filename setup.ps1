@@ -10,6 +10,65 @@ $startPath = "$($env:appveyor_build_folder)\database\mdfs\"
         $ldfFile2 = join-path $startPath "GameDB_log.ldf"
         sqlcmd -S "$sqlInstance" -Q "Use [master]; CREATE DATABASE [$dbName] ON (FILENAME = '$mdfFile1'),(FILENAME = '$ldfFile1') for ATTACH"
         sqlcmd -S "$sqlInstance" -Q "Use [master]; CREATE DATABASE [$db2Name] ON (FILENAME = '$mdfFile2'),(FILENAME = '$ldfFile2') for ATTACH"
+        sqlcmd -S "$sqlInstance" -Q "Use [GameDB]; UPDATE account SET gm='99' WHERE act_id='44'"
+        $duskEnvConfig = "
+        APP_NAME=topCMS
+        APP_ENV=local
+        APP_KEY=base64:zMQzRZLneKQKmdQcEMdlwmVDRfI0/KwmGweaYvwu6OY=
+        APP_DEBUG=false
+        APP_LOG_LEVEL=debug
+        APP_URL=http://localhost
+
+
+        DB_CONNECTION=AccountServer
+        DB_HOST=127.0.0.1
+        DB_PORT=1433
+        DB_DATABASE=AccountServer
+        DB_USERNAME=sa
+        DB_PASSWORD=Password12!
+
+        DB_2_CONNECTION=GameDB
+        DB_2_HOST=127.0.0.1
+        DB_2_PORT=1433
+        DB_2_DATABASE=GameDB
+        DB_2_USERNAME=sa
+        DB_2_PASSWORD=Password12!
+
+
+        SITE_INFO_DB_FILE=C:/inetpub/wwwroot/topcms/database/SiteInfo.sqlite
+
+        CAPTCHA_ACTIVATED=FALSE
+        RECAPTCHA_PUBLIC_KEY=6LcixDEUAAAAAFclPWm7SRc4skH8Lme0I-rMiuON
+        RECAPTCHA_PRIVATE_KEY=6LcixDEUAAAAAGObK94L7RS5ZAR1b01GlS7RsS3y
+
+
+        SOLO_EXP=10
+        PARTY_EXP=15
+        DROP_RATE=10
+        SHIP_EXP=5
+
+        BROADCAST_DRIVER=log
+        CACHE_DRIVER=file
+        SESSION_DRIVER=file
+        SESSION_LIFETIME=120
+        QUEUE_DRIVER=sync
+
+        REDIS_HOST=127.0.0.1
+        REDIS_PASSWORD=null
+        REDIS_PORT=6379
+
+        MAIL_DRIVER=smtp
+        MAIL_HOST=smtp.mailtrap.io
+        MAIL_PORT=2525
+        MAIL_USERNAME=null
+        MAIL_PASSWORD=null
+        MAIL_ENCRYPTION=null
+
+        PUSHER_APP_ID=
+        PUSHER_APP_KEY=
+        PUSHER_APP_SECRET=
+        PUSHER_APP_CLUSTER=mt1"
+
         $envConfig = "
         APP_NAME=topCMS
         APP_ENV=local
@@ -34,7 +93,7 @@ $startPath = "$($env:appveyor_build_folder)\database\mdfs\"
         DB_2_PASSWORD=Password12!
 
 
-        SITE_INFO_DB_FILE=F:/xampp/htdocs/topsite_public/database/SiteInfo.sqlite
+        SITE_INFO_DB_FILE=C:/inetpub/wwwroot/topcms/database/SiteInfo.sqlite
 
         CAPTCHA_ACTIVATED=FALSE
         RECAPTCHA_PUBLIC_KEY=6LcixDEUAAAAAFclPWm7SRc4skH8Lme0I-rMiuON
@@ -68,6 +127,9 @@ $startPath = "$($env:appveyor_build_folder)\database\mdfs\"
         PUSHER_APP_SECRET=
         PUSHER_APP_CLUSTER=mt1"
         $envFile = "$($env:appveyor_build_folder)\.env"
+        $duskEnvFile = "$($env:appveyor_build_folder)\.env.dusk.local"
+        Remove-Item -path C:\inetpub\wwwroot\topcms\.env.dusk.local
+        Add-Content $duskEnvFile $duskEnvConfig
         Add-Content $envFile $envConfig
         $webConfig = '<?xml version="1.0" encoding="utf-8"?>
         <configuration>

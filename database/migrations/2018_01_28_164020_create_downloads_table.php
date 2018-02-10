@@ -15,7 +15,15 @@ class CreateDownloadsTable extends Migration
     {
         Schema::create('downloads', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
+            $table->string('url');
+            $table->integer('category');
+            $table->integer('author');
             $table->timestamps();
+
+
+            $table->foreign('category')->references('id')->on('downloads_categories');
+            $table->foreign('author')->references('id')->on('authors');
         });
     }
 
