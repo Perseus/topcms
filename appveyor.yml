@@ -45,7 +45,6 @@ install:
     - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
     - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
-    - IF %PHP%==1 echo extension=php_pdo_sqlite.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_sqlsrv.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
@@ -77,6 +76,7 @@ install:
     - echo realpath_cache_size=5M >> php.ini
     - echo realpath_cache_ttl=1800 >> php.ini
     - echo pdo_sqlsrv.client_buffer_max_kb_size=24480 >> php.ini
+    - echo extension=php_pdo_sqlite.dll >> php.ini
     - cd c:\inetpub\wwwroot\topcms
     - ps: "c:\\inetpub\\wwwroot\\topcms\\setup.ps1"
     - ps: cat .env

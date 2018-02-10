@@ -127,9 +127,7 @@ $startPath = "$($env:appveyor_build_folder)\database\mdfs\"
         PUSHER_APP_CLUSTER=mt1"
         $envFile = "$($env:appveyor_build_folder)\.env"
         $duskEnvFile = "$($env:appveyor_build_folder)\.env.dusk.local"
-        $sqliteFile = "$($env:appveyor_build_folder)\database\SiteInfo.sqlite"
-
-        Add-Content $sqliteFile ""
+        
         Add-Content $duskEnvFile $duskEnvConfig
         Add-Content $envFile $envConfig
         $webConfig = '<?xml version="1.0" encoding="utf-8"?>
