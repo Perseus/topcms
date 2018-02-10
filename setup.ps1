@@ -17,7 +17,7 @@ $startPath = "$($env:appveyor_build_folder)\database\mdfs\"
         APP_KEY=base64:zMQzRZLneKQKmdQcEMdlwmVDRfI0/KwmGweaYvwu6OY=
         APP_DEBUG=false
         APP_LOG_LEVEL=debug
-        APP_URL=http://127.0.0.1:8000
+        APP_URL=http://localhost
 
 
         DB_CONNECTION=AccountServer
