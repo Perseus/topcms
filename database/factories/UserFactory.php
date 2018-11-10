@@ -13,25 +13,12 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\AccountServer\AccountLogin::class, function (Faker $faker) {
-    static $password;
-
+$factory->define(App\User::class, function (Faker $faker) {
     return [
-        'name' => $faker->firstName,
+        'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'originalPassword' => $password ? $password : 'secret',
-        'password' => $password ? strtoupper(md5($password)) : $password = strtoupper(md5('secret')),
-        'ban' => 0
-    ];
-});
-
-
-$factory->define(App\Models\GameDB\Account::class, function (Faker $faker) {
-    static $id;
-    static $name;
-    return [
-        'act_id' => $id,
-        'act_name' => $name,
-         'gm' => config('server.default_gm')
+        'email_verified_at' => now(),
+        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'remember_token' => str_random(10),
     ];
 });

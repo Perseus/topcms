@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\AccountServer\AccountLogin;
-use App\Models\GameDB\Account;
+use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -48,20 +48,11 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        if(config('server.recaptcha')) {
-            return Validator::make($data, [
-                'username' => 'required|string|max:255|unique:AccountServer.account_login,name',
-                'email' => 'required|string|email|max:255|unique:AccountServer.account_login,email',
-                'password' => 'required|string|min:6|confirmed',
-                'recaptcha_response_field' => 'required|recaptcha'
-            ]);
-        } else {
-            return Validator::make($data, [
-                'username' => 'required|string|max:255|unique:AccountServer.account_login,name',
-                'email' => 'required|string|email|max:255|unique:AccountServer.account_login,email',
-                'password' => 'required|string|min:6|confirmed',
-            ]);
-        }
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
     }
 
     /**
@@ -72,26 +63,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-       // insert in account_login
-       $account =  AccountLogin::create([
-        'name' => $data['username'],
-        'email' => $data['email'],
-        'password' => strtoupper(md5($data['password'])),
-        'originalPassword' => $data['password'],
-        'ban' => 0
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
-        // insert in gamedb
-        if($account)
-        {
-            $game = Account::create([
-                'act_id' => $account->id,
-                'act_name' => ''.$account->name.'',
-                'gm' => config('server.default_gm'),
-            ]);
-        }
-        else {
-            return false;
-        }
-        return $game;
     }
 }
