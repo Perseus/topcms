@@ -1,0 +1,25 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+
+body {
+  font-size: 62.5%;
+  font-family: 'Arial', sans-serif;
+}
+
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.container {
+
+  margin-top: 2rem;
+  margin-left: 2rem;
+
+}
