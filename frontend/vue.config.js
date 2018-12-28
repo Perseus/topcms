@@ -1,6 +1,14 @@
 module.exports = {
   configureWebpack: {
     entry: './src/app.js',
+    node : {
+      __filename: true,
+      __dirname: true,
+    },
+    performance: { 
+      hints: false
+    } 
+    
   },
   css : {
     modules: true,

@@ -8,7 +8,6 @@ import Root from '../containers/Root/Root.vue';
 const routes = [
   { 
     path: '',
-    name: 'root',
     component: Root,
     children: [
       {

@@ -1,0 +1,22 @@
+.information-panel {
+  
+  border: 1px solid $color-grey-9;
+  
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  &__heading {
+    padding: .5rem 1rem;
+    text-align: center;
+    background-color: $color-primary-9;
+    color: $color-grey-1;
+    font-size: .9rem;
+  }
+
+  &__body {
+    margin: 1.5rem;
+    box-sizing: border-box;
+  }
+
+}

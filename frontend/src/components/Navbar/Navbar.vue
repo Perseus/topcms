@@ -2,27 +2,23 @@
 
   <nav class="navbar">
 
-    <div class="navbar__logo">
-      <router-link to="/">
-        <img src="img/logo.png">
-      </router-link>
+    <div class="navbar__search-container">
+      <font-awesome-icon class="navbar__search-container-icon" icon="search"></font-awesome-icon>
+      <input class="navbar__search-container-input" type="text" v-model="searchText" placeholder="Search the game database..." />
     </div>
 
-    <ul class="navbar__nav">
-      <router-link to="/"><li class="navbar__nav-item">Home</li></router-link>
-      <li class="navbar__nav-item">Account
-        <ul class="navbar__nav-dropdown">
-          <router-link to="/"><li class="navbar__nav-dropdown-item">Register</li></router-link>
-          <router-link to="/"><li class="navbar__nav-dropdown-item">Login</li></router-link>
-        </ul>
-      </li>
-      <router-link to=""><li class="navbar__nav-item">Community</li></router-link>
-      <router-link to=""><li class="navbar__nav-item">Item Shop</li></router-link>
-      <router-link to=""><li class="navbar__nav-item">Media</li></router-link>
-      <router-link to=""><li class="navbar__nav-item">Support</li></router-link>
-    </ul>
-  </nav>
+    <div class="navbar__actions">
+      <div class="navbar__actions-container" @click="openSignupModal">
+        <a href="#" class="navbar__action"> Sign Up </a>
+      </div>
+      <div class="navbar__actions-container" @click="openLoginModal">
+        <a href="#" class="navbar__action"> Log In </a>
+      </div>
+      
+    </div>
 
+  </nav>
+  
 </template>
 
 <script src="./Navbar.js"></script>

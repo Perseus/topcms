@@ -1,5 +1,6 @@
 const State = {
-  count: 0,
+  DISPLAY_AUTH_MODAL: false,
+  AUTH_MODAL_TYPE: '',
 };
 
 

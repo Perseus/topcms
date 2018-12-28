@@ -1,0 +1,2 @@
+
+export const DISPLAY_AUTH_MODAL = 'DISPLAY_AUTH_MODAL';

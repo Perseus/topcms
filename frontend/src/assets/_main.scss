@@ -1,7 +1,9 @@
 @import './variables';
 @import '~bulma/sass/utilities/all';
 @import './layout/layout';
+@import './components/forms';
 
+@import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700');
 
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
