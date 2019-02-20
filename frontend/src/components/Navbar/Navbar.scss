@@ -1,87 +1,16 @@
 .navbar {
+  background-color: $color-white;
   display: flex;
-  background-color: $color-primary-1;
-  height: 5rem;
-  justify-content: flex-start;
-  align-items: center;
-  padding: .5rem;
+  height: 8.5rem;
 
-  &__search-container {
+  &__brand {
 
-    position: relative;
-    margin-left: 2rem;
-    margin-right: auto;
-
-    &-icon {
-      position: absolute;
-      color: $color-primary-9;
-      top: 0px;
-      left: 9px;
-      font-size: 1.3rem;
-      padding-top: .4rem;
-    }
-    
-    &-input {
-      background-color: $color-primary-4;
-      border-radius: 16px;
-      border: none;
-      padding: .4rem;
-      width: 280px;
-      font-size: 1rem;
-      color: $color-primary-9;
-      padding-left: 2.5rem;
-      transition: all .2s;
-      backface-visibility: hidden;
-      font-family: 'Quicksand';
-
-      &::placeholder {
-        
-        font-size: 1.1rem;
-        color: $color-primary-9;
-        font-weight: 300;
-      }
-      
-      &:focus {
-        width: 300px;
-        border: 1px solid $color-primary-7;
-      }
+    margin-left: 1.5rem;
+    margin-top: .8rem;
+    &-image {
+      height: 7rem;
+      width: 6.5rem;
     }
 
   }
-
-  &__search-actions {
-    margin-left: auto;
-  }
-
-  &__actions {
-    margin-right: 2rem;
-    display: flex;
-    align-items: center;
-  }
-
-  &__actions-container {
-    background-color: $color-primary-4;
-    padding: .3rem 1rem;
-    margin: .5rem;
-    border-radius: 20px;
-    display: flex;
-    width: 80px;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all .1s;
-
-    &:hover {
-      background-color: $color-primary-5;
-    }
-  }
-
-  &__action {
-    text-decoration: none;
-    color: $color-primary-10;
-    font-size: 1.1rem;
-    font-weight: 300;
-  }
-
- 
 }

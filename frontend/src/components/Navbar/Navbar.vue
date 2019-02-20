@@ -1,22 +1,15 @@
 <template>
 
   <nav class="navbar">
-
-    <div class="navbar__search-container">
-      <font-awesome-icon class="navbar__search-container-icon" icon="search"></font-awesome-icon>
-      <input class="navbar__search-container-input" type="text" v-model="searchText" placeholder="Search the game database..." />
-    </div>
-
-    <div class="navbar__actions">
-      <div class="navbar__actions-container" @click="openSignupModal">
-        <a href="#" class="navbar__action"> Sign Up </a>
+    <div class="navbar__left">
+      <div class="navbar__brand">
+        <router-link to="/"><img class="navbar__brand-image" src="~@/assets/img/logo.png" /></router-link>
       </div>
-      <div class="navbar__actions-container" @click="openLoginModal">
-        <a href="#" class="navbar__action"> Log In </a>
+      <div class="navbar__search">
+        <i class="fas fa-search"></i>
+        <input type="text" class="navbar__search-input">
       </div>
-      
     </div>
-
   </nav>
   
 </template>

@@ -1,13 +1,12 @@
-import InformationPanel from '../../components/InformationPanel/InformationPanel.vue';
+import InfoPanel from '../../components/InfoPanel/InfoPanel.vue';
 
 const Index = {
 
-  created() {
-    console.log('aaaa');
-    console.log(__filename);
-  },
 
-  components: { InformationPanel },
+  components: { InfoPanel },
+
+  created() {
+  },
 };
 
 

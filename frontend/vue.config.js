@@ -1,4 +1,5 @@
 module.exports = {
+  baseUrl: '',
   configureWebpack: {
     entry: './src/app.js',
     node : {

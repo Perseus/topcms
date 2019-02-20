@@ -17,16 +17,6 @@ import Vuex from 'vuex';
 Vue.config.devtools = true
 
 import * as Sentry from '@sentry/browser'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleRight, faSearch, faShoppingCart, faDownload, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { faNewspaper, faImages } from '@fortawesome/fontawesome-free-regular';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-library.add( [ faAngleRight, faSearch, faNewspaper, faImages, faShoppingCart, faDownload, faTimes ] );
-
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-
 // inject VueRouter into Vue
 Vue.use(VueRouter);
 Vue.use(Vuex);
