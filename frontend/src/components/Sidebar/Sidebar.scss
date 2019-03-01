@@ -1,0 +1,68 @@
+.sidebar {
+  
+  margin-top: 1px;
+  background-color: $color-white;
+  width: 20rem;
+  overflow-y: auto;
+
+
+  &__navigation-section {
+
+    display: flex;
+    flex-direction: column;
+    margin-top: 5.4rem;
+
+  }
+
+}
+
+.navigation {
+
+ 
+
+  &__heading {
+
+    color: $color-grey-6;
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-left: 2.1rem;
+    margin-bottom: 2rem;
+  }
+
+  &__list {
+    list-style: none;
+
+    & > a {
+      text-decoration: none;
+      outline: none;
+    }
+
+    &-item {
+      
+      padding-left: 2rem;
+      box-sizing: border-box;
+      font-size: 1.6rem;
+      color: $color-grey-4;
+      margin: 1rem 0rem;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      
+      font-weight: 300;
+
+      &--active {
+        border-left: 4px solid $color-primary-7;
+        color: $color-primary-7;
+      }
+
+      &:hover:not(&--active) {
+        color: $color-primary-7;
+      }
+
+    }
+
+    &-icon {
+      margin-right: .9rem;
+    }
+
+  }
+}

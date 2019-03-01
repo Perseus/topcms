@@ -14,6 +14,15 @@ import Router from './router/index';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+ 
+library.add( [ faSearch, faNewspaper ] );
+ 
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 Vue.config.devtools = true
 
 import * as Sentry from '@sentry/browser'

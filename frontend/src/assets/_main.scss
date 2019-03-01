@@ -1,6 +1,7 @@
 @import './variables';
-@import './scss/fontawesome.scss';
 @import './layout/layout';
+@import './components/animation';
+
 @font-face {
   font-family: 'Roboto';
   src: url('~@/assets/fonts/Roboto-Black.ttf') 

@@ -3,7 +3,11 @@
   <div class="app">
     
     <Navbar></Navbar>
-    <router-view></router-view>
+    <div class="main-container">
+      <Sidebar></Sidebar>
+      <router-view></router-view>
+    </div>
+    
 
   </div>
 

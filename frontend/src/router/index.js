@@ -4,6 +4,8 @@
 import VueRouter from 'vue-router';
 import Index from '../containers/Index/Index.vue';
 import Root from '../containers/Root/Root.vue';
+import AuthRegister from '../containers/Auth/Register/Register.vue';
+import AuthLogin from '../containers/Auth/Login/Login.vue';
 
 const routes = [
   { 
@@ -13,7 +15,15 @@ const routes = [
       {
         path: '/', 
         component: Index,
-      }
+      }, 
+      {
+        path: '/auth/register',
+        component: AuthRegister,
+      },
+      {
+        path: '/auth/login',
+        component: AuthLogin,
+      },
     ]
   },
 ]

@@ -2,15 +2,136 @@
   background-color: $color-white;
   display: flex;
   height: 8.5rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
 
-  &__brand {
+  @media screen and (max-width: 998px) {
+    min-width: max-content;
+    min-width: -moz-max-content;
+    min-width: -webkit-max-content;
+  }
 
-    margin-left: 1.5rem;
-    margin-top: .8rem;
-    &-image {
-      height: 7rem;
-      width: 6.5rem;
+  &__title {
+
+    margin-left: 3.2rem;
+    outline: none;
+
+    & > a {
+      outline: none;
+      text-decoration: none;
+    }
+
+    &-text {
+      color: $color-grey-1;
+      font-size: 2.8rem;
+      font-weight: 100;
+
     }
 
   }
+
+  &__search {
+
+    position: relative;
+    
+    &-input {
+      background-color: $color-grey-10;
+      border: none;
+      border-radius: 27px;
+      padding: .7rem;
+      padding-left: 6rem;
+      width: 28rem;
+      font-size: 2.6rem;
+      color: $color-grey-6;
+      font-weight: 300;
+      transition: width .2s;
+      font-family: 'Roboto', sans-serif;
+
+      &:focus {
+
+        width: 35rem;
+      }
+    }
+
+    &-icon {
+
+      position: absolute;
+      top: 8px;
+      left: 16px;
+      font-size: 28px;
+      color: $color-grey-7;
+      
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+  }
+
+  &__auth {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 3.6rem;
+
+   
+    &-signup-btn {
+      padding: .9rem 1.9rem;
+      margin-right: 3.6rem;
+      border: none;
+      background-color: $color-white;
+      color: $color-primary-1;
+      border-radius: 4px;
+      transition: background-color .1s;
+      font-size: 2rem;
+      font-weight: 300;
+      outline: none;
+      font-family: 'Roboto', sans-serif;
+      
+      &::-moz-focus-inner {
+          border: 0;
+      }
+
+      &:hover {
+        background-color: $color-grey-10;
+        cursor: pointer;
+      }
+
+      @media screen and (max-width: $tablet-width) {
+        margin-right: 1.2rem;
+        font-size: 1.8rem;
+      }
+
+    }
+
+    &-login-btn {
+      padding: .9rem 1.9rem;
+      border: none;
+      background-color: $color-white;
+      color: $color-grey-1;
+      border-radius: 4px;
+      font-size: 2rem;
+      font-weight: 300;
+      outline: none;
+      font-family: 'Roboto', sans-serif;
+
+      &::-moz-focus-inner {
+          border: 0;
+      }
+
+      &:hover {
+        background-color: $color-grey-10;
+        cursor: pointer;
+      }
+
+      @media screen and (max-width: $tablet-width) {
+        margin-right: 1.2rem;
+        font-size: 1.8rem;
+      }
+
+    }
+  }
+
 }
