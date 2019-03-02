@@ -5,14 +5,19 @@ namespace App\Models\AccountServer;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
 
 /**
  * Class AccountLogin
  * @package App\Models
  * @version October 18, 2016, 4:25 am UTC
  */
-class AccountLogin extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
+
+    use Notifiable;
 
     public $table = 'account_login';
     protected $connection = 'AccountServer';
@@ -81,47 +86,64 @@ class AccountLogin extends Authenticatable
         
     ];
 
-     public function getAuthPassword()
-      {
-          return $this->password;
-      }
+    public function getAuthPassword() {
+      return $this->password;
+     }
 
-      public function getRememberToken()
-          {
-            return null; // not supported
-          }
+    public function getRememberToken() {
+      return null; // not supported
+    }
 
-      public function setRememberToken($value)
-          {
+    public function setRememberToken($value) {
             // not supported
-          }
+    }
 
-      public function getRememberTokenName()
-      {
-        return null; // not supported
-      }
+    public function getRememberTokenName() {
+      return null; // not supported
+    }
 
-      /**
-       * Overrides the method to ignore the remember token.
-       */
-      public function setAttribute($key, $value)
+    /**
+     * Overrides the method to ignore the remember token.
+     */
+    public function setAttribute($key, $value) {
+      $isRememberTokenAttribute = $key == $this->getRememberTokenName();
+      if (!$isRememberTokenAttribute)
       {
-        $isRememberTokenAttribute = $key == $this->getRememberTokenName();
-        if (!$isRememberTokenAttribute)
-        {
-          parent::setAttribute($key, $value);
-        }
+        parent::setAttribute($key, $value);
       }
+    }
 
-      public function accounts()
-      {
-        return $this->hasOne(\App\Models\GameDB\Account::class,'act_id');
-      }
+    public function gameDetails() {
+      return $this->hasOne(\App\Models\GameDB\Account::class,'act_id');
+    }
 
-      public function isAdmin()
-      {
-        return ($this->accounts->gm) == 99 ? true : false;
-      }
+    public function isAdmin() {
+      return (($this->gameDetails->gm) == 99);
+    }
+
+    public function getIsBannedAttribute() {
+      return ($this->ban === 1);
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
         
 }

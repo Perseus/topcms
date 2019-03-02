@@ -33,10 +33,6 @@ class Account extends Authenticatable
         'merge_state',
         'mall_points',
         'credits',
-        'vote_time',
-        'vote_time1',
-        'vote_time2',
-        'total_votes'
     ];
 
     /**
