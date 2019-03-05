@@ -98,20 +98,15 @@ return [
     //  ]
     //
     'schemas' => [
-        'auth' => [
-            'mutation' => [
-                'login' => App\GraphQL\Auth\Mutations\LoginMutation::class
-            ],
-        ],
         'user' => [
             'query' => [
                 'user' => App\GraphQL\User\Queries\UserQuery::class,
-                'users' => App\GraphQL\User\Queries\UsersQuery::class,
+                // 'users' => App\GraphQL\User\Queries\UsersQuery::class,
             ],
             'mutation' => [
                 // 'example_mutation'  => ExampleMutation::class,
             ],
-            'middleware' => [ 'auth:api' ],
+            'middleware' => [ 'auth' ],
             'method' => ['get', 'post'],
         ],
     ],

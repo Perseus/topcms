@@ -26,6 +26,7 @@ class UserQuery extends Query {
 
   public function resolve($root, $args) {
 
+    dd(auth()->payload()->get('sub'));
     if (isset($args['id'])) {
       // dd(User::where('id', $args['id'])->get());
       return User::where('id', $args['id'])->get();

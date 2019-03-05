@@ -3,7 +3,6 @@
 namespace App\Models\GameDB;
 
 use Eloquent as Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 
 
@@ -12,7 +11,7 @@ use Auth;
  * @package App\Models
  * @version October 18, 2016, 4:29 am UTC
  */
-class Account extends Authenticatable
+class Account extends Model
 {
 
     public $table = 'account';

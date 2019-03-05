@@ -49,6 +49,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
+      'password',
       'originalPassword',
     ];
 
@@ -86,9 +87,14 @@ class User extends Authenticatable implements JWTSubject
         
     ];
 
+    public function getAuthIdentifier() {
+     
+      return $this->name;
+    }
+
     public function getAuthPassword() {
       return $this->password;
-     }
+    }
 
     public function getRememberToken() {
       return null; // not supported
@@ -125,6 +131,7 @@ class User extends Authenticatable implements JWTSubject
       return ($this->ban === 1);
     }
 
+    
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

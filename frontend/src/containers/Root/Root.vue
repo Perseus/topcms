@@ -2,7 +2,9 @@
   
   <div class="app">
     
-    <Navbar></Navbar>
+    <Navbar 
+    :user="userState"
+    @onLogoutUser="logoutUser" ></Navbar>
     <div class="main-container">
       <Sidebar></Sidebar>
       <router-view></router-view>

@@ -1,6 +1,7 @@
+import userState from './state/userState';
+
 const State = {
-  DISPLAY_AUTH_MODAL: false,
-  AUTH_MODAL_TYPE: '',
+  userState
 };
 
 

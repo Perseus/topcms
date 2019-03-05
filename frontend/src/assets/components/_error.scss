@@ -1,0 +1,21 @@
+.input-field-error {
+ 
+  & > input {
+    border: 1px solid $color-red-8;
+  }
+
+  & > .error-text {
+    font-size: 1.1rem;
+    margin-top: .4rem;
+    color: $color-red-7;
+  }
+
+  &.main-error {
+    margin-top: 0px;
+    margin-bottom: .5rem;
+  }
+
+  & > label {
+    color: $color-red-7;
+  }
+}

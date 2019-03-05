@@ -5,6 +5,12 @@
   justify-content: center;
   flex-direction: column;
 
+  &__form {
+    background-color: #FFF;
+    padding: 4rem;
+    border-radius: 3px;
+  }
+  
   &__title {
     font-size: 2rem;
     margin-bottom: .5rem;

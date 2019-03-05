@@ -2,8 +2,12 @@
 import Navbar from '../../components/Navbar/Navbar.vue';
 import Sidebar from '../../components/Sidebar/Sidebar.vue';
 import Modal from '../../components/Modal/Modal.vue';
+import { mapState } from 'vuex';
 
 const Root = {
+
+  created() {
+  },
 
   components: { Navbar, Modal, Sidebar },
 
@@ -14,7 +18,16 @@ const Root = {
   },
 
   methods: {
-    
+    logoutUser() {
+      this.$store.dispatch('logoutUser');
+    }
+  },
+
+  computed: {
+
+    ...mapState({
+      userState: state => state.userState
+    }),
   }
   
 };
