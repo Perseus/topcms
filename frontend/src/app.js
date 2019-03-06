@@ -15,13 +15,13 @@ import store from './store/index';
 import * as Sentry from '@sentry/browser'
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch, faCaretDown, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { faNewspaper } from '@fortawesome/free-regular-svg-icons';
+import { faSearch, faCaretDown, faCaretUp, faSignOutAlt, faUser  } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper} from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const APP_URL = 'http://localhost:8000';
  
-library.add( [ faSearch, faNewspaper, faCaretDown, faSignOutAlt ] );
+library.add( [ faSearch, faNewspaper, faCaretDown, faSignOutAlt, faUser, faCaretUp ] );
  
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

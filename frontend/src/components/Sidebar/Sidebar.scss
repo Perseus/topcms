@@ -1,10 +1,17 @@
 .sidebar {
   
-  margin-top: 1px;
-  background-color: $color-white;
-  width: 20rem;
-  overflow-y: auto;
+  background-color: darken($color-primary-1, 4%);
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
 
+  &__title {
+    font-weight: bold;
+    font-size: 2.8rem;
+    color: $color-white;
+    padding-left: 2.1rem;
+    padding-top: 2.6rem;
+  }
 
   &__navigation-section {
 
@@ -18,8 +25,6 @@
 
 .navigation {
 
- 
-
   &__heading {
 
     color: $color-grey-6;
@@ -29,10 +34,58 @@
     margin-bottom: 2rem;
   }
 
-  &__list {
-    list-style: none;
+  
 
-    & > a {
+  &__list {
+
+    border-bottom: 1px solid rgba($color-grey-8, .32);
+    list-style: none;
+    margin-bottom: 1.55rem;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+    &-dropdown-icon {
+      margin-right: 1.8rem;
+    }
+
+    &-items {
+
+      transition: all .2s linear;
+      max-height: 500px;
+      opacity: 1;
+      overflow: hidden;
+
+      &:not(&--active) {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+
+    }
+
+    &-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: $color-grey-5;
+      text-transform: uppercase;
+      margin-left: 2.1rem;
+      letter-spacing: .06rem;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.3rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+    }
+
+    & a {
       text-decoration: none;
       outline: none;
     }
@@ -41,21 +94,19 @@
       
       padding-left: 2rem;
       box-sizing: border-box;
-      font-size: 1.6rem;
-      color: $color-grey-4;
-      margin: 1rem 0rem;
-      padding-top: 1.5rem;
-      padding-bottom: 1.5rem;
-      
-      font-weight: 300;
+      font-size: 1.4rem;
+      color: $color-white;
+      padding-top: 1.3rem;
+      padding-bottom: 1.3rem;
+      font-weight: 400;
 
       &--active {
-        border-left: 4px solid $color-primary-7;
-        color: $color-primary-7;
+        background-color: rgba($color-grey-10, .2);
+        font-weight: 700;
       }
 
       &:hover:not(&--active) {
-        color: $color-primary-7;
+        background-color: $color-grey-1;
       }
 
     }

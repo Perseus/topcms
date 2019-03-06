@@ -1,41 +1,15 @@
 .navbar {
   background-color: $color-white;
+  grid-area: navbar;
   display: flex;
-  height: 8.5rem;
   justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-  box-shadow: 0px 1px 0px rgba($color-primary-1, 0.3);
-
-  @media screen and (max-width: 998px) {
-    min-width: max-content;
-    min-width: -moz-max-content;
-    min-width: -webkit-max-content;
-  }
-
-  &__title {
-
-    margin-left: 3.2rem;
-    outline: none;
-
-    & > a {
-      outline: none;
-      text-decoration: none;
-    }
-
-    &-text {
-      color: $color-grey-1;
-      font-size: 2.8rem;
-      font-weight: 100;
-
-    }
-
-  }
-
+  border-bottom: 1px solid #f1f1f1;
+  box-shadow: 1px 2px 4px 0 rgba(0,0,0,.03);
   &__search {
 
     position: relative;
-    
+    margin-left: 2rem;
+    margin-top: 1.5rem;
     &-input {
       background-color: $color-grey-10;
       border: none;
@@ -111,6 +85,37 @@
 
     }
 
+    &-dropdown-info {
+      display: flex;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      width: 100%;
+      margin-bottom: 1rem;
+
+      .avatar {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        background-color: $color-grey-10;
+        margin: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.3rem;
+        color: $color-grey-6;
+        flex-shrink: 0;
+      }
+
+      .username {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .email {
+        font-size: 1.2rem;
+        color: $color-grey-6;
+      }
+    }
+
     &-login-btn {
       padding: .9rem 1.9rem;
       border: none;
@@ -141,7 +146,6 @@
 
     &-user {
 
-      background-color: $color-grey-10;
       width: 9.3rem;
       height: 4rem;
       border-radius: 7px;
@@ -150,17 +154,25 @@
       align-items: center;
       position: relative;
 
+      &-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $color-grey-10;
+        margin-right: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        color: $color-grey-7;
+      }
+
       &:hover {
         cursor: pointer;
-        background: $color-grey-9;
-
-        .navbar__auth-dropdown {
-          visibility: visible;
-        }
       }
 
       &-icon {
-        color: $color-primary-1;
+        color: $color-grey-8;
         font-size: 1.4rem;
       }
 
@@ -173,32 +185,38 @@
     }
 
     &-dropdown {
-      border: 1px solid $color-grey-8;
-      border-top: none;
       position: absolute;
-      top: 6.3rem;
+      top: 5.9rem;
+      right: -1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+      border: 1px solid rgba(0, 0, 0, 0.09);
       background-color: #fff;
-      right: -3.5rem;
       list-style: none;
-      width: 13.8rem;
-      padding: 1rem;
+      width: 22rem;
       display: flex;
-      justify-content: center;
       flex-direction: column;
-      align-items: center;
-      visibility: hidden;
+      opacity: 0;
+      transition: all .2s linear;
 
+      &--shown {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+      
       &-item {
         font-size: 1.4rem;
-        color: $color-grey-7;
-        padding: .8rem .5rem;
+        color: $color-grey-1;
         display: flex;
-        justify-content: center;
         align-items: center;
+        padding: 1rem;
+        padding-left: 2.3rem;
 
+        &:last-child {
+          padding-bottom: 2rem;
+        }
+        
         &:hover {
           cursor: pointer;
-          color: $color-grey-5;
         }
 
 

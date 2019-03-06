@@ -1,14 +1,15 @@
 <template>
   
   <div class="app">
-    
+
     <Navbar 
     :user="userState"
     @onLogoutUser="logoutUser" ></Navbar>
-    <div class="main-container">
-      <Sidebar></Sidebar>
+    <Sidebar
+    :user="userState"></Sidebar>
+    <section class="main-container">
       <router-view></router-view>
-    </div>
+    </section>
     
 
   </div>

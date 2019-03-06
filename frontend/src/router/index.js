@@ -34,7 +34,7 @@ const routes = [
   },
 ]
 const Router = new VueRouter({
-  routes
+  routes,
 });
 
 Router.beforeEach((to, from, next) => {

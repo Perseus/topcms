@@ -51,7 +51,7 @@ const Actions = {
       if ( token === '' ) {
         context.commit(types.USER_LOGGED_OUT);
       } else {
-        const logoutStatus = await logoutUser(token);
+        const logoutStatus = logoutUser(token);
         context.commit(types.USER_LOGGED_OUT);
       }
     }

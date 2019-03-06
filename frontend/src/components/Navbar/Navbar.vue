@@ -2,12 +2,6 @@
 
   <nav class="navbar">
 
-      <div class="navbar__title">
-        <router-link to="/">
-          <span class="navbar__title-text"> topCMS </span>
-        </router-link>
-      </div>
-
       <div class="navbar__search">
         <input type="text" class="navbar__search-input" />
         <font-awesome-icon class="navbar__search-icon" icon="search" />
@@ -20,13 +14,27 @@
         </template>
         <template v-else>
           <div class="navbar__auth-user" @click="showAuthDropdown">
-            <span class="navbar__auth-username">{{ user.name }}</span>
+            <span class="navbar__auth-user-avatar">
+              <font-awesome-icon icon="user"></font-awesome-icon>
+            </span>
             <font-awesome-icon class="navbar__auth-user-icon" icon="caret-down"></font-awesome-icon>
-            <ul class="navbar__auth-dropdown">
+            <ul class="navbar__auth-dropdown" :class="{
+              'navbar__auth-dropdown--shown': showDropdown }">
+              <div class="navbar__auth-dropdown-info">
+                <div class="avatar">
+                  <font-awesome-icon icon="user"></font-awesome-icon>
+                </div>
+                <div class="info">
+                  <div class="username">
+                    {{ user.name }}
+                  </div>
+                  <div class="email">
+                    {{ user.email }}
+                  </div>
+                </div>
+              </div>
               <li class="navbar__auth-dropdown-item"> Account Details </li>
               <li class="navbar__auth-dropdown-item"> Settings </li>
-              <li class="navbar__auth-dropdown-item"> Site Panel </li>
-              <li class="navbar__auth-dropdown-item"> Admin Panel </li>
               <li class="navbar__auth-dropdown-item navbar__auth-dropdown-item--logout" @click="logoutUser">
                 <font-awesome-icon class="navbar__auth-logout-icon" icon="sign-out-alt"></font-awesome-icon> 
                 Logout 

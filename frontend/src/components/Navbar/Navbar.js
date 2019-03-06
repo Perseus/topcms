@@ -4,6 +4,7 @@ const Navbar = {
   data() {
     return {
       searchText: '',
+      showDropdown: false,
     }
   },
   props: {
@@ -18,6 +19,10 @@ const Navbar = {
     logoutUser() {
       this.$emit('onLogoutUser');
       // this.showAuthDropdown();
+    },
+
+    showAuthDropdown() {
+      this.showDropdown = !this.showDropdown;
     }
   },
 
