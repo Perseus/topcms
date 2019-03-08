@@ -1,7 +1,8 @@
 <template>
 
   <div class="index">
-    
+    <NewsList></NewsList>
+    <InfoBar></InfoBar>
   </div>
 
 </template>

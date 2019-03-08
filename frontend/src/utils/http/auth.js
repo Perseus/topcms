@@ -33,3 +33,10 @@ export async function logoutUser ( token ) {
   return logoutCall;
 
 }
+
+export async function registerUser ( userDetails ) {
+
+  let registrationCall = await HTTP.postData('api/auth/register', userDetails);
+
+  return registrationCall;
+}

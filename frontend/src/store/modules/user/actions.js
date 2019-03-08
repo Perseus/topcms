@@ -1,7 +1,7 @@
-import * as types from './mutation-types';
-import { loginUser, getUserData, logoutUser } from '../utils/http/auth';
-import { tokenName } from '../utils/config';
-import Router from '../router/index';
+import * as types from '../../mutation-types';
+import { loginUser, getUserData, logoutUser, registerUser } from '../../../utils/http/auth';
+import { tokenName } from '../../../utils/config';
+import Router from '../../../router/index';
 
 
 const Actions = {
@@ -24,11 +24,11 @@ const Actions = {
 
   async getUserAuth( context, payload ) {
 
-    if (!this.state.userState.isLoggedIn) {
+    if (!this.getters.userAuthStatus) {
 
       const token = localStorage.getItem(tokenName) || '';
 
-      if ( token === '' ) {
+      if ( token === '' || token === undefined ) {
         return;
       } else {
         const userData = await getUserData(token);
@@ -45,16 +45,36 @@ const Actions = {
 
   async logoutUser( context, payload ) {
 
-    if (this.state.userState.isLoggedIn) {
+    if (this.state.user.isLoggedIn) {
       const token = localStorage.getItem(tokenName) || '';
 
       if ( token === '' ) {
         context.commit(types.USER_LOGGED_OUT);
       } else {
-        const logoutStatus = logoutUser(token);
-        context.commit(types.USER_LOGGED_OUT);
+        const logoutStatus = await logoutUser(token);
+        if (logoutStatus.message === 'Successfully logged out') {
+          localStorage.removeItem(tokenName);
+          context.commit(types.USER_LOGGED_OUT);
+        }
       }
     }
+    
+  },
+
+  async registerUser( context, payload ) {
+
+    context.commit(types.SIGNUP_IN_PROGRESS, payload);
+
+    const registrationStatus = await registerUser(payload);
+
+    if (registrationStatus.errors) {
+      context.commit(types.SIGNUP_COMPLETED, { type: 'error', error: registrationStatus.errors });
+    } else {
+      context.commit(types.SIGNUP_COMPLETED, { type: 'success', token: registrationStatus.token });
+      localStorage.setItem(tokenName, registrationStatus.token);
+      Router.push('/');
+    }
+    
   }
 
 };

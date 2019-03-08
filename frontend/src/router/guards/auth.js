@@ -1,7 +1,7 @@
 import store from '../../store/index';
 
 export function authGuard(to, from, next) {
-  if (!store.state.userState.isLoggedIn) {
+  if (!store.getters.userAuthStatus) {
     next(false);
   } else {
     next();
@@ -9,7 +9,7 @@ export function authGuard(to, from, next) {
 }
 
 export function noAuthAllowedGuard(to, from, next) {
-  if (store.state.userState.isLoggedIn) {
+  if (store.getters.userAuthStatus) {
     next(false);
   } else {
     next();

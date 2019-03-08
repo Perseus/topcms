@@ -26,15 +26,9 @@ const Navbar = {
     }
   },
 
-  watch: {
-    user (newVal) {
-      console.log(newVal);
-    }
-  },
-
   computed: {
     isUserLoggedIn() {
-      return (this.user.isLoggedIn);
+      return (this.$store.getters.userAuthStatus);
     }
   },
 };

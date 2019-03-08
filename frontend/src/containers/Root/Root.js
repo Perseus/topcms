@@ -26,7 +26,7 @@ const Root = {
   computed: {
 
     ...mapState({
-      userState: state => state.userState
+      userState: state => state.user
     }),
   }
   

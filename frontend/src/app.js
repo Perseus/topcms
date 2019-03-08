@@ -10,7 +10,6 @@
 import Vue from 'vue';
 import Router from './router/index';
 import VueRouter from 'vue-router';
-import Vuex from 'vuex';
 import store from './store/index';
 import * as Sentry from '@sentry/browser'
 

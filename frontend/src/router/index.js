@@ -39,7 +39,7 @@ const Router = new VueRouter({
 
 Router.beforeEach((to, from, next) => {
 
-  if (!store.state.userState.isLoggedIn) {
+  if (!store.getters.userAuthStatus) {
     store.dispatch('getUserAuth').then(next);
   } else {
     next();

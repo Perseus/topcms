@@ -20,8 +20,8 @@ const Login = {
     },
 
     getError( errorType ) {
-      if ( errorType in this.userState.authenticationStatus.errors ) {
-        this.errors[errorType] = this.userState.authenticationStatus.errors[errorType][0];
+      if ( errorType in this.user.authenticationStatus.errors ) {
+        this.errors[errorType] = this.user.authenticationStatus.errors[errorType][0];
         return true;
       }
       return false;
@@ -30,23 +30,14 @@ const Login = {
   },
 
   computed: {
-    usernameError() {
-      return this.getError ('username');
-    },
-    passwordError() {
-      return this.getError ('password');
-    },
-    credentialsError() {
-      return this.getError ('credentials');
-    },
     ...mapState({
-      'userState': state => state.userState,
-      'isLoggingIn': state => state.userState.authenticationStatus.isLoggingIn
+      'user': state => state.user,
+      'isLoggingIn': state => state.user.authenticationStatus.isLoggingIn
     }),
   },
 
   watch: {
-    userState (newVal) {
+    user (newVal) {
       console.log(newVal);
     }
   }

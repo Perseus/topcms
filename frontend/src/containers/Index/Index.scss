@@ -1,0 +1,8 @@
+.index {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 9fr 2fr;
+  grid-template-areas: "content infobar";
+  height: 100%;
+  width: 100%;
+}
