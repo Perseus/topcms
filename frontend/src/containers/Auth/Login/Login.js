@@ -1,9 +1,9 @@
 import { mapState } from 'vuex';
+import errorHandlerMixin from '../../../mixins/errorHandler';
+import Button from '../../../components/Button/Button.vue';
+import TextInput from '../../../components/TextInput/TextInput.vue';
 
 const Login = {
-
-  created() {
-  },
 
   data() {
     return {
@@ -13,19 +13,15 @@ const Login = {
     };
   },
 
+  components: { Button, TextInput },
+
+  mixins: [ errorHandlerMixin ],
+
   methods: {
     
     loginUser() { 
       this.$store.dispatch('onUserLogin', { username: this.username, password: this.password } );
     },
-
-    getError( errorType ) {
-      if ( errorType in this.user.authenticationStatus.errors ) {
-        this.errors[errorType] = this.user.authenticationStatus.errors[errorType][0];
-        return true;
-      }
-      return false;
-    }
 
   },
 

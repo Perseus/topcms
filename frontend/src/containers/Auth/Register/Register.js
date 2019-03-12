@@ -1,15 +1,14 @@
 import { mapState } from 'vuex';
 import errorHandlerMixin from '../../../mixins/errorHandler';
+import Button from '../../../components/Button/Button.vue';
+import TextInput from '../../../components/TextInput/TextInput.vue';
+import _ from 'lodash';
 
 const Register = {
-  created() {
-    this.$store.watch((state) => state.user.authenticationStatus, (oldVal, newVal) => {
-      console.log(oldVal, newVal);
-    });
-  },
+
+  components: { Button, TextInput },
   data() {
     return {
-      isLoading: false,
       username: '',
       email: '',
       emailRepeat: '',
@@ -19,11 +18,8 @@ const Register = {
   mixins: [ errorHandlerMixin ],
 
   methods: {
-    registerUser() {
 
-      if (this.email !== this.emailRepeat) {
-        this.setError('emailRepeat', 'The repeated email does not match the original email.');
-      } else {
+    async registerUser() {
 
         const userDetails = {
           username: this.username,
@@ -31,8 +27,12 @@ const Register = {
           email: this.email
         };
 
-        this.$store.dispatch('registerUser', userDetails);
-      }
+        const userRegistrationStatus = await this.$store.dispatch('registerUser', userDetails);
+        if (userRegistrationStatus.errors) {
+          _.forEach(userRegistrationStatus.errors, (value, key) => {
+            this.setError(key, value[0]);
+          });
+        }
     },
 
   },

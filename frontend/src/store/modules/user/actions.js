@@ -56,6 +56,7 @@ const Actions = {
           localStorage.removeItem(tokenName);
           context.commit(types.USER_LOGGED_OUT);
         }
+        return logoutStatus;
       }
     }
     
@@ -74,6 +75,8 @@ const Actions = {
       localStorage.setItem(tokenName, registrationStatus.token);
       Router.push('/');
     }
+
+    return registrationStatus;
     
   }
 
