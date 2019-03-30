@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-
 /**
  * Class AccountLogin
  * @package App\Models
@@ -22,6 +21,7 @@ class User extends Authenticatable implements JWTSubject
     public $table = 'account_login';
     protected $connection = 'AccountServer';
     public $timestamps = false;
+    protected $appends = array('permissions');
 
     public $fillable = [
         'name',
@@ -131,7 +131,18 @@ class User extends Authenticatable implements JWTSubject
       return ($this->ban === 1);
     }
 
-    
+    public function getPermissionsAttribute() {
+      $permissions = [];
+
+      if ( $this->gameDetails->gm == 99 ) {
+        $permissions = [ 'site', 'admin' ];
+      } else if ( $this->gameDetails->gm < 99 && $this->gameDetails->gm > 0 ) {
+        $permissions = [ 'site' ];
+      }
+
+      return $permissions;
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

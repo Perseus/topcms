@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDownloadsTable extends Migration
+class CreateSiteAdminsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateDownloadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('downloads', function (Blueprint $table) {
-            
+        Schema::create('site_admins', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 50);
-            $table->string('url', 100);
-            $table->integer('author');
+            $table->string('name');
+            $table->integer('access_level');
+            $table->integer('account_id');
             $table->timestamps();
 
-            $table->foreign('author')->references('id')->on('admins');
-            
+            $table->foreign('account_id')->references('act_id')->on('account');
         });
     }
 
@@ -33,6 +31,6 @@ class CreateDownloadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('downloads');
+        Schema::dropIfExists('site_admins');
     }
 }

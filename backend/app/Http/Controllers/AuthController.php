@@ -7,10 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\AccountServer\User;
 use App\Models\GameDB\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Tymon\JWTAuth\Http\Parser\Cookies;
 
 
 class AuthController extends Controller
 {
+
     /**
      * Create a new AuthController instance.
      *
@@ -60,9 +63,9 @@ class AuthController extends Controller
      */
     public function logout()
     {
+        $cookie = Cookie::forget('token');
         auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'LOGOUT_SUCCESS'])->withCookie($cookie);
     }
 
     /**
@@ -142,10 +145,6 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        return response()->json()->cookie( 'token', $token );
     }
 }

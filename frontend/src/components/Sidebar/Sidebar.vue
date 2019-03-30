@@ -45,7 +45,7 @@
         </router-link>
         </div>
       </ul>
-      <ul class="navigation__list" v-if="isUserLoggedIn">
+      <ul class="navigation__list" v-if="shouldShowAdminActions">
         <div class="navigation__list-title" @click="toggleDropdown('admin')">Admin Navigation
           <font-awesome-icon v-if="isSelected('admin')" icon="caret-up" class="navigation__list-dropdown-icon"></font-awesome-icon>
           <font-awesome-icon v-else icon="caret-down" class="navigation__list-dropdown-icon"></font-awesome-icon>
@@ -53,10 +53,10 @@
         <div class="navigation__list-items" :class="{
           'navigation__list-items--active': isSelected('admin')
         }">
-          <router-link to="/">
-          <li class="navigation__list-item">Site Management</li>
+          <router-link to="/site" v-if="shouldShowSiteManagement">
+            <li class="navigation__list-item">Site Management</li>
           </router-link>
-          <router-link to="/">
+          <router-link to="/" v-if="shouldShowGameManagement">
             <li class="navigation__list-item">Game Management</li>
           </router-link>
         </div>

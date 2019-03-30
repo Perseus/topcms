@@ -20,16 +20,16 @@ export async function loginUser( { username, password } ) {
 
 }
 
-export async function getUserData ( token ) {
+export async function getUserData ( ) {
 
-  let userDataCall = await HTTP.postData('api/auth/me', {}, token);
+  let userDataCall = await HTTP.postData('api/auth/me');
   return userDataCall;
 
 }
 
-export async function logoutUser ( token ) {
+export async function logoutUser () {
 
-  let logoutCall = await HTTP.postData('api/auth/logout', {}, token);
+  let logoutCall = await HTTP.postData('api/auth/logout', {});
   return logoutCall;
 
 }

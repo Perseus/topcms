@@ -7,12 +7,13 @@ const userModule = {
   state: {
     name: '',
     email: '',
-    token: localStorage.getItem('token') || '',
+    token: '',
     isLoggedIn: false,
     authenticationStatus: {
       isLoggingIn: false,
       errors: [],
     },
+    permissions: [],
   },
   
   actions,

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNewsArticlesTable extends Migration
+class CreateNewsPollsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateNewsArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('news_articles', function (Blueprint $table) {
-
+        Schema::create('news_polls', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 50);
-            $table->text('content');
-            $table->integer('author');
+            $table->string('options');
+            $table->string('votes');
             $table->timestamps();
-
-            $table->foreign('author')->references('id')->on('admins');
         });
     }
 
@@ -32,6 +28,6 @@ class CreateNewsArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news_articles');
+        Schema::dropIfExists('news_polls');
     }
 }

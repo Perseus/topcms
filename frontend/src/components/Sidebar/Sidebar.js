@@ -29,7 +29,16 @@ const Sidebar = {
   },
   computed: {
     isUserLoggedIn() {
-      return (this.user.isLoggedIn);
+      return ( this.user.isLoggedIn );
+    },
+    shouldShowSiteManagement() {
+      return ( this.user.permissions.includes( 'site' ) );
+    },
+    shouldShowGameManagement() {
+      return ( this.user.permissions.includes( 'admin' ) );
+    },
+    shouldShowAdminActions() {
+      return ( this.isUserLoggedIn && !_.isEmpty( this.user.permissions ) );
     }
   },
 };

@@ -18,12 +18,17 @@ const Navbar = {
 
     logoutUser() {
       this.$emit('onLogoutUser');
-      // this.showAuthDropdown();
     },
 
-    showAuthDropdown() {
+    toggleAuthDropdown() {
       this.showDropdown = !this.showDropdown;
-    }
+    },
+
+    hideAuthDropdown() {
+      if (this.showDropdown) {
+        this.showDropdown = false;
+      }
+    },
   },
 
   computed: {

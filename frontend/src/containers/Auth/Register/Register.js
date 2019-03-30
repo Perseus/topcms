@@ -27,19 +27,22 @@ const Register = {
           email: this.email
         };
 
-        const userRegistrationStatus = await this.$store.dispatch('registerUser', userDetails);
-        if (userRegistrationStatus.errors) {
-          _.forEach(userRegistrationStatus.errors, (value, key) => {
-            this.setError(key, value[0]);
-          });
+        try {
+          this.clearErrors();
+          const userRegistrationStatus = await this.$store.dispatch('registerUser', userDetails);
+          if (userRegistrationStatus.errors) {
+            _.forEach(userRegistrationStatus.errors, (value, key) => {
+              this.setError(key, value[0]);
+            });
+          }
+        } catch (err) {
+          this.setError('all', 'An error occured while trying to register');
         }
+        
     },
 
   },
   computed: {
-    errorComputer() {
-      console.log(this.user);
-    },
     ...mapState({
       'user': state => state.user,
       'isLoggingIn': state => state.user.authenticationStatus.isLoggingIn

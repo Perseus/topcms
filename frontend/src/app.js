@@ -1,12 +1,3 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-
-
 import Vue from 'vue';
 import Router from './router/index';
 import VueRouter from 'vue-router';
@@ -18,8 +9,6 @@ import { faSearch, faCaretDown, faCaretUp, faSignOutAlt, faUser, faExclamationCi
 import { faNewspaper} from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-const APP_URL = 'http://localhost:8000';
- 
 library.add( [ faSearch, faNewspaper, faCaretDown, faSignOutAlt, faUser, faCaretUp, faExclamationCircle ] );
  
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -29,6 +18,21 @@ Vue.config.devtools = true
 // inject VueRouter into Vue
 Vue.use(VueRouter);
 
+Vue.directive('click-outside', {
+    bind: function (el, binding, vnode) {
+      el.clickOutsideEvent = function (event) {
+        // here I check that click was outside the el and his childrens
+        if (!(el == event.target || el.contains(event.target))) {
+          // and if it did, call method provided in attribute value
+          vnode.context[binding.expression](event);
+        }
+      };
+      document.body.addEventListener('click', el.clickOutsideEvent)
+    },
+    unbind: function (el) {
+      document.body.removeEventListener('click', el.clickOutsideEvent)
+    },
+});
 
 
 // Sentry.init({

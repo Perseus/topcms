@@ -19,7 +19,7 @@ const Root = {
 
   methods: {
     logoutUser() {
-      this.$store.dispatch('logoutUser');
+      this.$store.dispatch( 'logoutUser', { onSuccessRedirect: 'root' } );
     }
   },
 

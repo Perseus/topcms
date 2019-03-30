@@ -1,9 +1,5 @@
 const errorHandlerMixin = {
 
-  created() {
-    console.log('created');
-  },
-  
   data() {
     return {
       errors: {},
@@ -28,7 +24,11 @@ const errorHandlerMixin = {
       let newError = {};
       newError[name] = value;
       this.errors = Object.assign({}, this.errors, newError);
-      console.log(this.errors);
+
+    },
+
+    clearErrors() {
+      this.errors = Object.assign({});
     }
 
   },

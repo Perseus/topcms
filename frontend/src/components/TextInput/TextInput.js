@@ -1,4 +1,5 @@
 import Tooltip from '../Tooltip/Tooltip.vue';
+import _ from 'lodash';
 
 const TextInput = {
 
@@ -20,6 +21,12 @@ const TextInput = {
   },
 
   components: { Tooltip },
+
+  computed: {
+    shouldShowErrorTooltip() {
+      return ( _.isEmpty( this.error ) ? false : true );
+    }
+  }
 };
 
 export default TextInput;

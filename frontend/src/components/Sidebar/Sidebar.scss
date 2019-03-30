@@ -1,6 +1,6 @@
 .sidebar {
   
-  background-color: darken($color-primary-1, 4%);
+background-color: $color-grey-2;
   grid-area: sidebar;
   display: flex;
   flex-direction: column;

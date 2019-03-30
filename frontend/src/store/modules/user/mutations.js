@@ -48,6 +48,7 @@ const Mutations = {
       state.authenticationStatus.errors = {};
       state.name = payload.name;
       state.email = payload.email;
+      state.permissions = payload.permissions;
     }
     
   },

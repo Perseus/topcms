@@ -8,12 +8,13 @@
       <TextInput v-model="username" :name="username" :error="getError('username')">
         <template slot="label"> Username </template>
       </TextInput>
-      <TextInput v-model="password" :name="password" :error="getError('password')">
+      <TextInput v-model="password" :name="password" :inputType="'password'" :error="getError('password')">
         <template slot="label"> Password </template>
       </TextInput>
       <span class="login__forgot-link">
         Forgot Password?
       </span>
+      <form-error v-show="getError('all')"> {{ getError('all') }} </form-error>
       <Button :loaderCondition="isLoggingIn" :height="'5rem'" :width="'32rem'">
         <template slot="button-text">
           Login

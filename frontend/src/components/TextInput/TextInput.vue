@@ -6,14 +6,9 @@
     <label class="text-label" :id="name">
       <slot name="label"></slot>
     </label>
-    <input :type="inputType" :id="name" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="text-field" />
-    <Tooltip :position="{
-      bottom: '19px',
-      right: '-219px'
-    }" v-if="error"> 
-      <template slot="tooltip-text">
-        {{ error }}
-      </template>
+    
+    <Tooltip :text="error" :isVisible="shouldShowErrorTooltip" :position="'right'" :theme="'error'"> 
+      <input :type="inputType" :id="name" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="text-field" />
     </Tooltip>
   </div>
 

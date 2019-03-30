@@ -13,12 +13,13 @@
           <router-link to="/auth/login"> <button class="navbar__auth-login-btn"> Log In </button> </router-link>
         </template>
         <template v-else>
-          <div class="navbar__auth-user" @click="showAuthDropdown">
+          <div class="navbar__auth-user" @click="toggleAuthDropdown" v-click-outside="hideAuthDropdown">
             <span class="navbar__auth-user-avatar">
               <font-awesome-icon icon="user"></font-awesome-icon>
             </span>
             <font-awesome-icon class="navbar__auth-user-icon" icon="caret-down"></font-awesome-icon>
-            <ul class="navbar__auth-dropdown" :class="{
+          </div>
+          <ul class="navbar__auth-dropdown" :class="{
               'navbar__auth-dropdown--shown': showDropdown }">
               <div class="navbar__auth-dropdown-info">
                 <div class="avatar">
@@ -39,8 +40,7 @@
                 <font-awesome-icon class="navbar__auth-logout-icon" icon="sign-out-alt"></font-awesome-icon> 
                 Logout 
               </li>
-            </ul> 
-          </div>
+          </ul> 
           
           
         </template>
