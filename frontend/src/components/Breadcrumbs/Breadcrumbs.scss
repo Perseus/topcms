@@ -1,0 +1,35 @@
+.breadcrumbs {
+
+  display: flex;
+  list-style: none;
+  font-size: 1rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+
+ 
+
+  & > a, & > a:active {
+    text-decoration: none;
+  }
+
+  & > a {
+    color: $blue;
+    text-decoration: underline;
+    &:hover {
+      color: darken($blue, 30%);
+    }
+  }
+
+  .svg-icons {
+    color: $blue;
+    padding-left: 1rem;
+  }
+
+  &__item {
+    flex: 1;
+    padding-left: 1rem;
+  }
+
+}

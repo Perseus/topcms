@@ -1,0 +1,22 @@
+@import './variables';
+@import './layout/layout';
+@import './components/animation';
+@import './components/error';
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('~@/assets/fonts/Roboto-Black.ttf') 
+       url('~@/assets/fonts/Roboto-Bold.ttf')
+       url('~@/assets/fonts/Roboto-Italic.ttf')
+       url('~@/assets/fonts/Roboto-Light.ttf')
+       url('~@/assets/fonts/Roboto-Medium.ttf')
+       url('~@/assets/fonts/Roboto-Regular.ttf')
+       url('~@/assets/fonts/Roboto-Thin.ttf');
+
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
