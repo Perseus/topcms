@@ -14,3 +14,8 @@ backend/yarn-error.log
 backend/.env
 backend/.phpunit.result.cache
 frontend/node_modules/*
+.editorconfig
+frontend/.eslintrc
+frontend/.editorconfig
+frontend/.gitignore
+frontend/.vscode/*
