@@ -1,5 +1,6 @@
 module.exports = {
   baseUrl: '',
+
   configureWebpack: {
     entry: './src/app.js',
     node : {
@@ -25,6 +26,7 @@ module.exports = {
       ] 
     }
   },
+
   css : {
     modules: true,
     loaderOptions: {
@@ -35,5 +37,8 @@ module.exports = {
       }
     }
   },
+
   runtimeCompiler: true,
+
+  pluginOptions: undefined
 };

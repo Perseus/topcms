@@ -1,0 +1,45 @@
+.stat-panel {
+  background-color: $color-white;
+  display: flex;
+  padding: 2rem 6rem;
+  border-radius: 4px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+}
+
+.stat-icon {
+  font-size: 4.4rem;
+  color: $color-primary-5;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1.7rem;
+
+}
+
+.stat-info-number {
+  font-size: 2.6rem;
+  color: $color-primary-1;
+  font-weight: 400;
+  text-align: center;
+}
+
+.stat-info-title {
+  font-size: 1.5rem;
+  color: $color-grey-7;
+  font-weight: 300;
+}
+
+.stat-separator {
+  margin-left: 2.2rem;
+  margin-right: 3rem;
+  height: 9rem;
+  width: 1px;
+  background-color: $color-grey-9;
+}

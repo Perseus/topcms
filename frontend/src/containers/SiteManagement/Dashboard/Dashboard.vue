@@ -1,5 +1,13 @@
 <template>
 
+  <section class="dashboard">
+
+    <div class="stat-panel-container">
+      <site-stat-panel></site-stat-panel>
+    </div>
+   
+
+  </section>
 
 </template>
 

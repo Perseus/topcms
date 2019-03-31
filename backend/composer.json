@@ -8,9 +8,9 @@
         "php": "^7.2",
         "barryvdh/laravel-cors": "^0.11.3",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "rebing/graphql-laravel": "^1.19",
+        "nuwave/lighthouse": "^2.6",
         "tymon/jwt-auth": "^1.0.0-rc.2"
     },
     "require-dev": {

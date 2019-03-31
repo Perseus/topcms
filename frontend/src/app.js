@@ -2,14 +2,16 @@ import Vue from 'vue';
 import Router from './router/index';
 import VueRouter from 'vue-router';
 import store from './store/index';
+import { createProvider } from './vue-apollo';
 import * as Sentry from '@sentry/browser'
+import { mapState } from 'vuex';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch, faCaretDown, faCaretUp, faSignOutAlt, faUser, faExclamationCircle  } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCaretDown, faCaretUp, faSignOutAlt, faUser, faExclamationCircle, faUsers, faGamepad, faMedal  } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper} from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add( [ faSearch, faNewspaper, faCaretDown, faSignOutAlt, faUser, faCaretUp, faExclamationCircle ] );
+library.add( [ faSearch, faNewspaper, faCaretDown, faSignOutAlt, faUser, faCaretUp, faExclamationCircle, faUsers, faGamepad, faMedal ] );
  
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -34,6 +36,11 @@ Vue.directive('click-outside', {
     },
 });
 
+const apolloProvider = createProvider({
+  wsEndpoint: null,
+  getAuth: () => undefined, // using cookies
+});
+
 
 // Sentry.init({
 //     dsn: 'https://b1bb5f392e7d493d901ed3f0397f42c4@sentry.io/1340165',
@@ -43,7 +50,19 @@ Vue.directive('click-outside', {
   
 // create new Vue app
 const app = new Vue({
+    computed: {
+      ...mapState({
+        isLoading: state => state.application.isApplicationLoading
+      }),
+    },
     store: store,
-    router: Router
+    router: Router,
+    apolloProvider,
+    template: `
+    <div v-if="isLoading" class="app-loading">
+      <div class="loader"></div>
+      Loading
+    </div>
+    <router-view v-else></router-view>`,
 }).$mount('#app');
 
