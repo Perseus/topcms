@@ -29,6 +29,7 @@ app.use( jwtMiddleware );
 app.get( '/jwt', ( req, res, next ) => {
 
 } );
+
 app.use(
   '/graphql',
   graphqlHTTP( {
