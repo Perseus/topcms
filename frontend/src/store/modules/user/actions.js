@@ -32,6 +32,7 @@ const Actions = {
   },
 
   async getUserAuth( context, payload ) {
+    context.commit(types.APPLICATION_LOADING);
     if (!this.getters.userAuthStatus) {
       const userData = await getUserData();
       if (userData.message && (userData.message === 'Unauthorized' || userData.message === 'Unauthenticated.')) {
@@ -39,9 +40,9 @@ const Actions = {
       } else {
         context.commit(types.USER_LOGGED_IN, userData);
         requestRouteChange( payload.name );
-        
       }
     }
+    context.commit(types.APPLICATION_LOADED);
   },
 
   async logoutUser( context, payload ) {
@@ -50,7 +51,6 @@ const Actions = {
 
         const logoutStatus = await logoutUser();
         if (logoutStatus.message === 'LOGOUT_SUCCESS') {
-          localStorage.removeItem(tokenName);
           context.commit(types.USER_LOGGED_OUT);
           requestRouteChange( payload.onSuccessRedirect );
         }
@@ -72,9 +72,7 @@ const Actions = {
       console.log('no errors');
 
       context.commit(types.SIGNUP_COMPLETED, { type: 'success', token: registrationStatus.token });
-      console.log(registrationStatus);
-      localStorage.setItem(tokenName, registrationStatus.access_token);
-      requestRouteChange( '/' );
+      requestRouteChange( payload.name );
     }
 
     return registrationStatus;

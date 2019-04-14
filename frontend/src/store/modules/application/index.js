@@ -6,6 +6,7 @@ const applicationModule = {
 
   state: {
     route: {},
+    isApplicationLoading: false,
   },
   
   actions,

@@ -17,3 +17,47 @@ body {
   height: 100%;
   width: 100%;
 }
+
+.app-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  font-weight: 100;
+  color: $color-primary-8;
+}
+
+.loader {
+  width: 30px;
+  height: 30px;
+  background-color: $color-primary-8;
+  border-radius: 50%;
+  display: inline-block;
+  animation: loading 3s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  margin-bottom: 5px;
+}
+
+@keyframes loading {
+
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  25% {
+    transform: translateX(-50px) scale(0.3);
+  }
+  50% {
+    transform: translateX(0) scale(1);
+  }
+  75% {
+    transform: translateX(50px) scale(0.3);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+
+}
+  

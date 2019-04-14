@@ -1,0 +1,16 @@
+{
+  "AccountServer": {
+    "username": "sa",
+    "password": "passwordHere",
+    "database": "AccountServer",
+    "host": "127.0.0.1",
+    "dialect": "mssql"
+  },
+  "GameDB": {
+    "username": "sa",
+    "password": "passwordHere",
+    "database": "GameDB",
+    "host": "127.0.0.1",
+    "dialect": "mssql"
+  }
+}
