@@ -50,4 +50,4 @@ const dbs = {
   GameDB
 };
 
-export default dbs;
+module.exports = dbs;
