@@ -1,10 +1,26 @@
-export function authMiddleware( req, res, next ) {
-  const requestHeaders = req.headers;
+import { verify, TokenExpiredError } from 'jsonwebtoken';
 
-  if ( !req.headers || !req.headers.Authorization ) {
-    req.user = null;
+
+export function authMiddleware( { req, res } ) {
+  try {
+    const user = retrieveUserFromRequest( req );
+    req.user = user;
+  } catch ( err ) {
+    if ( err instanceof TokenExpiredError ) {
+      res.clearCookie( '_sid' );
+    }
+  }
+  return { req, res };
+};
+
+export function retrieveUserFromRequest( request ) {
+  const requestCookies = request.cookies;
+
+  if ( !requestCookies._sid ) {
+    return null;
   }
 
-  next();
+  const verifiedToken = verify( requestCookies._sid, process.env.JWT_SECRET );
 
-};
+  return verifiedToken.data.id;
+}

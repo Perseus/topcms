@@ -5,50 +5,50 @@
     "ecmaVersion": 9,
     "sourceType": "script"
   },
-  "plugins": [ "prettier" ],
+  "plugins": ["prettier"],
   "rules": {
-    "brace-style": [ "error", "1tbs", {
+    "brace-style": ["error", "1tbs", {
       "allowSingleLine": true
-    } ],
-    "space-in-parens": [ "error", "always" ],
-    "array-bracket-spacing": [ "error", "always" ],
-    "object-curly-spacing": [ "error", "always" ],
+    }],
+    "space-in-parens": ["error", "always"],
+    "array-bracket-spacing": ["error", "always"],
+    "object-curly-spacing": ["error", "always"],
     "max-len": "off",
     "no-trailing-spaces": "off",
     "comma-dangle": "off",
     "prefer-destructuring": "off",
-    "no-console": [ "warn", {
-      "allow": [ "error", "info" ]
-    } ],
+    "no-console": ["warn", {
+      "allow": ["error", "info"]
+    }],
     "quotes": "warn",
-    "object-curly-newline": [ "error", {
+    "object-curly-newline": ["error", {
       "ImportDeclaration": "never",
       "ExportDeclaration": "never"
-    } ],
+    }],
     "no-unused-vars": "off",
-    "no-unused-expressions": [ "warn" ],
+    "no-unused-expressions": ["warn"],
     "semi": "warn",
     "consistent-return": "off",
     "no-case-declarations": "off",
-    "no-use-before-define": [ "warn", {
+    "no-use-before-define": ["warn", {
       "functions": false
-    } ],
-    "computed-property-spacing": [ "error", "always" ],
+    }],
+    "computed-property-spacing": ["error", "always"],
     "template-curly-spacing": "off",
     "default-case": "off",
-    "no-plusplus": [ "warn", {
+    "no-plusplus": ["warn", {
       "allowForLoopAfterthoughts": true
-    } ],
+    }],
     "import/prefer-default-export": "off",
-    "no-underscore-dangle": [ "warn", {
+    "no-underscore-dangle": ["warn", {
       "allowAfterThis": true
-    } ],
+    }],
     "class-methods-use-this": "warn",
-    "no-multiple-empty-lines": [ "error", {
+    "no-multiple-empty-lines": ["error", {
       "max": 3
-    } ],
-    "func-names": [ "error", "as-needed" ],
-    "arrow-parens": [ "error", "always" ],
+    }],
+    "func-names": ["error", "as-needed"],
+    "arrow-parens": ["error", "always"],
     "no-fallthrough": "off",
     "radix": "warn",
     "prettier/prettier": "error"
