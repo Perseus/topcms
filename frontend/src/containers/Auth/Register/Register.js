@@ -21,39 +21,33 @@ const Register = {
 
     async registerUser() {
 
-        const userDetails = {
-          username: this.username,
-          password: this.password,
-          email: this.email
-        };
+      const userDetails = {
+        username: this.username,
+        password: this.password,
+        email: this.email
+      };
 
-        try {
-          this.clearErrors();
-          const userRegistrationStatus = await this.$store.dispatch('registerUser', userDetails);
-          if (userRegistrationStatus.errors) {
-            _.forEach(userRegistrationStatus.errors, (value, key) => {
-              this.setError(key, value[0]);
-            });
-          }
-        } catch (err) {
-          this.setError('all', 'An error occured while trying to register');
+      try {
+        this.clearErrors();
+        const userRegistrationStatus = await this.$store.dispatch( 'registerUser', { ...userDetails, onSuccessRedirect: 'auth-login' } );
+        if ( userRegistrationStatus.errors ) {
+          _.forEach( userRegistrationStatus.errors, ( value, key ) => {
+            this.setError( key, value );
+          } );
         }
-        
+      } catch ( err ) {
+        this.setError( 'all', 'An error occured while trying to register' );
+      }
+
     },
 
   },
   computed: {
-    ...mapState({
+    ...mapState( {
       'user': state => state.user,
       'isLoggingIn': state => state.user.authenticationStatus.isLoggingIn
-    }),
+    } ),
   },
-
-  watch: {
-    user() {
-      console.log('USER CHANGED');
-    }
-  }
 };
 
 export default Register;

@@ -13,16 +13,26 @@ const typeDefs = gql `
     USER
   }
   
+  type Account {
+    act_id: ID
+    act_name: String
+    gm: Int
+    access_levels: [String]
+  }
+
   type User {
     id: ID 
     name: String 
     email: String
     last_login_ip: String
     last_login_mac: String
+    account_details: Account
   }
 
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
+    me: User @isAuthenticated(role: USER)
+    logout: String @isAuthenticated(role: USER)
   }
 
   type Mutation {
@@ -39,5 +49,6 @@ const schema = makeExecutableSchema( {
     isAuthenticated: isAuthenticatedDirective
   }
 } );
+
 
 export default schema;

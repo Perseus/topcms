@@ -12,7 +12,7 @@ import _ from 'lodash';
  * @param {Object} args Arguments provided to the directive ( in this case, intended ROLE of the user )
  * @param {Object} context GraphQL context object
  */
-export async function isAuthenticatedDirective( next, src, args, context ) {
+export async function isAuthenticatedDirective( next, src, args, context, yeet1 ) {
   const userID = context.req.user;
 
   if ( _.isNull( userID ) ) {
@@ -27,15 +27,15 @@ export async function isAuthenticatedDirective( next, src, args, context ) {
     } );
 
     if ( user ) {
-      const accessLevel = await user.getAccessLevel( GameDB.Account );
+      const accessLevels = await user.getAccessLevel( GameDB.Account );
       if ( args.role ) {
-        if ( args.role === accessLevel ) {
-          next();
+        if ( accessLevels.includes( args.role ) ) {
+          return next();
         } else {
           throw new AuthenticationError( 'UNAUTHORIZED' );
         }
       } else {
-        next();
+        return next();
       }
     } else {
       throw new AuthenticationError( 'UNAUTHENTICATED' );

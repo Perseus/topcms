@@ -9,16 +9,15 @@ import AuthLogin from '../containers/Auth/Login/Login.vue';
 import Dashboard from '../containers/SiteManagement/Dashboard/Dashboard.vue';
 import ManageNews from '../containers/SiteManagement/ManageNews/ManageNews.vue';
 import store from '../store/index';
-
 import { noAuthAllowedGuard, siteGuard, adminGuard } from './guards/auth';
 
 const routes = [
-  { 
+  {
     path: '',
     component: Root,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters.userAuthStatus) {
-        store.dispatch('getUserAuth', to).then(next);
+    beforeEnter: ( to, from, next ) => {
+      if ( !store.getters.userAuthStatus ) {
+        store.dispatch( 'getUserAuth', to ).then( next );
       } else {
         next();
       }
@@ -26,9 +25,9 @@ const routes = [
     children: [
       {
         name: 'root',
-        path: '/', 
+        path: '/',
         component: Index,
-      }, 
+      },
       {
         name: 'auth-register',
         path: '/auth/register',
@@ -41,7 +40,7 @@ const routes = [
         component: AuthLogin,
         beforeEnter: noAuthAllowedGuard,
       },
-      { 
+      {
         name: 'site-dashboard',
         path: '/site',
         component: Dashboard,
@@ -54,11 +53,11 @@ const routes = [
         beforeEnter: siteGuard
       }
     ],
-    
+
   },
 ]
-const Router = new VueRouter({
+const Router = new VueRouter( {
   routes,
-});
+} );
 
 export default Router;

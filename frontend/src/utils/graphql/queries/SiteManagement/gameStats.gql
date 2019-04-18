@@ -1,5 +1,0 @@
-query gameStats {
-  gameStats {
-    stats
-  }
-}

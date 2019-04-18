@@ -8,7 +8,7 @@
     </label>
     
     <Tooltip :text="error" :isVisible="shouldShowErrorTooltip" :position="'right'" :theme="'error'"> 
-      <input :type="inputType" :id="name" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="text-field" />
+      <input :type="inputType" :id="name" @input="$emit('input', $event.target.value)" :placeholder="placeholder" class="text-field" required/>
     </Tooltip>
   </div>
 
