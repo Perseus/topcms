@@ -54,7 +54,7 @@ const Mutations = {
       state.authenticationStatus.errors = {};
       state.name = payload.name;
       state.email = payload.email;
-      state.permissions = payload.permissions;
+      state.permissions = payload.account_details.access_levels;
     }
 
   },
