@@ -14,16 +14,16 @@ const Sidebar = {
   },
 
   methods: {
-    isSelected(item) {
-      return (this.expandedDropdowns.includes(item));
+    isSelected( item ) {
+      return ( this.expandedDropdowns.includes( item ) );
     },
-    toggleDropdown(item) {
-      if (this.expandedDropdowns.includes(item)) {
-        this.expandedDropdowns = this.expandedDropdowns.filter((expanded) => {
-          return !(expanded === item);
-        });
+    toggleDropdown( item ) {
+      if ( this.expandedDropdowns.includes( item ) ) {
+        this.expandedDropdowns = this.expandedDropdowns.filter( ( expanded ) => {
+          return !( expanded === item );
+        } );
       } else {
-        this.expandedDropdowns.push(item);
+        this.expandedDropdowns.push( item );
       }
     }
   },
@@ -38,7 +38,7 @@ const Sidebar = {
       return ( this.user.permissions.includes( 'admin' ) );
     },
     shouldShowAdminActions() {
-      return ( this.isUserLoggedIn && !_.isEmpty( this.user.permissions ) );
+      return ( this.isUserLoggedIn && ( this.shouldShowSiteManagement || this.shouldShowGameManagement ) );
     }
   },
 };

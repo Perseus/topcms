@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { AccountServer, GameDB } from '../../../database/models/index';
 import { extractErrors } from '../../../helpers/errorHandler';
 import { ValidationError } from 'sequelize';
+import { AuthenticationError } from 'apollo-server';
 import jsonwebtoken from 'jsonwebtoken';
 
 export async function createUser( obj, args, context, info ) {
@@ -27,7 +28,6 @@ export async function createUser( obj, args, context, info ) {
 }
 
 export async function loginUser( obj, args, context, info ) {
-
   try {
     const hashedPassword = crypto.createHash( 'md5' ).update( args.password ).digest( 'hex' ).toUpperCase();
     const user = await AccountServer.User.findOne( {
@@ -52,13 +52,11 @@ export async function loginUser( obj, args, context, info ) {
           expiresIn: '6h',
         } );
 
-      const response = {
-        user
-      };
-
       context.res.cookie( '_sid', jwtToken, { httpOnly: true, sameSite: true } );
 
-      return response;
+      return user;
+    } else {
+      throw new AuthenticationError( 'INCORRECT_CREDENTIALS' );
     }
   } catch ( err ) {
     return err;

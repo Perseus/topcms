@@ -18,7 +18,28 @@ export default ( sequelize, DataTypes ) => {
     cha_ids: DataTypes.STRING,
     last_ip: DataTypes.STRING,
     password: DataTypes.STRING,
-  }, { tableName: 'account', timestamps: false } );
+  }, {
+    tableName: 'account',
+    timestamps: false,
+    getterMethods: {
+      access_levels() {
+        const gmLevel = this.getDataValue( 'gm' );
+        let accessLevels = [];
+
+        if ( gmLevel === 99 ) {
+          accessLevels.push( 'ADMIN' );
+        }
+
+        if ( gmLevel > 0 && gmLevel < 99 ) {
+          accessLevels.push( 'SITE' );
+        }
+
+        accessLevels.push( 'USER' );
+
+        return accessLevels;
+      }
+    }
+  } );
 
   return Account;
 };

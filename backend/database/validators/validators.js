@@ -1,3 +1,5 @@
+import { ValidationError } from 'apollo-server';
+
 export function isUnique( model, field, value ) {
   return new Promise( ( resolve, reject ) => {
     model.findOne( {
@@ -6,7 +8,7 @@ export function isUnique( model, field, value ) {
         }
       } ).then( ( resultObject ) => {
         if ( resultObject ) {
-          reject( new Error( `${field.toUpperCase()}_EXISTS` ) );
+          reject( new ValidationError( `${field.toUpperCase()}_EXISTS` ) );
         }
         resolve();
       } )

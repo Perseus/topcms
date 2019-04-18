@@ -37,19 +37,20 @@ export default ( sequelize, DataTypes ) => {
   User.prototype.getAccessLevel = async function( accountModel ) {
     const accountDetails = await this.getAccount( accountModel )
     const gmLevel = accountDetails.gm;
-    let accessLevel = '';
+    let accessLevels = [];
 
     if ( gmLevel === 99 ) {
-      accessLevel = 'ADMIN';
-    } else if ( gmLevel > 0 && gmLevel < 99 ) {
-      accessLevel = 'SITE'
-    } else {
-      accessLevel = 'USER';
+      accessLevels.push( 'ADMIN' );
     }
 
-    return accessLevel;
-  }
+    if ( gmLevel > 0 && gmLevel < 99 ) {
+      accessLevels.push( 'SITE' );
+    }
 
+    accessLevels.push( 'USER' )
+
+    return accessLevels;
+  }
   /**
    * Sequelize doesn't support cross-database relations for MSSQL right now.
    * This seems to be the only way to retrieve info from GameDB using AccountServer details.

@@ -1,5 +1,7 @@
-import { users } from './user';
+import { users, me, logout } from './user';
 
 export const Query = {
-  users
+  users,
+  me,
+  logout
 };

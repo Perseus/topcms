@@ -1,82 +1,113 @@
 import * as types from '../../mutation-types';
-import { loginUser, getUserData, logoutUser, registerUser } from '../../../utils/http/auth';
 import { requestRouteChange } from '../../../utils/router/router';
 import { tokenName } from '../../../utils/config';
-
+import { apolloProvider } from '../../../apollo/index';
+import { getCurrentUserQuery, logoutUserQuery } from '../../../apollo/queries/auth';
+import { loginUserMutation, registerUserMutation } from '../../../apollo/mutations/auth';
+import { graphQLErrorExtractor } from '../../../utils/errorHandler';
 
 const Actions = {
 
-  async onUserLogin ( context, payload ) {
-    
-    context.commit(types.LOGIN_IN_PROGRESS, payload);
-
-    const loginStatus = await loginUser(payload);
-
-    if (loginStatus.errors) {
-      context.commit(types.LOGIN_COMPLETED, { type: 'error', error: loginStatus.errors });
-    } else {
-      context.commit(types.LOGIN_COMPLETED, { type: 'success', token: loginStatus.token });
-
-      const userData = await getUserData();
-      if ( userData.message && ( userData.message === 'Unauthorized' || userData.message === 'Unauthenticated.' ) ) {
-        context.commit(types.USER_UNAUTHORIZED);
-      } else {
-        context.commit(types.USER_LOGGED_IN, userData);
-        requestRouteChange( payload.onSuccessRedirect );
+  async onUserLogin( context, payload ) {
+    context.commit( types.LOGIN_IN_PROGRESS, payload );
+    try {
+      const loginStatus = await apolloProvider.defaultClient.mutate( {
+        mutation: loginUserMutation,
+        variables: {
+          name: payload.username,
+          password: payload.password
+        }
+      } );
+      const { email, name, account_details } = loginStatus.data.loginUser;
+      context.commit( types.LOGIN_COMPLETED, { email, name, account_details } );
+      requestRouteChange( payload.onSuccessRedirect );
+      return { success: true };
+    } catch ( err ) {
+      context.commit( types.LOGIN_COMPLETED );
+      const errors = graphQLErrorExtractor( err );
+      if ( errors.includes( 'INCORRECT_CREDENTIALS' ) ) {
+        return { error: 'Incorrect username or password' };
       }
-
     }
-
-    return loginStatus;
-
   },
 
   async getUserAuth( context, payload ) {
-    context.commit(types.APPLICATION_LOADING);
-    if (!this.getters.userAuthStatus) {
-      const userData = await getUserData();
-      if (userData.message && (userData.message === 'Unauthorized' || userData.message === 'Unauthenticated.')) {
-        context.commit(types.USER_UNAUTHORIZED);
-      } else {
-        context.commit(types.USER_LOGGED_IN, userData);
+    context.commit( types.APPLICATION_LOADING );
+
+    if ( !this.getters.userAuthStatus ) {
+      try {
+        const userData = await apolloProvider.defaultClient.query( {
+          query: getCurrentUserQuery
+        } );
+        context.commit( types.USER_LOGGED_IN, userData.data.me );
         requestRouteChange( payload.name );
+      } catch ( err ) {
+        const errors = graphQLErrorExtractor( err );
+        if ( errors.includes( 'UNAUTHENTICATED' ) ) {
+          context.commit( types.USER_UNAUTHORIZED );
+        }
       }
     }
-    context.commit(types.APPLICATION_LOADED);
+    context.commit( types.APPLICATION_LOADED );
   },
 
   async logoutUser( context, payload ) {
 
-    if (this.state.user.isLoggedIn) {
-
-        const logoutStatus = await logoutUser();
-        if (logoutStatus.message === 'LOGOUT_SUCCESS') {
-          context.commit(types.USER_LOGGED_OUT);
-          requestRouteChange( payload.onSuccessRedirect );
+    if ( this.state.user.isLoggedIn ) {
+      try {
+        const logoutStatus = await apolloProvider.defaultClient.query( {
+          query: logoutUserQuery
+        } );
+        if ( logoutStatus.data.logout === 'LOGOUT_SUCCESS' ) {
+          context.commit( types.USER_LOGGED_OUT );
         }
         return logoutStatus;
-
+      } catch ( err ) {
+        const errors = graphQLErrorExtractor( err );
+        if ( errors.includes( 'UNAUTHENTICATED' ) ) {
+          context.commit( types.USER_UNAUTHORIZED );
+        }
+      }
     }
-    
+
   },
 
   async registerUser( context, payload ) {
 
-    context.commit(types.SIGNUP_IN_PROGRESS, payload);
+    context.commit( types.SIGNUP_IN_PROGRESS, payload );
 
-    const registrationStatus = await registerUser(payload);
+    try {
+      const registrationStatus = await apolloProvider.defaultClient.mutate( {
+        mutation: registerUserMutation,
+        variables: {
+          name: payload.username,
+          email: payload.email,
+          password: payload.password
+        }
+      } );
 
-    if (registrationStatus.errors) {
-      context.commit(types.SIGNUP_COMPLETED, { type: 'error', error: registrationStatus.errors });
-    } else {
-      console.log('no errors');
+      context.commit( types.SIGNUP_COMPLETED, { type: 'success' } );
+      requestRouteChange( payload.onSuccessRedirect );
 
-      context.commit(types.SIGNUP_COMPLETED, { type: 'success', token: registrationStatus.token });
-      requestRouteChange( payload.name );
+      return { success: true };
+
+    } catch ( err ) {
+      const errors = graphQLErrorExtractor( err );
+      const parsedErrors = {};
+
+      if ( errors.includes( 'EMAIL_EXISTS' ) ) {
+        parsedErrors.email = 'Email is already registered';
+      }
+      if ( errors.includes( 'NAME_EXISTS' ) ) {
+        parsedErrors.username = 'Username is already registered';
+      }
+      context.commit( types.SIGNUP_COMPLETED, { type: 'error', error: parsedErrors } );
+
+      return {
+        errors: parsedErrors
+      };
     }
 
-    return registrationStatus;
-    
   }
 
 };

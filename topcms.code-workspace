@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"debug.node.autoAttach": "on",
+		"workbench.iconTheme": "vscode-icons",
+		"explorer.confirmDelete": false,
+		"vsicons.dontShowNewVersionMessage": true,
+		"explorer.confirmDragAndDrop": false,
+		"window.zoomLevel": 0,
+		"sync.gist": "5d5841903f25d9edf41632c74ed9323d",
+		"workbench.colorTheme": "Panda Syntax"
+	}
+}
