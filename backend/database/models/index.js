@@ -9,6 +9,11 @@ const gameDbModelDirectory = path.join( __dirname, '/./GameDB/' );
 const AccountServer = {};
 const GameDB = {};
 
+const queryLoggingFunction = ( process.env.NODE_ENV === 'development' ? console.log : false );
+
+config.AccountServer.logging = queryLoggingFunction;
+config.GameDB.logging = queryLoggingFunction;
+
 const accountServerInstance = new Sequelize( config.AccountServer.database, config.AccountServer.username, config.AccountServer.password, config.AccountServer );
 const gameDBInstance = new Sequelize( config.GameDB.database, config.GameDB.username, config.GameDB.password, config.GameDB );
 

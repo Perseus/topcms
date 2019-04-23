@@ -30,7 +30,7 @@ export default ( sequelize, DataTypes ) => {
           accessLevels.push( 'ADMIN' );
         }
 
-        if ( gmLevel > 0 && gmLevel < 99 ) {
+        if ( gmLevel > 0 ) {
           accessLevels.push( 'SITE' );
         }
 
