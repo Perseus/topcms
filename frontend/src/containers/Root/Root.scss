@@ -5,7 +5,8 @@
   grid-template-columns: 1fr 6fr;
   grid-template-rows: 80px auto;
   grid-template-areas: "sidebar navbar"
-                       "sidebar main";
+    "sidebar main";
+  position: relative;
 }
 
 .main-container {

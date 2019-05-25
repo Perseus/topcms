@@ -9,8 +9,8 @@ export function authGuard( to, from, next ) {
 }
 
 export function siteGuard( to, from, next ) {
-  if ( !store.getters.permissions.includes( 'site' ) ) {
-    next(false);
+  if ( !store.getters.permissions.includes( [ 'SITE' ] ) && !store.getters.permissions.includes( 'ADMIN' ) ) {
+    next( false );
   } else {
     next();
   }
@@ -25,8 +25,8 @@ export function noAuthAllowedGuard( to, from, next ) {
 }
 
 export function adminGuard( to, from, next ) {
-  if ( !store.getters.permissions.includes( 'admin' ) ) {
-    next(false);
+  if ( !store.getters.permissions.includes( 'ADMIN' ) ) {
+    next( false );
   } else {
     next();
   }

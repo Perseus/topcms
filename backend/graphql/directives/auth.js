@@ -29,6 +29,7 @@ export async function isAuthenticatedDirective( next, src, args, context, yeet1 
     if ( user ) {
       const accessLevels = await user.getAccessLevel( GameDB.Account );
       if ( args.role ) {
+        console.log( accessLevels, args.role );
         if ( accessLevels.includes( args.role ) ) {
           return next();
         } else {

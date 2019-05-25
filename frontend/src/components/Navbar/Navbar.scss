@@ -4,12 +4,14 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #f1f1f1;
-  box-shadow: 1px 2px 4px 0 rgba(0,0,0,.03);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .15);
+
   &__search {
 
     position: relative;
     margin-left: 2rem;
     margin-top: 1.5rem;
+
     &-input {
       background-color: $color-grey-10;
       border: none;
@@ -36,7 +38,7 @@
       left: 16px;
       font-size: 28px;
       color: $color-grey-7;
-      
+
       &:hover {
         cursor: pointer;
       }
@@ -50,12 +52,15 @@
     align-items: center;
     margin-right: 3.6rem;
     position: relative;
-    -webkit-user-select: none; /* Chrome/Safari */        
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
     -o-user-select: none;
     user-select: none;
-   
+
     &-signup-btn {
       padding: .9rem 1.9rem;
       margin-right: 3.6rem;
@@ -68,9 +73,9 @@
       font-weight: 300;
       outline: none;
       font-family: 'Roboto', sans-serif;
-      
+
       &::-moz-focus-inner {
-          border: 0;
+        border: 0;
       }
 
       &:hover {
@@ -128,7 +133,7 @@
       font-family: 'Roboto', sans-serif;
 
       &::-moz-focus-inner {
-          border: 0;
+        border: 0;
       }
 
       &:hover {
@@ -188,7 +193,7 @@
       position: absolute;
       top: 7.9rem;
       right: -1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
       border: 1px solid rgba(0, 0, 0, 0.09);
       background-color: #fff;
       list-style: none;
@@ -231,7 +236,7 @@
         visibility: visible;
         transform: translate3d(0, 0, 0);
       }
-      
+
       &-item {
         font-size: 1.4rem;
         color: $color-grey-1;
@@ -243,7 +248,7 @@
         &:last-child {
           padding-bottom: 2rem;
         }
-        
+
         &:hover {
           cursor: pointer;
         }
@@ -265,6 +270,6 @@
     }
   }
 
- 
+
 
 }

@@ -1,14 +1,7 @@
 <template>
-
   <section class="dashboard">
-
-    <div class="stat-panel-container">
-      <site-stat-panel></site-stat-panel>
-    </div>
-   
-
+    <router-view :authors="authors" @edit="editItem" @delete="deleteItem" @create="createItem"></router-view>
   </section>
-
 </template>
 
 

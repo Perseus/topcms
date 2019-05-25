@@ -7,8 +7,10 @@ const applicationModule = {
   state: {
     route: {},
     isApplicationLoading: false,
+    isToastVisible: false,
+    toastOptions: {},
   },
-  
+
   actions,
   mutations,
   getters

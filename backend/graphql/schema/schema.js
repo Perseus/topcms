@@ -12,6 +12,51 @@ const typeDefs = gql `
     SITE
     USER
   }
+
+  type GameStats {
+    accounts: Int
+    characters: Int
+    online: Int
+    online_record: Int
+  }
+
+  type Download {
+    id: Int
+    title: String
+    url: String
+    createdAt: String
+    updatedAt: String
+    author: Author
+  }
+
+  type Poll {
+    id: Int
+    title: String
+    options: String
+    votes: String
+    createdAt: String
+    updatedAt: String
+    author: Author
+  }
+
+  type NewsArticle {
+    id: Int
+    title: String
+    content: String
+    createdAt: String
+    updatedAt: String
+    author: Author
+  }
+
+  type Author {
+    id: Int
+    name: String
+    createdAt: String
+    updatedAt: String
+    downloads: [Download]
+    news_articles: [NewsArticle]
+    polls: [Poll]
+  }
   
   type Account {
     act_id: ID
@@ -33,11 +78,23 @@ const typeDefs = gql `
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
     logout: String @isAuthenticated(role: USER)
+    gameStats: GameStats @isAuthenticated(role: SITE)
+    newsArticles: [NewsArticle] @isAuthenticated(role: SITE)
+    author(id: Int!): Author @isAuthenticated(role: SITE)
+    authors: [Author] @isAuthenticated(role: SITE)
+    downloads: [Download] @isAuthenticated(role: SITE)
+    polls: [Poll] @isAuthenticated(role: SITE)
   }
 
   type Mutation {
     createUser(name: String!, email: String!, password: String!): User,
     loginUser(name: String!, password: String!): User
+    createAuthor(name: String!): Author @isAuthenticated(role: SITE)
+    createNewsArticle(title: String!, content: String!, author: Int!): NewsArticle @isAuthenticated(role: SITE) 
+    createDownload(title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE)
+    createPoll(title: String!, options: String!, author: Int!): Poll @isAuthenticated(role: SITE)
+    editAuthor(id: Int!, name: String!): Author @isAuthenticated(role: SITE)
+    editNewsArticle(id: Int!, title: String!, content: String!, author: Int!): NewsArticle @isAuthenticated(role: SITE)
   }
 
 `;
