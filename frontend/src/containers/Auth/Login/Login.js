@@ -32,7 +32,6 @@ const Login = {
           this.setError( 'all', userLoginStatus.error );
         }
       } catch ( err ) {
-        console.log( err );
         this.setError( 'all', 'An error occured while trying to log in. Please try again', err );
       }
     },

@@ -60,6 +60,7 @@ const Actions = {
         } );
         if ( logoutStatus.data.logout === 'LOGOUT_SUCCESS' ) {
           context.commit( types.USER_LOGGED_OUT );
+          location.reload();
         }
         return logoutStatus;
       } catch ( err ) {

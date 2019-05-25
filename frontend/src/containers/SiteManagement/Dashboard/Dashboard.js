@@ -1,15 +1,43 @@
-import SiteStatPanel from '../../../components/SiteStatPanel/SiteStatPanel.vue';
-import gql from 'graphql-tag';
+import { getAuthorsQuery } from '../../../apollo/queries/admin/site';
+
 
 const Dashboard = {
 
   name: 'dashboard',
 
-  components: { SiteStatPanel },
-
-  data() {
-    return {};
+  apollo: {
+    authors: getAuthorsQuery,
   },
+  data() {
+    return {
+      authors: [],
+    };
+  },
+
+  created() {},
+  methods: {
+
+    editItem( { id, type } ) {
+      this.$router.push( {
+        name: `edit-${type.title.toLowerCase()}`,
+        params: {
+          id
+        }
+      } );
+    },
+
+    deleteItem( itemId ) {
+
+    },
+
+    createItem( itemLink ) {
+      this.$router.push( {
+        name: itemLink
+      } );
+    }
+  },
+
+
 
 };
 

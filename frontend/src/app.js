@@ -6,11 +6,11 @@ import * as Sentry from '@sentry/browser'
 import { mapState } from 'vuex';
 import { apolloProvider } from './apollo';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch, faCaretDown, faCaretUp, faSignOutAlt, faUser, faExclamationCircle, faUsers, faGamepad, faMedal } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCaretDown, faCaretUp, faSignOutAlt, faUser, faExclamationCircle, faUsers, faGamepad, faMedal, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add( [ faSearch, faNewspaper, faCaretDown, faSignOutAlt, faUser, faCaretUp, faExclamationCircle, faUsers, faGamepad, faMedal ] );
+library.add( [ faSearch, faNewspaper, faCaretDown, faSignOutAlt, faUser, faCaretUp, faExclamationCircle, faUsers, faGamepad, faMedal, faEdit, faTrashAlt ] );
 
 Vue.component( 'font-awesome-icon', FontAwesomeIcon )
 

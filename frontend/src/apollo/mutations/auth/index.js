@@ -5,7 +5,7 @@ const loginUserMutation = gql `
     loginUser(name: $name, password: $password) {
       name
       email
-      account_details{
+      account_details {
         access_levels
       }
     }

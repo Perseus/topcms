@@ -17,6 +17,17 @@ const TextInput = {
     error: {
       type: String,
       default: undefined
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    layout: {
+      type: String,
+      default: "column"
+    },
+    value: {
+      default: "",
     }
   },
 

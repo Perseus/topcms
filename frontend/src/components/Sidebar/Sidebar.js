@@ -32,10 +32,10 @@ const Sidebar = {
       return ( this.user.isLoggedIn );
     },
     shouldShowSiteManagement() {
-      return ( this.user.permissions.includes( 'site' ) );
+      return ( this.user.permissions.includes( 'SITE' ) || this.shouldShowGameManagement );
     },
     shouldShowGameManagement() {
-      return ( this.user.permissions.includes( 'admin' ) );
+      return ( this.user.permissions.includes( 'ADMIN' ) );
     },
     shouldShowAdminActions() {
       return ( this.isUserLoggedIn && ( this.shouldShowSiteManagement || this.shouldShowGameManagement ) );

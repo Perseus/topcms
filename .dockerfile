@@ -9,3 +9,4 @@
 # sudo apt-get install mssql-tools unixodbc-dev
 # echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 # source ~/.bashrc
+# npx sequelize db:migrate --env="GameDB"
