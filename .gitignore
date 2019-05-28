@@ -4,6 +4,7 @@ backend/.idea
 backend/.vscode
 backend/yarn-error.log
 backend/.env
+backend/database/config/config.json
 frontend/node_modules/*
 .editorconfig
 frontend/.eslintrc
