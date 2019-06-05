@@ -1,28 +1,12 @@
-import * as types from '../../mutation-types';
+import MutationTypes from '../../types/MutationTypes';
 
 const Mutations = {
-
-  [ types.CHANGING_ROUTE ]( state, payload ) {
-    state.route = payload.route;
+  [ MutationTypes.APPLICATION_LOADING ]( state ) {
+    state.isAppLoading = true;
   },
-
-  [ types.APPLICATION_LOADING ]( state, payload ) {
-    state.isApplicationLoading = true;
-  },
-
-  [ types.APPLICATION_LOADED ]( state, payload ) {
-    state.isApplicationLoading = false;
-  },
-
-  [ types.HIDE_TOAST ]( state ) {
-    state.isToastVisible = false;
-    state.toastOptions = {};
-  },
-
-  [ types.TRIGGER_TOAST ]( state, payload ) {
-    state.isToastVisible = !state.isToastVisible;
-    state.toastOptions = payload;
-  },
+  [ MutationTypes.APPLICATION_LOADED ]( state ) {
+    state.isAppLoading = false;
+  }
 };
 
 export default Mutations;

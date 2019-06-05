@@ -1,13 +1,7 @@
 const getters = {
-
-  isApplicationLoading( state ) {
-    return state.isApplicationLoading;
-  },
-
-  isToastVisible( state ) {
-    return state.isToastVisible;
-  }
-
+    isAppBootstrapping( state ) {
+        return state.isAppLoading;
+    },
 };
 
 export default getters;

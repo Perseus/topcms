@@ -1,74 +1,29 @@
-import * as types from '../../mutation-types';
+import MutationTypes from '../../types/MutationTypes';
 
 const Mutations = {
 
-  [ types.SIGNUP_IN_PROGRESS ]( state, payload ) {
-    state.authenticationStatus.isLoggingIn = true;
+  [ MutationTypes.REGISTERING_USER ] ( state ) {
+    state.authProcessingState.isRegistering = true;
   },
-
-  [ types.SIGNUP_COMPLETED ]( state, payload ) {
-
-    state.authenticationStatus.isLoggingIn = false;
-
-    if ( payload.type === 'error' ) {
-      state.isLoggedIn = false;
-      state.authenticationStatus.errors = payload.error;
-    }
-
+  [ MutationTypes.REGISTRATION_COMPLETE ] ( state, { errors } ) {
+    state.authProcessingState.isRegistering = false;
+    state.authProcessingState.errors = errors || [];
   },
-
-  [ types.LOGIN_IN_PROGRESS ]( state ) {
-    state.authenticationStatus.isLoggingIn = true;
+  [ MutationTypes.SIGNING_IN_USER ] ( state ) {
+    state.authProcessingState.isLoggingIn = true;
   },
-
-  [ types.LOGIN_COMPLETED ]( state, payload ) {
-
-    state.authenticationStatus.isLoggingIn = false;
-    if ( payload && payload.email && payload.name ) {
-      state.name = payload.name;
-      state.email = payload.email;
+  [ MutationTypes.SIGNIN_COMPLETE ] ( state, {
+    username, email, account_details, errors
+  } ) {
+    state.authProcessingState.isLoggingIn = false;
+    state.authProcessingState.errors = errors || [];
+    if ( !errors || errors.length === 0 ) {
       state.isLoggedIn = true;
-      state.permissions = payload.account_details.access_levels;
-    } else {
-      state.isLoggedIn = false;
-      state.name = '';
-      state.email = '';
+      state.username = username;
+      state.email = email;
+      state.permissions = account_details.access_levels;
     }
-
-  },
-
-  [ types.USER_UNAUTHORIZED ]( state, payload ) {
-
-    state.isLoggedIn = false;
-    state.name = '';
-    state.email = '';
-
-  },
-
-  [ types.USER_LOGGED_IN ]( state, payload ) {
-
-    if ( payload.message === "Unauthenticated." ) {
-      state.isLoggedIn = false;
-    } else {
-      state.isLoggedIn = true;
-      state.authenticationStatus.errors = {};
-      state.name = payload.name;
-      state.email = payload.email;
-      state.permissions = payload.account_details.access_levels;
-    }
-
-  },
-
-  [ types.USER_LOGGED_OUT ]( state, payload ) {
-
-    state.isLoggedIn = false;
-    state.name = '';
-    state.email = '';
-    state.permissions = [];
-
   }
-
 };
-
 
 export default Mutations;

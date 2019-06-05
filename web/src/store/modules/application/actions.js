@@ -1,15 +1,14 @@
-import * as ActionTypes from '../../action-types';
-import * as MutationTypes from '../../mutation-types';
-import Router from '../../../router/index';
+import ActionTypes from '../../types/ActionTypes';
+import MutationTypes from '../../types/MutationTypes';
 
 const Actions = {
-
-  async [ ActionTypes.loadApplication ]( { dispatch, commit } ) {
+  async [ ActionTypes.bootstrapApplication ]( { commit, dispatch } ) {
     commit( MutationTypes.APPLICATION_LOADING );
-    await dispatch( `user/${ActionTypes.retrieveUserFromSession}`, null, { root: true } );
-    commit( MutationTypes.APPLICATION_LOADED );
+    await dispatch( ActionTypes.retrieveUser );
+    setTimeout( () => {
+      commit( MutationTypes.APPLICATION_LOADED );
+    } );
   }
-
 };
 
 export default Actions;

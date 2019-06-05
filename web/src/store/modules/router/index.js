@@ -1,19 +1,20 @@
 import actions from './actions';
-import mutations from './mutations';
 import getters from './getters';
+import mutations from './mutations';
 import RouteNames from '../../../config/RouteNames';
 
-const routerModule = {
-  namespaced: true,
+function getInitialState() {
+  return {
+    currentRoute: RouteNames.ROOT.__LANDING__,
+    metaData: {},
+  };
+}
 
-  state: {
-    currentRoute: RouteNames.ROOT.__BASE__,
-    routeData: {},
-  },
-
+const RouterModule = {
+  state: getInitialState(),
   actions,
+  getters,
   mutations,
-  getters
 };
 
-export default routerModule;
+export default RouterModule;

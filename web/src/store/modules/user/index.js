@@ -1,25 +1,26 @@
 import actions from './actions';
-import mutations from './mutations';
 import getters from './getters';
+import mutations from './mutations';
 
-const userModule = {
-  namespaced: true,
-
-  state: {
-    name: '',
-    email: '',
-    token: '',
+export function getInitialState() {
+  return {
     isLoggedIn: false,
-    authenticationStatus: {
+    permissions: [],
+    username: '',
+    email: '',
+    authProcessingState: {
+      isRegistering: false,
       isLoggingIn: false,
       errors: [],
-    },
-    permissions: [],
-  },
+    }
+  };
+}
 
+const UserModule = {
+  state: getInitialState(),
   actions,
+  getters,
   mutations,
-  getters
 };
 
-export default userModule;
+export default UserModule;

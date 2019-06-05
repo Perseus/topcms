@@ -1,9 +1,18 @@
-import * as ActionTypes from '../../action-types';
-import * as MutationTypes from '../../mutation-types';
+import _ from 'lodash';
+
+import ActionTypes from '../../types/ActionTypes';
+import MutationTypes from '../../types/MutationTypes';
 
 const Actions = {
-  [ ActionTypes.changeRoute ]( { commit }, payload ) {
-    commit( MutationTypes.CHANGING_ROUTE, payload );
+
+  [ ActionTypes.changeRoute ] ( { commit }, payload ) {
+    const { name, metaData } = payload;
+    const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
+
+    commit( MutationTypes.CHANGE_ROUTE, {
+      name,
+      metaData: routeMetaData
+    } );
   }
 };
 

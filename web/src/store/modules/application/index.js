@@ -1,19 +1,18 @@
 import actions from './actions';
-import mutations from './mutations';
 import getters from './getters';
+import mutations from './mutations';
 
-const applicationModule = {
-  namespaced: true,
-  state: {
-    route: {},
-    isApplicationLoading: false,
-    isToastVisible: false,
-    toastOptions: {},
-  },
+function getInitialState() {
+  return {
+    isAppLoading: false,
+  };
+}
 
+const ApplicationModule = {
+  state: getInitialState(),
   actions,
+  getters,
   mutations,
-  getters
 };
 
-export default applicationModule;
+export default ApplicationModule;
