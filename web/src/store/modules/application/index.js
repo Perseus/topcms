@@ -5,6 +5,7 @@ import mutations from './mutations';
 function getInitialState() {
   return {
     isAppLoading: false,
+    isAppLoaded: false,
   };
 }
 

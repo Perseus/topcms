@@ -8,14 +8,17 @@ export function extractGraphQLErrors( serverResponse ) {
   }
 
   const errors = graphQLErrors.length > 0 ? graphQLErrors : networkError;
-
+  const errorType = _.get( errors[ 0 ], 'message', 'INTERNAL_SERVER_ERROR' );
   const error = errors[ 0 ].extensions;
 
-  switch ( error.code ) {
-    case 'BAD_USER_INPUT':
+  switch ( errorType ) {
+    case 'INVALID_INPUT':
+      return error.exception.validationErrors;
+    case 'INVALID_AUTH':
       return error.exception.validationErrors.map( error => ( {
         code: error
       } ) );
+      // TODO: new logic for handling constraint validations
     case 'INTERNAL_SERVER_ERROR':
       if ( error.exception.code === 'ERR_GRAPHQL_CONSTRAINT_VALIDATION' ) {
         return [

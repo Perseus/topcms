@@ -2,16 +2,16 @@ import crypto from 'crypto';
 
 import { AccountServer, GameDB } from '../../../database/models/index';
 import { extractErrors } from '../../../helpers/errorHandler';
-import { ValidationError } from 'sequelize';
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, UserInputError } from 'apollo-server';
 import jsonwebtoken from 'jsonwebtoken';
 
 export async function createUser( obj, args, context, info ) {
   try {
+    const { input } = args;
     const newUser = await AccountServer.User.create( {
-      name: args.name,
-      email: args.email,
-      originalPassword: args.password,
+      name: input.username,
+      email: input.email,
+      originalPassword: input.password,
     } );
     if ( newUser ) {
       await GameDB.Account.create( {
@@ -23,16 +23,17 @@ export async function createUser( obj, args, context, info ) {
     }
   } catch ( err ) {
     const errors = extractErrors( err );
-    throw new ValidationError( errors );
+    throw new UserInputError( 'INVALID_AUTH', { validationErrors: errors } );
   }
 }
 
 export async function loginUser( obj, args, context, info ) {
   try {
-    const hashedPassword = crypto.createHash( 'md5' ).update( args.password ).digest( 'hex' ).toUpperCase();
+    const { input } = args;
+    const hashedPassword = crypto.createHash( 'md5' ).update( input.password ).digest( 'hex' ).toUpperCase();
     const user = await AccountServer.User.findOne( {
       where: {
-        name: args.name,
+        name: input.username,
         password: hashedPassword
       }
     } );
@@ -56,7 +57,9 @@ export async function loginUser( obj, args, context, info ) {
 
       return user;
     } else {
-      throw new AuthenticationError( 'INCORRECT_CREDENTIALS' );
+      throw new UserInputError( 'INVALID_AUTH', {
+        validationErrors: [ 'INCORRECT_CREDENTIALS' ]
+      } );
     }
   } catch ( err ) {
     return err;

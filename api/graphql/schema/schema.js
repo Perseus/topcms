@@ -2,15 +2,35 @@ import { gql } from 'apollo-server-express';
 import resolvers from '../resolvers';
 import { makeExecutableSchema } from 'graphql-tools';
 import { isAuthenticatedDirective } from '../directives/auth';
+import ConstraintDirective from 'graphql-constraint-directive';
 
 const typeDefs = gql `
   
   directive @isAuthenticated(role: AccessLevels) on FIELD_DEFINITION | QUERY
+  directive @constraint(minLength: Int, maxLength: Int, startsWith: String, endsWith: String, contains: String, notContains: String, pattern: String, format: String, min: Float, max: Float, exclusiveMin: Float, exclusiveMax: Float, multipleOf: Float) on FIELD_DEFINITION | QUERY | INPUT_FIELD_DEFINITION
 
   enum AccessLevels {
     ADMIN
     SITE
     USER
+  }
+
+  enum ValidationRules {
+    isNotEmpty
+    isNumeric
+    isInt
+    isEmail
+  }
+
+  input SignUpInput {
+    email: String! @constraint(format: "email", minLength: 1)
+    username: String! @constraint(minLength: 5)
+    password: String! @constraint(minLength: 8)
+  }
+
+  input LoginInput {
+    username: String! @constraint(minLength: 5)
+    password: String! @constraint(minLength: 8)
   }
 
   type GameStats {
@@ -78,7 +98,7 @@ const typeDefs = gql `
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
     logout: String @isAuthenticated(role: USER)
-    gameStats: GameStats @isAuthenticated(role: SITE)
+    gameStats: GameStats
     newsArticles: [NewsArticle] @isAuthenticated(role: SITE)
     author(id: Int!): Author @isAuthenticated(role: SITE)
     authors: [Author] @isAuthenticated(role: SITE)
@@ -87,14 +107,15 @@ const typeDefs = gql `
   }
 
   type Mutation {
-    createUser(name: String!, email: String!, password: String!): User,
-    loginUser(name: String!, password: String!): User
+    createUser(input: SignUpInput!): User,
+    loginUser(input: LoginInput!): User
     createAuthor(name: String!): Author @isAuthenticated(role: SITE)
     createNewsArticle(title: String!, content: String!, author: Int!): NewsArticle @isAuthenticated(role: SITE) 
     createDownload(title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE)
     createPoll(title: String!, options: String!, author: Int!): Poll @isAuthenticated(role: SITE)
     editAuthor(id: Int!, name: String!): Author @isAuthenticated(role: SITE)
     editNewsArticle(id: Int!, title: String!, content: String!, author: Int!): NewsArticle @isAuthenticated(role: SITE)
+    deleteAuthor(id: Int!): Author @isAuthenticated(role: SITE)
   }
 
 `;
@@ -103,8 +124,11 @@ const schema = makeExecutableSchema( {
   typeDefs,
   resolvers,
   directiveResolvers: {
-    isAuthenticated: isAuthenticatedDirective
-  }
+    isAuthenticated: isAuthenticatedDirective,
+  },
+  schemaDirectives: {
+    constraint: ConstraintDirective
+  },
 } );
 
 

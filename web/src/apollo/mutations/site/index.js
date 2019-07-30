@@ -14,8 +14,17 @@ const createAuthorMutation = gql`
         createAuthor(name: $name) {
             id
             name
+            createdAt
         }
     }
 `;
 
-export { updateAuthorMutation, createAuthorMutation };
+const deleteAuthorMutation = gql`
+    mutation deleteAuthor($id: Int!) {
+        deleteAuthor(id: $id) {
+            id
+        }
+    }
+`;
+
+export { updateAuthorMutation, createAuthorMutation, deleteAuthorMutation };

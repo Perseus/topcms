@@ -2,12 +2,11 @@ import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 
 const Actions = {
-  async [ ActionTypes.bootstrapApplication ]( { commit, dispatch } ) {
+  async [ ActionTypes.bootstrapApplication ]( { commit, dispatch }, payload ) {
     commit( MutationTypes.APPLICATION_LOADING );
     await dispatch( ActionTypes.retrieveUser );
-    setTimeout( () => {
-      commit( MutationTypes.APPLICATION_LOADED );
-    } );
+    dispatch( ActionTypes.setInitialRoute, payload.route );
+    commit( MutationTypes.APPLICATION_LOADED );
   }
 };
 

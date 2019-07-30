@@ -1,7 +1,7 @@
 <template>
   <div class="columns">
     <div class="column">
-      <server-info></server-info>
+      <server-info :isLoading="isRetrievingGameStats" :gameStats="gameStats"></server-info>
     </div>
     <div class="column is-four-fifths"></div>
   </div>

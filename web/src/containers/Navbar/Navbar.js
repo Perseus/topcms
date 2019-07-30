@@ -12,6 +12,12 @@ const Navbar = {
 
   methods: {
     ...getActionDispatchers(),
+    redirectToLanding() {
+      this.changeRoute( { name: RouteNames.ROOT.__LANDING__ } );
+    },
+    redirectToAdmin() {
+      this.changeRoute( { name: RouteNames.ADMIN.DASHBOARD } );
+    },
     redirectToSignup() {
       this.changeRoute( { name: RouteNames.AUTH.REGISTER } );
     },

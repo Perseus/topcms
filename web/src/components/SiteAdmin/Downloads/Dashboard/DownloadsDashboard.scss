@@ -1,0 +1,12 @@
+.downloads-dashboard {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.new-download-cta {
+  align-self: flex-end;
+  margin-bottom: 15px;
+}

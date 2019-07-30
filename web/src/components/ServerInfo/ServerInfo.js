@@ -5,9 +5,13 @@ const ServerInfo = {
       type: Object,
       default: () => {},
     },
-    serverStats: {
+    gameStats: {
       type: Object,
       default: () => {},
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
     }
   }
 };

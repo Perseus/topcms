@@ -1,18 +1,17 @@
 import _ from 'lodash';
 
-import router from '../../router/router';
 import MutationTypes from '../types/MutationTypes';
 
-const routerPlugin = ( store ) => {
+const routerPlugin = ( router, store ) => {
   store.subscribe( ( mutation, state ) => {
     if ( mutation.type === `${MutationTypes.CHANGE_ROUTE}` ) {
       const newRoute = _.cloneDeep( state.router );
-      _changeRoute( newRoute );
+      _changeRoute( router, newRoute );
     }
   } );
 };
 
-function _changeRoute( newRoute ) {
+function _changeRoute( router, newRoute ) {
   const { currentRoute: newRouteName, metaData } = newRoute;
 
   router.push( {

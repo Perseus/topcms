@@ -5,6 +5,8 @@ import VeeValidate from 'vee-validate';
 import AppBootstrapper from './containers/AppBootstrapper.vue';
 import router from './router/router';
 import store from './store/store';
+import RouterSubscriber from './store/plugins/routerPlugin';
+
 import { apolloProvider } from './apollo';
 import './assets/_main.scss';
 import 'buefy/dist/buefy.css';
@@ -13,6 +15,7 @@ Vue.use( VeeValidate );
 Vue.use( Buefy, {
   defaultIconPack: 'fas',
 } );
+RouterSubscriber( router, store );
 
 Vue.config.productionTip = false;
 

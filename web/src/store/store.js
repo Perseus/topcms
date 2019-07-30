@@ -4,8 +4,8 @@ import createLogger from 'vuex/dist/logger';
 import applicationModule from './modules/application';
 import userModule from './modules/user';
 import routerModule from './modules/router';
-
-import routerPlugin from './plugins/routerPlugin';
+import gameModule from './modules/game';
+import siteModule from './modules/site';
 
 Vue.use( Vuex );
 
@@ -14,9 +14,10 @@ export default new Vuex.Store( {
     application: applicationModule,
     user: userModule,
     router: routerModule,
+    game: gameModule,
+    site: siteModule,
   },
   plugins: [
-    routerPlugin,
-    // createLogger(),
+    createLogger(),
   ]
 } );

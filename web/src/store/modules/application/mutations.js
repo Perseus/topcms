@@ -6,6 +6,7 @@ const Mutations = {
   },
   [ MutationTypes.APPLICATION_LOADED ]( state ) {
     state.isAppLoading = false;
+    state.isAppLoaded = true;
   }
 };
 

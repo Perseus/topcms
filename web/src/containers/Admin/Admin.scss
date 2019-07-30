@@ -1,0 +1,16 @@
+.admin-choose-splash {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.card {
+  
+  transition: all .2s;
+  backface-visibility: hidden;
+  
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 5px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)
+  }
+}

@@ -160,7 +160,7 @@
 
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import ActionTypes from "../store/types/ActionTypes";
 import App from "./App/App.vue";
 
@@ -168,22 +168,10 @@ const AppBootstrapper = {
   components: {
     "t-app": App
   },
-  created() {
-    this.bootstrapApplication();
-  },
-  methods: {
-    ...getActionDispatchers()
-  },
   computed: {
     ...getStateGetters()
   }
 };
-
-function getActionDispatchers() {
-  return mapActions({
-    bootstrapApplication: ActionTypes.bootstrapApplication
-  });
-}
 
 function getStateGetters() {
   return mapGetters({

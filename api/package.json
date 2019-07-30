@@ -21,16 +21,19 @@
     "express-graphql": "^0.7.1",
     "express-jwt": "^5.3.1",
     "graphql": "^14.2.1",
+    "graphql-constraint-directive": "^1.4.0",
     "graphql-tools": "^4.0.4",
     "morgan": "^1.9.1",
     "sequelize": "^5.7.1",
     "sequelize-cli": "^5.4.0",
-    "tedious": "^6.1.0"
+    "tedious": "^6.1.0",
+    "validator": "^11.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.4.3"
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.4"
   }
 }

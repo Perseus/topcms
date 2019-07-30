@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <router-link class="navbar-item" to="/">
+      <a class="navbar-item" @click.prevent="redirectToLanding">
         <img class="logo-image" src="@/assets/img/logo.png">
         <span class="logo-text">topCMS</span>
-      </router-link>
+      </a>
 
       <a
         role="button"
@@ -21,16 +21,11 @@
 
     <div id="navbar" class="navbar-menu">
       <div class="navbar-start">
-        <router-link
-          to="/admin/site"
+        <a
           class="navbar-item"
+          @click.prevent="redirectToAdmin"
           v-if="canAccessSiteAdmin"
-        >Site Administration</router-link>
-        <router-link
-          to="/admin/game"
-          class="navbar-item"
-          v-if="canAccessGameAdmin"
-        >Game Administration</router-link>
+        >Admin Panel</a>
       </div>
 
       <div class="navbar-end">
@@ -42,7 +37,7 @@
             <a class="button is-light" @click.prevent="redirectToLogin">Log in</a>
           </div>
         </div>
-        <div class="navbar-item">
+        <div class="navbar-item" v-else>
           <b-dropdown position="is-bottom-left" aria-role="list">
             <a class="user-dropdown navbar-link" slot="trigger">
               <b-icon icon="user" size="is-small"></b-icon>
