@@ -7,11 +7,15 @@ module.exports = ( sequelize, DataTypes ) => {
       autoIncrement: true,
     },
     title: DataTypes.STRING,
-    content: DataTypes.STRING
+    content: DataTypes.STRING,
   }, {} );
+
   NewsArticle.associate = function( models ) {
-    // associations can be defined here
-    this.belongsTo( models.Author );
-  };
+    this.belongsTo( models.Author, {
+      targetKey: 'id',
+      foreignKey: 'author_id',
+      as: 'author'
+    } );
+  }
   return NewsArticle;
 };

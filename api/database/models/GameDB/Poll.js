@@ -8,11 +8,15 @@ module.exports = ( sequelize, DataTypes ) => {
     },
     title: DataTypes.STRING,
     options: DataTypes.STRING,
-    votes: DataTypes.STRING
+    votes: DataTypes.STRING,
   }, {} );
+
   Poll.associate = function( models ) {
-    // associations can be defined here
-    this.belongsTo( models.Author );
-  };
+    this.belongsTo( models.Author, {
+      targetKey: 'id',
+      foreignKey: 'author_id',
+      as: 'author'
+    } );
+  }
   return Poll;
 };

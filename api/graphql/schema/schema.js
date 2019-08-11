@@ -115,7 +115,9 @@ const typeDefs = gql `
     createPoll(title: String!, options: String!, author: Int!): Poll @isAuthenticated(role: SITE)
     editAuthor(id: Int!, name: String!): Author @isAuthenticated(role: SITE)
     editNewsArticle(id: Int!, title: String!, content: String!, author: Int!): NewsArticle @isAuthenticated(role: SITE)
+    editDownload(id: Int!, title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE) 
     deleteAuthor(id: Int!): Author @isAuthenticated(role: SITE)
+    deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
   }
 
 `;

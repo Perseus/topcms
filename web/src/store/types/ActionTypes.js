@@ -14,6 +14,12 @@ const ActionTypes = {
   createSiteAuthor: 'createSiteAuthor',
   updateSiteAuthor: 'updateSiteAuthor',
   deleteSiteAuthor: 'deleteSiteAuthor',
+  createSiteDownload: 'createSiteDownload',
+  updateSiteDownload: 'updateSiteDownload',
+  deleteSiteDownload: 'deleteSiteDownload',
+  createSiteNews: 'createSiteNews',
+  updateSiteNews: 'updateSiteNews',
+  deleteSiteNews: 'deleteSiteNews',
 };
 
 export default ActionTypes;

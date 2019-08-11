@@ -8,6 +8,9 @@ const Mutations = {
   [ MutationTypes.FETCHED_SITE_AUTHORS ] ( state, { authors } ) {
     state.authors = authors;
   },
+  [ MutationTypes.FETCHED_SITE_DOWNLOADS ] ( state, { downloads } ) {
+    state.downloads = downloads;
+  },
   [ MutationTypes.FETCHED_SITE_INFO ] ( state ) {
     state.fetchingSiteInfo = false;
   },
@@ -27,6 +30,10 @@ const Mutations = {
     if ( payload.type === 'author' ) {
       state.authors.push( payload.data );
     }
+
+    if ( payload.type === 'download' ) {
+      state.downloads.push( payload.data );
+    }
   },
   [ MutationTypes.UPDATING_SITE_INFO ] ( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isUpdating = true;
@@ -44,6 +51,13 @@ const Mutations = {
       const authorIndex = _.findIndex( state.authors, author => author.id === payload.id );
       state.authors[ authorIndex ].name = payload.name;
     }
+
+    if ( payload.type === 'download' ) {
+      const downloadIndex = _.findIndex( state.downloads, download => download.id === payload.id );
+      state.downloads[ downloadIndex ].title = payload.title;
+      state.downloads[ downloadIndex ].url = payload.url;
+      state.downloads[ downloadIndex ].author = payload.author;
+    }
   },
   [ MutationTypes.DELETING_SITE_INFO ] ( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isDeleting = true;
@@ -53,6 +67,10 @@ const Mutations = {
 
     if ( payload.type === 'author' ) {
       state.authors = state.authors.filter( author => author.id !== payload.id );
+    }
+
+    if ( payload.type === 'download' ) {
+      state.downloads = state.downloads.filter( download => download.id !== payload.id );
     }
   },
 };

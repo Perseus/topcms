@@ -1,8 +1,12 @@
 <template>
   <section>
-    <b-tabs v-model="activeTab">
+    <b-tabs :animated="false" v-model="activeTab">
       <b-tab-item label="News">
-        <admin-news-dashboard></admin-news-dashboard>
+        <admin-news-dashboard
+          :news="news"
+          :isLoading="isFetchingSiteInfo"
+          @moveToCreateNewsPage="moveToCreateNewsPage"
+        ></admin-news-dashboard>
       </b-tab-item>
       <b-tab-item label="Authors">
         <admin-author-dashboard
@@ -27,6 +31,15 @@
           :authors="authors"
           :downloads="downloads"
           :isLoading="isFetchingSiteInfo"
+          :isCreatingDownload="isCreatingDownload"
+          :isEditingDownload="isUpdatingDownload"
+          :shouldShowEditDownloadModal="shouldShowEditDownloadModal"
+          :editDownloadModalDetails="editDownloadModalDetails"
+          @createDownload="handleCreateDownload"
+          @editDownload="handleEditDownload"
+          @deleteDownload="handleDeleteDownload"
+          @showEditDownload="handleShowEditDownload"
+          @closeDownloadEditModal="handleCloseDownloadEditModal"
         ></admin-downloads-dashboard>
       </b-tab-item>
       <b-tab-item label="Polls">Polls</b-tab-item>

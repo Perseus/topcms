@@ -1,6 +1,6 @@
 import { users, me, logout } from './user';
 import { gameStats } from './game';
-import { newsArticles, authors } from './site';
+import { newsArticles, authors, downloads } from './site';
 
 export const Query = {
   users,
@@ -8,5 +8,6 @@ export const Query = {
   logout,
   gameStats,
   newsArticles,
-  authors
+  authors,
+  downloads
 };

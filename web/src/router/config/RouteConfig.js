@@ -6,6 +6,8 @@ import AdminPanel from '../../containers/Admin/Admin.vue';
 import AdminSite from '../../containers/Admin/Site/Site.vue';
 import AdminGame from '../../containers/Admin/Game/Game.vue';
 import RouteNames from '../../config/RouteNames';
+import NewsCreate from '../../containers/Admin/Site/NewsCreate/NewsCreate.vue';
+
 import { RootResolver } from '../resolvers';
 import { adminGuard } from '../guards';
 
@@ -44,6 +46,11 @@ const RouteConfig = [
             path: '/admin/game',
             name: RouteNames.ADMIN.GAME,
             component: AdminGame
+          },
+          {
+            path: '/admin/news/create',
+            name: RouteNames.ADMIN.NEWS.CREATE,
+            component: NewsCreate,
           }
         ],
         beforeEnter: adminGuard

@@ -9,6 +9,12 @@ const RouteResolvers = {
   [ RouteNames.ROOT.__LANDING__ ]: async () => {
 
   },
+  [ RouteNames.ADMIN.NEWS.CREATE ]: async ( route ) => {
+    const { site } = store.state;
+    if ( site.authors.length === 0 ) {
+      await store.dispatch( ActionTypes.getSiteAuthors, { route } );
+    }
+  }
 
 };
 

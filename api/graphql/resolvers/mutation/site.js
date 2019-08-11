@@ -11,7 +11,6 @@ export async function createAuthor( object, args, context, info ) {
     return createdAuthor;
   } catch ( err ) {
     err = composeGraphQLError( err, 'author', 'create' );
-    console.log( err );
     throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
   }
 }
@@ -51,7 +50,68 @@ export async function deleteAuthor( object, args, context, info ) {
     }
   } catch ( err ) {
     err = composeGraphQLError( err, 'author', 'delete' );
-    console.log( err );
+    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
+  }
+}
+
+export async function createDownload( object, args, context, info ) {
+  const { title, url, author } = args;
+
+  try {
+    const createdDownload = await GameDB.Download.create( {
+      title,
+      url,
+      author_id: author,
+    } );
+    createdDownload.author = await createdDownload.getAuthor();
+    return createdDownload;
+  } catch ( err ) {
+    err = composeGraphQLError( err, 'download', 'create' );
+    throw new  UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
+  }
+}
+
+export async function editDownload( object, args, context, info ) {
+  const { id, title, url, author } = args;
+
+  try {
+    const downloadUpdated = await GameDB.Download.update( {
+      title,
+      url,
+      author_id: author
+    }, { 
+      where: {
+        id
+      }
+    } );
+    if ( downloadUpdated ) {
+      const download = await GameDB.Download.findOne( { where: { id }, include: [ { model: GameDB.Author, as: 'author' } ] }  );
+      return download;
+    } else {
+      throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ 'DOWNLOAD_UPDATE_FAILED' ] } );
+    }
+  } catch ( err ) {
+    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
+  }
+}
+
+
+export async function deleteDownload( object, args, context, info ) {
+
+  
+  const { id } = args;
+  try {
+    const deletedDownload = await GameDB.Download.destroy ( {
+      where: {
+        id
+      }
+    } );
+
+    if ( deletedDownload ) {
+      return { id };
+    }
+  } catch ( err ) {
+    err = composeGraphQLError( err, 'download', 'delete' );
     throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
   }
 }

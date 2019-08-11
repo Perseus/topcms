@@ -10,4 +10,19 @@ const getAuthorsQuery = gql`
     }
 `;
 
-export { getAuthorsQuery };
+const getDownloadsQuery = gql`
+    query getDownloads {
+        downloads {
+            id
+            title
+            url
+            author {
+                id
+                name
+            }
+            createdAt
+        }
+    }
+`;
+
+export { getAuthorsQuery, getDownloadsQuery };

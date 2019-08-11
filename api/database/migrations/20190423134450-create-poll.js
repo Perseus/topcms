@@ -8,13 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      AuthorId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Authors",
-          key: "id"
-        },
-      },
       title: {
         type: Sequelize.STRING
       },
@@ -31,6 +24,15 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      author_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          field: 'id',
+          model: {
+            tableName: 'Authors',
+          }
+        }
       }
     } );
   },

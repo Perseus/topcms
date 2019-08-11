@@ -22,11 +22,11 @@ export async function gameStats( object, args, context, info ) {
       raw: true,
       attributes: [ [ sequelize.fn( 'MAX', sequelize.col( 'play_num' ) ), 'onlineRecord' ] ]
     } );
-    console.log( userCountQuery, characterCountQuery, onlineCountQuery, onlineRecordQuery );
+
     const accounts = userCountQuery[ 0 ].accounts;
     const characters = characterCountQuery[ 0 ].characters;
-    const online = onlineCountQuery[ 0 ].onlineUsers;
-    const online_record = onlineRecordQuery[ 0 ].onlineRecord;
+    const online = onlineCountQuery[ 0 ].onlineUsers
+    const online_record = onlineRecordQuery[ 0 ].onlineRecord || 0;
 
     return {
       accounts,

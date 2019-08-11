@@ -10,12 +10,20 @@ module.exports = ( sequelize, DataTypes ) => {
       type: DataTypes.STRING,
       unique: true
     },
-  }, {} );
+  }, {
+    underscored: true,
+  } );
   Author.associate = function( models ) {
     // associations can be defined here
-    this.hasMany( models.NewsArticle );
-    this.hasMany( models.Poll );
-    this.hasMany( models.Download );
+    this.hasMany( models.NewsArticle, {
+      foreignKey: 'author_id',
+    } );
+    this.hasMany( models.Poll, {
+      foreignKey: 'author_id',
+    } );
+    this.hasMany( models.Download, {
+      foreignKey: 'author_id',
+    } );
   };
   // Author.hasMany( )
   return Author;

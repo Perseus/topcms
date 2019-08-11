@@ -1,7 +1,7 @@
 const RouteNames = {
   ROOT: {
     __LANDING__: '__LANDING__',
-    __ROOT__: '__ROUTE__',
+    __ROOT__: '__ROOT__',
   },
   AUTH: {
     LOGIN: 'AUTH.LOGIN',
@@ -11,6 +11,9 @@ const RouteNames = {
     DASHBOARD: 'ADMIN.DASHBOARD',
     GAME: 'ADMIN.GAME',
     SITE: 'ADMIN.SITE',
+    NEWS: {
+      CREATE: 'ADMIN.NEWS.CREATE',
+    }
   }
 };
 
