@@ -1,0 +1,78 @@
+import MutationTypes from '../../types/MutationTypes';
+import ActionTypes from '../../types/ActionTypes';
+import { apolloProvider } from '../../../apollo';
+import { registerUserMutation, loginUserMutation } from '../../../apollo/mutations/auth';
+import { getCurrentUserQuery } from '../../../apollo/queries/auth';
+import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
+import RouteNames from '../../../config/RouteNames';
+
+const Actions = {
+  async [ ActionTypes.registerUser ] ( { commit, dispatch }, payload ) {
+    commit( MutationTypes.REGISTERING_USER );
+    try {
+      const { username, password, email } = payload;
+      await apolloProvider.defaultClient.mutate( {
+        mutation: registerUserMutation,
+        variables: {
+          input: {
+            username,
+            password,
+            email
+          }
+        }
+      } );
+      dispatch( ActionTypes.changeRoute, {
+        name: RouteNames.AUTH.LOGIN
+      } );
+      commit( MutationTypes.REGISTRATION_COMPLETE );
+    } catch ( err ) {
+      commit( MutationTypes.REGISTRATION_COMPLETE, { errors: extractGraphQLErrors( err ) } );
+    }
+  },
+  async [ ActionTypes.loginUser ]( { commit, dispatch }, payload ) {
+    commit( MutationTypes.SIGNING_IN_USER );
+    try {
+      const { username, password } = payload;
+      const loginResponse = await apolloProvider.defaultClient.mutate( {
+        mutation: loginUserMutation,
+        variables: {
+          input: {
+            username,
+            password
+          }
+        }
+      } );
+      const { name, email, account_details } = loginResponse.data.loginUser;
+      commit( MutationTypes.SIGNIN_COMPLETE, {
+        username: name,
+        email,
+        account_details
+      } );
+      dispatch( ActionTypes.changeRoute, {
+        name: RouteNames.ROOT.__LANDING__
+      } );
+    } catch ( err ) {
+      commit( MutationTypes.SIGNIN_COMPLETE, { errors: extractGraphQLErrors( err ) } );
+    }
+  },
+  async [ ActionTypes.retrieveUser ] ( { commit } ) {
+    try {
+      const retrieveUserResponse = await apolloProvider.defaultClient.query( {
+        query: getCurrentUserQuery
+      } );
+      const { name, email, account_details } = retrieveUserResponse.data.me;
+      commit( MutationTypes.SIGNIN_COMPLETE, {
+        username: name,
+        email,
+        account_details
+      } );
+    } catch ( err ) {
+      const error = extractGraphQLErrors( err );
+      if ( process.env.NODE_ENV === 'development' ) {
+        console.log( error );
+      }
+    }
+  }
+};
+
+export default Actions;
