@@ -2,20 +2,30 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 import _ from 'lodash';
 
 import ActionTypes from '../../../../store/types/ActionTypes';
+import RouteNames from '../../../../config/RouteNames';
 
-const NewsCreate = {
-  name: 'news-create-page',
+const NewsEdit = {
+  name: 'news-edit-page',
 
   data() {
     return {
       title: '',
       content: '',
       author: {},
+      currentNewsId: this.$route.params.id,
     };
   },
 
   created() {
-    this.author = this.authors[ 0 ] ? this.authors[ 0 ].id : '';
+    const currentNewsItem = _.find( this.news, news => news.id === Number( this.currentNewsId ) );
+    if ( currentNewsItem ) {
+      this.title = currentNewsItem.title;
+      this.content = currentNewsItem.content;
+      this.author = currentNewsItem.author.id;
+    }
+  },
+  mounted() {
+
   },
   computed: {
     ...mapComputedToState(),
@@ -23,19 +33,21 @@ const NewsCreate = {
 
     currentAuthorDetails() {
       return _.find( this.authors, { id: this.author } );
-    }
+    },
   },
   methods: {
     ...mapActionsToMethods(),
 
-    async handleCreateNews() {
+    async handleEditNews() {
       const didFormValidationSucceed = await this.$validator.validateAll();
-      if ( !didFormValidationSucceed || !this.author ) {
+      if ( !didFormValidationSucceed ) {
         return;
       }
 
       try {
-        await this.createNewsArticle( { title: this.title, content: this.content, author: this.author } );
+        await this.editNewsArticle( {
+          id: this.currentNewsId, title: this.title, content: this.content, author: this.author
+        } );
       } catch ( err ) {
         const errorMessage = process.env.NODE_ENV === 'development' ? err : 'There was an error while trying to create a news article.';
         this.$toast.open( {
@@ -45,6 +57,10 @@ const NewsCreate = {
           type: 'is-danger',
         } );
       }
+    },
+
+    goBack() {
+      this.changeRoute( { name: RouteNames.ADMIN.SITE } );
     }
   },
 };
@@ -57,14 +73,16 @@ function mapComputedToGetters() {
 
 function mapComputedToState() {
   return mapState( {
+    news: state => state.site.news,
     authors: state => state.site.authors,
   } );
 }
 
 function mapActionsToMethods() {
   return mapActions( {
-    createNewsArticle: ActionTypes.createSiteNews
+    editNewsArticle: ActionTypes.updateSiteNews,
+    changeRoute: ActionTypes.changeRoute,
   } );
 }
 
-export default NewsCreate;
+export default NewsEdit;

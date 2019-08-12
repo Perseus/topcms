@@ -115,3 +115,65 @@ export async function deleteDownload( object, args, context, info ) {
     throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
   }
 }
+
+export async function createNewsArticle( object, args, context, info ) {
+  try {
+    const { input: { title, content, author } } = args;
+    const createdNewsArticle = await GameDB.NewsArticle.create ( {
+      title,
+      content,
+      author_id: author
+    } );
+
+    if ( createdNewsArticle ) {
+      createdNewsArticle.author = await createdNewsArticle.getAuthor();
+      return createdNewsArticle;
+    }
+
+    return null;
+  } catch ( err ) {
+    err = composeGraphQLError( err, 'newsArticle', 'create' );
+    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
+  }
+}
+
+export async function deleteNewsArticle( object, args ) {
+  try {
+    const { id } = args;
+    const deletedNewsArticle = await GameDB.NewsArticle.destroy( {
+      where: {
+        id
+      }
+    } );
+    if ( deletedNewsArticle ) {
+      return { id };
+    }
+  } catch ( err ) {
+    err = composeGraphQLError( err, 'newsArticle', 'delete' );
+    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
+  }
+}
+
+
+export async function editNewsArticle( object, args ) {
+  const { input: { id, title, content, author } } = args;
+  try {
+    const updatedNewsArticle = await GameDB.NewsArticle.update( {
+      title,
+      content,
+      author_id: author
+    }, { 
+      where: {
+        id
+      }
+    } );
+    if ( updatedNewsArticle ) {
+      const newsArticle = await GameDB.NewsArticle.findOne( { where: { id }, include: [ { model: GameDB.Author, as: 'author' } ] }  );
+      return newsArticle;
+    } else {
+      throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ 'NEWS_ARTICLE_UPDATE_FAILED' ] } );
+    }
+  } catch ( err ) {
+    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
+  }
+}

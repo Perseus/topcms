@@ -6,6 +6,8 @@
           :news="news"
           :isLoading="isFetchingSiteInfo"
           @moveToCreateNewsPage="moveToCreateNewsPage"
+          @deleteNewsArticle="deleteNewsArticle"
+          @editNewsArticle="handleEditNewsArticle"
         ></admin-news-dashboard>
       </b-tab-item>
       <b-tab-item label="Authors">

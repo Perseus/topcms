@@ -1,5 +1,5 @@
 import { createUser, loginUser } from './auth';
-import { createAuthor, editAuthor, deleteAuthor, createDownload, editDownload, deleteDownload } from './site';
+import { createAuthor, editAuthor, deleteAuthor, createDownload, editDownload, deleteDownload, createNewsArticle, deleteNewsArticle, editNewsArticle } from './site';
 
 export const Mutation = {
   createUser,
@@ -9,5 +9,8 @@ export const Mutation = {
   deleteAuthor,
   createDownload,
   editDownload,
-  deleteDownload
+  deleteDownload,
+  createNewsArticle,
+  deleteNewsArticle,
+  editNewsArticle
 };

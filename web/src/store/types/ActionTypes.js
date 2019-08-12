@@ -7,7 +7,7 @@ const ActionTypes = {
   retrieveUser: 'retrieveUser',
   getServerStats: 'getServerStats',
   getSiteAuthors: 'getSiteAuthors',
-  getSiteNews: 'getSiteNews',
+  getSiteNewsArticles: 'getSiteNewsArticles',
   getSiteDownloads: 'getSiteDownloads',
   getSitePolls: 'getSitePolls',
   getAllSiteInfo: 'getAllSiteInfo',
@@ -20,6 +20,9 @@ const ActionTypes = {
   createSiteNews: 'createSiteNews',
   updateSiteNews: 'updateSiteNews',
   deleteSiteNews: 'deleteSiteNews',
+  getSiteDownload: 'getSiteDownload',
+  getSiteNewsArticle: 'getSiteNewsArticle',
+  getSiteAuthor: 'getSiteAuthor',
 };
 
 export default ActionTypes;

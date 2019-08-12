@@ -12,6 +12,6 @@ const router = new Router( {
 } );
 
 
-router.beforeEach( routeResolveHandler );
+router.beforeResolve( routeResolveHandler );
 
 export default router;

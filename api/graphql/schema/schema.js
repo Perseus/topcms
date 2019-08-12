@@ -33,6 +33,13 @@ const typeDefs = gql `
     password: String! @constraint(minLength: 8)
   }
 
+  input NewsArticleInput {
+    id: Int
+    title: String! @constraint(minLength: 4)
+    content: String! @constraint(minLength: 10)
+    author: Int!
+  }
+
   type GameStats {
     accounts: Int
     characters: Int
@@ -100,24 +107,27 @@ const typeDefs = gql `
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
     newsArticles: [NewsArticle] @isAuthenticated(role: SITE)
-    author(id: Int!): Author @isAuthenticated(role: SITE)
+    author(id: Int!): Author
     authors: [Author] @isAuthenticated(role: SITE)
     downloads: [Download] @isAuthenticated(role: SITE)
     polls: [Poll] @isAuthenticated(role: SITE)
+    newsArticle(id: Int!): NewsArticle
+    download(id: Int!): Download
   }
 
   type Mutation {
     createUser(input: SignUpInput!): User,
     loginUser(input: LoginInput!): User
     createAuthor(name: String!): Author @isAuthenticated(role: SITE)
-    createNewsArticle(title: String!, content: String!, author: Int!): NewsArticle @isAuthenticated(role: SITE) 
+    createNewsArticle(input: NewsArticleInput!): NewsArticle @isAuthenticated(role: SITE) 
     createDownload(title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE)
     createPoll(title: String!, options: String!, author: Int!): Poll @isAuthenticated(role: SITE)
     editAuthor(id: Int!, name: String!): Author @isAuthenticated(role: SITE)
-    editNewsArticle(id: Int!, title: String!, content: String!, author: Int!): NewsArticle @isAuthenticated(role: SITE)
+    editNewsArticle(input: NewsArticleInput!): NewsArticle @isAuthenticated(role: SITE)
     editDownload(id: Int!, title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE) 
     deleteAuthor(id: Int!): Author @isAuthenticated(role: SITE)
     deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
+    deleteNewsArticle(id: Int!): NewsArticle @isAuthenticated(role: SITE)
   }
 
 `;

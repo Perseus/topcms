@@ -34,6 +34,7 @@ function getInitialState() {
       errors: [],
     },
     fetchingSiteInfo: false,
+    fetchedSiteInfo: false,
   };
 }
 
