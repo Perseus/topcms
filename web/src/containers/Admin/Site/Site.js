@@ -5,6 +5,7 @@ import AdminDownloadsDashboard from '../../../components/SiteAdmin/Downloads/Das
 
 import ActionTypes from '../../../store/types/ActionTypes';
 import PageNames from '../../../config/RouteNames';
+import RouteNames from '../../../config/RouteNames';
 
 const Site = {
   name: 'admin-site',
@@ -107,6 +108,19 @@ const Site = {
       this.editDownload( {
         id, title, author, url
       } );
+    },
+    deleteNewsArticle( articleId ) {
+      this.deleteNews( { id: articleId } );
+    },
+    handleEditNewsArticle( articleId ) {
+      this.changeRoute( {
+        name: RouteNames.ADMIN.NEWS.EDIT,
+        metaData: {
+          params: {
+            id: articleId
+          }
+        }
+      } );
     }
   }
 };
@@ -121,6 +135,7 @@ function getActionDispatchers() {
     createDownload: ActionTypes.createSiteDownload,
     editDownload: ActionTypes.updateSiteDownload,
     deleteDownload: ActionTypes.deleteSiteDownload,
+    deleteNews: ActionTypes.deleteSiteNews,
     changeRoute: ActionTypes.changeRoute,
   } );
 }

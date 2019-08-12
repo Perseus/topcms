@@ -4,6 +4,7 @@ import { apolloProvider } from '../../../apollo';
 import { registerUserMutation, loginUserMutation } from '../../../apollo/mutations/auth';
 import { getCurrentUserQuery } from '../../../apollo/queries/auth';
 import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
+import Logger from '../../../services/Logger';
 import RouteNames from '../../../config/RouteNames';
 
 const Actions = {
@@ -68,9 +69,7 @@ const Actions = {
       } );
     } catch ( err ) {
       const error = extractGraphQLErrors( err );
-      if ( process.env.NODE_ENV === 'development' ) {
-        console.log( error );
-      }
+      Logger.log( error );
     }
   }
 };

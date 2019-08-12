@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const updateAuthorMutation = gql`
+export const updateAuthorMutation = gql`
     mutation updateAuthor($id: Int!, $name: String!) {
         editAuthor(id: $id, name: $name) {
             id
@@ -9,7 +9,7 @@ const updateAuthorMutation = gql`
     }
 `;
 
-const createAuthorMutation = gql`
+export const createAuthorMutation = gql`
     mutation createAuthor($name: String!) {
         createAuthor(name: $name) {
             id
@@ -19,7 +19,7 @@ const createAuthorMutation = gql`
     }
 `;
 
-const deleteAuthorMutation = gql`
+export const deleteAuthorMutation = gql`
     mutation deleteAuthor($id: Int!) {
         deleteAuthor(id: $id) {
             id
@@ -27,7 +27,7 @@ const deleteAuthorMutation = gql`
     }
 `;
 
-const createDownloadMutation = gql`
+export const createDownloadMutation = gql`
     mutation createDownload($title: String!, $url: String!, $author: Int!) {
         createDownload(title: $title, url: $url, author: $author) {
             id
@@ -42,7 +42,7 @@ const createDownloadMutation = gql`
     }
 `;
 
-const editDownloadMutation = gql`
+export const editDownloadMutation = gql`
     mutation editDownload($id: Int!, $title: String!, $url: String!, $author: Int!) {
         editDownload(id: $id, title: $title, url: $url, author: $author) {
             id
@@ -57,7 +57,7 @@ const editDownloadMutation = gql`
     }
 `;
 
-const deleteDownloadMutation = gql`
+export const deleteDownloadMutation = gql`
     mutation deleteDownload($id: Int!) {
         deleteDownload(id: $id) {
             id
@@ -65,6 +65,41 @@ const deleteDownloadMutation = gql`
     }
 `;
 
-export {
-  updateAuthorMutation, createAuthorMutation, deleteAuthorMutation, createDownloadMutation, editDownloadMutation, deleteDownloadMutation
-};
+export const createNewsArticleMutation = gql`
+    mutation createNewsArticle($input: NewsArticleInput!) {
+        createNewsArticle(input: $input) {
+            id
+            title
+            content
+            createdAt
+            author {
+                id
+                name
+            }
+        }
+    }
+`;
+
+
+export const deleteNewsArticleMutation = gql`
+    mutation deleteNewsArticle($id: Int!) {
+        deleteNewsArticle(id: $id) {
+            id
+        }
+    }
+`;
+
+export const updateNewsArticleMutation = gql`
+    mutation editNewsArticle($input: NewsArticleInput!) {
+        editNewsArticle(input: $input) {
+            id
+            title
+            content
+            createdAt
+            author {
+                id
+                name
+            }
+        }
+    }
+`;

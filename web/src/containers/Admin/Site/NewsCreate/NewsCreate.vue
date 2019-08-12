@@ -1,6 +1,6 @@
 <template>
   <section class="news-create-section">
-    <div class="card">
+    <div class="card news-create-card">
       <header class="card-header">
         <h3 class="card-header-title">Create News Article</h3>
       </header>

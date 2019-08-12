@@ -5,8 +5,8 @@ import RouteNames from '../../config/RouteNames';
 export async function routeResolveHandler( to, from, next ) {
   if ( RouteResolvers[ to.name ] && _.isFunction( RouteResolvers[ to.name ] ) ) {
     try {
-      await RouteResolvers[ to.name ]();
-      next();
+      const resolverResponse = await RouteResolvers[ to.name ]( { to, from } );
+      next( resolverResponse );
     } catch ( err ) {
       if ( process.env.NODE_ENV === 'development' ) {
         console.log( err );

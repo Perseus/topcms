@@ -13,6 +13,7 @@ const RouteNames = {
     SITE: 'ADMIN.SITE',
     NEWS: {
       CREATE: 'ADMIN.NEWS.CREATE',
+      EDIT: 'ADMIN.NEWS.EDIT',
     }
   }
 };
