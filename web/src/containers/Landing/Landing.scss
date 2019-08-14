@@ -1,0 +1,31 @@
+.news-feed {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.card-content { 
+  display: flex;
+  justify-content: space-between;
+  word-wrap: break-word;
+  flex-direction: column;
+}
+
+.read-more-link {
+  align-self: flex-end;
+}
+
+.news-metadata {
+  display: flex;
+  align-self: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 10px;
+}
+
+.news-feed-card {
+  &:not(:last-child) {
+    margin-bottom: 30px;
+  }
+}

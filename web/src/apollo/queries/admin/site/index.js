@@ -60,3 +60,21 @@ export const getNewsArticleQuery = gql`
         }
     }
 `;
+
+export const getNewsFeedQuery = gql`
+    query newsFeed($offset: Int, $limit: Int) {
+        newsFeed(offset: $offset, limit: $limit) {
+            articles {
+                id
+                title
+                createdAt
+                content
+                author {
+                    id
+                    name
+                }
+            }
+            offset
+        }
+    }
+`;

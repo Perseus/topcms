@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { async } from 'q';
 import RouteNames from '../../config/RouteNames';
 import store from '../../store/store';
 import ActionTypes from '../../store/types/ActionTypes';
@@ -11,7 +12,6 @@ const RouteResolvers = {
     return true;
   },
   [ RouteNames.ROOT.__LANDING__ ]: async () => {
-
   },
   [ RouteNames.ADMIN.NEWS.CREATE ]: async ( route ) => {
     const { site } = store.state;
@@ -43,10 +43,26 @@ const RouteResolvers = {
         return { name: RouteNames.ADMIN.SITE };
       }
     } catch ( err ) {
-      Logger.log( `error at RootResolver ADMIN.NEWS.EDIT: ${err} ` );
+      Logger.log( `error at ADMIN.NEWS.EDIT: ${err} ` );
       return { name: RouteNames.ADMIN.SITE };
     }
-  }
+  },
+  [ RouteNames.ROOT.NEWS ]: async( route ) => {
+    try {
+      const { to } = route;
+      const { site } = store.state;
+      const { params: { id } } = to;
+
+      const { news } = site;
+      const newsItem = _.find( news, { id } );
+      if ( !newsItem ) {
+        await store.dispatch( ActionTypes.getSiteNewsArticle, { id: Number( id ) } );
+      }
+    } catch ( err ) {
+      Logger.log( `error at resolver NEWS : ${err} ` );
+      return { name: RouteNames.ROOT.__LANDING__ };
+    }
+  },
 
 };
 

@@ -1,0 +1,30 @@
+.news-article-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: auto;
+}
+
+.news-article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.article-metadata {
+  display: flex;
+  width: 100%;
+}
+
+.article-timestamp {
+  margin-right: auto;
+}
+
+.article-content {
+  margin-top: 40px;
+  overflow-y: auto;
+  word-break: break-word;
+}

@@ -2,6 +2,7 @@ const RouteNames = {
   ROOT: {
     __LANDING__: '__LANDING__',
     __ROOT__: '__ROOT__',
+    NEWS: 'NEWS',
   },
   AUTH: {
     LOGIN: 'AUTH.LOGIN',
