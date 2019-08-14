@@ -1,5 +1,6 @@
 const ActionTypes = {
   bootstrapApplication: 'bootstrapApplication',
+  retrieveLandingPageInformation: 'retrieveLandingPageInformation',
   registerUser: 'registerUser',
   setInitialRoute: 'setInitialRoute',
   changeRoute: 'changeRoute',

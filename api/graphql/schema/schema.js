@@ -84,6 +84,11 @@ const typeDefs = gql `
     news_articles: [NewsArticle]
     polls: [Poll]
   }
+
+  type NewsFeed {
+    offset: Int
+    articles: [NewsArticle]!
+  }
   
   type Account {
     act_id: ID
@@ -101,12 +106,14 @@ const typeDefs = gql `
     account_details: Account
   }
 
+
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
     newsArticles: [NewsArticle] @isAuthenticated(role: SITE)
+    newsFeed(offset: Int, limit: Int): NewsFeed
     author(id: Int!): Author
     authors: [Author] @isAuthenticated(role: SITE)
     downloads: [Download] @isAuthenticated(role: SITE)

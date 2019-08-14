@@ -24,3 +24,25 @@ export async function newsArticle( context, args ) {
     throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ 'INVALID_ID']  } );
   }
 }
+
+export async function newsFeed( context, args ) {
+  let { offset, limit } = args;
+  if ( !offset ) {
+    offset = 0;    
+  }
+
+  if ( !limit ) {
+    limit = 10;
+  }
+
+  try {
+    const articles = await GameDB.NewsArticle.findAll( { offset, limit, include: [ { model: GameDB.Author, as: 'author' } ] } );
+    offset = articles.length;
+    return {
+      articles,
+      offset,
+    }
+  } catch ( err ) {
+    console.log( err );
+  }
+}

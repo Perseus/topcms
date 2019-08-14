@@ -6,6 +6,11 @@ function getInitialState() {
   return {
     isAppLoading: false,
     isAppLoaded: false,
+    fetchingNewsFeed: false,
+    fetchedNewsFeed: false,
+    currentNewsFeedOffset: 0,
+    newsFeed: [],
+    GMInfo: [],
   };
 }
 
