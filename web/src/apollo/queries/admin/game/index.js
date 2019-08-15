@@ -20,3 +20,16 @@ export const getStaffOnlineStatusQuery = gql`
         }
     }
 `;
+
+
+export const getServerRatesQuery = gql`
+    query serverRatesInfo {
+        serverRateInfo {
+            solo
+            party
+            fairy
+            ship
+            drop
+        }
+    }
+`;

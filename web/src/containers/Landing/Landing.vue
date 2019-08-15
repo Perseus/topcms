@@ -23,10 +23,12 @@
       <b-loading :is-full-page="false" :active.sync="fetchingNewsFeed" :can-cancel="false"></b-loading>
     </div>
     <div class="column is-one-fifths">
-      <!--
-        not sure what I want to put here yet
-      !-->
       <staff-status-container :staffInfo="GMInfo" :isFetchingStaffInfo="fetchingStaffInfo"></staff-status-container>
+      <server-rates-container
+        class="server-rates-container"
+        :rates="serverRates"
+        :isLoading="fetchingServerRates"
+      ></server-rates-container>
     </div>
   </div>
 </template>

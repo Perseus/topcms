@@ -47,7 +47,7 @@ const RouteResolvers = {
       return { name: RouteNames.ADMIN.SITE };
     }
   },
-  [ RouteNames.ROOT.NEWS ]: async( route ) => {
+  [ RouteNames.ROOT.NEWS.ARTICLE ]: async( route ) => {
     try {
       const { to } = route;
       const { site } = store.state;

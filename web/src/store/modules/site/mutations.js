@@ -88,6 +88,12 @@ const Mutations = {
   [ MutationTypes.DELETED_SITE_INFO ] ( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isDeleting = false;
 
+    const hasError = _.get( payload, 'hasError', false );
+    if ( hasError ) {
+      state[ `${payload.type}ProcessingState` ].errors = payload.error;
+      return;
+    }
+
     if ( payload.type === 'author' ) {
       state.authors = state.authors.filter( author => author.id !== payload.id );
     }

@@ -6,6 +6,7 @@ import clip from 'text-clipper';
 import ActionTypes from '../../store/types/ActionTypes';
 import ServerInfo from '../../components/ServerInfo/ServerInfo.vue';
 import StaffStatusContainer from '../../components/StaffStatusContainer/StaffStatusContainer.vue';
+import ServerRatesContainer from '../../components/ServerRates/ServerRates.vue';
 
 import RouteNames from '../../config/RouteNames';
 
@@ -14,11 +15,13 @@ const Landing = {
   components: {
     'server-info': ServerInfo,
     'staff-status-container': StaffStatusContainer,
+    'server-rates-container': ServerRatesContainer,
   },
   created() {
     this.getServerStats();
     this.retrieveLandingPageInformation();
     this.retrieveStaffInfo();
+    this.fetchServerRates();
   },
   computed: {
     ...getStateGetters(),
@@ -39,7 +42,7 @@ const Landing = {
       return distanceInWordsToNow( date * 1 );
     },
     goToNewsPage( id ) {
-      this.changeRoute( { name: RouteNames.ROOT.NEWS, metaData: { params: { id } } } );
+      this.changeRoute( { name: RouteNames.ROOT.NEWS.ARTICLE, metaData: { params: { id } } } );
     }
   },
 
@@ -52,6 +55,7 @@ function getActionDispatchers() {
     changeRoute: ActionTypes.changeRoute,
     retrieveLandingPageInformation: ActionTypes.retrieveLandingPageInformation,
     retrieveStaffInfo: ActionTypes.retrieveStaffOnlineStatus,
+    fetchServerRates: ActionTypes.fetchServerRates,
   } );
 }
 
@@ -63,6 +67,8 @@ function mapStateToComputed() {
     GMInfo: state => state.game.GMInfo,
     fetchingStaffInfo: state => state.game.isFetchingStaffInfo,
     fetchedStaffInfo: state => state.game.isFetchedStaffInfo,
+    fetchingServerRates: state => state.game.isFetchingServerRates,
+    serverRates: state => state.game.serverRates,
   } );
 }
 
