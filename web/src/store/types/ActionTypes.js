@@ -2,17 +2,21 @@ const ActionTypes = {
   bootstrapApplication: 'bootstrapApplication',
   retrieveLandingPageInformation: 'retrieveLandingPageInformation',
   retrieveStaffOnlineStatus: 'retrieveStaffOnlineStatus',
+
   registerUser: 'registerUser',
-  setInitialRoute: 'setInitialRoute',
-  changeRoute: 'changeRoute',
   loginUser: 'loginUser',
   retrieveUser: 'retrieveUser',
+
+  setInitialRoute: 'setInitialRoute',
+  changeRoute: 'changeRoute',
+
   getServerStats: 'getServerStats',
   getSiteAuthors: 'getSiteAuthors',
   getSiteNewsArticles: 'getSiteNewsArticles',
   getSiteDownloads: 'getSiteDownloads',
   getSitePolls: 'getSitePolls',
   getAllSiteInfo: 'getAllSiteInfo',
+
   createSiteAuthor: 'createSiteAuthor',
   updateSiteAuthor: 'updateSiteAuthor',
   deleteSiteAuthor: 'deleteSiteAuthor',
@@ -22,9 +26,13 @@ const ActionTypes = {
   createSiteNews: 'createSiteNews',
   updateSiteNews: 'updateSiteNews',
   deleteSiteNews: 'deleteSiteNews',
+
   getSiteDownload: 'getSiteDownload',
   getSiteNewsArticle: 'getSiteNewsArticle',
   getSiteAuthor: 'getSiteAuthor',
+
+  fetchServerRates: 'fetchServerRates',
+  updateServerRates: 'updateServerRates',
 };
 
 export default ActionTypes;

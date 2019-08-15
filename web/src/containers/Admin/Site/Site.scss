@@ -1,0 +1,21 @@
+.site-admin-section {
+  display: flex;
+}
+
+.administration-actions {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5rem;
+  flex-grow: 0;
+}
+
+.admin-table {
+  flex: 1;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}

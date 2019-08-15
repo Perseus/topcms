@@ -15,10 +15,28 @@ const Mutations = {
     state.isFetchingStaffInfo = true;
     state.isFetchedStaffInfo = false;
   },
+
   [ MutationTypes.FETCHED_STAFF_ONLINE_STATUS ] ( state, payload ) {
     state.isFetchingStaffInfo = false;
     state.isFetchedStaffInfo = true;
     state.GMInfo = payload.staffData;
+  },
+
+  [ MutationTypes.FETCHING_SERVER_RATES ] ( state ) {
+    state.isFetchingServerRates = true;
+    state.areServerRatesFetched = false;
+  },
+
+  [ MutationTypes.FETCHED_SERVER_RATES ] ( state, payload ) {
+    const { rates } = payload;
+
+    state.isFetchingServerRates = false;
+    state.areServerRatesFetched = true;
+    state.serverRates = rates;
+  },
+
+  [ MutationTypes.UPDATING_SERVER_RATES ] ( state ) {
+    state.isUpdatingServerRates = true;
   }
 };
 

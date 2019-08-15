@@ -9,6 +9,10 @@ function getInitialState() {
     GMInfo: [],
     isFetchingStaffInfo: false,
     isStaffInfoFetched: false,
+    isFetchingServerRates: false,
+    areServerRatesFetched: true,
+    isUpdatingServerRates: false,
+    serverRates: {},
   };
 }
 

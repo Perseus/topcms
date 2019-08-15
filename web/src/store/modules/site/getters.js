@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const Getters = {
   isFetchingSiteInfo( state ) {
     return state.fetchingSiteInfo;
@@ -13,6 +15,14 @@ const Getters = {
   },
   authorEditingError( state ) {
     return state.authorProcessingState.errors;
+  },
+  authorDeletingError( state ) {
+    const hasDeleteError = _.find( state.authorProcessingState.errors, { action: 'delete' } );
+    if ( hasDeleteError ) {
+      return hasDeleteError;
+    }
+
+    return null;
   },
   isCreatingDownload( state ) {
     return state.downloadProcessingState.isCreating;

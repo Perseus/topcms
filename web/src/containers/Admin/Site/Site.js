@@ -2,9 +2,9 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import AdminNewsDashboard from '../../../components/SiteAdmin/News/Dashboard/NewsDashboard.vue';
 import AdminAuthorDashboard from '../../../components/SiteAdmin/Author/Dashboard/AuthorDashboard.vue';
 import AdminDownloadsDashboard from '../../../components/SiteAdmin/Downloads/Dashboard/DownloadsDashboard.vue';
+import ServerRatesUpdateModal from '../../../components/ServerRateUpdateModal/ServerRateUpdateModal.vue';
 
 import ActionTypes from '../../../store/types/ActionTypes';
-import PageNames from '../../../config/RouteNames';
 import RouteNames from '../../../config/RouteNames';
 
 const Site = {
@@ -17,15 +17,25 @@ const Site = {
       editAuthorModalDetails: {},
       shouldShowEditDownloadModal: false,
       editDownloadModalDetails: {},
+      shouldShowManageRatesModal: false,
+      serverRates: {
+        solo: 0,
+        drop: 0,
+        party: 0,
+        ship: 0,
+        fairy: 0,
+      }
     };
   },
   created() {
     this.fetchAllSiteInfo();
+    this.fetchServerRates();
   },
   components: {
     'admin-news-dashboard': AdminNewsDashboard,
     'admin-author-dashboard': AdminAuthorDashboard,
     'admin-downloads-dashboard': AdminDownloadsDashboard,
+    'server-rates-update-modal': ServerRatesUpdateModal,
   },
   computed: {
     ...getStateGetters(),
@@ -48,29 +58,59 @@ const Site = {
       if ( !newVal ) {
         this.shouldShowEditDownloadModal = false;
       }
+    },
+
+    authorDeletingError( newVal ) {
+      if ( newVal.code && newVal.code === 'FOREIGN_KEY_CONSTRAINT_ERROR' ) {
+        this.$toast.open( {
+          duration: 5000,
+          message: 'There are news articles/downloads depending on this author. Please delete those before deleting this author.',
+          position: 'is-bottom-right',
+          type: 'is-danger',
+        } );
+      }
+    },
+
+    fetchedServerRates( newVal ) {
+      this.serverRates = Object.assign( {}, newVal );
+      delete this.serverRates.__typename;
     }
   },
   methods: {
     ...getActionDispatchers(),
+    manageEditServerRates( { rates } ) {
+      this.updateServerRates( { rates } );
+      this.shouldShowManageRatesModal = false;
+    },
+
+    handleCloseManageRatesModal() {
+      this.shouldShowManageRatesModal = false;
+    },
+
     moveToCreateNewsPage() {
       this.changeRoute( {
-        name: PageNames.ADMIN.NEWS.CREATE
+        name: RouteNames.ADMIN.NEWS.CREATE
       } );
     },
+
     fetchAuthors() {
       this.getSiteAuthors();
     },
+
     handleDeleteAuthor( id ) {
       this.deleteAuthor( { id } );
     },
+
     handleShowEditAuthor( id ) {
       this.shouldShowEditAuthorModal = true;
       const extractedAuthor = this.authors.filter( author => author.id === id );
       [ this.editAuthorModalDetails ] = extractedAuthor;
     },
+
     handleCreateAuthor( name ) {
       this.createAuthor( { name } );
     },
+
     handleAuthorCreationError( errors ) {
       // TODO: figure out a way to show all errors ? not sure if that's needed
       let composedError = '';
@@ -82,26 +122,33 @@ const Site = {
       }
       this.authorError = composedError;
     },
+
     handleCloseAuthorEditModal() {
       this.shouldShowEditAuthorModal = false;
     },
+
     handleEditAuthor( authorDetails ) {
       this.editAuthor( authorDetails );
     },
+
     handleCreateDownload( downloadDetails ) {
       this.createDownload( downloadDetails );
     },
+
     handleDeleteDownload( id ) {
       this.deleteDownload( { id } );
     },
+
     handleShowEditDownload( id ) {
       this.shouldShowEditDownloadModal = true;
       const extractedDownload = this.downloads.filter( download => download.id === id );
       [ this.editDownloadModalDetails ] = extractedDownload;
     },
+
     handleCloseDownloadEditModal() {
       this.shouldShowEditDownloadModal = false;
     },
+
     handleEditDownload( {
       id, title, author, url
     } ) {
@@ -109,9 +156,11 @@ const Site = {
         id, title, author, url
       } );
     },
+
     deleteNewsArticle( articleId ) {
       this.deleteNews( { id: articleId } );
     },
+
     handleEditNewsArticle( articleId ) {
       this.changeRoute( {
         name: RouteNames.ADMIN.NEWS.EDIT,
@@ -121,6 +170,10 @@ const Site = {
           }
         }
       } );
+    },
+
+    manageServerRates() {
+      this.shouldShowManageRatesModal = true;
     }
   }
 };
@@ -137,6 +190,8 @@ function getActionDispatchers() {
     deleteDownload: ActionTypes.deleteSiteDownload,
     deleteNews: ActionTypes.deleteSiteNews,
     changeRoute: ActionTypes.changeRoute,
+    fetchServerRates: ActionTypes.fetchServerRates,
+    updateServerRates: ActionTypes.updateServerRates,
   } );
 }
 
@@ -150,6 +205,7 @@ function getStateGetters() {
     authorCreationError: 'authorCreationError',
     downloadManagementError: 'downloadManagementError',
     authorEditingError: 'authorEditingError',
+    authorDeletingError: 'authorDeletingError',
   } );
 }
 
@@ -158,6 +214,7 @@ function getState() {
     authors: state => state.site.authors,
     downloads: state => state.site.downloads,
     news: state => state.site.news,
+    fetchedServerRates: state => state.game.serverRates,
   } );
 }
 

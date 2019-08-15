@@ -2,7 +2,10 @@ const RouteNames = {
   ROOT: {
     __LANDING__: '__LANDING__',
     __ROOT__: '__ROOT__',
-    NEWS: 'NEWS',
+    NEWS: {
+      LIST: 'ROOT.NEWS.LIST',
+      ARTICLE: 'ROOT.NEWS.ARTICLE',
+    },
   },
   AUTH: {
     LOGIN: 'AUTH.LOGIN',
