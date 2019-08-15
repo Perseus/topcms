@@ -41,6 +41,12 @@ const Site = {
     ...getStateGetters(),
     ...getState(),
   },
+  mounted() {
+    if ( this.fetchedServerRates && Object.keys( this.fetchedServerRates ).length > 0 ) {
+      this.serverRates = Object.assign( {}, this.fetchedServerRates );
+      delete this.serverRates.__typename;
+    }
+  },
   watch: {
     authorCreationError( newVal ) {
       if ( newVal.length > 0 ) {
