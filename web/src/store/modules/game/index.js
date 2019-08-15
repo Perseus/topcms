@@ -6,6 +6,9 @@ function getInitialState() {
   return {
     retrievingGameStats: false,
     gameStats: {},
+    GMInfo: [],
+    isFetchingStaffInfo: false,
+    isStaffInfoFetched: false,
   };
 }
 

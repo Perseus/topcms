@@ -26,6 +26,7 @@
       <!--
         not sure what I want to put here yet
       !-->
+      <staff-status-container :staffInfo="GMInfo" :isFetchingStaffInfo="fetchingStaffInfo"></staff-status-container>
     </div>
   </div>
 </template>

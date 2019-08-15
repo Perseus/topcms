@@ -24,7 +24,7 @@ export default ( sequelize, DataTypes ) => {
     map_x: DataTypes.STRING,
     map_y: DataTypes.STRING,
     look: DataTypes.STRING,
-    kb_kapacity: DataTypes.DECIMAL,
+    kb_capacity: DataTypes.DECIMAL,
     kitbag: DataTypes.DECIMAL,
     skillbag: DataTypes.STRING,
     birth: DataTypes.STRING,
@@ -36,6 +36,14 @@ export default ( sequelize, DataTypes ) => {
     tableName: 'character',
     timestamps: false,
   } );
+
+  Character.associate = function( models ) {
+    this.belongsTo( models.Account, {
+      targetKey: 'act_id',
+      foreignKey: 'act_id',
+      as: 'account'
+    } );
+  }
 
   return Character;
 };

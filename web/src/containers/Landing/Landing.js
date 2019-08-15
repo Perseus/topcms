@@ -5,16 +5,20 @@ import clip from 'text-clipper';
 
 import ActionTypes from '../../store/types/ActionTypes';
 import ServerInfo from '../../components/ServerInfo/ServerInfo.vue';
+import StaffStatusContainer from '../../components/StaffStatusContainer/StaffStatusContainer.vue';
+
 import RouteNames from '../../config/RouteNames';
 
 const Landing = {
   name: 't-landing',
   components: {
-    'server-info': ServerInfo
+    'server-info': ServerInfo,
+    'staff-status-container': StaffStatusContainer,
   },
   created() {
     this.getServerStats();
     this.retrieveLandingPageInformation();
+    this.retrieveStaffInfo();
   },
   computed: {
     ...getStateGetters(),
@@ -47,6 +51,7 @@ function getActionDispatchers() {
     getServerStats: ActionTypes.getServerStats,
     changeRoute: ActionTypes.changeRoute,
     retrieveLandingPageInformation: ActionTypes.retrieveLandingPageInformation,
+    retrieveStaffInfo: ActionTypes.retrieveStaffOnlineStatus,
   } );
 }
 
@@ -55,6 +60,9 @@ function mapStateToComputed() {
     newsFeed: state => state.application.newsFeed,
     fetchingNewsFeed: state => state.application.fetchingNewsFeed,
     fetchedNewsFeed: state => state.application.fetchedNewsFeed,
+    GMInfo: state => state.game.GMInfo,
+    fetchingStaffInfo: state => state.game.isFetchingStaffInfo,
+    fetchedStaffInfo: state => state.game.isFetchedStaffInfo,
   } );
 }
 

@@ -35,7 +35,7 @@ const Actions = {
     } catch ( err ) {
       Logger.log( `Error at retrieveLandingPageInformation: ${err}` );
     }
-  }
+  },
 };
 
 export default Actions;

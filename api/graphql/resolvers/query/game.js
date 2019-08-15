@@ -37,6 +37,36 @@ export async function gameStats( object, args, context, info ) {
   } catch ( err ) {
     return err;
   }
+}
 
 
+export async function staffStatuses() {
+  try {
+    const retrievedAdminAccounts = await GameDB.Account.findAll( { where: {
+      gm: {
+         [ sequelize.Op.gt ]: 0
+      }
+    } } );
+    const adminAccounts = [];
+
+    for ( let i = 0; i < retrievedAdminAccounts.length; i++ ) {
+      const accountLoginDetails = await retrievedAdminAccounts[ i ].getAccountDetails( AccountServer, [ 'login_status' ] );
+      const characterDetails = await retrievedAdminAccounts[ i ].getCharacters( { attributes: ['cha_name'] } );
+      let firstCharacter = {};
+
+      if ( characterDetails ) {
+        firstCharacter = characterDetails[ 0 ];
+      }
+
+      adminAccounts.push( {
+        name: firstCharacter.cha_name,
+        type: ( retrievedAdminAccounts[ i ].gm === 99 ? 'GM': 'HD' ),
+        is_online: Boolean( accountLoginDetails.login_status === 1),
+      } );
+    }
+
+    return adminAccounts;
+  } catch ( err ) {
+    return err;
+  }
 }

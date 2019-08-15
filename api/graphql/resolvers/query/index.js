@@ -1,5 +1,5 @@
 import { users, me, logout } from './user';
-import { gameStats } from './game';
+import { gameStats, staffStatuses } from './game';
 import { newsArticles, authors, downloads, newsArticle, newsFeed } from './site';
 
 export const Query = {
@@ -11,5 +11,6 @@ export const Query = {
   authors,
   downloads,
   newsArticle,
-  newsFeed
+  newsFeed,
+  staffStatuses
 };

@@ -7,6 +7,7 @@
           <div class="article-timestamp has-text-grey is-size-6">{{ newsCreatedAt }} ago</div>
           <div class="article-author has-text-grey is-size-6">by {{ currentNewsItem.author.name }}</div>
         </div>
+        <hr />
         <div class="article-content is-size-4" v-html="currentNewsItem.content"></div>
       </div>
     </div>

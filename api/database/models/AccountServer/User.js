@@ -1,7 +1,6 @@
 'use strict'
 import crypto from 'crypto';
 import { isUnique } from '../../validators/validators';
-import { access } from 'fs';
 
 export default ( sequelize, DataTypes ) => {
   const User = sequelize.define( 'User', {

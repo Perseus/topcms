@@ -106,6 +106,12 @@ const typeDefs = gql `
     account_details: Account
   }
 
+  type StaffStatus {
+    name: String
+    type: String
+    is_online: String
+  }
+
 
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
@@ -120,6 +126,7 @@ const typeDefs = gql `
     polls: [Poll] @isAuthenticated(role: SITE)
     newsArticle(id: Int!): NewsArticle
     download(id: Int!): Download
+    staffStatuses: [StaffStatus]
   }
 
   type Mutation {

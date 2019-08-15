@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" @click.prevent="redirectToLanding">
-        <img class="logo-image" src="@/assets/img/logo.png">
+        <img class="logo-image" src="@/assets/img/logo.png" />
         <span class="logo-text">topCMS</span>
       </a>
 
@@ -21,6 +21,7 @@
 
     <div id="navbar" class="navbar-menu">
       <div class="navbar-start">
+        <a @click.prevent="redirectToLanding" class="navbar-item">Home</a>
         <a
           class="navbar-item"
           @click.prevent="redirectToAdmin"

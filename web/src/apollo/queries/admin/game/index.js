@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getGameStatsQuery = gql`
+export const getGameStatsQuery = gql`
     query getGameStats {
         gameStats {
             accounts
@@ -11,4 +11,12 @@ const getGameStatsQuery = gql`
     }
 `;
 
-export { getGameStatsQuery };
+export const getStaffOnlineStatusQuery = gql`
+    query staffStatus {
+        staffStatuses {
+            name
+            type
+            is_online
+        }
+    }
+`;

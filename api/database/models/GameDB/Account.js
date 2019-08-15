@@ -41,5 +41,38 @@ export default ( sequelize, DataTypes ) => {
     }
   } );
 
+  Account.prototype.getAccountDetails = async function( accountServerModel, attributes ) {
+    try {
+      let accountDetails = {};
+
+      if ( attributes && attributes.length > 0 ) {
+        accountDetails = await accountServerModel.User.findOne( { 
+          where: {
+            id: this.act_id
+          },
+          attributes,
+        } );
+      } else {
+        accountDetails = await accountServerModel.User.findOne( { 
+          where: {
+            id: this.act_id
+          },
+        } );
+      }
+      
+      return accountDetails;
+    } catch ( err ) {
+      console.log( err );
+      return null;
+    }
+  };
+
+  Account.associate = function( models ) {
+    // associations can be defined here
+    this.hasMany( models.Character, {
+      foreignKey: 'act_id',
+    } );
+  };
+
   return Account;
 };
