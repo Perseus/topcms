@@ -68,7 +68,10 @@ const NewsList = {
     handleNewsFeedPageChange( pageNumber ) {
       const newsFeedOffset = ( ( pageNumber - 1 ) * 10 );
       this.getSiteNewsFeed( { offset: newsFeedOffset } );
-    }
+    },
+    goToNewsPage( id ) {
+      this.changeRoute( { name: RouteNames.ROOT.NEWS.ARTICLE, metaData: { params: { id } } } );
+    },
   }
 };
 

@@ -60,7 +60,11 @@ const Landing = {
         default:
           break;
       }
-    }
+    },
+    readAllNewsArticles() {
+      window.scroll( 0, 0 );
+      this.redirectToPage( 'news' );
+    },
   },
 
 

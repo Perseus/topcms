@@ -24,6 +24,7 @@
             >by {{ newsArticle.author.name }} - {{ getDateInWords( newsArticle.updatedAt ) }} ago</div>
           </footer>
         </div>
+        <b-button type="is-primary" @click="readAllNewsArticles">View all news articles</b-button>
       </section>
       <b-loading :is-full-page="false" :active.sync="fetchingNewsFeed" :can-cancel="false"></b-loading>
     </div>
