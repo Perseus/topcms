@@ -16,6 +16,9 @@ const Mutations = {
     state.fetchedNewsFeed = true;
     state.currentNewsFeedOffset = payload.offset;
     state.newsFeed = payload.feed;
+    if ( payload.totalArticles ) {
+      state.totalArticles = payload.totalArticles;
+    }
   }
 };
 

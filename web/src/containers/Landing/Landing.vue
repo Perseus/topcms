@@ -12,7 +12,7 @@
       <section class="news-feed" v-if="areThereAnyNewsArticles">
         <div class="card news-feed-card" v-for="(newsArticle) in newsFeed" :key="newsArticle.id">
           <header class="card-header">
-            <p class="card-header-title">{{ newsArticle.title }}</p>
+            <p class="card-header-title news-title">{{ newsArticle.title }}</p>
           </header>
           <div class="card-content">
             <div class="content" v-html="getTruncatedHtml( newsArticle.content )"></div>
@@ -21,7 +21,7 @@
           <footer class="card-footer">
             <div
               class="news-metadata"
-            >by {{ newsArticle.author.name }} - {{ getDateInWords( newsArticle.createdAt ) }} ago</div>
+            >by {{ newsArticle.author.name }} - {{ getDateInWords( newsArticle.updatedAt ) }} ago</div>
           </footer>
         </div>
       </section>

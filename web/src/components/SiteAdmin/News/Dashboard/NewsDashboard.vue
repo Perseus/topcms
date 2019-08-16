@@ -6,7 +6,7 @@
     <b-table :data="news" :loading="isLoading">
       <template slot-scope="props">
         <b-table-column field="id" label="ID" width="40" numeric>{{ props.row.id }}</b-table-column>
-        <b-table-column field="Title" label="Title">{{ props.row.title }}</b-table-column>
+        <b-table-column field="Title" label="Title">{{ getClippedHTML( props.row.title ) }}</b-table-column>
         <b-table-column field="author" label="Author">{{ props.row.author.name }}</b-table-column>
         <b-table-column
           field="createdAt"

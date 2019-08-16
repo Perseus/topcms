@@ -9,8 +9,8 @@ import RouteNames from '../../config/RouteNames';
 import NewsCreate from '../../containers/Admin/Site/NewsCreate/NewsCreate.vue';
 import NewsEdit from '../../containers/Admin/Site/NewsEdit/NewsEdit.vue';
 import NewsItemContainer from '../../containers/NewsItemContainer/NewsItemContainer.vue';
+import NewsContainer from '../../containers/NewsContainer/NewsContainer.vue';
 import NewsList from '../../containers/NewsList/NewsList.vue';
-
 
 import { RootResolver } from '../resolvers';
 import { adminGuard } from '../guards';
@@ -65,10 +65,14 @@ const RouteConfig = [
         beforeEnter: adminGuard
       },
       {
-        name: RouteNames.ROOT.NEWS.LIST,
         path: '/news',
-        component: NewsList,
+        component: NewsContainer,
         children: [
+          {
+            name: RouteNames.ROOT.NEWS.LIST,
+            path: '/',
+            component: NewsList,
+          },
           {
             name: RouteNames.ROOT.NEWS.ARTICLE,
             path: '/news/:id',

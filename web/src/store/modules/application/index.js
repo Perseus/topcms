@@ -10,6 +10,7 @@ function getInitialState() {
     fetchedNewsFeed: false,
     currentNewsFeedOffset: 0,
     newsFeed: [],
+    totalArticles: 0,
   };
 }
 

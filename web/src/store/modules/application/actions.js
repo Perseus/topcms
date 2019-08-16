@@ -18,6 +18,26 @@ const Actions = {
   },
 
   async [ ActionTypes.retrieveLandingPageInformation ] ( { commit, state }, payload ) {
+    const limit = payload ? payload.limit || 5 : 5;
+    const offset = payload ? payload.offset || 0 : 0;
+
+    try {
+      commit( MutationTypes.FETCHING_NEWS_FEED );
+      const newsFeedResponse = await apolloClient.query( {
+        query: getNewsFeedQuery,
+        variables: {
+          limit,
+          offset
+        }
+      } );
+      const feed = newsFeedResponse.data.newsFeed.articles;
+      commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.newsFeed.offset } );
+    } catch ( err ) {
+      Logger.log( `Error at retrieveLandingPageInformation: ${err}` );
+    }
+  },
+
+  async [ ActionTypes.getSiteNewsFeed ] ( { commit }, payload ) {
     const limit = payload ? payload.limit || 10 : 10;
     const offset = payload ? payload.offset || 0 : 0;
 
@@ -30,10 +50,10 @@ const Actions = {
           offset
         }
       } );
-      const feed = newsFeedCooker( state, newsFeedResponse.data.newsFeed.articles );
-      commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.newsFeed.offset } );
+      const feed = newsFeedResponse.data.newsFeed.articles;
+      commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.newsFeed.offset, totalArticles: newsFeedResponse.data.newsFeed.total_articles } );
     } catch ( err ) {
-      Logger.log( `Error at retrieveLandingPageInformation: ${err}` );
+      Logger.log( `Error at getSiteNewsFeed: ${err} ` );
     }
   },
 };
