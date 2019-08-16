@@ -1,5 +1,8 @@
-import { AccountServer, GameDB } from '../../../database/models';
 import sequelize from 'sequelize';
+import path from 'path';
+import { promises } from 'fs';
+
+import { AccountServer, GameDB } from '../../../database/models';
 
 export async function gameStats( object, args, context, info ) {
   try {
@@ -68,5 +71,16 @@ export async function staffStatuses() {
     return adminAccounts;
   } catch ( err ) {
     return err;
+  }
+}
+
+export async function serverRateInfo() {
+  try {
+    const configFile = await promises.readFile( path.join( __dirname, '..', '..', '..', 'config', 'config.json' ), 'utf8' );
+    const serverRates = JSON.parse( configFile ).rates;
+
+    return serverRates;
+  } catch ( err ) {
+    console.log( err );
   }
 }

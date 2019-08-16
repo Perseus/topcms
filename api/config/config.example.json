@@ -1,0 +1,9 @@
+{
+  "rates": {
+    "solo": 1,
+    "party": 1,
+    "drop": 1,
+    "fairy": 1,
+    "ship": 1
+  }
+}

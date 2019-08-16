@@ -40,6 +40,22 @@ const typeDefs = gql `
     author: Int!
   }
 
+  type ServerRateInfo {
+    solo: Int
+    party: Int
+    drop: Int
+    ship: Int
+    fairy: Int
+  }
+
+  input ServerRateInfoInput {
+    solo: Int
+    party: Int
+    drop: Int
+    ship: Int
+    fairy: Int
+  }
+
   type GameStats {
     accounts: Int
     characters: Int
@@ -127,6 +143,7 @@ const typeDefs = gql `
     newsArticle(id: Int!): NewsArticle
     download(id: Int!): Download
     staffStatuses: [StaffStatus]
+    serverRateInfo: ServerRateInfo
   }
 
   type Mutation {
@@ -142,6 +159,7 @@ const typeDefs = gql `
     deleteAuthor(id: Int!): Author @isAuthenticated(role: SITE)
     deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
     deleteNewsArticle(id: Int!): NewsArticle @isAuthenticated(role: SITE)
+    updateServerRates(rates: ServerRateInfoInput): ServerRateInfo @isAuthenticated(role: SITE)
   }
 
 `;
