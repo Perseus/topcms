@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const loginUserMutation = gql`
+export const loginUserMutation = gql`
     mutation loginUser($input: LoginInput!) {
         loginUser(input: $input) {
             name
@@ -12,7 +12,7 @@ const loginUserMutation = gql`
     }
 `;
 
-const registerUserMutation = gql`
+export const registerUserMutation = gql`
     mutation createUser($input: SignUpInput!) {
         createUser(input: $input) {
             name
@@ -24,4 +24,10 @@ const registerUserMutation = gql`
     }
 `;
 
-export { loginUserMutation, registerUserMutation };
+export const logoutUserMutation = gql`
+    mutation logoutUser {
+        logoutUser {
+            name
+        }
+    }
+`;

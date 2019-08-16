@@ -7,6 +7,7 @@ import ActionTypes from '../../store/types/ActionTypes';
 import ServerInfo from '../../components/ServerInfo/ServerInfo.vue';
 import StaffStatusContainer from '../../components/StaffStatusContainer/StaffStatusContainer.vue';
 import ServerRatesContainer from '../../components/ServerRates/ServerRates.vue';
+import SidebarNavigationContainer from '../../components/SidebarNavigationContainer/SidebarNavigationContainer.vue';
 
 import RouteNames from '../../config/RouteNames';
 
@@ -16,6 +17,7 @@ const Landing = {
     'server-info': ServerInfo,
     'staff-status-container': StaffStatusContainer,
     'server-rates-container': ServerRatesContainer,
+    'sidebar-navigation-container': SidebarNavigationContainer,
   },
   created() {
     this.getServerStats();
@@ -43,6 +45,21 @@ const Landing = {
     },
     goToNewsPage( id ) {
       this.changeRoute( { name: RouteNames.ROOT.NEWS.ARTICLE, metaData: { params: { id } } } );
+    },
+    redirectToPage( page ) {
+      switch ( page ) {
+        case 'news':
+          this.changeRoute( { name: RouteNames.ROOT.NEWS.LIST } );
+          break;
+        case 'home':
+          this.changeRoute( { name: RouteNames.ROOT.__LANDING__ } );
+          break;
+        case 'mall':
+          //
+          break;
+        default:
+          break;
+      }
     }
   },
 

@@ -1,7 +1,12 @@
 <template>
   <div class="columns">
     <div class="column is-one-fifths">
-      <server-info :isLoading="isRetrievingGameStats" :gameStats="gameStats"></server-info>
+      <sidebar-navigation-container @redirectToPage="redirectToPage"></sidebar-navigation-container>
+      <server-info
+        class="server-info-container"
+        :isLoading="isRetrievingGameStats"
+        :gameStats="gameStats"
+      ></server-info>
     </div>
     <div class="column is-three-fifths">
       <section class="news-feed" v-if="areThereAnyNewsArticles">

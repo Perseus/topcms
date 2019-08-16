@@ -27,7 +27,7 @@ export async function createUser( obj, args, context, info ) {
   }
 }
 
-export async function loginUser( obj, args, context, info ) {
+export async function loginUser( obj, args, context ) {
   try {
     const { input } = args;
     const hashedPassword = crypto.createHash( 'md5' ).update( input.password ).digest( 'hex' ).toUpperCase();
@@ -61,6 +61,18 @@ export async function loginUser( obj, args, context, info ) {
         validationErrors: [ 'INCORRECT_CREDENTIALS' ]
       } );
     }
+  } catch ( err ) {
+    return err;
+  }
+}
+
+export async function logoutUser( obj, args, context ) {
+  
+  try {
+    context.res.clearCookie( '_sid' );
+    return {
+      id: context.res.user
+    };
   } catch ( err ) {
     return err;
   }

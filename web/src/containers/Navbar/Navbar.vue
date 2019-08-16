@@ -45,7 +45,7 @@
               <span class="username">{{ username }}</span>
             </a>
             <b-dropdown-item aria-role="listitem">Account</b-dropdown-item>
-            <b-dropdown-item aria-role="listitem">Logout</b-dropdown-item>
+            <b-dropdown-item aria-role="listitem" @click="logout">Logout</b-dropdown-item>
           </b-dropdown>
         </div>
       </div>

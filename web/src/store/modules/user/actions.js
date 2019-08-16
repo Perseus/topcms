@@ -1,7 +1,7 @@
 import MutationTypes from '../../types/MutationTypes';
 import ActionTypes from '../../types/ActionTypes';
-import { apolloProvider } from '../../../apollo';
-import { registerUserMutation, loginUserMutation } from '../../../apollo/mutations/auth';
+import { apolloClient } from '../../../apollo';
+import { registerUserMutation, loginUserMutation, logoutUserMutation } from '../../../apollo/mutations/auth';
 import { getCurrentUserQuery } from '../../../apollo/queries/auth';
 import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import Logger from '../../../services/Logger';
@@ -12,7 +12,7 @@ const Actions = {
     commit( MutationTypes.REGISTERING_USER );
     try {
       const { username, password, email } = payload;
-      await apolloProvider.defaultClient.mutate( {
+      await apolloClient.mutate( {
         mutation: registerUserMutation,
         variables: {
           input: {
@@ -30,11 +30,12 @@ const Actions = {
       commit( MutationTypes.REGISTRATION_COMPLETE, { errors: extractGraphQLErrors( err ) } );
     }
   },
+
   async [ ActionTypes.loginUser ]( { commit, dispatch }, payload ) {
     commit( MutationTypes.SIGNING_IN_USER );
     try {
       const { username, password } = payload;
-      const loginResponse = await apolloProvider.defaultClient.mutate( {
+      const loginResponse = await apolloClient.mutate( {
         mutation: loginUserMutation,
         variables: {
           input: {
@@ -56,9 +57,10 @@ const Actions = {
       commit( MutationTypes.SIGNIN_COMPLETE, { errors: extractGraphQLErrors( err ) } );
     }
   },
+
   async [ ActionTypes.retrieveUser ] ( { commit } ) {
     try {
-      const retrieveUserResponse = await apolloProvider.defaultClient.query( {
+      const retrieveUserResponse = await apolloClient.query( {
         query: getCurrentUserQuery
       } );
       const { name, email, account_details } = retrieveUserResponse.data.me;
@@ -70,6 +72,17 @@ const Actions = {
     } catch ( err ) {
       const error = extractGraphQLErrors( err );
       Logger.log( error );
+    }
+  },
+
+  async [ ActionTypes.logoutUser ] () {
+    try {
+      await apolloClient.mutate( {
+        mutation: logoutUserMutation,
+      } );
+      window.location.reload();
+    } catch ( err ) {
+      Logger.log( `Error at logoutUser: ${err} ` );
     }
   }
 };
