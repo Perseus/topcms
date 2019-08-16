@@ -1,4 +1,5 @@
 import { distanceInWordsToNow } from 'date-fns';
+import clip from 'text-clipper';
 
 const NewsDashboard = {
   name: 'admin-news-dashboard',
@@ -27,6 +28,9 @@ const NewsDashboard = {
     },
     editNewsArticle( articleId ) {
       this.$emit( 'editNewsArticle', articleId );
+    },
+    getClippedHTML( html ) {
+      return clip( html, 15 );
     },
     deleteNewsPrompt( articleId ) {
       if ( !articleId ) {

@@ -36,11 +36,22 @@ export async function newsFeed( context, args ) {
   }
 
   try {
-    const articles = await GameDB.NewsArticle.findAll( { offset, limit, include: [ { model: GameDB.Author, as: 'author' } ] } );
+    const articles = await GameDB.NewsArticle.findAll( { order: [ [ 'updatedAt', 'DESC' ] ], offset, limit, include: [ { model: GameDB.Author, as: 'author' } ] } );
+    const articlesQuery = await GameDB.NewsArticle.findAll( {
+      attributes: 
+      [
+        [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalArticles' ]
+      ]
+
+    } );
+
+    // WHY? 
+    const totalArticles = JSON.parse( JSON.stringify( articlesQuery[ 0 ] ) ).totalArticles;
     offset = articles.length;
     return {
       articles,
       offset,
+      total_articles: totalArticles,
     }
   } catch ( err ) {
     console.log( err );

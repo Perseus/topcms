@@ -3,6 +3,7 @@ const RouteNames = {
     __LANDING__: '__LANDING__',
     __ROOT__: '__ROOT__',
     NEWS: {
+      __LANDING__: 'ROOT.NEWS.__LANDING__',
       LIST: 'ROOT.NEWS.LIST',
       ARTICLE: 'ROOT.NEWS.ARTICLE',
     },

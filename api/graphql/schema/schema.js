@@ -104,6 +104,7 @@ const typeDefs = gql `
   type NewsFeed {
     offset: Int
     articles: [NewsArticle]!
+    total_articles: Int
   }
   
   type Account {

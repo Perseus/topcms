@@ -68,6 +68,7 @@ export const getNewsFeedQuery = gql`
                 id
                 title
                 createdAt
+                updatedAt
                 content
                 author {
                     id
@@ -75,6 +76,7 @@ export const getNewsFeedQuery = gql`
                 }
             }
             offset
+            total_articles
         }
     }
 `;

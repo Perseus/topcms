@@ -37,3 +37,9 @@
 .server-info-container {
   margin-top: 2rem;
 }
+
+.news-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

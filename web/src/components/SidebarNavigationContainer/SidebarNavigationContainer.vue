@@ -6,16 +6,13 @@
     <div class="card-content">
       <ul>
         <li>
-          <a @click="redirectTo('home')">Home</a>
-        </li>
-        <li>
-          <a @click="redirectTo('ranking')">Ranking</a>
+          <a @click="redirectTo('news')">News</a>
         </li>
         <li>
           <a @click="redirectTo('downloads')">Downloads</a>
         </li>
         <li>
-          <a @click="redirectTo('news')">News</a>
+          <a @click="redirectTo('ranking')">Ranking</a>
         </li>
         <li>
           <a @click="redirectTo('mall')">Item Mall</a>
