@@ -24,12 +24,16 @@ const Navbar = {
     redirectToLogin() {
       this.changeRoute( { name: RouteNames.AUTH.LOGIN } );
     },
+    logout() {
+      this.logoutUser();
+    }
   },
 };
 
 function getActionDispatchers() {
   return mapActions( {
     changeRoute: ActionTypes.changeRoute,
+    logoutUser: ActionTypes.logoutUser,
   } );
 }
 

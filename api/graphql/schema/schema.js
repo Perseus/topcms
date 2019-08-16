@@ -147,8 +147,9 @@ const typeDefs = gql `
   }
 
   type Mutation {
-    createUser(input: SignUpInput!): User,
+    createUser(input: SignUpInput!): User
     loginUser(input: LoginInput!): User
+    logoutUser: User
     createAuthor(name: String!): Author @isAuthenticated(role: SITE)
     createNewsArticle(input: NewsArticleInput!): NewsArticle @isAuthenticated(role: SITE) 
     createDownload(title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE)
