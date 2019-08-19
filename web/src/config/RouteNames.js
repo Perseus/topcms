@@ -7,6 +7,9 @@ const RouteNames = {
       LIST: 'ROOT.NEWS.LIST',
       ARTICLE: 'ROOT.NEWS.ARTICLE',
     },
+    DOWNLOAD: {
+      LIST: 'ROOT.DOWNLOADS.LIST',
+    }
   },
   AUTH: {
     LOGIN: 'AUTH.LOGIN',

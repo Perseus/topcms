@@ -11,6 +11,7 @@ import NewsEdit from '../../containers/Admin/Site/NewsEdit/NewsEdit.vue';
 import NewsItemContainer from '../../containers/NewsItemContainer/NewsItemContainer.vue';
 import NewsContainer from '../../containers/NewsContainer/NewsContainer.vue';
 import NewsList from '../../containers/NewsList/NewsList.vue';
+import DownloadList from '../../containers/DownloadList/DownloadList.vue';
 
 import { RootResolver } from '../resolvers';
 import { adminGuard } from '../guards';
@@ -80,6 +81,11 @@ const RouteConfig = [
           },
         ],
       },
+      {
+        path: '/downloads',
+        name: RouteNames.ROOT.DOWNLOAD.LIST,
+        component: DownloadList
+      }
     ]
   }
 ];
