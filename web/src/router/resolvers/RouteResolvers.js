@@ -74,7 +74,7 @@ const RouteResolvers = {
       Logger.log( `error at resolver NEWS.LIST : ${err}` );
       return { name: RouteNames.ROOT.__LANDING__ };
     }
-  }
+  },
 
 };
 
