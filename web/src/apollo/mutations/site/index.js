@@ -72,6 +72,7 @@ export const createNewsArticleMutation = gql`
             title
             content
             createdAt
+            updatedAt
             author {
                 id
                 name

@@ -39,6 +39,7 @@ const Actions = {
       commit( MutationTypes.FETCHING_SERVER_RATES );
       const serverRatesResponse = await apolloClient.query( {
         query: getServerRatesQuery,
+        fetchPolicy: 'network-only'
       } );
       commit( MutationTypes.FETCHED_SERVER_RATES, { rates: serverRatesResponse.data.serverRateInfo } );
     } catch ( err ) {

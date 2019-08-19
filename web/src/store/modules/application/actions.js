@@ -17,7 +17,7 @@ const Actions = {
     commit( MutationTypes.APPLICATION_LOADED );
   },
 
-  async [ ActionTypes.retrieveLandingPageInformation ] ( { commit, state }, payload ) {
+  async [ ActionTypes.retrieveLandingPageInformation ] ( { commit }, payload ) {
     const limit = payload ? payload.limit || 5 : 5;
     const offset = payload ? payload.offset || 0 : 0;
 
@@ -28,7 +28,8 @@ const Actions = {
         variables: {
           limit,
           offset
-        }
+        },
+        fetchPolicy: 'network-only',
       } );
       const feed = newsFeedResponse.data.newsFeed.articles;
       commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.newsFeed.offset } );

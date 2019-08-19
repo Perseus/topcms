@@ -18,6 +18,7 @@ const ActionTypes = {
   getSitePolls: 'getSitePolls',
   getAllSiteInfo: 'getAllSiteInfo',
   getSiteNewsFeed: 'getSiteNewsFeed',
+  addItemToNewsFeed: 'addItemToNewsFeed',
 
   createSiteAuthor: 'createSiteAuthor',
   updateSiteAuthor: 'updateSiteAuthor',
