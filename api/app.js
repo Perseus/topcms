@@ -6,10 +6,11 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import schema from "./graphql/schema/schema";
 import csurf from 'csurf';
+import path from 'path';
+
 import { errorHandlerMiddleware } from "./helpers/errorHandler";
 import { ApolloServer } from "apollo-server-express";
 import { authMiddleware } from "./helpers/authHelpers";
-
 // initialize environment variables
 env.config();
 
@@ -25,13 +26,18 @@ const server = new ApolloServer( {
   context: authMiddleware
 } );
 
-const urlWhitelist = [ 'http://localhost', 'http://localhost:8080' ];
+const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', 'http://localhost:5000', 'http://192.168.1.16:5000'];
 
 const corsOptions = {
   credentials: true,
   origin: urlWhitelist
 };
 const apiPath = "/graphql";
+
+app.use( '/assets', express.static( 'dist/assets' ) );
+app.get( '/*', ( req, res ) => {
+  res.sendFile( path.join( __dirname, 'dist/index.html' ) );
+} );
 app.use( cookieParser() );
 app.use( cors( corsOptions ) );
 app.use( errorHandlerMiddleware );
