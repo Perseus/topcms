@@ -40,7 +40,7 @@ const RouteResolvers = {
       }
 
       await store.dispatch( ActionTypes.getSiteNewsArticle, { id: Number( id ) } );
-      doesNewsItemExist = _.find( site.news, newsArticle => newsArticle.id === id );
+      doesNewsItemExist = _.find( site.news, newsArticle => newsArticle.id === Number( id ) );
       if ( !doesNewsItemExist ) {
         return { name: RouteNames.ADMIN.SITE };
       }

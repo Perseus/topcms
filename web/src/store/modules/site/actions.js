@@ -68,10 +68,6 @@ const Actions = {
   },
 
   async [ ActionTypes.getAllSiteInfo ] ( { commit, dispatch, state } ) {
-    if ( state.fetchedSiteInfo ) {
-      return;
-    }
-
     commit( MutationTypes.FETCHING_SITE_INFO );
     await dispatch( ActionTypes.getSiteAuthors, { isFetchingAll: true } );
     await dispatch( ActionTypes.getSiteDownloads, { isFetchingAll: true } );
