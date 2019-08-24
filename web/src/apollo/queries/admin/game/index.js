@@ -33,3 +33,17 @@ export const getServerRatesQuery = gql`
         }
     }
 `;
+
+export const getPlayerRanking = gql`
+    query playerRanking($filter: String!) {
+        playerRankings(filter: $filter) {
+            cha_name
+            gd
+            job
+            degree
+            guild {
+                guild_name
+            }
+      }
+    }
+`;

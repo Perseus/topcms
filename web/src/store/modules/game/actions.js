@@ -3,7 +3,9 @@ import { Snackbar } from 'buefy/dist/components/snackbar';
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 import { apolloClient } from '../../../apollo';
-import { getGameStatsQuery, getStaffOnlineStatusQuery, getServerRatesQuery } from '../../../apollo/queries/admin/game';
+import {
+  getGameStatsQuery, getStaffOnlineStatusQuery, getServerRatesQuery, getPlayerRanking
+} from '../../../apollo/queries/admin/game';
 import { updateServerRatesMutation } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
 
@@ -71,6 +73,42 @@ const Actions = {
         duration: 5000,
         message: 'There was an error while trying to update server rates!',
         position: 'is-top',
+        type: 'is-danger',
+      } );
+    }
+  },
+
+  async [ ActionTypes.retrievePlayerRanking ] ( { commit }, { filter } ) {
+    try {
+      commit( MutationTypes.RETRIEVING_PLAYER_RANKING );
+      const response = await apolloClient.query( {
+        query: getPlayerRanking,
+        variables: {
+          filter
+        }
+      } );
+
+      commit( MutationTypes.RETRIEVED_PLAYER_RANKING, { playerRanking: response.data.playerRankings } );
+    } catch ( err ) {
+      Logger.log( `Error at action retrievePlayerRanking: ${err} ` );
+      Snackbar.open( {
+        duration: 5000,
+        message: 'There was an error while trying to fetch player ranking',
+        position: 'is-bottom',
+        type: 'is-danger',
+      } );
+    }
+  },
+
+  async [ ActionTypes.retrieveGuildRanking ] ( { commit } ) {
+    try {
+
+    } catch ( err ) {
+      Logger.log( `Error at action retrieveGuildRanking: ${err} ` );
+      Snackbar.open( {
+        duration: 5000,
+        message: 'There was an error while trying to fetch guild ranking',
+        position: 'is-bottom',
         type: 'is-danger',
       } );
     }

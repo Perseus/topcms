@@ -101,6 +101,18 @@ const typeDefs = gql `
     polls: [Poll]
   }
 
+  type Guild {
+    guild_name: String
+  }
+
+  type CharacterRankingItem {
+    cha_name: String
+    gd: Int
+    job: String
+    degree: String
+    guild: Guild
+  }
+
   type NewsFeed {
     offset: Int
     articles: [NewsArticle]!
@@ -135,16 +147,17 @@ const typeDefs = gql `
     me: User @isAuthenticated(role: USER)
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
-    newsArticles: [NewsArticle] @isAuthenticated(role: SITE)
+    newsArticles: [NewsArticle]
     newsFeed(offset: Int, limit: Int): NewsFeed
     author(id: Int!): Author
-    authors: [Author] @isAuthenticated(role: SITE)
-    downloads: [Download] @isAuthenticated(role: SITE)
+    authors: [Author]
+    downloads: [Download]
     polls: [Poll] @isAuthenticated(role: SITE)
     newsArticle(id: Int!): NewsArticle
     download(id: Int!): Download
     staffStatuses: [StaffStatus]
     serverRateInfo: ServerRateInfo
+    playerRankings(filter: String!): [CharacterRankingItem]
   }
 
   type Mutation {

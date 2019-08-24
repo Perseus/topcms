@@ -1,6 +1,7 @@
 'use strict'
 import crypto from 'crypto';
 import { isUnique } from '../../validators/validators';
+import Sequelize from 'sequelize';
 
 export default ( sequelize, DataTypes ) => {
   const User = sequelize.define( 'User', {
@@ -62,6 +63,20 @@ export default ( sequelize, DataTypes ) => {
       },
     } );
     return accountDetails;
+  }
+
+  User.getAllUnbannedAccounts = async function() {
+    const accounts = await this.findAll( { 
+      where: {
+        ban: {
+          [ Sequelize.Op.or ]: {
+            [ Sequelize.Op.ne ]: 1,
+            [ Sequelize.Op.eq ]: null,
+          }
+        }
+       }
+    } );
+    return accounts;
   }
 
   User.beforeCreate( ( model, options ) => {

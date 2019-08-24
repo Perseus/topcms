@@ -26,11 +26,22 @@ const server = new ApolloServer( {
   context: authMiddleware
 } );
 
-const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', 'http://localhost:5000', 'http://192.168.1.16:5000'];
+const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', 'http://localhost:5000', 'http://192.168.1.16:5000', 'http://26.104.18.71:8080' ];
 
 const corsOptions = {
   credentials: true,
-  origin: urlWhitelist
+  origin: ( origin, callback ) => {
+    if ( process.env.NODE_ENV === 'dev' ) {
+      callback( null, true );
+    } else {
+      if ( urlWhitelist.includes( origin ) ) {
+        callback( null, true );
+      } else {
+        callback( new Error('Restricted by CORS' ) );
+      }
+    }
+
+  }
 };
 const apiPath = "/graphql";
 

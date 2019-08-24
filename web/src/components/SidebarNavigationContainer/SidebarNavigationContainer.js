@@ -22,6 +22,9 @@ const SidebarNavigationContainer = {
         case 'downloads':
           this.changeRoute( { name: RouteNames.ROOT.DOWNLOAD.LIST } );
           break;
+        case 'ranking':
+          this.changeRoute( { name: RouteNames.ROOT.RANKING.__LANDING__ } );
+          break;
         default:
           break;
       }

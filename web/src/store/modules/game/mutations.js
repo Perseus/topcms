@@ -37,6 +37,15 @@ const Mutations = {
 
   [ MutationTypes.UPDATING_SERVER_RATES ] ( state ) {
     state.isUpdatingServerRates = true;
+  },
+
+  [ MutationTypes.RETRIEVING_PLAYER_RANKING ] ( state ) {
+    state.isRetrievingPlayerRanking = true;
+  },
+
+  [ MutationTypes.RETRIEVED_PLAYER_RANKING ] ( state, payload ) {
+    state.isRetrievingPlayerRanking = false;
+    state.playerRanking = payload.playerRanking;
   }
 };
 
