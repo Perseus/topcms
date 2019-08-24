@@ -1,5 +1,6 @@
 'use strict'
 import { isUnique } from '../../validators/validators';
+import { JobTypes } from '../../../config';
 
 export default ( sequelize, DataTypes ) => {
   const Character = sequelize.define( 'Character', {
@@ -14,7 +15,17 @@ export default ( sequelize, DataTypes ) => {
     },
     act_id: DataTypes.DECIMAL,
     guild_id: DataTypes.DECIMAL,
-    job: DataTypes.STRING,
+    job: {
+      type: DataTypes.STRING,
+      get() {
+        const retrievedJob = this.getDataValue('job');
+        if ( JobTypes[ retrievedJob ] ) {
+          return JobTypes[ retrievedJob ];
+        }
+
+        return retrievedJob;
+      }
+    },
     degree: DataTypes.DECIMAL,
     exp: DataTypes.DECIMAL,
     hp: DataTypes.DECIMAL,
@@ -42,6 +53,12 @@ export default ( sequelize, DataTypes ) => {
       targetKey: 'act_id',
       foreignKey: 'act_id',
       as: 'account'
+    } );
+
+    this.hasOne( models.Guild, {
+      sourceKey: 'guild_id',
+      foreignKey: 'guild_id',
+      as: 'guild'
     } );
   }
 

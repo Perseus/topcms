@@ -36,6 +36,9 @@ const ActionTypes = {
 
   fetchServerRates: 'fetchServerRates',
   updateServerRates: 'updateServerRates',
+
+  retrievePlayerRanking: 'retrievePlayerRanking',
+  retrieveGuildRanking: 'retrieveGuildRanking',
 };
 
 export default ActionTypes;

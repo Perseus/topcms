@@ -12,6 +12,7 @@ import NewsItemContainer from '../../containers/NewsItemContainer/NewsItemContai
 import NewsContainer from '../../containers/NewsContainer/NewsContainer.vue';
 import NewsList from '../../containers/NewsList/NewsList.vue';
 import DownloadList from '../../containers/DownloadList/DownloadList.vue';
+import Ranking from '../../containers/Ranking/Ranking.vue';
 
 import { RootResolver } from '../resolvers';
 import { adminGuard } from '../guards';
@@ -85,6 +86,11 @@ const RouteConfig = [
         path: '/downloads',
         name: RouteNames.ROOT.DOWNLOAD.LIST,
         component: DownloadList
+      },
+      {
+        path: '/ranking',
+        name: RouteNames.ROOT.RANKING.__LANDING__,
+        component: Ranking,
       }
     ]
   }

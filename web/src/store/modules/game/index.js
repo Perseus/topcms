@@ -13,6 +13,10 @@ function getInitialState() {
     areServerRatesFetched: true,
     isUpdatingServerRates: false,
     serverRates: {},
+    isRetrievingPlayerRanking: false,
+    isRetrievingGuildRanking: false,
+    playerRanking: [],
+    guildRanking: [],
   };
 }
 

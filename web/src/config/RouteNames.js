@@ -9,6 +9,9 @@ const RouteNames = {
     },
     DOWNLOAD: {
       LIST: 'ROOT.DOWNLOADS.LIST',
+    },
+    RANKING: {
+      __LANDING__: 'ROOT.RANKING.__LANDING__',
     }
   },
   AUTH: {

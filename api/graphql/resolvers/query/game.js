@@ -1,8 +1,9 @@
 import sequelize from 'sequelize';
 import path from 'path';
-import { promises } from 'fs';
+import { promises, access } from 'fs';
 
 import { AccountServer, GameDB } from '../../../database/models';
+import { GeneralConfig } from '../../../config';
 
 export async function gameStats( object, args, context, info ) {
   try {
@@ -76,11 +77,72 @@ export async function staffStatuses() {
 
 export async function serverRateInfo() {
   try {
-    const configFile = await promises.readFile( path.join( __dirname, '..', '..', '..', 'config', 'config.json' ), 'utf8' );
+    const configFile = await promises.readFile( path.join( __dirname, '..', '..', '..', 'config', 'interactableConfig.json' ), 'utf8' );
     const serverRates = JSON.parse( configFile ).rates;
 
     return serverRates;
   } catch ( err ) {
-    console.log( err );
+    return err;
+  }
+}
+
+export async function playerRankings( object, args ) {
+  try {
+    const { filter } = args;
+    let validAccounts = await AccountServer.User.getAllUnbannedAccounts();
+
+    // if admin accounts need to be filtered out from the rankings
+
+    if ( !GeneralConfig.INCLUDE_ADMIN_IN_RANKING ) {
+      // get the access level of each account
+      let promises = [];
+      validAccounts.forEach( ( account ) => {
+        const promise = new Promise( ( resolve, reject ) => {
+          account.getAccessLevel( GameDB.Account ).then( ( result ) => {
+            account.accessLevels = result;
+            resolve();
+          } );
+        } );
+
+        promises.push( promise );
+      } );
+
+     await Promise.all( promises );
+
+      validAccounts = validAccounts.filter( ( account ) => {
+        if ( account.accessLevels.includes( GeneralConfig.ADMIN_LEVELS.ADMIN ) ||  account.accessLevels.includes( GeneralConfig.ADMIN_LEVELS.HD ) ) {
+          return false;
+        }
+
+        return true;
+      } );
+    }
+
+    validAccounts = validAccounts.map( ( account ) => account.id );
+
+    let orderParam = '';
+    if ( filter === 'gold' ) {
+      orderParam = 'gd';
+    } else if ( filter === 'level' ) {
+      orderParam = 'degree';
+    }
+
+    const characters = await GameDB.Character.findAll( { 
+      where: {
+        act_id: {
+          [ sequelize.Op.in ]: validAccounts
+        },
+      },
+      order: [
+        [ orderParam, 'DESC' ]
+      ],
+      include: [ { model: GameDB.Guild, as: 'guild' } ]
+    } );
+
+    console.log( characters[ 0 ].guild );
+    return characters.splice( 0, GeneralConfig.MAXIMUM_RANKING_ITEMS );
+
+  } catch ( err ) {
+    return err;
   }
 }

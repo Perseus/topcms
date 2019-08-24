@@ -5,7 +5,7 @@ import { promises } from 'fs';
 export async function updateServerRates( context, args ) {
   try {
     const { rates: { solo, party, drop, ship, fairy } } = args;
-    const configFile = await promises.readFile( path.join( __dirname, '..', '..', '..', 'config', 'config.json' ), 'utf8' );
+    const configFile = await promises.readFile( path.join( __dirname, '..', '..', '..', 'config', 'interactableConfig.json' ), 'utf8' );
     const currentServerRates = JSON.parse( configFile );
     
     currentServerRates.rates = {
@@ -16,7 +16,7 @@ export async function updateServerRates( context, args ) {
       fairy: fairy ? fairy : currentServerRates.fairy
     };
     
-    await promises.writeFile( path.join( __dirname, '..', '..', '..', 'config', 'config.json' ), JSON.stringify( currentServerRates, null, 2 ) );
+    await promises.writeFile( path.join( __dirname, '..', '..', '..', 'config', 'interactableConfig.json' ), JSON.stringify( currentServerRates, null, 2 ) );
     return currentServerRates.rates;
   } catch ( err ) {
     return err;
