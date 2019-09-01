@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import VeeValidate from 'vee-validate';
 import VueFroala from 'vue-froala-wysiwyg';
+import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
 
 import AppBootstrapper from './containers/AppBootstrapper.vue';
 import router from './router/router';
@@ -28,3 +30,11 @@ new Vue( {
   apolloProvider,
   render: h => h( AppBootstrapper ),
 } ).$mount( '#app' );
+
+/**
+ * I use this to get logs for any errors that occur in the application (helps me debug). If you don't want this, just remove it.
+ */
+Sentry.init( {
+  dsn: 'https://b1bb5f392e7d493d901ed3f0397f42c4@sentry.io/1340165',
+  integrations: [ new Integrations.Vue( { Vue, attachProps: true } ) ],
+} );

@@ -12,6 +12,14 @@ export default ( sequelize, DataTypes ) => {
     },
     guild_name: {
       type: DataTypes.STRING,
+      get() {
+        const guild_name = this.getDataValue('guild_name');
+        if ( guild_name === 'Navy HQ' ) {
+          return 'N/A';
+        }
+
+        return guild_name;
+      },
     },
     motto: DataTypes.STRING,
     passwd: DataTypes.STRING,

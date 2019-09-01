@@ -5,6 +5,8 @@ import {
   restartWebsockets,
 } from 'vue-cli-plugin-apollo/graphql-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import ErrorLink from '../services/ErrorLink';
+
 // Install the vue plugin
 Vue.use( VueApollo );
 
@@ -31,6 +33,8 @@ const defaultOptions = {
   ssr: false,
 
   cache: new InMemoryCache(),
+
+  link: ErrorLink,
 
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
