@@ -73,6 +73,9 @@ const Mutations = {
       state.downloads[ downloadIndex ].title = payload.title;
       state.downloads[ downloadIndex ].url = payload.url;
       state.downloads[ downloadIndex ].author = payload.author;
+      state.downloads[ downloadIndex ].description = payload.description;
+      state.downloads[ downloadIndex ].version = payload.version;
+      state.downloads[ downloadIndex ].section = payload.section;
     }
 
     if ( payload.type === 'news' ) {

@@ -146,36 +146,40 @@ const Actions = {
 
   async [ ActionTypes.createSiteDownload ] ( { commit }, payload ) {
     try {
-      const { name, link, author } = payload;
+      const {
+        name, link, author, section, description, version
+      } = payload;
       commit( MutationTypes.CREATING_SITE_INFO, { type: 'download' } );
-      try {
-        const response = await apolloClient.mutate( {
-          mutation: createDownloadMutation,
-          variables: {
-            title: name,
-            url: link,
-            author
-          }
-        } );
-        commit( MutationTypes.CREATED_SITE_INFO, { type: 'download', data: response.data.createDownload } );
-        Snackbar.open( {
-          message: 'Download successfully created',
-          type: 'is-success',
-          position: 'is-top',
-          duration: 2000,
-        } );
-      } catch ( err ) {
-        Logger.log( `error at createSiteDownload: ${err}` );
-      }
+
+      const response = await apolloClient.mutate( {
+        mutation: createDownloadMutation,
+        variables: {
+          title: name,
+          url: link,
+          author,
+          section,
+          description,
+          version,
+        }
+      } );
+
+      commit( MutationTypes.CREATED_SITE_INFO, { type: 'download', data: response.data.createDownload } );
+      Snackbar.open( {
+        message: 'Download successfully created',
+        type: 'is-success',
+        position: 'is-top',
+        duration: 2000,
+      } );
     } catch ( err ) {
       Logger.log( `error at createSiteDownload: ${err}`, 'error' );
+      commit( MutationTypes.CREATED_SITE_INFO, { hasError: true, error: err, type: 'download' } );
     }
   },
 
   async [ ActionTypes.updateSiteDownload ] ( { commit }, payload ) {
     try {
       const {
-        id, title, author, url
+        id, title, author, url, section, description, version
       } = payload;
 
       commit( MutationTypes.UPDATING_SITE_INFO, { type: 'download' } );
@@ -186,7 +190,10 @@ const Actions = {
           id,
           title,
           author: author.id,
-          url
+          url,
+          section,
+          description,
+          version,
         }
       } );
 
@@ -198,10 +205,13 @@ const Actions = {
       } );
 
       commit( MutationTypes.UPDATED_SITE_INFO, {
-        type: 'download', id, title, url, author: response.data.editDownload.author
+        type: 'download', id, title, url, author: response.data.editDownload.author, section, description, version,
       } );
     } catch ( err ) {
       Logger.log( `Error at ${ActionTypes.updateSiteDownload} action: ${err}` );
+      commit( MutationTypes.UPDATED_SITE_INFO, {
+        type: 'download', hasError: true, error: err
+      } );
     }
   },
 

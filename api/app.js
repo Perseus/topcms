@@ -26,7 +26,7 @@ const server = new ApolloServer( {
   context: authMiddleware
 } );
 
-const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', 'http://localhost:5000', 'http://192.168.1.16:5000', 'http://26.104.18.71:8080' ];
+const urlWhitelist = [ 'http://localhost', 'http://localhost:8080' ];
 
 const corsOptions = {
   credentials: true,
@@ -43,6 +43,7 @@ const corsOptions = {
 
   }
 };
+
 const apiPath = "/graphql";
 
 app.use( '/assets', express.static( 'dist/assets' ) );

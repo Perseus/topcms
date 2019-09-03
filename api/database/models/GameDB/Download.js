@@ -8,6 +8,9 @@ module.exports = ( sequelize, DataTypes ) => {
     },
     title: DataTypes.STRING,
     url: DataTypes.STRING,
+    section: DataTypes.STRING,
+    version: DataTypes.STRING,
+    description: DataTypes.TEXT,
   }, {} );
 
   Download.associate = function( models ) {

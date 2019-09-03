@@ -14,6 +14,15 @@ module.exports = {
       url: {
         type: Sequelize.STRING
       },
+      section: {
+        type: Sequelize.STRING,
+      },
+      version: {
+        type: Sequelize.STRING,
+      },
+      description: {
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

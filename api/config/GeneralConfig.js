@@ -10,5 +10,7 @@ export const GeneralConfig = {
   ADMIN_LEVELS: {
     ADMIN: 'ADMIN',
     HD: 'SITE',
-  }
+  },
+
+  DOWNLOAD_SECTIONS: [ 'Client', 'Patch', 'Other' ],
 };

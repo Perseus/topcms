@@ -1,6 +1,7 @@
 import { AccountServer, GameDB } from '../../../database/models/index';
 import { UserInputError } from 'apollo-server';
 import { composeGraphQLError } from '../../../helpers/errorHandler';
+import { GeneralConfig } from '../../../config';
 
 export async function createAuthor( object, args, context, info ) {
   const { name } = args;
@@ -55,29 +56,43 @@ export async function deleteAuthor( object, args, context, info ) {
 }
 
 export async function createDownload( object, args, context, info ) {
-  const { title, url, author } = args;
+  const { title, url, author, version, section, description } = args;
+  
+  if ( !GeneralConfig.DOWNLOAD_SECTIONS.includes( section ) ) {
+    throw new UserInputError( 'Invalid download section' );
+  }
 
   try {
     const createdDownload = await GameDB.Download.create( {
       title,
       url,
+      version,
+      section,
+      description,
       author_id: author,
     } );
     createdDownload.author = await createdDownload.getAuthor();
     return createdDownload;
   } catch ( err ) {
     err = composeGraphQLError( err, 'download', 'create' );
-    throw new  UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
+    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ err ] } );
   }
 }
 
 export async function editDownload( object, args, context, info ) {
-  const { id, title, url, author } = args;
+  const { id, title, url, author, version, section, description } = args;
+
+  if ( !GeneralConfig.DOWNLOAD_SECTIONS.includes( section ) ) {
+    throw new UserInputError( 'Invalid download section' );
+  }
 
   try {
     const downloadUpdated = await GameDB.Download.update( {
       title,
       url,
+      version,
+      section,
+      description,
       author_id: author
     }, { 
       where: {

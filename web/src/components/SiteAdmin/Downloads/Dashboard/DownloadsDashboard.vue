@@ -8,6 +8,8 @@
         <b-table-column field="id" label="ID" width="40" numeric>{{ props.row.id }}</b-table-column>
         <b-table-column field="Title" label="Title">{{ props.row.title }}</b-table-column>
         <b-table-column field="url" label="Link">{{ props.row.url }}</b-table-column>
+        <b-table-column field="Section" label="Section">{{ props.row.section }}</b-table-column>
+        <b-table-column field="Version" label="Version">{{ props.row.version }}</b-table-column>
         <b-table-column
           field="createdAt"
           label="Created At"

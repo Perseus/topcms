@@ -71,7 +71,6 @@ const Actions = {
       } );
     } catch ( err ) {
       const error = extractGraphQLErrors( err );
-      Logger.log( error );
     }
   },
 
