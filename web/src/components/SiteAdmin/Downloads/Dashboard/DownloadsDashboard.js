@@ -93,12 +93,8 @@ const DownloadsDashboard = {
     handleCloseEditModal() {
       this.$emit( 'closeDownloadEditModal' );
     },
-    handleEditDownload( {
-      id, title, author, url
-    } ) {
-      this.$emit( 'editDownload', {
-        id, title, author, url
-      } );
+    handleEditDownload( downloadDetails ) {
+      this.$emit( 'editDownload', downloadDetails );
     },
   }
 };

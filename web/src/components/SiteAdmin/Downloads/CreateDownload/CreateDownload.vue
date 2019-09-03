@@ -1,11 +1,15 @@
 <template>
   <form @submit.prevent="handleCreateDownload">
-    <div class="modal-card" style="width: auto">
+    <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Create Download</p>
       </header>
       <section class="modal-card-body">
-        <b-field label="Name">
+        <b-field
+          label="Name"
+          :type="{ 'is-danger': errors.has('name') }"
+          :message="errors.first('name')"
+        >
           <b-input
             type="text"
             :value="name"
@@ -16,7 +20,12 @@
             required
           ></b-input>
         </b-field>
-        <b-field label="URL">
+
+        <b-field
+          label="URL"
+          :type="{ 'is-danger': errors.has('link') }"
+          :message="errors.first('link')"
+        >
           <b-input
             type="text"
             :value="link"
@@ -27,7 +36,53 @@
             required
           ></b-input>
         </b-field>
-        <b-field label="Author">
+
+        <b-field
+          label="Description"
+          :type="{ 'is-danger': errors.has('description') }"
+          :message="errors.first('description')"
+        >
+          <froala
+            id="edit"
+            :tag="'textarea'"
+            v-validate="'required'"
+            name="description"
+            v-model="description"
+          ></froala>
+        </b-field>
+
+        <b-field label="Section">
+          <b-dropdown v-model="section" aria-role="list">
+            <button class="button is-primary" type="button" slot="trigger">
+              <span>{{ section }}</span>
+              <b-icon icon="caret-down" size="is-small"></b-icon>
+            </button>
+            <b-dropdown-item
+              v-for="(downloadSection, index) in downloadSections"
+              :key="index"
+              :value="downloadSection"
+              aria-role="listitem"
+            >{{downloadSection }}</b-dropdown-item>
+          </b-dropdown>
+        </b-field>
+
+        <b-field
+          label="Version"
+          :type="{ 'is-danger': errors.has('version') }"
+          :message="errors.first('version')"
+        >
+          <b-input
+            type="text"
+            :value="version"
+            name="version"
+            v-validate="{ required: true }"
+            placeholder="Download Version"
+            v-model="version"
+            required
+          ></b-input>
+        </b-field>
+
+        <b-field label="Author" class="select-author">
           <h3
             class="is-size-6 has-text-danger"
             v-if="authors.length === 0"
@@ -63,6 +118,8 @@
 
 
 <script>
+import GeneralConfig from "../../../../config/GeneralConfig";
+
 export default {
   name: "admin-create-download",
   props: {
@@ -83,28 +140,46 @@ export default {
     return {
       name: "",
       link: "",
-      author: ""
+      author: "",
+      description: "",
+      version: "",
+      section: "Client"
     };
+  },
+  computed: {
+    currentAuthorDetails() {
+      return _.find(this.authors, { id: this.author });
+    },
+
+    downloadSections() {
+      return GeneralConfig.DOWNLOAD_SECTIONS;
+    }
   },
   created() {
     this.author = this.authors[0] ? this.authors[0].id : "";
   },
   methods: {
-    handleCreateDownload() {
-      if ( this.name === '' || this.link === '' || this.author === '' ) {
+    async handleCreateDownload() {
+      const didFormValidationSucceed = await this.$validator.validateAll();
+      if (!didFormValidationSucceed) {
         return;
       }
+
       this.$emit("createDownload", {
         name: this.name,
         link: this.link,
-        author: this.author
+        author: this.author,
+        description: this.description,
+        version: this.version,
+        section: this.section
       });
-    }
-  },
-  computed: {
-    currentAuthorDetails() {
-      return _.find(this.authors, { id: this.author });
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.select-author {
+  margin-bottom: 20px;
+}
+</style>

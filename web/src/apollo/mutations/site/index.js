@@ -28,11 +28,14 @@ export const deleteAuthorMutation = gql`
 `;
 
 export const createDownloadMutation = gql`
-    mutation createDownload($title: String!, $url: String!, $author: Int!) {
-        createDownload(title: $title, url: $url, author: $author) {
+    mutation createDownload($title: String!, $url: String!, $author: Int!, $section: String!, $description: String!, $version: String!) {
+        createDownload(title: $title, url: $url, author: $author, section: $section, description: $description, version: $version) {
             id
             title
             url
+            description
+            version
+            section
             createdAt
             author {
                 id
@@ -43,11 +46,14 @@ export const createDownloadMutation = gql`
 `;
 
 export const editDownloadMutation = gql`
-    mutation editDownload($id: Int!, $title: String!, $url: String!, $author: Int!) {
-        editDownload(id: $id, title: $title, url: $url, author: $author) {
+    mutation editDownload($id: Int!, $title: String!, $url: String!, $author: Int!, $section: String!, $description: String!, $version: String!) {
+        editDownload(id: $id, title: $title, url: $url, author: $author, section: $section, description: $description, version: $version) {
             id
             title
             url
+            description
+            version
+            section
             createdAt
             author {
                 id

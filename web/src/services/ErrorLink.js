@@ -1,5 +1,8 @@
 import { onError } from 'apollo-link-error';
+import { Snackbar } from 'buefy/dist/components/snackbar';
+
 import Logger from './Logger';
+
 
 export default onError( ( {
   graphQLErrors, networkError, operation, forward
@@ -8,5 +11,25 @@ export default onError( ( {
     for ( const err of graphQLErrors ) {
       Logger.log( `${err.extensions.code} - ${err.message}`, 'error' );
     }
+
+    if ( graphQLErrors[ 0 ] && graphQLErrors.length === 1 && graphQLErrors[ 0 ].extensions.code === 'UNAUTHENTICATED' ) {
+      return;
+    }
+
+    Snackbar.open( {
+      duration: 2000,
+      message: 'Something went wrong! Please try again.',
+      position: 'is-bottom',
+      type: 'is-error',
+    } );
+  } else {
+    Snackbar.open( {
+      duration: 2000,
+      message: 'Something went wrong! Please try again.',
+      position: 'is-bottom',
+      type: 'is-error',
+    } );
   }
+
+  forward( operation );
 } );

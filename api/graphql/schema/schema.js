@@ -67,9 +67,13 @@ const typeDefs = gql `
     id: Int
     title: String
     url: String
+    section: String
+    version: String
+    description: String
     createdAt: String
     updatedAt: String
     author: Author
+    traits: [String]
   }
 
   type Poll {
@@ -166,11 +170,11 @@ const typeDefs = gql `
     logoutUser: User
     createAuthor(name: String!): Author @isAuthenticated(role: SITE)
     createNewsArticle(input: NewsArticleInput!): NewsArticle @isAuthenticated(role: SITE) 
-    createDownload(title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE)
+    createDownload(title: String!, url: String!, author: Int!, section: String!, description: String!, version: String!): Download @isAuthenticated(role: SITE)
     createPoll(title: String!, options: String!, author: Int!): Poll @isAuthenticated(role: SITE)
     editAuthor(id: Int!, name: String!): Author @isAuthenticated(role: SITE)
     editNewsArticle(input: NewsArticleInput!): NewsArticle @isAuthenticated(role: SITE)
-    editDownload(id: Int!, title: String!, url: String!, author: Int!): Download @isAuthenticated(role: SITE) 
+    editDownload(id: Int!, title: String!, url: String!, author: Int!, section: String!, description: String!, version: String!): Download @isAuthenticated(role: SITE) 
     deleteAuthor(id: Int!): Author @isAuthenticated(role: SITE)
     deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
     deleteNewsArticle(id: Int!): NewsArticle @isAuthenticated(role: SITE)

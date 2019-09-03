@@ -16,6 +16,9 @@ export const getDownloadsQuery = gql`
             id
             title
             url
+            section
+            description
+            version
             author {
                 id
                 name

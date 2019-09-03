@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleEditDownload">
-    <div class="modal-card" style="width: auto">
+    <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Edit Download</p>
       </header>
@@ -16,6 +16,7 @@
             required
           ></b-input>
         </b-field>
+
         <b-field label="URL">
           <b-input
             type="text"
@@ -27,7 +28,53 @@
             required
           ></b-input>
         </b-field>
-        <b-field label="Author">
+
+        <b-field
+          label="Description"
+          :type="{ 'is-danger': errors.has('description') }"
+          :message="errors.first('description')"
+        >
+          <froala
+            id="edit"
+            :tag="'textarea'"
+            v-validate="'required'"
+            name="description"
+            v-model="description"
+          ></froala>
+        </b-field>
+
+        <b-field label="Section">
+          <b-dropdown v-model="section" aria-role="list">
+            <button class="button is-primary" type="button" slot="trigger">
+              <span>{{ section }}</span>
+              <b-icon icon="caret-down" size="is-small"></b-icon>
+            </button>
+            <b-dropdown-item
+              v-for="(downloadSection, index) in downloadSections"
+              :key="index"
+              :value="downloadSection"
+              aria-role="listitem"
+            >{{downloadSection }}</b-dropdown-item>
+          </b-dropdown>
+        </b-field>
+
+        <b-field
+          label="Version"
+          :type="{ 'is-danger': errors.has('version') }"
+          :message="errors.first('version')"
+        >
+          <b-input
+            type="text"
+            :value="version"
+            name="version"
+            v-validate="{ required: true }"
+            placeholder="Download Version"
+            v-model="version"
+            required
+          ></b-input>
+        </b-field>
+
+        <b-field label="Author" class="select-author">
           <h3
             class="is-size-6 has-text-danger"
             v-if="authors.length === 0"
@@ -63,6 +110,8 @@
 
 
 <script>
+import GeneralConfig from "../../../../config/GeneralConfig";
+
 export default {
   name: "edit-download-modal",
   props: {
@@ -88,9 +137,19 @@ export default {
       id: "",
       title: "",
       author: "",
-      url: ""
+      url: "",
+      description: "",
+      version: "",
+      section: "Client"
     };
   },
+
+  computed: {
+    downloadSections() {
+      return GeneralConfig.DOWNLOAD_SECTIONS;
+    }
+  },
+
   created() {
     this.id = this.downloadDetails.id;
     this.title = this.downloadDetails.title;
@@ -98,6 +157,9 @@ export default {
       author => author.id === this.downloadDetails.author.id
     )[0];
     this.url = this.downloadDetails.url;
+    this.description = this.downloadDetails.description;
+    this.version = this.downloadDetails.version;
+    this.section = this.downloadDetails.section;
   },
   methods: {
     handleEditDownload() {
@@ -108,9 +170,18 @@ export default {
         id: this.id,
         title: this.title,
         author: this.author,
-        url: this.url
+        url: this.url,
+        version: this.version,
+        section: this.section,
+        description: this.description
       });
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.select-author {
+  margin-bottom: 20px;
+}
+</style>

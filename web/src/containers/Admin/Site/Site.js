@@ -155,12 +155,8 @@ const Site = {
       this.shouldShowEditDownloadModal = false;
     },
 
-    handleEditDownload( {
-      id, title, author, url
-    } ) {
-      this.editDownload( {
-        id, title, author, url
-      } );
+    handleEditDownload( downloadDetails ) {
+      this.editDownload( downloadDetails );
     },
 
     deleteNewsArticle( articleId ) {

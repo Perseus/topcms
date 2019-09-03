@@ -10,3 +10,46 @@
   align-self: center;
   margin-right: 10px;
 }
+
+.card {
+  margin-bottom: 2rem;
+}
+
+.download-version {
+  margin-right: .5rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+
+.card-content {
+  margin-bottom: 10px;
+}
+
+.download-source-icon {
+  max-height: 55px;
+  max-width: 55px;
+  flex-shrink: 0;
+}
+
+.download-section-header {
+  width: 100%;
+  border: 2px solid #7957d5;
+  padding: 1rem;
+  box-sizing: border-box;
+  color: #7957d5;
+  // border-radius: 4px;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.download-section-body {
+  border: 1px solid #efefef;
+  padding: 2rem;
+}
