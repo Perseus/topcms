@@ -14,3 +14,4 @@ web/.vscode/*
 api/package-lock.json
 api/database/config/config.json
 web/.env
+api/doc
