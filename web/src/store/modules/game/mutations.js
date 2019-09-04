@@ -46,6 +46,15 @@ const Mutations = {
   [ MutationTypes.RETRIEVED_PLAYER_RANKING ] ( state, payload ) {
     state.isRetrievingPlayerRanking = false;
     state.playerRanking = payload.playerRanking;
+  },
+
+  [ MutationTypes.RETRIEVING_GUILD_RANKING ] ( state ) {
+    state.isRetrievingGuildRanking = true;
+  },
+
+  [ MutationTypes.RETRIEVED_GUILD_RANKING ] ( state, payload ) {
+    state.isRetrievingGuildRanking = false;
+    state.guildRanking = payload.guildRanking;
   }
 };
 

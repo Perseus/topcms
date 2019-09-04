@@ -47,3 +47,16 @@ export const getPlayerRanking = gql`
       }
     }
 `;
+
+
+export const getGuildRanking = gql`
+    query guildRanking($filter: String!) {
+        guildRankings(filter: $filter) {
+            guild_name
+            leader {
+                cha_name
+            }
+            member_total
+        }
+    }
+`;
