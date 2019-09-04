@@ -4,7 +4,7 @@ import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 import { apolloClient } from '../../../apollo';
 import {
-  getGameStatsQuery, getStaffOnlineStatusQuery, getServerRatesQuery, getPlayerRanking
+  getGameStatsQuery, getStaffOnlineStatusQuery, getServerRatesQuery, getPlayerRanking, getGuildRanking
 } from '../../../apollo/queries/admin/game';
 import { updateServerRatesMutation } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
@@ -102,15 +102,17 @@ const Actions = {
 
   async [ ActionTypes.retrieveGuildRanking ] ( { commit } ) {
     try {
+      commit( MutationTypes.RETRIEVING_GUILD_RANKING );
+      const response = await apolloClient.query( {
+        query: getGuildRanking,
+        variables: {
+          filter: 'FILTER'
+        }
+      } );
 
+      commit( MutationTypes.RETRIEVED_GUILD_RANKING, { guildRanking: response.data.guildRankings } );
     } catch ( err ) {
       Logger.log( `Error at action retrieveGuildRanking: ${err} ` );
-      Snackbar.open( {
-        duration: 5000,
-        message: 'There was an error while trying to fetch guild ranking',
-        position: 'is-bottom',
-        type: 'is-danger',
-      } );
     }
   }
 };

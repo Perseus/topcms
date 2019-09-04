@@ -117,6 +117,12 @@ const typeDefs = gql `
     guild: Guild
   }
 
+  type Character {
+    cha_id: Int
+    cha_name: String
+    guild_id: Int
+  }
+
   type NewsFeed {
     offset: Int
     articles: [NewsArticle]!
@@ -145,6 +151,12 @@ const typeDefs = gql `
     is_online: String
   }
 
+  type GuildRankingItem {
+    guild_name: String
+    leader: Character
+    member_total: Int
+  }
+
 
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
@@ -162,6 +174,7 @@ const typeDefs = gql `
     staffStatuses: [StaffStatus]
     serverRateInfo: ServerRateInfo
     playerRankings(filter: String!): [CharacterRankingItem]
+    guildRankings(filter: String!): [GuildRankingItem]
   }
 
   type Mutation {

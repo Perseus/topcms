@@ -146,3 +146,25 @@ export async function playerRankings( object, args ) {
     return err;
   }
 }
+
+export async function guildRankings( object, args ) {
+  try {
+    const { filter } = args;
+  
+    const guilds = await GameDB.Guild.findAll( {
+      where: {
+        leader_id: {
+          [ sequelize.Op.ne ]: 0,
+        }
+      },
+      order: [
+        [ 'member_total', 'DESC' ],
+      ],
+      include: [ { model: GameDB.Character, as: 'leader' } ]
+    } );
+
+    return guilds;
+  } catch ( err ) {
+    return err;
+  }
+}

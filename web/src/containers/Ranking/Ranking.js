@@ -12,6 +12,7 @@ const RankingPage = {
 
   created() {
     this.retrievePlayerRanking( { filter: 'gold' } );
+    this.retrieveGuildRanking();
   },
 
   watch: {
@@ -38,6 +39,7 @@ const RankingPage = {
 function mapMethodsToActions() {
   return mapActions( {
     retrievePlayerRanking: ActionTypes.retrievePlayerRanking,
+    retrieveGuildRanking: ActionTypes.retrieveGuildRanking,
   } );
 }
 
@@ -45,6 +47,8 @@ function mapStateToComputed() {
   return mapState( {
     playerRanking: state => state.game.playerRanking,
     isRetrievingPlayerRanking: state => state.game.isRetrievingPlayerRanking,
+    guildRanking: state => state.game.guildRanking,
+    isRetrievingGuildRanking: state => state.game.isRetrievingGuildRanking,
   } );
 }
 export default RankingPage;
