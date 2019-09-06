@@ -44,7 +44,7 @@
               <b-icon icon="user" size="is-small"></b-icon>
               <span class="username">{{ username }}</span>
             </a>
-            <b-dropdown-item aria-role="listitem">Account</b-dropdown-item>
+            <b-dropdown-item aria-role="listitem" @click="redirectToUserManagement">Account</b-dropdown-item>
             <b-dropdown-item aria-role="listitem" @click="logout">Logout</b-dropdown-item>
           </b-dropdown>
         </div>

@@ -7,6 +7,7 @@ const ActionTypes = {
   loginUser: 'loginUser',
   retrieveUser: 'retrieveUser',
   logoutUser: 'logoutUser',
+  updateUser: 'updateUser',
 
   setInitialRoute: 'setInitialRoute',
   changeRoute: 'changeRoute',

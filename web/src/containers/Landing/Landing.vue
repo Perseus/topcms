@@ -1,14 +1,6 @@
 <template>
-  <div class="columns">
-    <div class="column is-one-fifths">
-      <sidebar-navigation-container @redirectToPage="redirectToPage"></sidebar-navigation-container>
-      <server-info
-        class="server-info-container"
-        :isLoading="isRetrievingGameStats"
-        :gameStats="gameStats"
-      ></server-info>
-    </div>
-    <div class="column is-three-fifths">
+  <server-detail-structure>
+    <template slot="main-content">
       <section class="news-feed" v-if="areThereAnyNewsArticles">
         <div class="card news-feed-card" v-for="(newsArticle) in newsFeed" :key="newsArticle.id">
           <header class="card-header">
@@ -27,16 +19,8 @@
         <b-button type="is-primary" @click="readAllNewsArticles">View all news articles</b-button>
       </section>
       <b-loading :is-full-page="false" :active.sync="fetchingNewsFeed" :can-cancel="false"></b-loading>
-    </div>
-    <div class="column is-one-fifths">
-      <staff-status-container :staffInfo="GMInfo" :isFetchingStaffInfo="fetchingStaffInfo"></staff-status-container>
-      <server-rates-container
-        class="server-rates-container"
-        :rates="serverRates"
-        :isLoading="fetchingServerRates"
-      ></server-rates-container>
-    </div>
-  </div>
+    </template>
+  </server-detail-structure>
 </template>
 
 

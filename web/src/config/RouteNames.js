@@ -26,6 +26,9 @@ const RouteNames = {
       CREATE: 'ADMIN.NEWS.CREATE',
       EDIT: 'ADMIN.NEWS.EDIT',
     }
+  },
+  USER: {
+    DETAILS: 'USER.DETAILS',
   }
 };
 

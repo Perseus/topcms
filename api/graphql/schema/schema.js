@@ -136,6 +136,13 @@ const typeDefs = gql `
     access_levels: [String]
   }
 
+  input UpdateUserInput {
+    email: String @constraint(format: "email", minLength: 1)
+    old_password: String
+    new_password: String
+  }
+
+
   type User {
     id: ID 
     name: String 
@@ -192,6 +199,7 @@ const typeDefs = gql `
     deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
     deleteNewsArticle(id: Int!): NewsArticle @isAuthenticated(role: SITE)
     updateServerRates(rates: ServerRateInfoInput): ServerRateInfo @isAuthenticated(role: SITE)
+    updateUser(userInfo: UpdateUserInput!): User @isAuthenticated(role: USER)
   }
 
 `;

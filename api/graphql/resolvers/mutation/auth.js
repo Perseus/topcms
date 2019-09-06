@@ -76,4 +76,5 @@ export async function logoutUser( obj, args, context ) {
   } catch ( err ) {
     return err;
   }
+
 }

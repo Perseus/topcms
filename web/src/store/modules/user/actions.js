@@ -1,3 +1,5 @@
+import { Snackbar } from 'buefy/dist/components/snackbar';
+
 import MutationTypes from '../../types/MutationTypes';
 import ActionTypes from '../../types/ActionTypes';
 import { apolloClient } from '../../../apollo';
@@ -82,6 +84,19 @@ const Actions = {
       window.location.reload();
     } catch ( err ) {
       Logger.log( `Error at logoutUser: ${err} ` );
+    }
+  },
+
+  async [ ActionTypes.updateUser ] ( { commit }, payload ) {
+    try {
+
+    } catch ( err ) {
+      Snackbar.open( {
+        message: 'There was an error while trying to update your account details',
+        type: 'is-danger',
+        position: 'is-bottom',
+        duration: 4000
+      } );
     }
   }
 };

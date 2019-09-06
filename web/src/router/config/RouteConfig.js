@@ -13,9 +13,11 @@ import NewsContainer from '../../containers/NewsContainer/NewsContainer.vue';
 import NewsList from '../../containers/NewsList/NewsList.vue';
 import DownloadList from '../../containers/DownloadList/DownloadList.vue';
 import Ranking from '../../containers/Ranking/Ranking.vue';
+import UserAccountManagement from '../../containers/UserAccountManagement/UserAccountManagement.vue';
+import AccountDetails from '../../containers/AccountDetails/AccountDetails.vue';
 
 import { RootResolver } from '../resolvers';
-import { adminGuard } from '../guards';
+import { adminGuard, userGuard } from '../guards';
 
 const RouteConfig = [
   {
@@ -65,6 +67,19 @@ const RouteConfig = [
           }
         ],
         beforeEnter: adminGuard
+      },
+      {
+        component: UserAccountManagement,
+        path: '/account',
+        children: [
+          {
+            path: '/',
+            alias: '/details',
+            name: RouteNames.USER.DETAILS,
+            component: AccountDetails,
+          }
+        ],
+        beforeEnter: userGuard,
       },
       {
         path: '/news',
