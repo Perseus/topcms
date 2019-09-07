@@ -22,11 +22,10 @@
     <div id="navbar" class="navbar-menu">
       <div class="navbar-start">
         <a @click.prevent="redirectToLanding" class="navbar-item">Home</a>
-        <a
-          class="navbar-item"
-          @click.prevent="redirectToAdmin"
-          v-if="canAccessSiteAdmin"
-        >Admin Panel</a>
+        <b-navbar-dropdown label="Admin" v-if="canAccessSiteAdmin">
+          <b-navbar-item href="/admin/site">Site Admin</b-navbar-item>
+          <b-navbar-item href="/admin/game">Game Admin</b-navbar-item>
+        </b-navbar-dropdown>
       </div>
 
       <div class="navbar-end">

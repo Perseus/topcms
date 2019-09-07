@@ -47,6 +47,7 @@ const RouteConfig = [
         children: [
           {
             path: '/admin/site',
+            alias: '/',
             name: RouteNames.ADMIN.SITE,
             component: AdminSite,
           },
