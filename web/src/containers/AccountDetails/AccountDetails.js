@@ -29,6 +29,10 @@ const AccountDetails = {
 
       return false;
     },
+
+    isUpdatingUser() {
+      return ( this.requestsInProgress.includes( 'updateUser' ) );
+    },
   },
 
   methods: {
@@ -40,7 +44,7 @@ const AccountDetails = {
       this.userDetails.email = this.user.email;
     },
 
-    async updateUser() {
+    async handleUpdateUser() {
       const didFormValidationSucceed = await this.$validator.validateAll();
 
       if ( !didFormValidationSucceed ) {
@@ -57,6 +61,7 @@ const AccountDetails = {
 function mapComputedToState() {
   return mapState( {
     user: state => state.user,
+    requestsInProgress: state => state.application.currentRequestsInProgress,
   } );
 }
 

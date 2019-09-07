@@ -31,3 +31,12 @@ export const logoutUserMutation = gql`
         }
     }
 `;
+
+export const updateUserMutation = gql`
+    mutation updateUser($userInfo: UpdateUserInput!) {
+        updateUser(userInfo: $userInfo) {
+            name
+            email
+        }
+    }
+`;

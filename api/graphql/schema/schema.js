@@ -137,9 +137,9 @@ const typeDefs = gql `
   }
 
   input UpdateUserInput {
-    email: String @constraint(format: "email", minLength: 1)
-    old_password: String
-    new_password: String
+    email: String @constraint(minLength: 5, format: "email")
+    old_password: String @constraint(minLength: 5)
+    new_password: String @constraint(minLength: 5)
   }
 
 

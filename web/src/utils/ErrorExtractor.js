@@ -37,6 +37,7 @@ export function extractGraphQLErrors( serverResponse ) {
     case 'UNAUTHENTICATED':
       return 'UNAUTHENTICATED';
     default:
+      return errorType;
   }
 }
 

@@ -19,7 +19,17 @@ const Mutations = {
     if ( payload.totalArticles ) {
       state.totalArticles = payload.totalArticles;
     }
-  }
+  },
+
+  [ MutationTypes.UPDATE_REQUESTS_IN_PROGRESS ] ( state, payload ) {
+    if ( payload.type === 'START' ) {
+      state.currentRequestsInProgress.push( payload.name );
+    }
+
+    if ( payload.type === 'COMPLETE' ) {
+      state.currentRequestsInProgress = state.currentRequestsInProgress.filter( request => request !== payload.name );
+    }
+  },
 };
 
 export default Mutations;

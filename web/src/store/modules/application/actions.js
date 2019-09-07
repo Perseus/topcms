@@ -57,6 +57,10 @@ const Actions = {
       Logger.log( `Error at getSiteNewsFeed: ${err} ` );
     }
   },
+
+  [ ActionTypes.updateRequestsInProgress ] ( { commit }, payload ) {
+    commit( MutationTypes.UPDATE_REQUESTS_IN_PROGRESS, payload );
+  }
 };
 
 export default Actions;

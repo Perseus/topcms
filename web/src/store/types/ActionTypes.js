@@ -11,6 +11,7 @@ const ActionTypes = {
 
   setInitialRoute: 'setInitialRoute',
   changeRoute: 'changeRoute',
+  updateRequestsInProgress: 'updateRequestsInProgress',
 
   getServerStats: 'getServerStats',
   getSiteAuthors: 'getSiteAuthors',

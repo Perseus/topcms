@@ -34,7 +34,7 @@ const defaultOptions = {
 
   cache: new InMemoryCache(),
 
-  link: ErrorLink,
+  // link: ErrorLink,
 
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the

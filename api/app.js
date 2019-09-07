@@ -23,7 +23,7 @@ const app = express();
 
 const server = new ApolloServer( {
   schema,
-  context: authMiddleware
+  context: authMiddleware,
 } );
 
 const urlWhitelist = [ 'http://localhost', 'http://localhost:8080' ];

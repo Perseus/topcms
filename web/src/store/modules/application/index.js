@@ -11,6 +11,7 @@ function getInitialState() {
     currentNewsFeedOffset: 0,
     newsFeed: [],
     totalArticles: 0,
+    currentRequestsInProgress: [],
   };
 }
 

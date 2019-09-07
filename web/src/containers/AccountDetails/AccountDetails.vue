@@ -1,11 +1,11 @@
 <template>
-  <div class="user-account-details card">
-    <header class="card-header">
-      <div class="card-header-title">Manage your account</div>
-    </header>
+  <form @submit.prevent="handleUpdateUser">
+    <div class="user-account-details card">
+      <header class="card-header">
+        <div class="card-header-title">Manage your account</div>
+      </header>
 
-    <div class="card-content">
-      <form @submit.prevent>
+      <div class="card-content">
         <div class="form-section">
           <div class="section-title">Account</div>
           <div class="section-fields">
@@ -58,17 +58,22 @@
             </b-field>
           </div>
         </div>
-      </form>
+      </div>
+      <footer class="card-footer">
+        <a
+          class="card-footer-item has-text-grey cancel-btn"
+          @click="resetForm"
+          v-if="shouldShowCancelButton"
+        >Cancel</a>
+        <b-button
+          class="card-footer-item"
+          :loading="isUpdatingUser"
+          type="is-primary"
+          native-type="submit"
+        >Save Changes</b-button>
+      </footer>
     </div>
-    <footer class="card-footer">
-      <a
-        class="card-footer-item has-text-grey cancel-btn"
-        @click="resetForm"
-        v-if="shouldShowCancelButton"
-      >Cancel</a>
-      <b-button class="card-footer-item" type="is-primary" @click="updateUser">Save Changes</b-button>
-    </footer>
-  </div>
+  </form>
 </template>
 
 <script src="./AccountDetails.js"></script>

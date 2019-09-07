@@ -3,7 +3,10 @@ import { Snackbar } from 'buefy/dist/components/snackbar';
 import MutationTypes from '../../types/MutationTypes';
 import ActionTypes from '../../types/ActionTypes';
 import { apolloClient } from '../../../apollo';
-import { registerUserMutation, loginUserMutation, logoutUserMutation } from '../../../apollo/mutations/auth';
+import {
+  registerUserMutation, loginUserMutation, logoutUserMutation, updateUserMutation
+} from '../../../apollo/mutations/auth';
+import { graphQLRequest } from '../../../services/GraphQLRequest';
 import { getCurrentUserQuery } from '../../../apollo/queries/auth';
 import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import Logger from '../../../services/Logger';
@@ -87,12 +90,39 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.updateUser ] ( { commit }, payload ) {
+  async [ ActionTypes.updateUser ] ( { commit, dispatch }, payload ) {
     try {
-
-    } catch ( err ) {
+      const { newPassword: new_password, oldPassword: old_password, email } = payload;
+      const response = await graphQLRequest( dispatch, 'mutation', updateUserMutation, 'updateUser', {
+        userInfo: {
+          new_password,
+          old_password,
+          email
+        }
+      } );
+      commit( MutationTypes.UPDATED_USER, { user: response.data.updateUser } );
       Snackbar.open( {
-        message: 'There was an error while trying to update your account details',
+        message: 'User updated successfully',
+        type: 'is-success',
+        position: 'is-bottom',
+        duration: 4000
+      } );
+
+      dispatch( ActionTypes.changeRoute, { name: RouteNames.ROOT.__LANDING__ } );
+    } catch ( err ) {
+      const error = extractGraphQLErrors( err );
+      if ( error === 'INVALID_OLD_PASSWORD' ) {
+        Snackbar.open( {
+          message: 'The old password is incorrect. Please enter the correct password',
+          type: 'is-danger',
+          position: 'is-bottom',
+          duration: 4000,
+        } );
+        return;
+      }
+
+      Snackbar.open( {
+        message: 'There was an error while trying to update your account details. Please check the details that you have changed.',
         type: 'is-danger',
         position: 'is-bottom',
         duration: 4000
