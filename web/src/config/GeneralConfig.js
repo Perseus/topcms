@@ -24,4 +24,8 @@ export default {
     CHARACTER_NAME: 'Character Name',
     CHARACTER_ID: 'Character ID',
   },
+
+  MODAL_TYPES: {
+    UPDATE_USER_EMAIL: 'UPDATE_USER_EMAIL',
+  }
 };

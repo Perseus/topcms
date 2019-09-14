@@ -1,5 +1,9 @@
 <template>
   <div class="fetched-account-details">
+    <b-modal :active="shouldShowUpdateUserEmailModal" @close="toggleModal" has-modal-card>
+      <update-user-email-modal @handleUpdateEmail="handleUpdateUserEmail"></update-user-email-modal>
+    </b-modal>
+
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">Account Details</p>
@@ -15,7 +19,7 @@
           <div class="detail-value is-size-6 has-text-weight-bold">
             {{ accountData.email }}
             <a
-              @click.prevent
+              @click.prevent="openEmailUpdateModal"
               class="is-size-7 edit-text has-text-weight-normal has-text-link"
             >[Edit]</a>
           </div>

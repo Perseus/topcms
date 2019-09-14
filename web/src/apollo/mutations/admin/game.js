@@ -20,3 +20,13 @@ export const toggleUserBan = gql`
     }
   }
 `;
+
+
+export const updateUserEmail = gql`
+  mutation updateUserEmail($id: ID!, $email: String!) {
+    updateUserEmail(id: $id, email: $email) {
+      id
+      email
+    }
+  }
+`;

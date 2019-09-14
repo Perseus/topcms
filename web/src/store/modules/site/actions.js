@@ -1,4 +1,4 @@
-import { Snackbar } from 'buefy/dist/components/snackbar';
+import { SnackbarProgrammatic as Snackbar } from 'buefy';
 
 import Logger from '../../../services/Logger';
 import MutationTypes from '../../types/MutationTypes';

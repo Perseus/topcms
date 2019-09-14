@@ -26,6 +26,10 @@ const Mutations = {
   [ MutationTypes.SET_FETCHED_ACCOUNT_DATA ] ( state, payload ) {
     const { user } = payload;
     state.retrievedAccountData = user;
+  },
+
+  [ MutationTypes.SET_UPDATED_USER_DATA ] ( state, payload ) {
+    state.retrievedAccountData = Object.assign( {}, state.retrievedAccountData, payload );
   }
 };
 

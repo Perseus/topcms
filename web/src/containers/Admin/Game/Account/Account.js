@@ -3,16 +3,28 @@ import { mapState, mapActions } from 'vuex';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
 import { hasValidJobIcon } from '../../../../utils/CharacterUtils';
+import UpdateUserEmailModal from '../../../../components/GameAdmin/UpdateUserEmailModal/UpdateUserEmailModal.vue';
+import GeneralConfig from '../../../../config/GeneralConfig';
 
 const AdminGameAccount = {
   name: 'admin-game-account-view',
+
+  components: {
+    'update-user-email-modal': UpdateUserEmailModal,
+  },
+
   mounted() {
     if ( !this.accountData || this.accountData === null ) {
       this.changeRoute( { name: RouteNames.ADMIN.GAME.INDEX } );
     }
   },
+
   computed: {
     ...mapComputedToState(),
+
+    shouldShowUpdateUserEmailModal() {
+      return ( Boolean( this.modalState.type ) && this.modalState.type === GeneralConfig.MODAL_TYPES.UPDATE_USER_EMAIL );
+    },
   },
 
   methods: {
@@ -24,6 +36,10 @@ const AdminGameAccount = {
       }
 
       return true;
+    },
+
+    openEmailUpdateModal() {
+      this.toggleModal( { type: GeneralConfig.MODAL_TYPES.UPDATE_USER_EMAIL } );
     },
 
     handleBanForUser( id, currentBan ) {
@@ -41,7 +57,12 @@ const AdminGameAccount = {
         return require( `@/assets/img/chars/${character.icon.toLowerCase()}_${character.job.toLowerCase()}.gif` );
       }
       // eslint-disable-next-line
-      return require( `@/assets/img/chars/unknown.gif` );
+      return require( '@/assets/img/chars/unknown.gif' );
+    },
+
+    async handleUpdateUserEmail( data ) {
+      await this.adminUpdateUserEmail( { email: data.email, id: this.accountData.id } );
+      this.toggleModal();
     }
   }
 };
@@ -50,6 +71,7 @@ const AdminGameAccount = {
 function mapComputedToState() {
   return mapState( {
     accountData: state => state.admin.retrievedAccountData,
+    modalState: state => state.application.modalState,
   } );
 }
 
@@ -57,6 +79,8 @@ function mapMethodsToActions() {
   return mapActions( {
     changeRoute: ActionTypes.changeRoute,
     toggleBanForUser: ActionTypes.toggleBanForUser,
+    toggleModal: ActionTypes.toggleModal,
+    adminUpdateUserEmail: ActionTypes.adminUpdateUserEmail,
   } );
 }
 

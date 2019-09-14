@@ -212,6 +212,7 @@ const typeDefs = gql `
     updateServerRates(rates: ServerRateInfoInput): ServerRateInfo @isAuthenticated(role: SITE)
     updateUser(userInfo: UpdateUserInput!): User @isAuthenticated(role: USER)
     toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
+    updateUserEmail(email: String!, id: ID!): User @isAuthenticated(role: ADMIN)
   }
 
 `;

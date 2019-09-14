@@ -73,3 +73,28 @@ export async function updateUser( obj, args, context ) {
     throw new UserInputError( err );
   }
 }
+
+export async function updateUserEmail(obj, args) {
+  try {
+    const { email, id } = args;
+    
+    const isUserUpdated = await AccountServer.User.update(  {
+      email,
+    }, {
+      where: {
+        id
+      }
+    } );
+
+    if ( isUserUpdated ) {
+      return {
+        email,
+        id
+      };
+    }
+
+    return null;
+  } catch ( err ) {
+    throw new UserInputError( err );
+  }
+}

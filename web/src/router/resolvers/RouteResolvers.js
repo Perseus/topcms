@@ -98,6 +98,7 @@ const RouteResolvers = {
       return true;
     } catch ( err ) {
       console.log( err );
+      return { name: RouteNames.ADMIN.GAME.INDEX };
     }
   },
 };

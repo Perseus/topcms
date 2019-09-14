@@ -12,6 +12,7 @@ const ActionTypes = {
   setInitialRoute: 'setInitialRoute',
   changeRoute: 'changeRoute',
   updateRequestsInProgress: 'updateRequestsInProgress',
+  toggleModal: 'toggleModal',
 
   getServerStats: 'getServerStats',
   getSiteAuthors: 'getSiteAuthors',
@@ -45,6 +46,7 @@ const ActionTypes = {
   retrieveFilteredAccounts: 'retrieveFilteredAccounts',
   toggleBanForUser: 'toggleBanForUser',
   retrieveAccountData: 'retrieveAccountData',
+  adminUpdateUserEmail: 'adminUpdateUserEmail',
 };
 
 export default ActionTypes;

@@ -30,6 +30,12 @@ const Mutations = {
       state.currentRequestsInProgress = state.currentRequestsInProgress.filter( request => request !== payload.name );
     }
   },
+
+  [ MutationTypes.TOGGLE_MODAL ] ( state, payload ) {
+    const { type, options } = payload;
+    state.modalState.type = type || '';
+    state.modalState.options = options || {};
+  }
 };
 
 export default Mutations;
