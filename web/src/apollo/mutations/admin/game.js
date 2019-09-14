@@ -11,3 +11,12 @@ export const updateServerRatesMutation = gql`
     }
   }
 `;
+
+export const toggleUserBan = gql`
+  mutation toggleUserBan($id: Int!, $newBanStatus: Int!) {
+    toggleUserBan(id: $id, newBanStatus: $newBanStatus) {
+      id
+      ban
+    }
+  }
+`;

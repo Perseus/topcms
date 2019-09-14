@@ -41,6 +41,10 @@ const ActionTypes = {
 
   retrievePlayerRanking: 'retrievePlayerRanking',
   retrieveGuildRanking: 'retrieveGuildRanking',
+
+  retrieveFilteredAccounts: 'retrieveFilteredAccounts',
+  toggleBanForUser: 'toggleBanForUser',
+  retrieveAccountData: 'retrieveAccountData',
 };
 
 export default ActionTypes;

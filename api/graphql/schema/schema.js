@@ -120,7 +120,10 @@ const typeDefs = gql `
   type Character {
     cha_id: Int
     cha_name: String
+    icon: String
+    job: String
     guild_id: Int
+    delflag: Int
   }
 
   type NewsFeed {
@@ -144,12 +147,14 @@ const typeDefs = gql `
 
 
   type User {
-    id: ID 
-    name: String 
+    id: ID
+    name: String
     email: String
+    ban: Int
     last_login_ip: String
     last_login_mac: String
     account_details: Account
+    character_details: [Character]
   }
 
   type StaffStatus {
@@ -164,10 +169,15 @@ const typeDefs = gql `
     member_total: Int
   }
 
+  type FilteredUsersItem {
+    users: [User]
+    total: Int
+  }
 
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
+    usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersItem @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
     newsArticles: [NewsArticle]
@@ -182,6 +192,7 @@ const typeDefs = gql `
     serverRateInfo: ServerRateInfo
     playerRankings(filter: String!): [CharacterRankingItem]
     guildRankings(filter: String!): [GuildRankingItem]
+    filteredUser(id: ID!): User @isAuthenticated(role: ADMIN)
   }
 
   type Mutation {
@@ -200,6 +211,7 @@ const typeDefs = gql `
     deleteNewsArticle(id: Int!): NewsArticle @isAuthenticated(role: SITE)
     updateServerRates(rates: ServerRateInfoInput): ServerRateInfo @isAuthenticated(role: SITE)
     updateUser(userInfo: UpdateUserInput!): User @isAuthenticated(role: USER)
+    toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
   }
 
 `;

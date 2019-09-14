@@ -33,7 +33,7 @@ const Register = {
           email: this.email
         } );
       } catch ( err ) {
-        this.$toast.open( {
+        this.$buefy.toast.open( {
           duration: 5000,
           message: `There was an error while trying to register your account.`,
           position: 'is-bottom-right',

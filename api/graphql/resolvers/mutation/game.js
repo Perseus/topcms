@@ -1,6 +1,6 @@
 import path from 'path';
 import { promises } from 'fs';
-
+import { AccountServer } from '../../../database/models';
 
 export async function updateServerRates( context, args ) {
   try {
@@ -18,6 +18,29 @@ export async function updateServerRates( context, args ) {
     
     await promises.writeFile( path.join( __dirname, '..', '..', '..', 'config', 'interactableConfig.json' ), JSON.stringify( currentServerRates, null, 2 ) );
     return currentServerRates.rates;
+  } catch ( err ) {
+    return err;
+  }
+}
+
+export async function toggleUserBan( context, args ) {
+  try {
+    const { id, newBanStatus } = args;
+    await AccountServer.User.update( {
+      ban: newBanStatus,
+    }, {
+      where: {
+        id
+      }
+    } );
+
+    const retrievedUser = await AccountServer.User.findOne( {
+      where: {
+        id
+      }
+    } );
+
+    return retrievedUser;
   } catch ( err ) {
     return err;
   }

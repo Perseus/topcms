@@ -10,4 +10,18 @@ export default {
 
   SHOULD_SHOW_VERSION: true,
   SHOULD_SHOW_DOWNLOAD_SITE_ICON: true,
+
+
+  ACCOUNT_SEARCH_FILTERS: {
+    ACCOUNT_NAME: 'Account Name',
+    IP_ADDRESS: 'IP Address',
+    MAC_ADDRESS: 'Mac Address',
+    ACCOUNT_ID: 'Account ID',
+  },
+
+  CHARACTER_SEARCH_FILTERS: {
+    ACCOUNT_NAME: 'Account Name',
+    CHARACTER_NAME: 'Character Name',
+    CHARACTER_ID: 'Character ID',
+  },
 };

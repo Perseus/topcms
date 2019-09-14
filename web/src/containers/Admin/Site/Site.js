@@ -68,7 +68,7 @@ const Site = {
 
     authorDeletingError( newVal ) {
       if ( newVal.code && newVal.code === 'FOREIGN_KEY_CONSTRAINT_ERROR' ) {
-        this.$toast.open( {
+        this.$buefy.toast.open( {
           duration: 5000,
           message: 'There are news articles/downloads depending on this author. Please delete those before deleting this author.',
           position: 'is-bottom-right',

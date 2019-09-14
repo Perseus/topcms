@@ -19,7 +19,7 @@ const Login = {
         const errors = newVal;
         errors.forEach( ( error ) => {
           if ( error.code === 'INCORRECT_CREDENTIALS' ) {
-            this.$toast.open( {
+            this.$buefy.toast.open( {
               duration: 3000,
               message: 'The username or the password is incorrect',
               position: 'is-top',
@@ -52,7 +52,7 @@ const Login = {
         } );
       } catch ( err ) {
         const errorMessage = process.env.NODE_ENV === 'development' ? err : 'There was an error while trying to login.';
-        this.$toast.open( {
+        this.$buefy.toast.open( {
           duration: 5000,
           message: errorMessage,
           position: 'is-bottom-right',

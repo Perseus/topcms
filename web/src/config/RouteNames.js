@@ -20,7 +20,11 @@ const RouteNames = {
   },
   ADMIN: {
     DASHBOARD: 'ADMIN.DASHBOARD',
-    GAME: 'ADMIN.GAME',
+    GAME: {
+      INDEX: 'ADMIN.GAME.INDEX',
+      ACCOUNTS: 'ADMIN.GAME.ACCOUNTS',
+      ACCOUNT: 'ADMIN.GAME.ACCOUNT',
+    },
     SITE: 'ADMIN.SITE',
     NEWS: {
       CREATE: 'ADMIN.NEWS.CREATE',

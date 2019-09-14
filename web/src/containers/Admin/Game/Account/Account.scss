@@ -1,0 +1,52 @@
+.fetched-account-details {
+  display: flex;
+  justify-content: center;
+}
+
+.account-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 40px;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 12px;
+  }
+}
+
+.detail-value {
+  display: flex;
+  align-items: center;
+}
+
+.edit-text {
+  margin-left: 10px;
+}
+
+.character-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.character-section {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.character-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

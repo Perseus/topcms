@@ -50,7 +50,7 @@ const NewsEdit = {
         } );
       } catch ( err ) {
         const errorMessage = process.env.NODE_ENV === 'development' ? err : 'There was an error while trying to create a news article.';
-        this.$toast.open( {
+        this.$buefy.toast.open( {
           duration: 5000,
           message: errorMessage,
           position: 'is-bottom-right',
