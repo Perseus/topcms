@@ -1,5 +1,7 @@
 import { AccountServer, GameDB } from '../../../database/models/index';
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, UserInputError } from 'apollo-server';
+import { GeneralConfig } from '../../../config';
+import sequelize from 'sequelize';
 
 export async function users( object, args, context, info ) {
   const users = await AccountServer.User.findAll();
@@ -24,6 +26,86 @@ export async function logout( object, args, context, info ) {
   try {
     context.res.clearCookie( '_sid' );
     return 'LOGOUT_SUCCESS';
+  } catch ( err ) {
+    return err;
+  }
+}
+
+
+export async function usersWithFilter( object, args, context ) {
+  try {
+    const { filter, searchKey } = args;
+    let { offset, limit } = args;
+    
+    if ( !offset ) {
+      offset = 0;    
+    }
+
+    if ( !limit ) {
+      limit = 10;
+    }
+
+    const filterTableMapper = GeneralConfig.ACCOUNT_SEARCH_FILTERS[ filter ];
+
+    // TODO: combine these queries
+    if ( searchKey ) {
+      const users = await AccountServer.User.findAll( {
+        where: {
+          [ filterTableMapper ]: {
+            [ sequelize.Op.like ]: `%${searchKey}%`,
+          }
+        },
+        offset,
+        limit
+      } );
+      const totalUsersQuery = await AccountServer.User.findAll( {
+        attributes: 
+        [
+          [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
+        ],
+        where: {
+          [ filterTableMapper ]: {
+            [ sequelize.Op.like ]: `%${searchKey}%`,
+          }
+        }
+      } );
+
+      return {
+        users,
+        total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
+      };
+    } else {
+      const users = await AccountServer.User.findAll( {
+        offset,
+        limit
+      } );
+
+      const totalUsersQuery = await AccountServer.User.findAll( {
+        attributes: 
+        [
+          [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
+        ]
+  
+      } );
+      
+      return {
+        users,
+        total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
+      };
+    }
+
+  } catch ( err ) {
+    return new UserInputError( err );
+  }
+}
+
+export async function filteredUser( object, args ) {
+  try {
+    const { id } = args;
+    const user = AccountServer.User.findOne( {
+      where: { id }
+    } );
+    return user;
   } catch ( err ) {
     return err;
   }

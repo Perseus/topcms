@@ -1,6 +1,6 @@
 'use strict'
 import { isUnique } from '../../validators/validators';
-import { JobTypes } from '../../../config';
+import { JobTypes, CharacterModelTypes } from '../../../config';
 
 export default ( sequelize, DataTypes ) => {
   const Character = sequelize.define( 'Character', {
@@ -26,6 +26,17 @@ export default ( sequelize, DataTypes ) => {
         return retrievedJob;
       }
     },
+    icon: {
+      type: DataTypes.INTEGER,
+      get() {
+        const retrievedIcon = this.getDataValue( 'icon' );
+        if ( CharacterModelTypes[ retrievedIcon ] ) {
+          return CharacterModelTypes[ retrievedIcon ];
+        }
+
+        return retrievedIcon;
+      },
+    },
     degree: DataTypes.DECIMAL,
     exp: DataTypes.DECIMAL,
     hp: DataTypes.DECIMAL,
@@ -42,6 +53,7 @@ export default ( sequelize, DataTypes ) => {
     credit: DataTypes.DECIMAL,
     bank: DataTypes.DECIMAL,
     estop: DataTypes.STRING,
+    delflag: DataTypes.INTEGER,
 
   }, {
     tableName: 'character',

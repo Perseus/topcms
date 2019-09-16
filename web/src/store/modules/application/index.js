@@ -12,6 +12,10 @@ function getInitialState() {
     newsFeed: [],
     totalArticles: 0,
     currentRequestsInProgress: [],
+    modalState: {
+      type: '',
+      options: {},
+    },
   };
 }
 

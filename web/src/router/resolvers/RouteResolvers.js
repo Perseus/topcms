@@ -6,14 +6,17 @@ import ActionTypes from '../../store/types/ActionTypes';
 import Logger from '../../services/Logger';
 
 const RouteResolvers = {
+
   [ RouteNames.ROOT.__ROOT__ ]: async ( route ) => {
     await store.dispatch( ActionTypes.bootstrapApplication, { route } );
     return true;
   },
+
   [ RouteNames.ROOT.__LANDING__ ]: async () => {
     await store.dispatch( ActionTypes.retrieveLandingPageInformation );
     return true;
   },
+
   [ RouteNames.ADMIN.NEWS.CREATE ]: async ( route ) => {
     const { site } = store.state;
     if ( site.authors.length === 0 ) {
@@ -57,10 +60,17 @@ const RouteResolvers = {
       const { params: { id } } = to;
 
       const { news } = site;
-      const newsItem = _.find( news, { id } );
+      let newsItem = _.find( news, { id } );
       if ( !newsItem ) {
         await store.dispatch( ActionTypes.getSiteNewsArticle, { id: Number( id ) } );
       }
+
+      newsItem = _.find( news, { id } );
+      if ( !newsItem ) {
+        return { name: RouteNames.ROOT.__LANDING__ };
+      }
+
+      return true;
     } catch ( err ) {
       Logger.log( `error at resolver NEWS : ${err} ` );
       return { name: RouteNames.ROOT.__LANDING__ };
@@ -70,12 +80,34 @@ const RouteResolvers = {
   [ RouteNames.ROOT.NEWS.LIST ]: async() => {
     try {
       await store.dispatch( ActionTypes.getSiteNewsFeed );
+      return true;
     } catch ( err ) {
       Logger.log( `error at resolver NEWS.LIST : ${err}` );
       return { name: RouteNames.ROOT.__LANDING__ };
     }
   },
 
+  [ RouteNames.ADMIN.GAME.ACCOUNTS ]: async() => {
+    try {
+      const { admin } = store.state;
+      if ( admin.filteredAccountData.hasFetchedFilteredAccounts ) {
+        return true;
+      }
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    } catch ( err ) {
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    }
+  },
+
+  [ RouteNames.ADMIN.GAME.ACCOUNT ]: async ( route ) => {
+    try {
+      await store.dispatch( ActionTypes.retrieveAccountData, { id: route.to.params.id } );
+      return true;
+    } catch ( err ) {
+      console.log( err );
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    }
+  },
 };
 
 export default RouteResolvers;

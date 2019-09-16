@@ -36,7 +36,7 @@ const NewsDashboard = {
       if ( !articleId ) {
         return;
       }
-      this.$dialog.confirm( {
+      this.$buefy.dialog.confirm( {
         title: 'Deleting News Article',
         message: 'Are you sure you want to <b>delete</b> this news article? This action cannot be undone.',
         confirmText: 'Delete News Article',

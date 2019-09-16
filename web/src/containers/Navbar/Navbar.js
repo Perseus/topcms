@@ -17,8 +17,12 @@ const Navbar = {
       this.changeRoute( { name: RouteNames.ROOT.__LANDING__ } );
     },
 
-    redirectToAdmin() {
-      this.changeRoute( { name: RouteNames.ADMIN.DASHBOARD } );
+    redirectToSiteAdmin() {
+      this.changeRoute( { name: RouteNames.ADMIN.SITE } );
+    },
+
+    redirectToGameAdmin() {
+      this.changeRoute( { name: RouteNames.ADMIN.GAME } );
     },
 
     redirectToSignup() {
@@ -35,6 +39,10 @@ const Navbar = {
 
     redirectToUserManagement() {
       this.changeRoute( { name: RouteNames.USER.DETAILS } );
+    },
+
+    closeMenu( ev ) {
+      console.log( 'closing menu', ev );
     },
   },
 };

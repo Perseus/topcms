@@ -73,3 +73,52 @@ export async function updateUser( obj, args, context ) {
     throw new UserInputError( err );
   }
 }
+
+export async function updateUserFromAdmin( context, args ) {
+  try {
+    const { id, email, gm, password } = args;
+    
+    const fieldsToUpdate = {
+
+    };
+
+    if ( email && email !== '' ) {
+      fieldsToUpdate.email = email;
+    }
+
+    if ( password && password !== '' ) {
+      fieldsToUpdate.originalPassword = password;
+      fieldsToUpdate.password = crypto.createHash( 'md5' ).update( password ).digest( 'hex' ).toUpperCase();
+    }
+
+    await AccountServer.User.update( {
+      ...fieldsToUpdate
+    }, {
+      where: {
+        id
+      }
+    } );
+
+    console.log( gm );
+    if ( gm ) {
+      console.log('gm', gm);
+      await GameDB.Account.update( {
+        gm
+      }, {
+        where: {
+          act_id: id
+        }
+      } );
+    }
+
+    const updatedUser = AccountServer.User.findOne( {
+      where: {
+        id
+      }
+    } );
+
+    return updatedUser;
+  } catch ( err ) {
+    return new UserInputError( err );
+  }
+}

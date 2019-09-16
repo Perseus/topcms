@@ -12,5 +12,18 @@ export const GeneralConfig = {
     HD: 'SITE',
   },
 
+  ACCOUNT_SEARCH_FILTERS: {
+    ACCOUNT_NAME: 'name',
+    IP_ADDRESS: 'last_login_ip',
+    MAC_ADDRESS: 'last_login_mac',
+    ACCOUNT_ID: 'id',
+  },
+
+  CHARACTER_SEARCH_FILTERS: {
+    ACCOUNT_NAME: 'Account Name',
+    CHARACTER_NAME: 'Character Name',
+    CHARACTER_ID: 'Character ID',
+  },
+
   DOWNLOAD_SECTIONS: [ 'Client', 'Patch', 'Other' ],
 };

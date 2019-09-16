@@ -15,6 +15,9 @@ import DownloadList from '../../containers/DownloadList/DownloadList.vue';
 import Ranking from '../../containers/Ranking/Ranking.vue';
 import UserAccountManagement from '../../containers/UserAccountManagement/UserAccountManagement.vue';
 import AccountDetails from '../../containers/AccountDetails/AccountDetails.vue';
+import AdminGameIndex from '../../containers/Admin/Game/Index/Index.vue';
+import AdminGameAccounts from '../../containers/Admin/Game/Accounts/Accounts.vue';
+import AdminGameAccount from '../../containers/Admin/Game/Account/Account.vue';
 
 import { RootResolver } from '../resolvers';
 import { adminGuard, userGuard } from '../guards';
@@ -47,13 +50,30 @@ const RouteConfig = [
         children: [
           {
             path: '/admin/site',
+            alias: '/',
             name: RouteNames.ADMIN.SITE,
             component: AdminSite,
           },
           {
             path: '/admin/game',
-            name: RouteNames.ADMIN.GAME,
-            component: AdminGame
+            component: AdminGame,
+            children: [
+              {
+                name: RouteNames.ADMIN.GAME.INDEX,
+                path: '/',
+                component: AdminGameIndex
+              },
+              {
+                name: RouteNames.ADMIN.GAME.ACCOUNTS,
+                path: '/admin/game/accounts',
+                component: AdminGameAccounts,
+              },
+              {
+                name: RouteNames.ADMIN.GAME.ACCOUNT,
+                path: '/admin/game/account/:id',
+                component: AdminGameAccount
+              },
+            ]
           },
           {
             path: '/admin/news/create',
@@ -95,6 +115,7 @@ const RouteConfig = [
             path: '/news/:id',
             component: NewsItemContainer,
           },
+
         ],
       },
       {
@@ -106,6 +127,10 @@ const RouteConfig = [
         path: '/ranking',
         name: RouteNames.ROOT.RANKING.__LANDING__,
         component: Ranking,
+      },
+      {
+        path: '*',
+        component: Landing
       }
     ]
   }

@@ -26,7 +26,9 @@ export async function graphQLRequest( dispatch, type = 'query', requestSchema, r
     } );
   }
 
-  dispatch( ActionTypes.updateRequestsInProgress, { name: requestName, type: 'COMPLETE' } );
+  response.then( () => {
+    dispatch( ActionTypes.updateRequestsInProgress, { name: requestName, type: 'COMPLETE' } );
+  } );
 
   return response;
 }

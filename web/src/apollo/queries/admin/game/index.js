@@ -60,3 +60,44 @@ export const getGuildRanking = gql`
         }
     }
 `;
+
+
+export const getFilteredAccounts = gql`
+    query usersWithFilter($filter: String!, $searchKey: String, $offset: Int, $limit: Int) {
+        usersWithFilter(filter: $filter, searchKey: $searchKey, offset: $offset, limit: $limit) {
+            users {
+                id
+                name
+                last_login_ip
+                last_login_mac
+                ban
+                account_details {
+                    gm
+                }
+            }
+            total
+        }
+    }
+`;
+
+export const getAccountData = gql`
+    query filteredUser($id: ID!) {
+        filteredUser(id: $id) {
+            id
+            name
+            email
+            ban
+            last_login_ip
+            last_login_mac
+            account_details {
+              gm
+            }
+            character_details {
+              cha_name
+              job
+              icon
+              delflag
+            }
+        }
+    }
+`;

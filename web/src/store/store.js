@@ -6,6 +6,7 @@ import userModule from './modules/user';
 import routerModule from './modules/router';
 import gameModule from './modules/game';
 import siteModule from './modules/site';
+import adminModule from './modules/admin';
 
 Vue.use( Vuex );
 
@@ -16,6 +17,7 @@ export default new Vuex.Store( {
     router: routerModule,
     game: gameModule,
     site: siteModule,
+    admin: adminModule,
   },
   plugins: [
     createLogger(),

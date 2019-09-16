@@ -60,6 +60,11 @@ const Actions = {
 
   [ ActionTypes.updateRequestsInProgress ] ( { commit }, payload ) {
     commit( MutationTypes.UPDATE_REQUESTS_IN_PROGRESS, payload );
+  },
+
+  [ ActionTypes.toggleModal ] ( { commit }, payload = {} ) {
+    const { type = '', options = {} } = payload;
+    commit( MutationTypes.TOGGLE_MODAL, { type, options } );
   }
 };
 

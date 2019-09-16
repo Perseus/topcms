@@ -1,6 +1,6 @@
 import { createUser, loginUser, logoutUser } from './auth';
 import { createAuthor, editAuthor, deleteAuthor, createDownload, editDownload, deleteDownload, createNewsArticle, deleteNewsArticle, editNewsArticle } from './site';
-import { updateServerRates } from './game';
+import * as GameMutations from './game';
 import * as UserMutations from './user';
 
 export const Mutation = {
@@ -15,7 +15,7 @@ export const Mutation = {
   createNewsArticle,
   deleteNewsArticle,
   editNewsArticle,
-  updateServerRates,
   logoutUser,
+  ...GameMutations,
   ...UserMutations,
 };

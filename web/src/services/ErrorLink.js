@@ -1,5 +1,5 @@
 import { onError } from 'apollo-link-error';
-import { Snackbar } from 'buefy/dist/components/snackbar';
+import { SnackbarProgrammatic as Snackbar } from 'buefy';
 
 import Logger from './Logger';
 

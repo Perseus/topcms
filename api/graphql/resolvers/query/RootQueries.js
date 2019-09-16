@@ -1,6 +1,7 @@
 import { GameDB } from '../../../database/models/';
 
 export const User = {
+
   async account_details( obj, info, context ) {
     const userID = obj.id;
     if ( userID ) {
@@ -16,5 +17,25 @@ export const User = {
       }
     }
     return null;
+  },
+
+  async character_details( obj, info, context ) {
+    const accountID = obj.id;
+    if ( accountID ) {
+      try {
+        const characterDetails = await GameDB.Character.findAll( {
+          where: {
+            act_id: accountID,
+            delflag: 0,
+          }
+        } );
+
+        return characterDetails;
+      } catch ( err ) {
+        return err;
+      }
+    } 
+    return null;
   }
+
 };

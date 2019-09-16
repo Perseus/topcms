@@ -1,6 +1,10 @@
 import path from 'path';
 import { promises } from 'fs';
+import { UserInputError } from 'apollo-server';
+import { Sequelize }  from 'sequelize';
+import crypto from 'crypto';
 
+import { AccountServer, GameDB } from '../../../database/models';
 
 export async function updateServerRates( context, args ) {
   try {
@@ -22,3 +26,27 @@ export async function updateServerRates( context, args ) {
     return err;
   }
 }
+
+export async function toggleUserBan( context, args ) {
+  try {
+    const { id, newBanStatus } = args;
+    await AccountServer.User.update( {
+      ban: newBanStatus,
+    }, {
+      where: {
+        id
+      }
+    } );
+
+    const retrievedUser = await AccountServer.User.findOne( {
+      where: {
+        id
+      }
+    } );
+
+    return retrievedUser;
+  } catch ( err ) {
+    return err;
+  }
+}
+
