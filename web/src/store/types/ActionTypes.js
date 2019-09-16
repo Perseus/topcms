@@ -47,6 +47,7 @@ const ActionTypes = {
   toggleBanForUser: 'toggleBanForUser',
   retrieveAccountData: 'retrieveAccountData',
   adminUpdateUserEmail: 'adminUpdateUserEmail',
+  adminUpdateUser: 'adminUpdateUser',
 };
 
 export default ActionTypes;

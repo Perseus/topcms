@@ -60,10 +60,17 @@ const RouteResolvers = {
       const { params: { id } } = to;
 
       const { news } = site;
-      const newsItem = _.find( news, { id } );
+      let newsItem = _.find( news, { id } );
       if ( !newsItem ) {
         await store.dispatch( ActionTypes.getSiteNewsArticle, { id: Number( id ) } );
       }
+
+      newsItem = _.find( news, { id } );
+      if ( !newsItem ) {
+        return { name: RouteNames.ROOT.__LANDING__ };
+      }
+
+      return true;
     } catch ( err ) {
       Logger.log( `error at resolver NEWS : ${err} ` );
       return { name: RouteNames.ROOT.__LANDING__ };

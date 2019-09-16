@@ -1,10 +1,11 @@
 import { SnackbarProgrammatic as Snackbar } from 'buefy';
+import graphql from 'graphql-anywhere';
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 
 import { graphQLRequest } from '../../../services/GraphQLRequest';
 import { getFilteredAccounts, getAccountData } from '../../../apollo/queries/admin/game';
-import { toggleUserBan, updateUserEmail } from '../../../apollo/mutations/admin/game';
+import { toggleUserBan, updateUserFromAdmin } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
 
 const Actions = {
@@ -65,7 +66,7 @@ const Actions = {
   async [ ActionTypes.adminUpdateUserEmail ] ( { commit, dispatch }, payload ) {
     try {
       const { email, id } = payload;
-      const response = await graphQLRequest( dispatch, 'mutation', updateUserEmail, 'updateUserEmail', {
+      const response = await graphQLRequest( dispatch, 'mutation', updateUserFromAdmin, 'updateUserFromAdmin', {
         id,
         email
       } );
@@ -86,9 +87,37 @@ const Actions = {
         position: 'is-top-right',
         type: 'is-success',
       } );
-      commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data.updateUserEmail } );
+      commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data.updateUserFromAdmin } );
     } catch ( err ) {
       Logger.log( `Error at action adminUpdateUserEmail: ${err}` );
+    }
+  },
+
+  async [ ActionTypes.adminUpdateUser ] ( { commit, dispatch }, payload ) {
+    try {
+      const response = await graphQLRequest( dispatch, 'mutation', updateUserFromAdmin, 'updateUserFromAdmin', {
+        ...payload
+      } );
+
+      if ( !response ) {
+        Snackbar.open( {
+          message: 'There was an error while trying to update user information',
+          duration: 2000,
+          position: 'is-top-right',
+          type: 'is-error'
+        } );
+        return;
+      }
+
+      Snackbar.open( {
+        message: 'User information updated successfully!',
+        position: 'is-top-right',
+        duration: 2000,
+        type: 'is-success',
+      } );
+      commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data.updateUserFromAdmin } );
+    } catch ( err ) {
+      Logger.log( `Error at action adminUpdateUser: ${err}` );
     }
   }
 };

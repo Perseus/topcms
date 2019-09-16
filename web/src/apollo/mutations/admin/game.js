@@ -30,3 +30,16 @@ export const updateUserEmail = gql`
     }
   }
 `;
+
+export const updateUserFromAdmin = gql`
+  mutation updateUserFromAdmin($id: ID!, $email: String, $password: String, $gm: Int) {
+    updateUserFromAdmin(id: $id, email: $email, password: $password, gm: $gm) {
+      id
+      email
+      name
+      account_details {
+        gm
+      }
+    }
+  }
+`;

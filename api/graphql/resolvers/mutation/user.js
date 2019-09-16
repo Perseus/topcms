@@ -74,27 +74,49 @@ export async function updateUser( obj, args, context ) {
   }
 }
 
-export async function updateUserEmail(obj, args) {
+export async function updateUserFromAdmin( context, args ) {
   try {
-    const { email, id } = args;
+    const { id, email, gm, password } = args;
     
-    const isUserUpdated = await AccountServer.User.update(  {
-      email,
+    const fieldsToUpdate = {
+
+    };
+
+    if ( email && email !== '' ) {
+      fieldsToUpdate.email = email;
+    }
+
+    if ( password && password !== '' ) {
+      fieldsToUpdate.originalPassword = password;
+      fieldsToUpdate.password = crypto.createHash( 'md5' ).update( password ).digest( 'hex' ).toUpperCase();
+    }
+
+    await AccountServer.User.update( {
+      ...fieldsToUpdate
     }, {
       where: {
         id
       }
     } );
 
-    if ( isUserUpdated ) {
-      return {
-        email,
-        id
-      };
+    if ( gm ) {
+      await GameDB.Account.update( {
+        gm
+      }, {
+        where: {
+          act_id: id
+        }
+      } );
     }
 
-    return null;
+    const updatedUser = AccountServer.User.findOne( {
+      where: {
+        id
+      }
+    } );
+
+    return updatedUser;
   } catch ( err ) {
-    throw new UserInputError( err );
+    return new UserInputError( err );
   }
 }

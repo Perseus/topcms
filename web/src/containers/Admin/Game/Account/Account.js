@@ -3,7 +3,9 @@ import { mapState, mapActions } from 'vuex';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
 import { hasValidJobIcon } from '../../../../utils/CharacterUtils';
-import UpdateUserEmailModal from '../../../../components/GameAdmin/UpdateUserEmailModal/UpdateUserEmailModal.vue';
+import UpdateUserEmailModal from '../../../../components/GameAdmin/UpdateUserEmailModal.vue';
+import UpdateUserPasswordModal from '../../../../components/GameAdmin/UpdateUserPasswordModal.vue';
+
 import GeneralConfig from '../../../../config/GeneralConfig';
 
 const AdminGameAccount = {
@@ -11,6 +13,7 @@ const AdminGameAccount = {
 
   components: {
     'update-user-email-modal': UpdateUserEmailModal,
+    'update-user-password-modal': UpdateUserPasswordModal,
   },
 
   mounted() {
@@ -24,6 +27,14 @@ const AdminGameAccount = {
 
     shouldShowUpdateUserEmailModal() {
       return ( Boolean( this.modalState.type ) && this.modalState.type === GeneralConfig.MODAL_TYPES.UPDATE_USER_EMAIL );
+    },
+
+    shouldShowUpdatePasswordModal() {
+      return ( Boolean( this.modalState.type ) && this.modalState.type === GeneralConfig.MODAL_TYPES.UPDATE_USER_PASSWORD );
+    },
+
+    shouldShowUpdateGMModal() {
+      return ( Boolean( this.modalState.type ) && this.modalState.type === GeneralConfig.MODAL_TYPES.UPDATE_USER_GM );
     },
   },
 
@@ -40,6 +51,10 @@ const AdminGameAccount = {
 
     openEmailUpdateModal() {
       this.toggleModal( { type: GeneralConfig.MODAL_TYPES.UPDATE_USER_EMAIL } );
+    },
+
+    openPasswordUpdateModal() {
+      this.toggleModal( { type: GeneralConfig.MODAL_TYPES.UPDATE_USER_PASSWORD } );
     },
 
     handleBanForUser( id, currentBan ) {
@@ -63,7 +78,13 @@ const AdminGameAccount = {
     async handleUpdateUserEmail( data ) {
       await this.adminUpdateUserEmail( { email: data.email, id: this.accountData.id } );
       this.toggleModal();
-    }
+    },
+
+    async handleUpdateUserPassword( data ) {
+      await this.adminUpdateUser( { password: data.password, id: this.accountData.id } );
+      this.toggleModal();
+    },
+
   }
 };
 
@@ -81,6 +102,7 @@ function mapMethodsToActions() {
     toggleBanForUser: ActionTypes.toggleBanForUser,
     toggleModal: ActionTypes.toggleModal,
     adminUpdateUserEmail: ActionTypes.adminUpdateUserEmail,
+    adminUpdateUser: ActionTypes.adminUpdateUser
   } );
 }
 

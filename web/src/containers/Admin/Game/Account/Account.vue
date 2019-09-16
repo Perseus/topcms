@@ -4,6 +4,10 @@
       <update-user-email-modal @handleUpdateEmail="handleUpdateUserEmail"></update-user-email-modal>
     </b-modal>
 
+    <b-modal :active="shouldShowUpdatePasswordModal" @close="toggleModal" has-modal-card>
+      <update-user-password-modal @handleUpdatePassword="handleUpdateUserPassword"></update-user-password-modal>
+    </b-modal>
+
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">Account Details</p>
@@ -30,7 +34,7 @@
           <div class="detail-value is-size-6 has-text-weight-bold">
             ************
             <a
-              @click.prevent
+              @click.prevent="openPasswordUpdateModal"
               class="is-size-7 edit-text has-text-weight-normal has-text-link"
             >[Edit]</a>
           </div>
