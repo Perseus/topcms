@@ -5,6 +5,7 @@ import RouteNames from '../../../../config/RouteNames';
 import { hasValidJobIcon } from '../../../../utils/CharacterUtils';
 import UpdateUserEmailModal from '../../../../components/GameAdmin/UpdateUserEmailModal.vue';
 import UpdateUserPasswordModal from '../../../../components/GameAdmin/UpdateUserPasswordModal.vue';
+import UpdateUserGMLevelModal from '../../../../components/GameAdmin/UpdateUserGMModal.vue';
 
 import GeneralConfig from '../../../../config/GeneralConfig';
 
@@ -14,6 +15,7 @@ const AdminGameAccount = {
   components: {
     'update-user-email-modal': UpdateUserEmailModal,
     'update-user-password-modal': UpdateUserPasswordModal,
+    'update-user-gm-level-modal': UpdateUserGMLevelModal,
   },
 
   mounted() {
@@ -57,6 +59,10 @@ const AdminGameAccount = {
       this.toggleModal( { type: GeneralConfig.MODAL_TYPES.UPDATE_USER_PASSWORD } );
     },
 
+    openGMLevelUpdateModal() {
+      this.toggleModal( { type: GeneralConfig.MODAL_TYPES.UPDATE_USER_GM } );
+    },
+
     handleBanForUser( id, currentBan ) {
       this.toggleBanForUser( { id, currentBan } );
     },
@@ -85,6 +91,10 @@ const AdminGameAccount = {
       this.toggleModal();
     },
 
+    async handleUpdateUserGMLevel( data ) {
+      await this.adminUpdateUser( { gm: data.gm, id: this.accountData.id } );
+      this.toggleModal();
+    }
   }
 };
 

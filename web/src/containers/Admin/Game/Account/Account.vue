@@ -8,6 +8,13 @@
       <update-user-password-modal @handleUpdatePassword="handleUpdateUserPassword"></update-user-password-modal>
     </b-modal>
 
+    <b-modal :active="shouldShowUpdateGMModal" @close="toggleModal" has-modal-card>
+      <update-user-gm-level-modal
+        :currentLevel="accountData.account_details.gm"
+        @handleUpdateGMLevel="handleUpdateUserGMLevel"
+      ></update-user-gm-level-modal>
+    </b-modal>
+
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">Account Details</p>
@@ -68,7 +75,7 @@
           <div class="detail-value is-size-6 has-text-weight-bold">
             {{ accountData.account_details.gm }}
             <a
-              @click.prevent
+              @click.prevent="openGMLevelUpdateModal"
               class="is-size-7 edit-text has-text-weight-normal has-text-link"
             >[Edit]</a>
           </div>

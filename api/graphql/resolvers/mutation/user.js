@@ -99,7 +99,9 @@ export async function updateUserFromAdmin( context, args ) {
       }
     } );
 
+    console.log( gm );
     if ( gm ) {
+      console.log('gm', gm);
       await GameDB.Account.update( {
         gm
       }, {

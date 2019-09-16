@@ -21,17 +21,28 @@
 <script src>
 export default {
   name: "update-user-email-modal",
+  props: {
+    currentLevel: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       gm: 0
     };
   },
+
+  created() {
+    this.gm = this.currentLevel;
+  },
+
   methods: {
     async handleGMUpdate() {
       const didValidationSucceed = await this.$validator.validateAll();
 
       if (didValidationSucceed) {
-        this.$emit("handleUpdateEmail", { email: this.email });
+        this.$emit("handleUpdateGMLevel", { gm: Number( this.gm ) });
       }
     }
   }
