@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express';
 import resolvers from '../resolvers';
 import { makeExecutableSchema } from 'graphql-tools';
-import { isAuthenticatedDirective } from '../directives/auth';
+import { isAuthenticatedDirective, websocketAuthentication } from '../directives/auth';
 import ConstraintDirective from 'graphql-constraint-directive';
 
 const typeDefs = gql `
@@ -109,6 +109,13 @@ const typeDefs = gql `
     guild_name: String
   }
 
+  type CharacterResource {
+    id: ID
+    cha_id: ID
+    type_id: Int
+    content: String
+  }
+
   type CharacterRankingItem {
     cha_name: String
     gd: Int
@@ -124,6 +131,17 @@ const typeDefs = gql `
     job: String
     guild_id: Int
     delflag: Int
+    degree: Int
+    exp: Int
+    map_x: String
+    map_y: String
+    map: String
+    look: String
+    birth: String
+    credit: String
+    estop: String
+    bank: String
+    inventories: [CharacterResource]
   }
 
   type NewsFeed {
@@ -174,6 +192,16 @@ const typeDefs = gql `
     total: Int
   }
 
+  type ItemInfoObject {
+    id: Int
+    name: String
+    icon: String
+  }
+
+  type GameInventoryItem {
+    id: Int
+  }
+
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
@@ -193,6 +221,7 @@ const typeDefs = gql `
     playerRankings(filter: String!): [CharacterRankingItem]
     guildRankings(filter: String!): [GuildRankingItem]
     filteredUser(id: ID!): User @isAuthenticated(role: ADMIN)
+    filteredCharacter(id: ID!): Character @isAuthenticated(role: ADMIN)
   }
 
   type Mutation {
@@ -213,6 +242,11 @@ const typeDefs = gql `
     updateUser(userInfo: UpdateUserInput!): User @isAuthenticated(role: USER)
     toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
     updateUserFromAdmin(id: ID!, email: String, password: String, gm: Int): User @isAuthenticated(role: ADMIN)
+    cacheItemInfo: [ ItemInfoObject ] @isAuthenticated(role: ADMIN)
+  }
+
+  type Subscription {
+    itemCached: ItemInfoObject
   }
 
 `;
@@ -226,6 +260,9 @@ const schema = makeExecutableSchema( {
   schemaDirectives: {
     constraint: ConstraintDirective
   },
+  subscriptions: {
+    onConnect: websocketAuthentication
+  }
 } );
 
 

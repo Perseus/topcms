@@ -119,6 +119,16 @@ const Actions = {
     } catch ( err ) {
       Logger.log( `Error at action adminUpdateUser: ${err}` );
     }
+  },
+
+  async [ ActionTypes.retrieveCharacter ] ( { commit, dispatch }, payload ) {
+    try {
+      const { id } = payload;
+
+      const response = await graphQLRequest;
+    } catch ( err ) {
+
+    }
   }
 };
 

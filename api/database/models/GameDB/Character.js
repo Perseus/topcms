@@ -72,6 +72,12 @@ export default ( sequelize, DataTypes ) => {
       foreignKey: 'guild_id',
       as: 'guild'
     } );
+
+    this.hasMany( models.Resource, {
+      sourceKey: 'cha_id',
+      foreignKey: 'cha_id',
+      as: 'inventories',
+    } );
   }
 
   return Character;

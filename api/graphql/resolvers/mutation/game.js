@@ -5,6 +5,7 @@ import { Sequelize }  from 'sequelize';
 import crypto from 'crypto';
 
 import { AccountServer, GameDB } from '../../../database/models';
+import { pubsub } from '../subscriptions';
 
 export async function updateServerRates( context, args ) {
   try {
@@ -50,3 +51,12 @@ export async function toggleUserBan( context, args ) {
   }
 }
 
+export async function cacheItemInfo( context, args ) {
+  try {
+    const interval = setInterval( () => {
+      pubsub.publish( 'ITEM_WAS_CACHED' );
+    }, 3000 );
+  } catch ( err ) {
+    console.log( err );
+  }
+}

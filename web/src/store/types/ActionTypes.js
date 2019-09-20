@@ -48,6 +48,7 @@ const ActionTypes = {
   retrieveAccountData: 'retrieveAccountData',
   adminUpdateUserEmail: 'adminUpdateUserEmail',
   adminUpdateUser: 'adminUpdateUser',
+  retrieveCharacter: 'retrieveCharacter',
 };
 
 export default ActionTypes;

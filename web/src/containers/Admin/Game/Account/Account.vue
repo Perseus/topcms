@@ -88,8 +88,9 @@
           <div class="character-section">
             <div
               v-for="character in getValidCharacters( accountData.character_details )"
-              :key="character.id"
+              :key="character.cha_id"
               class="character-item"
+              @click="redirectToCharacter(character.cha_id)"
             >
               <img class="character-icon" :src="getCharacterIcon( character )" />
               <div class="character-name has-text-weight-bold is-size-6">{{ character.cha_name }}</div>

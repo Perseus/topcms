@@ -110,3 +110,18 @@ export async function filteredUser( object, args ) {
     return err;
   }
 }
+
+export async function filteredCharacter( object, args ) {
+  try {
+    const { id } = args;
+    const character = await GameDB.Character.findOne( {
+      where: { cha_id: id },
+      include: [ { model: GameDB.Resource, as: 'inventories' } ],
+    } );
+
+    
+    return character;
+  } catch ( err ) {
+    return err;
+  }
+}

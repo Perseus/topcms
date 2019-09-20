@@ -73,6 +73,11 @@ const RouteConfig = [
                 path: '/admin/game/account/:id',
                 component: AdminGameAccount
               },
+              {
+                name: RouteNames.ADMIN.GAME.CHARACTER,
+                path: '/admin/game/character/:id',
+                component: AdminGameAccount,
+              }
             ]
           },
           {

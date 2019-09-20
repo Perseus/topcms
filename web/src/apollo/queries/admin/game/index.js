@@ -93,6 +93,7 @@ export const getAccountData = gql`
               gm
             }
             character_details {
+              cha_id
               cha_name
               job
               icon

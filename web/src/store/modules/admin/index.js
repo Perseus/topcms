@@ -11,6 +11,7 @@ function getInitialState() {
       searchKey: '',
     },
     retrievedAccountData: {},
+    retrievedCharacterData: {},
   };
 }
 

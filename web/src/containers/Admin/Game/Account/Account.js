@@ -73,12 +73,13 @@ const AdminGameAccount = {
     },
 
     getCharacterIcon( character ) {
-      if ( hasValidJobIcon( character ) ) {
+      try {
         // eslint-disable-next-line
-        return require( `@/assets/img/chars/${character.icon.toLowerCase()}_${character.job.toLowerCase()}.gif` );
+          return require( `@/assets/img/chars/${character.icon.toLowerCase()}_${character.job.toLowerCase()}.gif` );
+      } catch ( err ) {
+        // eslint-disable-next-line
+        return require( '@/assets/img/chars/unknown.gif' );
       }
-      // eslint-disable-next-line
-      return require( '@/assets/img/chars/unknown.gif' );
     },
 
     async handleUpdateUserEmail( data ) {
@@ -94,6 +95,10 @@ const AdminGameAccount = {
     async handleUpdateUserGMLevel( data ) {
       await this.adminUpdateUser( { gm: data.gm, id: this.accountData.id } );
       this.toggleModal();
+    },
+
+    redirectToCharacter( characterId ) {
+      this.changeRoute( { name: RouteNames.ADMIN.GAME.CHARACTER, metaData: { params: { id: characterId } } } );
     }
   }
 };
