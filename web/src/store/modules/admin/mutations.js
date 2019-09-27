@@ -30,6 +30,19 @@ const Mutations = {
 
   [ MutationTypes.SET_UPDATED_USER_DATA ] ( state, payload ) {
     state.retrievedAccountData = Object.assign( {}, state.retrievedAccountData, payload );
+  },
+
+  [ MutationTypes.CACHING_ITEM_INFO ] ( state, payload ) {
+    if ( payload && payload.totalItems && payload.currentItem ) {
+      state.totalItemsToCache = payload.totalItems;
+      state.totalItemsCached = payload.currentItem;
+    } else {
+      state.isCachingItemInfo = true;
+    }
+  },
+
+  [ MutationTypes.CACHED_ITEM_INFO ] ( state ) {
+    state.isCachingItemInfo = false;
   }
 };
 

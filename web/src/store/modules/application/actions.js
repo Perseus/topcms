@@ -6,15 +6,24 @@ import { getNewsFeedQuery } from '../../../apollo/queries/admin/site';
 import {} from '../../../apollo/queries/admin/game';
 import Logger from '../../../services/Logger';
 import { newsFeedCooker } from '../../cookers/applicationCooker';
+import SocketHandler from '../../../socket';
 
 const Actions = {
   async [ ActionTypes.bootstrapApplication ]( { commit, dispatch }, payload ) {
     commit( MutationTypes.APPLICATION_LOADING );
 
     await dispatch( ActionTypes.retrieveUser );
+    dispatch( ActionTypes.connectToSocketServer );
     dispatch( ActionTypes.setInitialRoute, payload.route );
 
     commit( MutationTypes.APPLICATION_LOADED );
+  },
+
+  async [ ActionTypes.connectToSocketServer ] ( { commit, state, rootState } ) {
+    const { user } = rootState;
+    if ( user.isLoggedIn && user.permissions.includes( 'ADMIN' ) ) {
+      SocketHandler.init();
+    }
   },
 
   async [ ActionTypes.retrieveLandingPageInformation ] ( { commit }, payload ) {

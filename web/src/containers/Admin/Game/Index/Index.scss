@@ -3,8 +3,21 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   column-gap: 2rem;
+  row-gap: 2rem;
 }
 
 .search-btn {
   margin-bottom: 1rem;
+}
+
+.upload-iteminfo {
+  margin-right: 2rem;
+}
+
+.item-info-cache-progress {
+  margin-top: 1rem;
+}
+
+.item-info-cache-bar {
+  margin-top: .5rem;
 }

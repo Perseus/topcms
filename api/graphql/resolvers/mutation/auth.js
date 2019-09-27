@@ -1,9 +1,9 @@
 import crypto from 'crypto';
 
-import { AccountServer, GameDB } from '../../../database/models/index';
-import { extractErrors } from '../../../helpers/errorHandler';
 import { AuthenticationError, UserInputError } from 'apollo-server';
 import jsonwebtoken from 'jsonwebtoken';
+import { AccountServer, GameDB } from '../../../database/models/index';
+import { extractErrors } from '../../../helpers/errorHandler';
 
 export async function createUser( obj, args, context, info ) {
   try {
@@ -41,33 +41,31 @@ export async function loginUser( obj, args, context ) {
     if ( user ) {
       const scope = user.getAccessLevel( GameDB.Account );
       const jwtToken = jsonwebtoken.sign( {
-          data: {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            created_at: Date.now(),
-            scope: scope,
-          }
-        },
-        process.env.JWT_SECRET, {
-          expiresIn: '6h',
-        } );
+        data: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          created_at: Date.now(),
+          scope,
+        }
+      },
+      process.env.JWT_SECRET, {
+        expiresIn: '6h',
+      } );
 
       context.res.cookie( '_sid', jwtToken, { httpOnly: true, sameSite: true } );
 
       return user;
-    } else {
-      throw new UserInputError( 'INVALID_AUTH', {
-        validationErrors: [ 'INCORRECT_CREDENTIALS' ]
-      } );
     }
+    throw new UserInputError( 'INVALID_AUTH', {
+      validationErrors: [ 'INCORRECT_CREDENTIALS' ]
+    } );
   } catch ( err ) {
     return err;
   }
 }
 
 export async function logoutUser( obj, args, context ) {
-  
   try {
     context.res.clearCookie( '_sid' );
     return {
@@ -76,5 +74,4 @@ export async function logoutUser( obj, args, context ) {
   } catch ( err ) {
     return err;
   }
-
 }

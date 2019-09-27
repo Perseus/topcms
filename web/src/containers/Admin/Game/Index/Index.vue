@@ -31,6 +31,7 @@
         </form>
       </div>
     </div>
+
     <div class="character-search-section card">
       <header class="card-header">
         <p class="card-header-title">Character Search</p>
@@ -59,7 +60,39 @@
       </div>
     </div>
     <div class="mall-handle-section"></div>
-    <div class="other-actions-section"></div>
+    <div class="other-actions-section">
+      <div class="manage-iteminfo-sectiona card">
+        <header class="card-header">
+          <p class="card-header-title">Manage ItemInfo</p>
+        </header>
+        <div class="card-content">
+          <b-button
+            @click="openItemInfoUploadWindow"
+            class="upload-iteminfo is-button is-primary"
+            :loading="isUploadingItemInfo"
+          >Upload ItemInfo</b-button>
+          <input
+            type="file"
+            ref="iteminfoUploadInput"
+            @change="handleIteminfoUpload"
+            v-show="false"
+          />
+          <b-button
+            @click="generateItemInfoCache"
+            class="generate-item-info-cache is-button is-primary"
+          >Generate Iteminfo Cache</b-button>
+          <div class="item-info-cache-progress" v-if="shouldShowCachingProgressBar">
+            <h2 class="has-size-6">ItemInfo caching...</h2>
+            <b-progress
+              class="item-info-cache-bar"
+              :value="itemCachedPercentage"
+              type="is-success"
+              show-value
+            >{{ totalItemsCached }}/{{ totalItemsToCache }}</b-progress>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

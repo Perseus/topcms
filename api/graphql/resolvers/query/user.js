@@ -1,11 +1,12 @@
-import { AccountServer, GameDB } from '../../../database/models/index';
 import { AuthenticationError, UserInputError } from 'apollo-server';
-import { GeneralConfig } from '../../../config';
 import sequelize from 'sequelize';
 
+import { AccountServer, GameDB } from '../../../database/models/index';
+import { GeneralConfig } from '../../../config';
+
 export async function users( object, args, context, info ) {
-  const users = await AccountServer.User.findAll();
-  return users;
+  const fetchedUsers = await AccountServer.User.findAll();
+  return fetchedUsers;
 }
 
 export async function me( object, args, context, info ) {
@@ -36,9 +37,9 @@ export async function usersWithFilter( object, args, context ) {
   try {
     const { filter, searchKey } = args;
     let { offset, limit } = args;
-    
+
     if ( !offset ) {
-      offset = 0;    
+      offset = 0;
     }
 
     if ( !limit ) {
@@ -59,7 +60,7 @@ export async function usersWithFilter( object, args, context ) {
         limit
       } );
       const totalUsersQuery = await AccountServer.User.findAll( {
-        attributes: 
+        attributes:
         [
           [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
         ],
@@ -74,26 +75,24 @@ export async function usersWithFilter( object, args, context ) {
         users,
         total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
       };
-    } else {
-      const users = await AccountServer.User.findAll( {
-        offset,
-        limit
-      } );
+    }
+    const users = await AccountServer.User.findAll( {
+      offset,
+      limit
+    } );
 
-      const totalUsersQuery = await AccountServer.User.findAll( {
-        attributes: 
+    const totalUsersQuery = await AccountServer.User.findAll( {
+      attributes:
         [
           [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
         ]
-  
-      } );
-      
-      return {
-        users,
-        total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
-      };
-    }
 
+    } );
+
+    return {
+      users,
+      total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
+    };
   } catch ( err ) {
     return new UserInputError( err );
   }
@@ -119,7 +118,7 @@ export async function filteredCharacter( object, args ) {
       include: [ { model: GameDB.Resource, as: 'inventories' } ],
     } );
 
-    
+
     return character;
   } catch ( err ) {
     return err;

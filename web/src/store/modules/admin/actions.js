@@ -1,5 +1,6 @@
 import { SnackbarProgrammatic as Snackbar } from 'buefy';
-import graphql from 'graphql-anywhere';
+import axios from 'axios';
+
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 
@@ -7,6 +8,7 @@ import { graphQLRequest } from '../../../services/GraphQLRequest';
 import { getFilteredAccounts, getAccountData } from '../../../apollo/queries/admin/game';
 import { toggleUserBan, updateUserFromAdmin } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
+import socketHandler from '../../../socket';
 
 const Actions = {
   async [ ActionTypes.retrieveFilteredAccounts ] ( { commit, dispatch }, payload ) {
@@ -128,6 +130,78 @@ const Actions = {
       const response = await graphQLRequest;
     } catch ( err ) {
 
+    }
+  },
+
+  async [ ActionTypes.generateItemInfoCache ] ( { commit, dispatch }, payload ) {
+    try {
+      commit( MutationTypes.CACHING_ITEM_INFO );
+      socketHandler.emit( 'generateItemInfoCache' );
+      socketHandler.listen( 'failed', ( error, cb ) => {
+        if ( error.error.code === 'cache.CHECKSUM_LATEST' ) {
+          Snackbar.open( {
+            message: 'The ItemInfo cache is already up to date',
+            type: 'is-danger',
+            duration: 3000
+          } );
+        }
+
+        if ( error.error.code === 'cache.UNKNOWN_ITEMINFO' ) {
+          Snackbar.open( {
+            message: 'The uploaded ItemInfo has an invalid format. Please check the uploaded file.',
+            type: 'is-danger',
+            duration: 3000
+          } );
+        }
+
+
+        commit( MutationTypes.CACHED_ITEM_INFO );
+      } );
+
+      socketHandler.listen( 'itemCached', ( data ) => {
+        const { totalItems, currentItem } = data;
+        commit( MutationTypes.CACHING_ITEM_INFO, { totalItems, currentItem } );
+      } );
+
+      socketHandler.listen( 'itemCacheFinished', ( ) => {
+        commit( MutationTypes.CACHED_ITEM_INFO );
+        Snackbar.open( {
+          message: 'ItemInfo cached successfully!',
+          type: 'is-success',
+          duration: 3000
+        } );
+      } );
+    } catch ( err ) {
+      Logger.log( err, 'error' );
+      commit( MutationTypes.CACHED_ITEM_INFO );
+    }
+  },
+
+  async [ ActionTypes.uploadItemInfo ] ( { commit, dispatch }, payload ) {
+    try {
+      dispatch( ActionTypes.updateRequestsInProgress, { type: 'START', name: 'uploadItemInfo' } );
+
+
+      const response = await axios.post( `${process.env.VUE_APP_HTTP_URL}/api/uploadItemInfo`, payload.file, {
+      } );
+
+      if ( response.data.status === 'success' ) {
+        Snackbar.open( {
+          message: 'File uploaded successfully',
+          type: 'is-success',
+          duration: 3000
+        } );
+      } else {
+        Snackbar.open( {
+          message: 'There was an error while trying to upload the file',
+          type: 'is-danger',
+          duration: 3000
+        } );
+      }
+      dispatch( ActionTypes.updateRequestsInProgress, { type: 'COMPLETE', name: 'uploadItemInfo' } );
+    } catch ( err ) {
+      Logger.log( err, 'error' );
+      dispatch( ActionTypes.updateRequestsInProgress, { type: 'COMPLETE', name: 'uploadItemInfo' } );
     }
   }
 };

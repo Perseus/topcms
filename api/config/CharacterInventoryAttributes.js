@@ -28,16 +28,15 @@ export const DBInventoryAttributeMap = {
   MAX_ATTACK: 14,
 
   // Armor
-  DEFENSE: 12,
+  ARMOR_DEFENSE: 12,
   PHYS_RESIST: 14,
 
   // Shoes
   DODGE: 12,
-  DEFENSE: 14,
+  SHOES_DEFENSE: 14,
 
   // Gloves
   HIT_RATE: 12,
-  DEFENSE: 14,
-
+  GLOVES_DEFENSE: 14,
 
 };

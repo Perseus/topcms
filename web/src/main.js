@@ -20,6 +20,8 @@ Vue.use( VueFroala );
 Vue.use( Buefy, {
   defaultIconPack: 'fas',
 } );
+
+
 RouterSubscriber( router, store );
 
 Vue.config.productionTip = false;

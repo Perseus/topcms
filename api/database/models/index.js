@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
-import config from '../config/config.json';
 import fs from 'fs';
 import path from 'path';
+import config from '../config/config.json';
 
 const basename = path.basename( __filename );
 const accountServerModelDirectory = path.join( __dirname, '/./AccountServer/' );
@@ -19,15 +19,13 @@ const gameDBInstance = new Sequelize( config.GameDB.database, config.GameDB.user
 
 fs
   .readdirSync( accountServerModelDirectory )
-  .filter( file => {
-    return ( file.indexOf( '.' ) !== 0 ) && ( file !== basename ) && ( file.slice( -3 ) === '.js' );
-  } )
-  .forEach( file => {
-    var model = accountServerInstance[ 'import' ]( path.join( accountServerModelDirectory, file ) );
+  .filter( file => ( file.indexOf( '.' ) !== 0 ) && ( file !== basename ) && ( file.slice( -3 ) === '.js' ) )
+  .forEach( ( file ) => {
+    const model = accountServerInstance.import( path.join( accountServerModelDirectory, file ) );
     AccountServer[ model.name ] = model;
   } );
 
-Object.keys( AccountServer ).forEach( modelName => {
+Object.keys( AccountServer ).forEach( ( modelName ) => {
   if ( AccountServer[ modelName ].associate ) {
     AccountServer[ modelName ].associate( AccountServer );
   }
@@ -35,15 +33,13 @@ Object.keys( AccountServer ).forEach( modelName => {
 
 fs
   .readdirSync( gameDbModelDirectory )
-  .filter( file => {
-    return ( file.indexOf( '.' ) !== 0 ) && ( file !== basename ) && ( file.slice( -3 ) === '.js' );
-  } )
-  .forEach( file => {
-    var model = gameDBInstance[ 'import' ]( path.join( gameDbModelDirectory, file ) );
+  .filter( file => ( file.indexOf( '.' ) !== 0 ) && ( file !== basename ) && ( file.slice( -3 ) === '.js' ) )
+  .forEach( ( file ) => {
+    const model = gameDBInstance.import( path.join( gameDbModelDirectory, file ) );
     GameDB[ model.name ] = model;
   } );
 
-Object.keys( GameDB ).forEach( modelName => {
+Object.keys( GameDB ).forEach( ( modelName ) => {
   if ( GameDB[ modelName ].associate ) {
     GameDB[ modelName ].associate( GameDB );
   }

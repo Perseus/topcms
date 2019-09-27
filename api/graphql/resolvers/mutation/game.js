@@ -54,7 +54,7 @@ export async function toggleUserBan( context, args ) {
 export async function cacheItemInfo( context, args ) {
   try {
     const interval = setInterval( () => {
-      pubsub.publish( 'ITEM_WAS_CACHED' );
+      pubsub.publish( 'ITEM_WAS_CACHED', { id: '1' } );
     }, 3000 );
   } catch ( err ) {
     console.log( err );
