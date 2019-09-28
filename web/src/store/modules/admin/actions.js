@@ -5,10 +5,11 @@ import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 
 import { graphQLRequest } from '../../../services/GraphQLRequest';
-import { getFilteredAccounts, getAccountData } from '../../../apollo/queries/admin/game';
+import { getFilteredAccounts, getAccountData, getCharacterData } from '../../../apollo/queries/admin/game';
 import { toggleUserBan, updateUserFromAdmin } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
 import socketHandler from '../../../socket';
+import RouteNames from '../../../config/RouteNames';
 
 const Actions = {
   async [ ActionTypes.retrieveFilteredAccounts ] ( { commit, dispatch }, payload ) {
@@ -127,9 +128,18 @@ const Actions = {
     try {
       const { id } = payload;
 
-      const response = await graphQLRequest;
-    } catch ( err ) {
+      const response = await graphQLRequest( dispatch, 'query', getCharacterData, 'getCharacterData', {
+        id: Number( id )
+      } );
+      const characterDetails = response.data.filteredCharacter;
 
+      if ( !characterDetails ) {
+        dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.GAME.INDEX } );
+      }
+
+      commit( MutationTypes.SET_FETCHED_CHARACTER_DATA, { characterDetails } );
+    } catch ( err ) {
+      Logger.log( `Error at action retrieveCharacter: ${err} ` );
     }
   },
 
@@ -154,7 +164,7 @@ const Actions = {
           } );
         }
 
-
+        console.log( 'caching' );
         commit( MutationTypes.CACHED_ITEM_INFO );
       } );
 

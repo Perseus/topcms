@@ -1,0 +1,97 @@
+.character-details-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.character-details {
+  display: grid;
+  grid-template-rows: 1fr 1fr auto;
+  row-gap: 2rem;
+  column-gap: 2rem;
+  margin-bottom: 2rem;
+
+  @media screen and (min-width: 575px) {
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 40px;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 12px;
+  }
+}
+
+.detail-value {
+  display: flex;
+  align-items: center;
+}
+
+.character-gear-container {
+  display: grid;
+  grid-template-areas: "NECKLACE . GLOVES"
+                       ". HEAD ."
+                       "WEAPON_LEFT_HAND ARMOR WEAPON_RIGHT_HAND"
+                       ". BOOTS ."
+                       "RING_LEFT . RING_RIGHT";
+  row-gap: 1rem;
+  column-gap: 1rem;
+  justify-content: space-evenly;
+}
+
+.character-gear {
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.NECKLACE {
+    grid-area: NECKLACE;
+  }
+
+  &.GLOVES {
+    grid-area: GLOVES;
+  }
+
+  &.HEAD {
+    grid-area: HEAD;
+  }
+
+  &.WEAPON_LEFT_HAND {
+    grid-area: WEAPON_LEFT_HAND;
+  }
+
+  &.ARMOR {
+    grid-area: ARMOR;
+  }
+
+  &.WEAPON_RIGHT_HAND {
+    grid-area: WEAPON_RIGHT_HAND;
+  }
+
+  &.BOOTS {
+    grid-area: BOOTS;
+  }
+
+  &.RING_LEFT {
+    grid-area: RING_LEFT;
+  }
+
+  &.RING_RIGHT {
+    grid-area: RING_RIGHT;
+  }
+
+}
+
+.player-gear-title {
+  margin-bottom: 2rem;
+}

@@ -108,6 +108,15 @@ const RouteResolvers = {
       return { name: RouteNames.ADMIN.GAME.INDEX };
     }
   },
+
+  [ RouteNames.ADMIN.GAME.CHARACTER ]: async ( route ) => {
+    try {
+      await store.dispatch( ActionTypes.retrieveCharacter, { id: Number( route.to.params.id ) } );
+      return true;
+    } catch ( err ) {
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    }
+  }
 };
 
 export default RouteResolvers;

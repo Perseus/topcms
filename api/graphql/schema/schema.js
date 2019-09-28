@@ -1,10 +1,10 @@
 import { gql } from 'apollo-server-express';
-import resolvers from '../resolvers';
 import { makeExecutableSchema } from 'graphql-tools';
-import { isAuthenticatedDirective, websocketAuthentication } from '../directives/auth';
 import ConstraintDirective from 'graphql-constraint-directive';
+import resolvers from '../resolvers';
+import { isAuthenticatedDirective, websocketAuthentication } from '../directives/auth';
 
-const typeDefs = gql `
+const typeDefs = gql`
   
   directive @isAuthenticated(role: AccessLevels) on FIELD_DEFINITION | QUERY
   directive @constraint(minLength: Int, maxLength: Int, startsWith: String, endsWith: String, contains: String, notContains: String, pattern: String, format: String, min: Float, max: Float, exclusiveMin: Float, exclusiveMax: Float, multipleOf: Float) on FIELD_DEFINITION | QUERY | INPUT_FIELD_DEFINITION
@@ -133,6 +133,7 @@ const typeDefs = gql `
     delflag: Int
     degree: Int
     exp: Int
+    gd: Int
     map_x: String
     map_y: String
     map: String
@@ -141,6 +142,7 @@ const typeDefs = gql `
     credit: String
     estop: String
     bank: String
+    guild: Guild
     inventories: [CharacterResource]
   }
 
@@ -245,10 +247,6 @@ const typeDefs = gql `
     cacheItemInfo: [ ItemInfoObject ] @isAuthenticated(role: ADMIN)
   }
 
-  type Subscription {
-    itemCached: ItemInfoObject
-  }
-
 `;
 
 const schema = makeExecutableSchema( {
@@ -259,9 +257,6 @@ const schema = makeExecutableSchema( {
   },
   schemaDirectives: {
     constraint: ConstraintDirective
-  },
-  subscriptions: {
-    onConnect: websocketAuthentication
   }
 } );
 

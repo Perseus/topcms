@@ -1,26 +1,28 @@
-'use strict'
+
 import { isUnique } from '../../validators/validators';
 import InventoryParser from '../../../utils/InventoryParser';
+
 
 export default ( sequelize, DataTypes ) => {
   const Resource = sequelize.define( 'Resource', {
 
-    id:  {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
     cha_id: DataTypes.INTEGER,
     type_id: DataTypes.INTEGER,
-    content: { 
+    content: {
       type: DataTypes.TEXT,
-      get() {
+      async get() {
         const inventoryType = this.getDataValue( 'type_id' );
         const inventoryContent = this.getDataValue( 'content' );
         const inventory = new InventoryParser( inventoryType, inventoryContent );
 
-        return inventory.getParsedInventory();
+        const parsedInventory = await inventory.getParsedInventory();
+        return JSON.stringify( parsedInventory );
       },
-    }
+    },
   }, {
     tableName: 'Resource',
     timestamps: false,
@@ -33,9 +35,8 @@ export default ( sequelize, DataTypes ) => {
       foreignKey: 'cha_id',
       as: 'character'
     } );
-  }
+  };
 
-  
 
   return Resource;
 };

@@ -27,9 +27,9 @@ export async function gameStats( object, args, context, info ) {
       attributes: [ [ sequelize.fn( 'MAX', sequelize.col( 'play_num' ) ), 'onlineRecord' ] ]
     } );
 
-    const accounts = userCountQuery[ 0 ].accounts;
-    const characters = characterCountQuery[ 0 ].characters;
-    const online = onlineCountQuery[ 0 ].onlineUsers
+    const { accounts } = userCountQuery[ 0 ];
+    const { characters } = characterCountQuery[ 0 ];
+    const online = onlineCountQuery[ 0 ].onlineUsers;
     const online_record = onlineRecordQuery[ 0 ].onlineRecord || 0;
 
     return {
@@ -46,16 +46,18 @@ export async function gameStats( object, args, context, info ) {
 
 export async function staffStatuses() {
   try {
-    const retrievedAdminAccounts = await GameDB.Account.findAll( { where: {
-      gm: {
-         [ sequelize.Op.gt ]: 0
+    const retrievedAdminAccounts = await GameDB.Account.findAll( {
+      where: {
+        gm: {
+          [ sequelize.Op.gt ]: 0
+        }
       }
-    } } );
+    } );
     const adminAccounts = [];
 
     for ( let i = 0; i < retrievedAdminAccounts.length; i++ ) {
       const accountLoginDetails = await retrievedAdminAccounts[ i ].getAccountDetails( AccountServer, [ 'login_status' ] );
-      const characterDetails = await retrievedAdminAccounts[ i ].getCharacters( { attributes: ['cha_name'] } );
+      const characterDetails = await retrievedAdminAccounts[ i ].getCharacters( { attributes: [ 'cha_name' ] } );
       let firstCharacter = {};
 
       if ( characterDetails ) {
@@ -64,8 +66,8 @@ export async function staffStatuses() {
 
       adminAccounts.push( {
         name: firstCharacter.cha_name,
-        type: ( retrievedAdminAccounts[ i ].gm === 99 ? 'GM': 'HD' ),
-        is_online: Boolean( accountLoginDetails.login_status === 1),
+        type: ( retrievedAdminAccounts[ i ].gm === 99 ? 'GM' : 'HD' ),
+        is_online: Boolean( accountLoginDetails.login_status === 1 ),
       } );
     }
 
@@ -95,7 +97,7 @@ export async function playerRankings( object, args ) {
 
     if ( !GeneralConfig.INCLUDE_ADMIN_IN_RANKING ) {
       // get the access level of each account
-      let promises = [];
+      const accessLevelRetrievalPromises = [];
       validAccounts.forEach( ( account ) => {
         const promise = new Promise( ( resolve, reject ) => {
           account.getAccessLevel( GameDB.Account ).then( ( result ) => {
@@ -104,13 +106,13 @@ export async function playerRankings( object, args ) {
           } );
         } );
 
-        promises.push( promise );
+        accessLevelRetrievalPromises.push( promise );
       } );
 
-     await Promise.all( promises );
+      await Promise.all( accessLevelRetrievalPromises );
 
       validAccounts = validAccounts.filter( ( account ) => {
-        if ( account.accessLevels.includes( GeneralConfig.ADMIN_LEVELS.ADMIN ) ||  account.accessLevels.includes( GeneralConfig.ADMIN_LEVELS.HD ) ) {
+        if ( account.accessLevels.includes( GeneralConfig.ADMIN_LEVELS.ADMIN ) || account.accessLevels.includes( GeneralConfig.ADMIN_LEVELS.HD ) ) {
           return false;
         }
 
@@ -118,7 +120,7 @@ export async function playerRankings( object, args ) {
       } );
     }
 
-    validAccounts = validAccounts.map( ( account ) => account.id );
+    validAccounts = validAccounts.map( account => account.id );
 
     let orderParam = '';
     if ( filter === 'gold' ) {
@@ -127,7 +129,7 @@ export async function playerRankings( object, args ) {
       orderParam = 'degree';
     }
 
-    const characters = await GameDB.Character.findAll( { 
+    const characters = await GameDB.Character.findAll( {
       where: {
         act_id: {
           [ sequelize.Op.in ]: validAccounts
@@ -139,9 +141,7 @@ export async function playerRankings( object, args ) {
       include: [ { model: GameDB.Guild, as: 'guild' } ]
     } );
 
-    console.log( characters[ 0 ].guild );
     return characters.splice( 0, GeneralConfig.MAXIMUM_RANKING_ITEMS );
-
   } catch ( err ) {
     return err;
   }
@@ -150,7 +150,7 @@ export async function playerRankings( object, args ) {
 export async function guildRankings( object, args ) {
   try {
     const { filter } = args;
-  
+
     const guilds = await GameDB.Guild.findAll( {
       where: {
         leader_id: {

@@ -7,7 +7,6 @@ const resolvers = {
   Query,
   Mutation,
   User,
-  Subscription,
 };
 
 export default resolvers;

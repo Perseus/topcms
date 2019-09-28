@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import fs from 'fs';
+import serialize from 'serialize-javascript';
 
 import { ItemInfoAttributeMap } from '../config/ItemInfoItemAttributes';
 import TError from './TError';
@@ -43,7 +44,9 @@ export default class ItemInfoParser {
       const itemDetails = item.split( '\t' );
       await this.writeItemData( itemDetails );
       currentItem += 1;
-      cb( { currentItem, totalItems } );
+      if ( currentItem % 100 === 0 || currentItem === totalItems ) {
+        cb( { currentItem, totalItems } );
+      }
     }
   }
 
@@ -60,7 +63,7 @@ export default class ItemInfoParser {
   async writeItemData( itemData ) {
     try {
       const itemId = itemData[ ItemInfoAttributeMap.ID ];
-      await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, JSON.stringify( itemData ), 'utf-8' );
+      await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, itemData, 'utf-8' );
     } catch ( err ) {
       throw new TError( {
         code: 'cache.WRITE_ERROR',
@@ -85,5 +88,14 @@ export default class ItemInfoParser {
       rs.on( 'data', chunk => hash.update( chunk ) );
       rs.on( 'end', () => resolve( hash.digest( 'hex' ) ) );
     } );
+  }
+
+  async getItemInformation( itemId ) {
+    try {
+      const fileData = await fs.promises.readFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, 'utf-8' );
+      return fileData;
+    } catch ( err ) {
+      return null;
+    }
   }
 }

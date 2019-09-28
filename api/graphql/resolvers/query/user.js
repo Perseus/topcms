@@ -115,7 +115,7 @@ export async function filteredCharacter( object, args ) {
     const { id } = args;
     const character = await GameDB.Character.findOne( {
       where: { cha_id: id },
-      include: [ { model: GameDB.Resource, as: 'inventories' } ],
+      include: [ { model: GameDB.Resource, as: 'inventories' }, { model: GameDB.Guild, as: 'guild' } ],
     } );
 
 

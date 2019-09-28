@@ -40,3 +40,16 @@ export const DBInventoryAttributeMap = {
   GLOVES_DEFENSE: 14,
 
 };
+
+
+export const DBInventoryGearMap = {
+  HEAD: 1,
+  ARMOR: 3,
+  GLOVES: 4,
+  BOOTS: 5,
+  NECKLACE: 6,
+  WEAPON_RIGHT_HAND: 7,
+  RING_LEFT: 8,
+  RING_RIGHT: 9,
+  WEAPON_LEFT_HAND: 10,
+};

@@ -16,6 +16,7 @@ class SocketHandler {
   }
 
   listen( eventName, callback ) {
+    this.socket.off( eventName );
     this.socket.on( eventName, callback );
   }
 }

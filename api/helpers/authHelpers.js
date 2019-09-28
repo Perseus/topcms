@@ -37,7 +37,7 @@ export function retrieveUserFromSocketRequest( socket ) {
     const verifiedToken = verify( _sid, process.env.JWT_SECRET );
     return verifiedToken.data.id;
   } catch ( err ) {
-    console.log( err );
+    return err;
   }
 }
 

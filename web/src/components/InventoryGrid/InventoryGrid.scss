@@ -1,0 +1,20 @@
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 3px;
+
+  @media screen and (min-width: 670px) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+.inventory-grid-item {
+  height: 50px;
+  width: 50px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
