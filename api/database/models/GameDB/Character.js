@@ -1,6 +1,8 @@
-'use strict'
+
 import { isUnique } from '../../validators/validators';
 import { JobTypes, CharacterModelTypes } from '../../../config';
+import InventoryParser from '../../../utils/InventoryParser';
+
 
 export default ( sequelize, DataTypes ) => {
   const Character = sequelize.define( 'Character', {
@@ -18,7 +20,7 @@ export default ( sequelize, DataTypes ) => {
     job: {
       type: DataTypes.STRING,
       get() {
-        const retrievedJob = this.getDataValue('job');
+        const retrievedJob = this.getDataValue( 'job' );
         if ( JobTypes[ retrievedJob ] ) {
           return JobTypes[ retrievedJob ];
         }
@@ -45,7 +47,15 @@ export default ( sequelize, DataTypes ) => {
     map: DataTypes.STRING,
     map_x: DataTypes.STRING,
     map_y: DataTypes.STRING,
-    look: DataTypes.STRING,
+    look: {
+      type: DataTypes.TEXT,
+      async get() {
+        const look = this.getDataValue( 'look' );
+        const inventory = new InventoryParser( 0, look );
+
+        return JSON.stringify( await inventory.retrieveItemsFromGear() );
+      },
+    },
     kb_capacity: DataTypes.DECIMAL,
     kitbag: DataTypes.DECIMAL,
     skillbag: DataTypes.STRING,
@@ -72,7 +82,13 @@ export default ( sequelize, DataTypes ) => {
       foreignKey: 'guild_id',
       as: 'guild'
     } );
-  }
+
+    this.hasMany( models.Resource, {
+      sourceKey: 'cha_id',
+      foreignKey: 'cha_id',
+      as: 'inventories',
+    } );
+  };
 
   return Character;
 };

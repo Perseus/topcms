@@ -93,6 +93,7 @@ export const getAccountData = gql`
               gm
             }
             character_details {
+              cha_id
               cha_name
               job
               icon
@@ -100,4 +101,29 @@ export const getAccountData = gql`
             }
         }
     }
+`;
+
+export const getCharacterData = gql`
+    query filteredCharacter($id: ID!) {
+        filteredCharacter(id: $id) {
+            cha_name
+            map_x
+            map_y
+            map
+            bank
+            job
+            gd
+            degree
+            look
+            credit
+            inventories {
+                    id
+                    cha_id
+                    content
+            }
+            guild {
+                guild_name
+            }
+    }
+}
 `;

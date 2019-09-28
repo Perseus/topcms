@@ -12,7 +12,7 @@ export function getInitialState() {
       isRegistering: false,
       isLoggingIn: false,
       errors: [],
-    }
+    },
   };
 }
 

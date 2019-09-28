@@ -30,6 +30,40 @@ const Mutations = {
 
   [ MutationTypes.SET_UPDATED_USER_DATA ] ( state, payload ) {
     state.retrievedAccountData = Object.assign( {}, state.retrievedAccountData, payload );
+  },
+
+  [ MutationTypes.CACHING_ITEM_INFO ] ( state, payload ) {
+    if ( payload && payload.totalItems && payload.currentItem ) {
+      state.totalItemsToCache = payload.totalItems;
+      state.totalItemsCached = payload.currentItem;
+    } else {
+      state.isCachingItemInfo = true;
+    }
+  },
+
+  [ MutationTypes.CACHED_ITEM_INFO ] ( state ) {
+    state.isCachingItemInfo = false;
+  },
+
+  [ MutationTypes.SET_FETCHED_CHARACTER_DATA ] ( state, payload ) {
+    const { characterDetails } = payload;
+
+    if ( characterDetails.inventories ) {
+      characterDetails.inventories.forEach( ( inventory ) => {
+        if ( inventory.content && inventory.content !== '[]' ) {
+          inventory.content = JSON.parse( inventory.content );
+          inventory.content.forEach( ( content ) => {
+            content.itemInfo = JSON.parse( content.itemInfo );
+          } );
+        }
+      } );
+    }
+
+    characterDetails.look = JSON.parse( characterDetails.look || '{}' );
+    _.forEach( characterDetails.look, ( look ) => {
+      look.itemInfo = JSON.parse( look.itemInfo );
+    } );
+    state.retrievedCharacterData = characterDetails;
   }
 };
 

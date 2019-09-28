@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { UserInputError, AuthenticationError, ValidationError } from "apollo-server";
+import { UserInputError, AuthenticationError, ValidationError } from 'apollo-server';
 import { AccountServer, GameDB } from '../../../database/models';
 
 export async function updateUser( obj, args, context ) {
@@ -32,7 +32,6 @@ export async function updateUser( obj, args, context ) {
           id: user
         }
       } );
-
     }
 
     if ( newEmail !== retrievedUser.email && userInfo.new_password && userInfo.old_password ) {
@@ -58,7 +57,6 @@ export async function updateUser( obj, args, context ) {
           id: user
         }
       } );
-
     }
 
     retrievedUser = await AccountServer.User.findOne( {
@@ -68,7 +66,6 @@ export async function updateUser( obj, args, context ) {
     } );
 
     return retrievedUser;
-
   } catch ( err ) {
     throw new UserInputError( err );
   }
@@ -76,8 +73,10 @@ export async function updateUser( obj, args, context ) {
 
 export async function updateUserFromAdmin( context, args ) {
   try {
-    const { id, email, gm, password } = args;
-    
+    const {
+ id, email, gm, password 
+} = args;
+
     const fieldsToUpdate = {
 
     };
@@ -99,9 +98,7 @@ export async function updateUserFromAdmin( context, args ) {
       }
     } );
 
-    console.log( gm );
     if ( gm ) {
-      console.log('gm', gm);
       await GameDB.Account.update( {
         gm
       }, {

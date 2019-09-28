@@ -18,6 +18,8 @@ import AccountDetails from '../../containers/AccountDetails/AccountDetails.vue';
 import AdminGameIndex from '../../containers/Admin/Game/Index/Index.vue';
 import AdminGameAccounts from '../../containers/Admin/Game/Accounts/Accounts.vue';
 import AdminGameAccount from '../../containers/Admin/Game/Account/Account.vue';
+import AdminGameCharacter from '../../containers/Admin/Game/Character/Character.vue';
+
 
 import { RootResolver } from '../resolvers';
 import { adminGuard, userGuard } from '../guards';
@@ -73,6 +75,11 @@ const RouteConfig = [
                 path: '/admin/game/account/:id',
                 component: AdminGameAccount
               },
+              {
+                name: RouteNames.ADMIN.GAME.CHARACTER,
+                path: '/admin/game/character/:id',
+                component: AdminGameCharacter,
+              }
             ]
           },
           {

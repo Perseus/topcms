@@ -5,7 +5,12 @@ import {
   restartWebsockets,
 } from 'vue-cli-plugin-apollo/graphql-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import ErrorLink from '../services/ErrorLink';
+import { HttpLink } from 'apollo-link-http';
+
+import { split } from 'apollo-link';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
+
 
 // Install the vue plugin
 Vue.use( VueApollo );
@@ -15,13 +20,14 @@ const AUTH_TOKEN = 'apollo-token';
 
 // Http endpoint
 const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql';
+const wsEndpoint = process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql';
 // Config
 const defaultOptions = {
   // You can use `https` for secure connection (recommended in production)
   httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
-  wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql',
+  wsEndpoint,
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
@@ -54,12 +60,34 @@ const defaultOptions = {
   // clientState: { resolvers: { ... }, defaults: { ... } }
 };
 
+// const httpLink = new HttpLink( {
+//   uri: httpEndpoint
+// } );
+
+// const wsLink = new WebSocketLink( {
+//   uri: wsEndpoint,
+//   options: {
+//     reconnect: true
+//   }
+// } );
+
+// const link = split(
+//   ( { query } ) => {
+//     const definition = getMainDefinition( query );
+//     return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+//   },
+//   wsLink
+// );
+
 // Call this in the Vue app file
 export function createProvider( options = {} ) {
   // Create apollo client
   const { apolloClient, wsClient } = createApolloClient( {
     ...defaultOptions,
     ...options,
+    // link,
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
   } );
   apolloClient.wsClient = wsClient;
 

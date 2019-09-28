@@ -11,6 +11,10 @@ function getInitialState() {
       searchKey: '',
     },
     retrievedAccountData: {},
+    retrievedCharacterData: {},
+    isCachingItemInfo: false,
+    totalItemsToCache: 0,
+    totalItemsCached: 0,
   };
 }
 

@@ -24,6 +24,7 @@ const RouteNames = {
       INDEX: 'ADMIN.GAME.INDEX',
       ACCOUNTS: 'ADMIN.GAME.ACCOUNTS',
       ACCOUNT: 'ADMIN.GAME.ACCOUNT',
+      CHARACTER: 'ADMIN.GAME.CHARACTER',
     },
     SITE: 'ADMIN.SITE',
     NEWS: {

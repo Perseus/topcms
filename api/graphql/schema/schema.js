@@ -1,10 +1,10 @@
 import { gql } from 'apollo-server-express';
-import resolvers from '../resolvers';
 import { makeExecutableSchema } from 'graphql-tools';
-import { isAuthenticatedDirective } from '../directives/auth';
 import ConstraintDirective from 'graphql-constraint-directive';
+import resolvers from '../resolvers';
+import { isAuthenticatedDirective, websocketAuthentication } from '../directives/auth';
 
-const typeDefs = gql `
+const typeDefs = gql`
   
   directive @isAuthenticated(role: AccessLevels) on FIELD_DEFINITION | QUERY
   directive @constraint(minLength: Int, maxLength: Int, startsWith: String, endsWith: String, contains: String, notContains: String, pattern: String, format: String, min: Float, max: Float, exclusiveMin: Float, exclusiveMax: Float, multipleOf: Float) on FIELD_DEFINITION | QUERY | INPUT_FIELD_DEFINITION
@@ -109,6 +109,13 @@ const typeDefs = gql `
     guild_name: String
   }
 
+  type CharacterResource {
+    id: ID
+    cha_id: ID
+    type_id: Int
+    content: String
+  }
+
   type CharacterRankingItem {
     cha_name: String
     gd: Int
@@ -124,6 +131,19 @@ const typeDefs = gql `
     job: String
     guild_id: Int
     delflag: Int
+    degree: Int
+    exp: Int
+    gd: Int
+    map_x: String
+    map_y: String
+    map: String
+    look: String
+    birth: String
+    credit: String
+    estop: String
+    bank: String
+    guild: Guild
+    inventories: [CharacterResource]
   }
 
   type NewsFeed {
@@ -174,6 +194,16 @@ const typeDefs = gql `
     total: Int
   }
 
+  type ItemInfoObject {
+    id: Int
+    name: String
+    icon: String
+  }
+
+  type GameInventoryItem {
+    id: Int
+  }
+
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
@@ -193,6 +223,7 @@ const typeDefs = gql `
     playerRankings(filter: String!): [CharacterRankingItem]
     guildRankings(filter: String!): [GuildRankingItem]
     filteredUser(id: ID!): User @isAuthenticated(role: ADMIN)
+    filteredCharacter(id: ID!): Character @isAuthenticated(role: ADMIN)
   }
 
   type Mutation {
@@ -213,6 +244,7 @@ const typeDefs = gql `
     updateUser(userInfo: UpdateUserInput!): User @isAuthenticated(role: USER)
     toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
     updateUserFromAdmin(id: ID!, email: String, password: String, gm: Int): User @isAuthenticated(role: ADMIN)
+    cacheItemInfo: [ ItemInfoObject ] @isAuthenticated(role: ADMIN)
   }
 
 `;
@@ -225,7 +257,7 @@ const schema = makeExecutableSchema( {
   },
   schemaDirectives: {
     constraint: ConstraintDirective
-  },
+  }
 } );
 
 

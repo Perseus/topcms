@@ -1,6 +1,6 @@
-import { AccountServer, GameDB } from '../../../database/models';
 import sequelize from 'sequelize';
 import { UserInputError } from 'apollo-server';
+import { AccountServer, GameDB } from '../../../database/models';
 
 export async function newsArticles( object, args, context, info ) {
   return await GameDB.NewsArticle.findAll( { include: [ { model: GameDB.Author, as: 'author' } ] } );
@@ -21,14 +21,14 @@ export async function newsArticle( context, args ) {
     const result = await GameDB.NewsArticle.findOne( { where: id, include: [ { model: GameDB.Author, as: 'author' } ] } );
     return result;
   } catch ( err ) {
-    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ 'INVALID_ID']  } );
+    throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ 'INVALID_ID' ] } );
   }
 }
 
 export async function newsFeed( context, args ) {
   let { offset, limit } = args;
   if ( !offset ) {
-    offset = 0;    
+    offset = 0;
   }
 
   if ( !limit ) {
@@ -36,24 +36,26 @@ export async function newsFeed( context, args ) {
   }
 
   try {
-    const articles = await GameDB.NewsArticle.findAll( { order: [ [ 'updatedAt', 'DESC' ] ], offset, limit, include: [ { model: GameDB.Author, as: 'author' } ] } );
+    const articles = await GameDB.NewsArticle.findAll( {
+      order: [ [ 'updatedAt', 'DESC' ] ], offset, limit, include: [ { model: GameDB.Author, as: 'author' } ]
+    } );
     const articlesQuery = await GameDB.NewsArticle.findAll( {
-      attributes: 
+      attributes:
       [
         [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalArticles' ]
       ]
 
     } );
 
-    // WHY? 
-    const totalArticles = JSON.parse( JSON.stringify( articlesQuery[ 0 ] ) ).totalArticles;
+    // WHY?
+    const { totalArticles } = JSON.parse( JSON.stringify( articlesQuery[ 0 ] ) );
     offset = articles.length;
     return {
       articles,
       offset,
       total_articles: totalArticles,
-    }
+    };
   } catch ( err ) {
-    console.log( err );
+    return err;
   }
 }

@@ -2,6 +2,7 @@ const ActionTypes = {
   bootstrapApplication: 'bootstrapApplication',
   retrieveLandingPageInformation: 'retrieveLandingPageInformation',
   retrieveStaffOnlineStatus: 'retrieveStaffOnlineStatus',
+  connectToSocketServer: 'connectToSocketServer',
 
   registerUser: 'registerUser',
   loginUser: 'loginUser',
@@ -48,6 +49,9 @@ const ActionTypes = {
   retrieveAccountData: 'retrieveAccountData',
   adminUpdateUserEmail: 'adminUpdateUserEmail',
   adminUpdateUser: 'adminUpdateUser',
+  retrieveCharacter: 'retrieveCharacter',
+  generateItemInfoCache: 'generateItemInfoCache',
+  uploadItemInfo: 'uploadItemInfo',
 };
 
 export default ActionTypes;

@@ -44,3 +44,8 @@ export async function isAuthenticatedDirective( next, src, args, context ) {
     throw new Error( err );
   }
 }
+
+
+export async function websocketAuthentication( connectionParams, webSocket ) {
+  console.log( connectionParams, webSocket );
+}
