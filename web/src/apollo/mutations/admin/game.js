@@ -43,3 +43,11 @@ export const updateUserFromAdmin = gql`
     }
   }
 `;
+
+export const resetUserSecurityCode = gql`
+  mutation resetUserSecurityCode($id: ID!) {
+    resetUserSecurityCode(id: $id) {
+      id
+    }
+  }
+`;

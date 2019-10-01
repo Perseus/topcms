@@ -6,7 +6,7 @@ import MutationTypes from '../../types/MutationTypes';
 
 import { graphQLRequest } from '../../../services/GraphQLRequest';
 import { getFilteredAccounts, getAccountData, getCharacterData } from '../../../apollo/queries/admin/game';
-import { toggleUserBan, updateUserFromAdmin } from '../../../apollo/mutations/admin/game';
+import { toggleUserBan, updateUserFromAdmin, resetUserSecurityCode } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
 import socketHandler from '../../../socket';
 import RouteNames from '../../../config/RouteNames';
@@ -191,7 +191,6 @@ const Actions = {
     try {
       dispatch( ActionTypes.updateRequestsInProgress, { type: 'START', name: 'uploadItemInfo' } );
 
-
       const response = await axios.post( `${process.env.VUE_APP_HTTP_URL}/api/uploadItemInfo`, payload.file, {
       } );
 
@@ -208,10 +207,32 @@ const Actions = {
           duration: 3000
         } );
       }
-      dispatch( ActionTypes.updateRequestsInProgress, { type: 'COMPLETE', name: 'uploadItemInfo' } );
     } catch ( err ) {
       Logger.log( err, 'error' );
+    } finally {
       dispatch( ActionTypes.updateRequestsInProgress, { type: 'COMPLETE', name: 'uploadItemInfo' } );
+    }
+  },
+
+  async [ ActionTypes.resetUserSecurityCode ] ( { dispatch }, payload ) {
+    try {
+      const { id } = payload;
+      await graphQLRequest( dispatch, 'mutation', resetUserSecurityCode, 'getCharacterData', {
+        id: Number( id )
+      } );
+
+      Snackbar.open( {
+        message: 'Security code reset successfully',
+        type: 'is-success',
+        duration: 3000
+      } );
+    } catch ( err ) {
+      Logger.log( `Error at action resetUserSecurityCode: ${err} ` );
+      Snackbar.open( {
+        message: 'An error occured while trying to reset the security code',
+        duration: 3000,
+        type: 'is-danger'
+      } );
     }
   }
 };

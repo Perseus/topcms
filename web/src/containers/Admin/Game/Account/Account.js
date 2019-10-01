@@ -97,6 +97,10 @@ const AdminGameAccount = {
       this.toggleModal();
     },
 
+    handleResetUserSecurityCode() {
+      this.resetUserSecurityCode( { id: this.accountData.id } );
+    },
+
     redirectToCharacter( characterId ) {
       this.changeRoute( { name: RouteNames.ADMIN.GAME.CHARACTER, metaData: { params: { id: characterId } } } );
     }
@@ -117,7 +121,8 @@ function mapMethodsToActions() {
     toggleBanForUser: ActionTypes.toggleBanForUser,
     toggleModal: ActionTypes.toggleModal,
     adminUpdateUserEmail: ActionTypes.adminUpdateUserEmail,
-    adminUpdateUser: ActionTypes.adminUpdateUser
+    adminUpdateUser: ActionTypes.adminUpdateUser,
+    resetUserSecurityCode: ActionTypes.resetUserSecurityCode,
   } );
 }
 

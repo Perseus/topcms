@@ -52,6 +52,7 @@ const ActionTypes = {
   retrieveCharacter: 'retrieveCharacter',
   generateItemInfoCache: 'generateItemInfoCache',
   uploadItemInfo: 'uploadItemInfo',
+  resetUserSecurityCode: 'resetUserSecurityCode',
 };
 
 export default ActionTypes;

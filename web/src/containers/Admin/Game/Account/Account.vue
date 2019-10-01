@@ -47,6 +47,8 @@
           </div>
         </div>
 
+        <b-button @click="handleResetUserSecurityCode">Reset Security Code</b-button>
+
         <hr />
 
         <div class="detail-row">
