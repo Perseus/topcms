@@ -62,8 +62,8 @@ export default class ItemInfoParser {
 
   async writeItemData( itemData ) {
     try {
-      const itemId = itemData[ ItemInfoAttributeMap.ID ];
-      await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, itemData, 'utf-8' );
+      const itemId = parseInt( itemData[ ItemInfoAttributeMap.ID ], 10 );
+      await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, serialize( itemData ), 'utf-8' );
     } catch ( err ) {
       throw new TError( {
         code: 'cache.WRITE_ERROR',
