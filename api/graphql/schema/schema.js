@@ -245,6 +245,7 @@ const typeDefs = gql`
     toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
     updateUserFromAdmin(id: ID!, email: String, password: String, gm: Int): User @isAuthenticated(role: ADMIN)
     cacheItemInfo: [ ItemInfoObject ] @isAuthenticated(role: ADMIN)
+    resetUserSecurityCode(id: ID!): User @isAuthenticated(role: ADMIN)
   }
 
 `;

@@ -74,8 +74,8 @@ export async function updateUser( obj, args, context ) {
 export async function updateUserFromAdmin( context, args ) {
   try {
     const {
- id, email, gm, password 
-} = args;
+      id, email, gm, password
+    } = args;
 
     const fieldsToUpdate = {
 
@@ -117,5 +117,29 @@ export async function updateUserFromAdmin( context, args ) {
     return updatedUser;
   } catch ( err ) {
     return new UserInputError( err );
+  }
+}
+
+export async function resetUserSecurityCode( context, args ) {
+  try {
+    const { id } = args;
+
+    await GameDB.Account.update( {
+      password: '',
+    }, {
+      where: {
+        act_id: id
+      }
+    } );
+
+    const updatedUser = await AccountServer.User.findOne( {
+      where: {
+        id
+      }
+    } );
+
+    return updatedUser;
+  } catch ( err ) {
+    throw new UserInputError( err );
   }
 }
