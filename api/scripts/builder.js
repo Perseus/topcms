@@ -126,10 +126,12 @@ async function build() {
   shell.cd( 'web' );
   await runShellScript( 'npm i --silent' );
   await runShellScript( 'npm i -g nodemon sequelize-cli' );
+  clearInterval( loadingTimer );
 
   console.log( colors.bgCyan( ' BUILDING WEB BUNDLE' ) );
   await runShellScript( 'npm run build' );
-  clearInterval( loadingTimer );
+  console.log( colors.bgCyan( ' COPYING WEB BUNDLE TO API DIRECTORY' ) );
+  await runShellScript( `cp -r dist/ ../api/` );
 
   console.log( colors.bgCyan( ' MIGRATING DATABASE TABLES ' ) );
   loadingTimer = twirlTimer( ' Migrating DB ' );
