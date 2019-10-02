@@ -55,7 +55,11 @@
           <div class="character-gear-container">
             <div :class="[ 'character-gear', key ]" v-for="(gear, key) in currentGear" :key="key">
               <b-tooltip :label="getTooltipLabel( gear )" animated>
-                <img class="gear-icon" :src="getItemIcon( gear )" />
+                <img
+                  class="gear-icon"
+                  :src="`${publicPath}img/icons/${getItemIcon(  gear )}.png`"
+                  v-if="doesItemHaveIcon(gear)"
+                />
               </b-tooltip>
             </div>
           </div>

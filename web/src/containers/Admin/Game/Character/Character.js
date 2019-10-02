@@ -8,6 +8,12 @@ const GameAdminCharacter = {
   components: {
     'inventory-grid': InventoryGrid,
   },
+
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+    };
+  },
   computed: {
     ...mapStateToComputed(),
 
@@ -29,10 +35,20 @@ const GameAdminCharacter = {
       try {
         const itemIcon = item.itemInfo[ ItemAttributeMap.ICON ];
         // eslint-disable-next-line
-        return require( `@/assets/img/icons/${itemIcon}.png` );
+        return itemIcon;
       } catch ( err ) {
         // eslint-disable-next-line
         return '';
+      }
+    },
+
+    doesItemHaveIcon( item ) {
+      try {
+        const itemIcon = item.itemInfo[ ItemAttributeMap.ICON ];
+
+        return Boolean( itemIcon );
+      } catch ( err ) {
+        return false;
       }
     },
 

@@ -10,21 +10,22 @@ BUILD STEPS:
 
 */
 
-const shell = require('shelljs');
-const colors = require('colors/safe');
+const shell = require( 'shelljs' );
+const colors = require( 'colors/safe' );
 const path = require( 'path' );
 const { promises } = require( 'fs' );
-const uuid = require('uuid');
+const uuid = require( 'uuid' );
+
 const { stdin, stdout } = process;
 
-function prompt(question) {
-  return new Promise((resolve, reject) => {
+function prompt( question ) {
+  return new Promise( ( resolve, reject ) => {
     stdin.resume();
-    stdout.write(question);
+    stdout.write( question );
 
-    stdin.on('data', data => resolve(data.toString().trim()));
-    stdin.on('error', err => reject(err));
-  });
+    stdin.on( 'data', data => resolve( data.toString().trim() ) );
+    stdin.on( 'error', err => reject( err ) );
+  } );
 }
 
 async function getDatabaseDetails( db ) {
@@ -36,7 +37,7 @@ async function getDatabaseDetails( db ) {
     dialect: 'mssql',
   };
   console.log( colors.bgWhite( colors.black( `\n  ${db}  ` ) ) );
-  
+
   dbDetails.username = await prompt( colors.yellow( `Enter the username for ${db}: ` ) );
   dbDetails.password = await prompt( colors.yellow( `Enter the password for ${db}: ` ) );
   dbDetails.database = await prompt( colors.yellow( `Enter the database name for ${db} (leave empty if default name): ` ) );
@@ -57,28 +58,30 @@ async function getWebEnvDetails() {
 
   const webEnvDetails = `VUE_APP_GRAPHQL_HTTP='${apiHost}'
 VUE_APP_TITLE='${websiteTitle}'
+VUE_APP_HTTP_URL='${apiHost}'
+VUE_APP_SOCKET_URL='${apiHost}'
 `;
 
-  return await promises.writeFile( path.join( __dirname, '..', '..', 'web', '.env' ), webEnvDetails );
+  return promises.writeFile( path.join( __dirname, '..', '..', 'web', '.env' ), webEnvDetails );
 }
 
-var twirlTimer = function( message ) {
-  var P = ["\\", "|", "/", "-"];
-  var x = 0;
-  return setInterval(function() {
+const twirlTimer = function( message ) {
+  const P = [ '\\', '|', '/', '-' ];
+  let x = 0;
+  return setInterval( () => {
     process.stdout.write( message );
-    process.stdout.write("\r" + P[x++]);
+    process.stdout.write( `\r${P[ x++ ]}` );
     x &= 3;
-  }, 250);
+  }, 250 );
 };
 
 async function generateJWTKey() {
   const jwtKey = uuid.v4();
-  return await promises.writeFile( path.join( __dirname, '..', '.env' ), `JWT_SECRET=${jwtKey}`);
+  return promises.writeFile( path.join( __dirname, '..', '.env' ), `JWT_SECRET=${jwtKey}` );
 }
 
 async function writeDBDetails( details ) {
-  return await promises.writeFile( path.join( __dirname, '..', 'database', 'config', 'config.json' ), JSON.stringify( details, null, 2 ) );
+  return promises.writeFile( path.join( __dirname, '..', 'database', 'config', 'config.json' ), JSON.stringify( details, null, 2 ) );
 }
 
 function runShellScript( script ) {
@@ -89,22 +92,22 @@ function runShellScript( script ) {
 
 
 async function build() {
-  console.log( colors.bgMagenta( ' STARTING SETUP PROCESS \n' ) ); 
-  
+  console.log( colors.bgMagenta( ' STARTING SETUP PROCESS \n' ) );
+
   const databaseDetails = {
     AccountServer: {},
     GameDB: {},
   };
-  
+
   console.log( colors.bgCyan( ' DATABASE SETUP ' ) );
-  
+
   const accountServerDetails = await getDatabaseDetails( 'AccountServer' );
   const gameDbDetails = await getDatabaseDetails( 'GameDB' );
-  
+
   databaseDetails.AccountServer = accountServerDetails;
   databaseDetails.GameDB = gameDbDetails;
 
-  await writeDBDetails( databaseDetails )
+  await writeDBDetails( databaseDetails );
   console.log( colors.bgCyan( ' DB DETAILS WRITTEN TO CONFIG FILES \n' ) );
 
 
@@ -123,7 +126,11 @@ async function build() {
   shell.cd( 'web' );
   await runShellScript( 'npm i --silent' );
   await runShellScript( 'npm i -g nodemon sequelize-cli' );
+
+  console.log( colors.bgCyan( ' BUILDING WEB BUNDLE' ) );
+  await runShellScript( 'npm run build' );
   clearInterval( loadingTimer );
+
   console.log( colors.bgCyan( ' MIGRATING DATABASE TABLES ' ) );
   loadingTimer = twirlTimer( ' Migrating DB ' );
   shell.cd( '..' );
@@ -131,7 +138,7 @@ async function build() {
   await runShellScript( 'npx sequelize db:migrate --env="GameDB"' );
   clearTimeout( loadingTimer );
 
-  console.log( colors.bgMagenta( ' WEBSITE SETUP DONE! \n' ) ); 
+  console.log( colors.bgMagenta( ' WEBSITE SETUP DONE! \n' ) );
   process.exit();
 }
 
