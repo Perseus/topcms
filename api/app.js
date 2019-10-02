@@ -52,6 +52,7 @@ app.use( morgan( 'combined' ) );
 
 app.use( '/api', routes );
 app.use( '/assets', express.static( 'dist/assets' ) );
+app.use( '/img', express.static( 'dist/img' ) );
 app.get( '/*', ( req, res ) => {
   res.sendFile( path.join( __dirname, 'dist/index.html' ) );
 } );
