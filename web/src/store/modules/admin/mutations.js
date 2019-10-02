@@ -47,24 +47,16 @@ const Mutations = {
 
   [ MutationTypes.SET_FETCHED_CHARACTER_DATA ] ( state, payload ) {
     const { characterDetails } = payload;
-
-    if ( characterDetails.inventories ) {
-      characterDetails.inventories.forEach( ( inventory ) => {
-        if ( inventory.content && inventory.content !== '[]' ) {
-          inventory.content = JSON.parse( inventory.content );
-          inventory.content.forEach( ( content ) => {
-            content.itemInfo = JSON.parse( content.itemInfo );
-          } );
-        }
-      } );
-    }
-
-    characterDetails.look = JSON.parse( characterDetails.look || '{}' );
-    _.forEach( characterDetails.look, ( look ) => {
-      look.itemInfo = JSON.parse( look.itemInfo );
-    } );
     state.retrievedCharacterData = characterDetails;
-  }
+  },
+
+  [ MutationTypes.UPDATE_FILTERED_CHARACTERS ] ( state, payload ) {
+    state.filteredCharacterData.filteredCharacters = payload.data.characters;
+    state.filteredCharacterData.totalFilteredCharacters = payload.data.total;
+    state.filteredCharacterData.hasFetchedFilteredCharacters = true;
+    state.filteredCharacterData.filterUsed = payload.filter;
+    state.filteredCharacterData.searchKey = payload.searchKey;
+  },
 };
 
 export default Mutations;

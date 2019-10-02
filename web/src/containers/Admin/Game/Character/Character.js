@@ -20,7 +20,6 @@ const GameAdminCharacter = {
     },
 
     currentGear() {
-      console.log( this.characterDetails.look );
       return this.characterDetails.look;
     }
   },

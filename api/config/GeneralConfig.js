@@ -20,9 +20,9 @@ export const GeneralConfig = {
   },
 
   CHARACTER_SEARCH_FILTERS: {
-    ACCOUNT_NAME: 'Account Name',
-    CHARACTER_NAME: 'Character Name',
-    CHARACTER_ID: 'Character ID',
+    ACCOUNT_NAME: 'act_name',
+    CHARACTER_NAME: 'cha_name',
+    CHARACTER_ID: 'cha_id',
   },
 
   DOWNLOAD_SECTIONS: [ 'Client', 'Patch', 'Other' ],

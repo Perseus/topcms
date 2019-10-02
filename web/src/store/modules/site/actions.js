@@ -139,7 +139,7 @@ const Actions = {
       } );
     } catch ( err ) {
       const extractedErrors = extractGraphQLErrors( err );
-      console.log( err );
+      Logger.log( err, 'error' );
       commit( MutationTypes.UPDATED_SITE_INFO, { type: 'author', hasError: true, error: extractedErrors } );
     }
   },

@@ -4,8 +4,11 @@ import axios from 'axios';
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 
+import { characterInventoryCooker } from '../../cookers/adminCooker';
 import { graphQLRequest } from '../../../services/GraphQLRequest';
-import { getFilteredAccounts, getAccountData, getCharacterData } from '../../../apollo/queries/admin/game';
+import {
+  getFilteredAccounts, getAccountData, getCharacterData, getFilteredCharacters
+} from '../../../apollo/queries/admin/game';
 import { toggleUserBan, updateUserFromAdmin, resetUserSecurityCode } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
 import socketHandler from '../../../socket';
@@ -124,14 +127,32 @@ const Actions = {
     }
   },
 
+  async [ ActionTypes.retrieveFilteredCharacters ] ( { commit, dispatch }, payload ) {
+    try {
+      const { offset, filter, searchKey } = payload;
+      const response = await graphQLRequest( dispatch, 'query', getFilteredCharacters, 'getFilteredCharacters', {
+        offset,
+        filter,
+        searchKey
+      } );
+
+      commit( MutationTypes.UPDATE_FILTERED_CHARACTERS, { data: response.data.charactersWithFilter, filter, searchKey } );
+    } catch ( err ) {
+      Logger.log( `Error at action retrieveFilteredCharacters: ${err}` );
+    }
+  },
+
   async [ ActionTypes.retrieveCharacter ] ( { commit, dispatch }, payload ) {
     try {
       const { id } = payload;
 
       const response = await graphQLRequest( dispatch, 'query', getCharacterData, 'getCharacterData', {
         id: Number( id )
+      }, {
+        fetchPolicy: 'network-only',
       } );
-      const characterDetails = response.data.filteredCharacter;
+
+      const characterDetails = characterInventoryCooker( response.data.filteredCharacter );
 
       if ( !characterDetails ) {
         dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.GAME.INDEX } );
@@ -164,7 +185,6 @@ const Actions = {
           } );
         }
 
-        console.log( 'caching' );
         commit( MutationTypes.CACHED_ITEM_INFO );
       } );
 
@@ -217,7 +237,7 @@ const Actions = {
   async [ ActionTypes.resetUserSecurityCode ] ( { dispatch }, payload ) {
     try {
       const { id } = payload;
-      await graphQLRequest( dispatch, 'mutation', resetUserSecurityCode, 'getCharacterData', {
+      await graphQLRequest( dispatch, 'mutation', resetUserSecurityCode, 'resetUserSecurityCode', {
         id: Number( id )
       } );
 

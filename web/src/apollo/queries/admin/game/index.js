@@ -103,6 +103,27 @@ export const getAccountData = gql`
     }
 `;
 
+export const getFilteredCharacters = gql`
+    query charactersWithFilter($filter: String!, $searchKey: String, $offset: Int, $limit: Int) {
+        charactersWithFilter(filter: $filter, searchKey: $searchKey, offset: $offset, limit: $limit) {
+            total
+            characters {
+                cha_name
+                cha_id
+                account {
+                    act_id
+                    act_name
+                }
+                degree
+                gd
+                guild {
+                    guild_name
+                }
+            }
+        }
+    }
+`;
+
 export const getCharacterData = gql`
     query filteredCharacter($id: ID!) {
         filteredCharacter(id: $id) {

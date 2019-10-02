@@ -1,5 +1,5 @@
 import { AuthenticationError, UserInputError } from 'apollo-server';
-import sequelize from 'sequelize';
+import sequelize, { Sequelize } from 'sequelize';
 
 import { AccountServer, GameDB } from '../../../database/models/index';
 import { GeneralConfig } from '../../../config';
@@ -107,6 +107,114 @@ export async function filteredUser( object, args ) {
     return user;
   } catch ( err ) {
     return err;
+  }
+}
+
+
+export async function charactersWithFilter( object, args, context ) {
+  try {
+    const { filter, searchKey } = args;
+    let { offset, limit } = args;
+
+    if ( !offset ) {
+      offset = 0;
+    }
+
+    if ( !limit ) {
+      limit = 10;
+    }
+
+    const filterTableMapper = GeneralConfig.CHARACTER_SEARCH_FILTERS[ filter ];
+    let characters = [];
+
+
+    if ( filterTableMapper === GeneralConfig.CHARACTER_SEARCH_FILTERS.ACCOUNT_NAME ) {
+      characters = await GameDB.Character.findAll( {
+        include: [ {
+          model: GameDB.Account,
+          where: {
+            act_name: {
+              [ sequelize.Op.like ]: `%${searchKey || ''}%`,
+            },
+          },
+          as: 'account'
+        }, { model: GameDB.Guild, as: 'guild' } ],
+      } );
+
+      const totalCharactersQuery = await GameDB.Character.findAll( {
+        attributes:
+        [
+          [ sequelize.fn( 'COUNT', 'cha_id' ), 'totalCharacters' ]
+        ],
+        include: [ {
+          model: GameDB.Account,
+          where: {
+            act_name: {
+              [ sequelize.Op.like ]: `%${searchKey || ''}%`,
+            },
+          },
+          attributes: [ 'act_id', 'act_name' ],
+          as: 'account'
+        } ],
+        group: [ 'cha_id', 'account.act_id', 'account.act_name' ],
+      } );
+
+      return {
+        characters,
+        total: totalCharactersQuery.length
+      };
+    }
+    // TODO: combine these queries
+    if ( searchKey ) {
+      characters = await GameDB.Character.findAll( {
+        where: {
+          [ filterTableMapper ]: {
+            [ sequelize.Op.like ]: `%${searchKey}%`,
+          }
+        },
+        include: [ {
+          model: GameDB.Account,
+          as: 'account'
+        }, { model: GameDB.Guild, as: 'guild' } ],
+        offset,
+        limit
+      } );
+
+      const totalCharactersQuery = await GameDB.Character.findAll( {
+        attributes:
+        [
+          [ sequelize.fn( 'COUNT', sequelize.col( 'cha_id' ) ), 'totalCharacters' ]
+        ],
+        where: {
+          [ filterTableMapper ]: {
+            [ sequelize.Op.like ]: `%${searchKey}%`,
+          }
+        },
+      } );
+      return {
+        characters,
+        total: JSON.parse( JSON.stringify( totalCharactersQuery[ 0 ] ) ).totalCharacters,
+      };
+    }
+
+    characters = await GameDB.Character.findAll( {
+      offset,
+      limit
+    } );
+
+    const totalCharactersQuery = await GameDB.Character.findAll( {
+      attributes:
+      [
+        [ sequelize.fn( 'COUNT', sequelize.col( 'cha_id' ) ), 'totalCharacters' ]
+      ],
+    } );
+
+    return {
+      characters,
+      total: JSON.parse( JSON.stringify( totalCharactersQuery[ 0 ] ) ).totalCharacters,
+    };
+  } catch ( err ) {
+    return new UserInputError( err );
   }
 }
 

@@ -59,6 +59,12 @@ const Index = {
       this.changeRoute( { name: RouteNames.ADMIN.GAME.ACCOUNTS } );
     },
 
+    async searchCharacters() {
+      const filterKey = _.findKey( this.characterSearchFilters, filter => filter === this.selectedCharacterSearchFilter );
+      await this.retrieveFilteredCharacters( { filter: filterKey, searchKey: this.characterSearchTerm, offset: 0 } );
+      this.changeRoute( { name: RouteNames.ADMIN.GAME.CHARACTERS } );
+    },
+
     generateItemInfoCache() {
       this.startCachingItemInfo();
     },
@@ -101,7 +107,8 @@ function mapActionsToMethods() {
     retrieveFilteredAccounts: ActionTypes.retrieveFilteredAccounts,
     changeRoute: ActionTypes.changeRoute,
     startCachingItemInfo: ActionTypes.generateItemInfoCache,
-    uploadItemInfo: ActionTypes.uploadItemInfo
+    uploadItemInfo: ActionTypes.uploadItemInfo,
+    retrieveFilteredCharacters: ActionTypes.retrieveFilteredCharacters,
   } );
 }
 

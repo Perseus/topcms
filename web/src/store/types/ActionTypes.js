@@ -45,6 +45,7 @@ const ActionTypes = {
   retrieveGuildRanking: 'retrieveGuildRanking',
 
   retrieveFilteredAccounts: 'retrieveFilteredAccounts',
+  retrieveFilteredCharacters: 'retrieveFilteredCharacters',
   toggleBanForUser: 'toggleBanForUser',
   retrieveAccountData: 'retrieveAccountData',
   adminUpdateUserEmail: 'adminUpdateUserEmail',

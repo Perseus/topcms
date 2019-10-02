@@ -144,6 +144,7 @@ const typeDefs = gql`
     bank: String
     guild: Guild
     inventories: [CharacterResource]
+    account: Account
   }
 
   type NewsFeed {
@@ -194,6 +195,11 @@ const typeDefs = gql`
     total: Int
   }
 
+  type FilteredCharactersItem {
+    characters: [Character]
+    total: Int
+  }
+
   type ItemInfoObject {
     id: Int
     name: String
@@ -208,6 +214,7 @@ const typeDefs = gql`
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
     usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersItem @isAuthenticated(role: ADMIN)
+    charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersItem @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
     newsArticles: [NewsArticle]

@@ -60,6 +60,10 @@ const InventoryGrid = {
     },
 
     isThereItemAtSlot( index ) {
+      if ( !this.inventoryContent || !Array.isArray( this.inventoryContent ) ) {
+        return false;
+      }
+
       const doesItemExist = this.inventoryContent.filter( inventoryItem => inventoryItem.slot === index );
       return Boolean( doesItemExist );
     }
