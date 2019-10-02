@@ -10,6 +10,13 @@ function getInitialState() {
       filterUsed: '',
       searchKey: '',
     },
+    filteredCharacterData: {
+      filteredCharacters: [],
+      hasFetchedFilteredCharacters: false,
+      totalFilteredCharacters: 0,
+      filterUsed: '',
+      searchKey: '',
+    },
     retrievedAccountData: {},
     retrievedCharacterData: {},
     isCachingItemInfo: false,

@@ -41,9 +41,6 @@ const Navbar = {
       this.changeRoute( { name: RouteNames.USER.DETAILS } );
     },
 
-    closeMenu( ev ) {
-      console.log( 'closing menu', ev );
-    },
   },
 };
 

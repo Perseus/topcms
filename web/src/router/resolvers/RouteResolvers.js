@@ -104,7 +104,18 @@ const RouteResolvers = {
       await store.dispatch( ActionTypes.retrieveAccountData, { id: route.to.params.id } );
       return true;
     } catch ( err ) {
-      console.log( err );
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    }
+  },
+
+  [ RouteNames.ADMIN.GAME.CHARACTERS ]: async() => {
+    try {
+      const { admin } = store.state;
+      if ( admin.filteredCharacterData.hasFetchedFilteredCharacters ) {
+        return true;
+      }
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    } catch ( err ) {
       return { name: RouteNames.ADMIN.GAME.INDEX };
     }
   },
@@ -116,7 +127,8 @@ const RouteResolvers = {
     } catch ( err ) {
       return { name: RouteNames.ADMIN.GAME.INDEX };
     }
-  }
+  },
+
 };
 
 export default RouteResolvers;
