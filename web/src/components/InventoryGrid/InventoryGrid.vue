@@ -6,7 +6,10 @@
         animated
         v-if="isThereItemAtSlot( index-1 )"
       >
-        <img :src="getItemIcon(  getItemAtSlot( index-1 ) )" />
+        <img
+          :src="`${publicPath}img/icons/${getItemIcon(  getItemAtSlot( index-1 ) )}.png`"
+          v-if="doesItemHaveIcon(getItemAtSlot(index-1))"
+        />
       </b-tooltip>
     </div>
   </div>
