@@ -26,6 +26,10 @@ const Index = {
       return this.currentRequestsInProgress.includes( 'getFilteredAccounts' );
     },
 
+    isFetchingCharacters() {
+      return this.currentRequestsInProgress.includes( 'getFilteredCharacters' );
+    },
+
     isUploadingItemInfo() {
       return this.currentRequestsInProgress.includes( 'uploadItemInfo' );
     },

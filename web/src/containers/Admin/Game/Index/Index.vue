@@ -55,7 +55,7 @@
               >{{value }}</b-dropdown-item>
             </b-dropdown>
           </b-field>
-          <b-button class="is-pulled-right search-btn" native-type="submit">Search</b-button>
+          <b-button class="is-pulled-right search-btn" :loading="isFetchingCharacters" native-type="submit">Search</b-button>
         </form>
       </div>
     </div>

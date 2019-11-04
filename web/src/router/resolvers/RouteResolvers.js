@@ -47,6 +47,8 @@ const RouteResolvers = {
       if ( !doesNewsItemExist ) {
         return { name: RouteNames.ADMIN.SITE };
       }
+
+      return true;
     } catch ( err ) {
       Logger.log( `error at ADMIN.NEWS.EDIT: ${err} ` );
       return { name: RouteNames.ADMIN.SITE };

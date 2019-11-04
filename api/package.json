@@ -5,10 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod:linux": "NODE_ENV=prod nodemon --exec babel-node server.js",
+    "prod:linux": "NODE_ENV=prod pm2 start npm -- run server",
     "dev:linux": "NODE_ENV=dev nodemon --exec babel-node server.js",
-    "prod:win": "set NODE_ENV=prod nodemon --exec babel-node server.js",
+    "prod:win": "set NODE_ENV=prod pm2 babel-node server.js",
     "dev:win": "set NODE_ENV=dev nodemon --exec babel-node server.js",
+    "server": "babel-node server.js",
     "setup": "node scripts/builder.js"
   },
   "author": "Perseus",
