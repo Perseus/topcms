@@ -1,21 +1,21 @@
-import sequelize from 'sequelize';
-import { UserInputError } from 'apollo-server';
-import { AccountServer, GameDB } from '../../../database/models';
+const sequelize = require( 'sequelize' );
+const { UserInputError } = require( 'apollo-server' );
+const { AccountServer, GameDB } = require( '../../../database/models' );
 
-export async function newsArticles( object, args, context, info ) {
+module.exports.newsArticles = async function newsArticles( object, args, context, info ) {
   return await GameDB.NewsArticle.findAll( { include: [ { model: GameDB.Author, as: 'author' } ] } );
 }
 
-export async function authors() {
+module.exports.authors = async function authors() {
   return await GameDB.Author.findAll();
 }
 
-export async function downloads() {
+module.exports.downloads = async function downloads() {
   const result = await GameDB.Download.findAll( { include: [ { model: GameDB.Author, as: 'author' } ] } );
   return result;
 }
 
-export async function newsArticle( context, args ) {
+module.exports.newsArticle = async function newsArticle( context, args ) {
   try {
     const { id } = args;
     const result = await GameDB.NewsArticle.findOne( { where: id, include: [ { model: GameDB.Author, as: 'author' } ] } );
@@ -25,7 +25,7 @@ export async function newsArticle( context, args ) {
   }
 }
 
-export async function newsFeed( context, args ) {
+module.exports.newsFeed = async function newsFeed( context, args ) {
   let { offset, limit } = args;
   if ( !offset ) {
     offset = 0;

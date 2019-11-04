@@ -1,11 +1,11 @@
-import crypto from 'crypto';
+const crypto = require( 'crypto' );
 
-import { AuthenticationError, UserInputError } from 'apollo-server';
-import jsonwebtoken from 'jsonwebtoken';
-import { AccountServer, GameDB } from '../../../database/models/index';
-import { extractErrors } from '../../../helpers/errorHandler';
+const { AuthenticationError, UserInputError } = require( 'apollo-server' );
+const jsonwebtoken = require( 'jsonwebtoken' );
+const { AccountServer, GameDB } = require( '../../../database/models/index' );
+const { extractErrors } = require( '../../../helpers/errorHandler' );
 
-export async function createUser( obj, args, context, info ) {
+module.exports.createUser = async function createUser( obj, args, context, info ) {
   try {
     const { input } = args;
     const newUser = await AccountServer.User.create( {
@@ -27,7 +27,7 @@ export async function createUser( obj, args, context, info ) {
   }
 }
 
-export async function loginUser( obj, args, context ) {
+module.exports.loginUser = async function loginUser( obj, args, context ) {
   try {
     const { input } = args;
     const hashedPassword = crypto.createHash( 'md5' ).update( input.password ).digest( 'hex' ).toUpperCase();
@@ -65,7 +65,7 @@ export async function loginUser( obj, args, context ) {
   }
 }
 
-export async function logoutUser( obj, args, context ) {
+module.exports.logoutUser = async function logoutUser( obj, args, context ) {
   try {
     context.res.clearCookie( '_sid' );
     return {

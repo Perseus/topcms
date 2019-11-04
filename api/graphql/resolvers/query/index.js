@@ -1,8 +1,8 @@
-import * as UserQueries from './user';
-import * as GameQueries from './game';
-import * as SiteQueries from './site';
+const UserQueries = require( './user' );
+const GameQueries = require( './game' );
+const SiteQueries = require( './site' );
 
-export const Query = {
+module.exports = {
   ...UserQueries,
   ...SiteQueries, 
   ...GameQueries,

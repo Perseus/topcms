@@ -1,9 +1,9 @@
 
-import { isUnique } from '../../validators/validators';
-import InventoryParser from '../../../utils/InventoryParser';
+const { isUnique } = require( '../../validators/validators' );
+const InventoryParser = require( '../../../utils/InventoryParser' );
 
 
-export default ( sequelize, DataTypes ) => {
+module.exports = ( sequelize, DataTypes ) => {
   const Resource = sequelize.define( 'Resource', {
 
     id: {

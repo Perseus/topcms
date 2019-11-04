@@ -1,6 +1,6 @@
-import { ValidationError } from 'apollo-server';
+const { ValidationError } = require( 'apollo-server' );
 
-export function isUnique( model, field, value ) {
+function isUnique( model, field, value ) {
   return new Promise( ( resolve, reject ) => {
     model.findOne( {
         where: {
@@ -14,4 +14,8 @@ export function isUnique( model, field, value ) {
       } )
       .catch( err => reject( err ) );
   } );
+};
+
+module.exports = {
+  isUnique,
 };

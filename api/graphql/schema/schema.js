@@ -1,8 +1,8 @@
-import { gql } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
-import ConstraintDirective from 'graphql-constraint-directive';
-import resolvers from '../resolvers';
-import { isAuthenticatedDirective, websocketAuthentication } from '../directives/auth';
+const { gql } = require( 'apollo-server-express' );
+const { makeExecutableSchema } = require( 'graphql-tools' );
+const ConstraintDirective = require( 'graphql-constraint-directive' );
+const resolvers = require( '../resolvers' );
+const { isAuthenticatedDirective, websocketAuthentication } = require( '../directives/auth' );
 
 const typeDefs = gql`
   
@@ -269,4 +269,4 @@ const schema = makeExecutableSchema( {
 } );
 
 
-export default schema;
+module.exports = schema;

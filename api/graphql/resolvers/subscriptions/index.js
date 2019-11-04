@@ -1,8 +1,8 @@
-import { PubSub } from 'graphql-subscriptions';
-import * as GameSubscriptions from './game';
+const { PubSub } = require( 'graphql-subscriptions' );
+const GameSubscriptions = require( './game' );
 
 
-export const pubsub = new PubSub();
+module.exports.pubsub = new PubSub();
 
-export const Subscription = {
+module.exports.Subscription = {
 };

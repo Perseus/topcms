@@ -1,4 +1,4 @@
-export const ItemInfoAttributeMap = {
+module.exports.ItemInfoAttributeMap = {
   ID: 0,
   NAME: 1,
   ICON: 2,

@@ -9,4 +9,4 @@ class TError extends Error {
   }
 }
 
-export default TError;
+module.exports =  TError;

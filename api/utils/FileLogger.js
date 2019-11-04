@@ -1,5 +1,5 @@
-import { createLogger, format, transports } from 'winston';
-import path from 'path';
+const { createLogger, format, transports } = require( 'winston' );
+const path = require( 'path' );
 
 const errorsFilePath = path.join( 'logs', 'errors.log' );
 const actionsFilePath = path.join( 'logs', 'actions.log' );
@@ -31,4 +31,4 @@ if ( process.env.NODE_ENV !== 'prod' ) {
 }
 
 
-export default logger;
+module.exports =  logger;

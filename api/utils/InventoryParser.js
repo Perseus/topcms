@@ -1,9 +1,9 @@
-import path from 'path';
-import _ from 'lodash';
+const path = require( 'path' );
+const _ = require( 'lodash' );
 
-import logger from './FileLogger';
-import { DBInventoryAttributeMap as AttributeMap, DBInventoryGearMap as GearMap } from '../config';
-import ItemInfoParser from './ItemInfoParser';
+const logger = require( './FileLogger' );
+const { DBInventoryAttributeMap: AttributeMap, DBInventoryGearMap: GearMap } = require( '../config' );
+const ItemInfoParser = require( './ItemInfoParser' );
 
 /* eslint-disable class-methods-use-this */
 
@@ -216,4 +216,4 @@ class InventoryParser {
 }
 
 
-export default InventoryParser;
+module.exports =  InventoryParser;

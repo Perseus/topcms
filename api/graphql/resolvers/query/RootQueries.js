@@ -1,6 +1,6 @@
-import { GameDB } from '../../../database/models/';
+const { GameDB } = require( '../../../database/models/' );
 
-export const User = {
+module.exports.User = {
 
   async account_details( obj, info, context ) {
     const userID = obj.id;

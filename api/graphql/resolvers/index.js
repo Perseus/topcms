@@ -1,7 +1,7 @@
-import { Query } from './query';
-import { Mutation } from './mutation';
-import { User } from './query/RootQueries';
-import { Subscription } from './subscriptions';
+const Query = require( './query' );
+const { Mutation } = require( './mutation' );
+const { User } = require( './query/RootQueries' );
+const { Subscription } = require( './subscriptions' );
 
 const resolvers = {
   Query,
@@ -9,4 +9,5 @@ const resolvers = {
   User,
 };
 
-export default resolvers;
+module.exports = resolvers;
+

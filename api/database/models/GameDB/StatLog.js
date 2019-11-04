@@ -1,7 +1,7 @@
 'use strict'
-import { isUnique } from '../../validators/validators';
+const { isUnique } = require( '../../validators/validators' );
 
-export default ( sequelize, DataTypes ) => {
+module.exports =  ( sequelize, DataTypes ) => {
   const StatLog = sequelize.define( 'StatLog', {
 
     track_date: {

@@ -1,11 +1,11 @@
-import _ from 'lodash';
-import { ValidationErrorItem, ForeignKeyConstraintError } from 'sequelize';
+const _ = require( 'lodash' );
+const { ValidationErrorItem, ForeignKeyConstraintError } = require( 'sequelize' );
 
-export function errorHandlerMiddleware( err, req, res, next ) {
+function errorHandlerMiddleware( err, req, res, next ) {
   next();
 }
 
-export function extractErrors( thrownError ) {
+function extractErrors( thrownError ) {
   const parsedErrors = [];
 
   thrownError.errors.forEach( ( error ) => {
@@ -15,7 +15,7 @@ export function extractErrors( thrownError ) {
   return parsedErrors;
 }
 
-export function composeGraphQLError( err, type, action ) {
+function composeGraphQLError( err, type, action ) {
   const errorType = getSequelizeErrorType( err );
   return {
     code: errorType,
@@ -38,3 +38,9 @@ function getSequelizeErrorType( error ) {
 
   return 'SEQ.UKW';
 }
+
+module.exports = {
+  errorHandlerMiddleware,
+  extractErrors,
+  composeGraphQLError,
+};

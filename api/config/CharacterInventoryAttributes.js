@@ -1,4 +1,4 @@
-export const DBInventoryAttributeMap = {
+module.exports.DBInventoryAttributeMap = {
 
   // General information
   SLOT: 0,
@@ -42,7 +42,7 @@ export const DBInventoryAttributeMap = {
 };
 
 
-export const DBInventoryGearMap = {
+module.exports.DBInventoryGearMap = {
   HEAD: 1,
   ARMOR: 3,
   GLOVES: 4,

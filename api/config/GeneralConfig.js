@@ -1,4 +1,4 @@
-export const GeneralConfig = {
+module.exports.GeneralConfig = {
 
 
   // this decides whether GM/HD accounts should be included in the player ranking

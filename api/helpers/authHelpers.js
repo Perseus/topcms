@@ -1,10 +1,10 @@
-import { verify, TokenExpiredError } from 'jsonwebtoken';
-import { getCookie } from '../utils/CookieUtils';
+const { verify, TokenExpiredError } = require( 'jsonwebtoken' );
+const { getCookie } = require( '../utils/CookieUtils' );
 
 
-export function authMiddleware( { req, res } ) {
+module.exports.authMiddleware = function authMiddleware( { req, res } ) {
   try {
-    const user = retrieveUserFromRequest( req );
+    const user = module.exports.retrieveUserFromRequest( req );
     req.user = user;
   } catch ( err ) {
     if ( err instanceof TokenExpiredError ) {
@@ -14,7 +14,7 @@ export function authMiddleware( { req, res } ) {
   return { req, res };
 }
 
-export function retrieveUserFromRequest( request ) {
+module.exports.retrieveUserFromRequest = function retrieveUserFromRequest( request ) {
   const requestCookies = request.cookies;
 
   if ( !requestCookies._sid ) {
@@ -26,7 +26,7 @@ export function retrieveUserFromRequest( request ) {
   return verifiedToken.data.id;
 }
 
-export function retrieveUserFromSocketRequest( socket ) {
+module.exports.retrieveUserFromSocketRequest = function retrieveUserFromSocketRequest( socket ) {
   try {
     const _sid = getCookie( socket.request.headers.cookie, '_sid' );
 
@@ -41,7 +41,7 @@ export function retrieveUserFromSocketRequest( socket ) {
   }
 }
 
-export function socketAuthMiddleware( socket, next ) {
+module.exports.socketAuthMiddleware = function socketAuthMiddleware( socket, next ) {
   try {
     const user = retrieveUserFromSocketRequest( socket );
     if ( !user ) {

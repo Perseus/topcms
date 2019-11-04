@@ -1,7 +1,7 @@
-import socketEvents from './SocketEvents';
-import socketEventHandlers from './socketEventHandlers';
+const socketEvents = require( './SocketEvents' );
+const socketEventHandlers = require( './socketEventHandlers' );
 
-export default function socketEventHandler( socket ) {
+module.exports =  function socketEventHandler( socket ) {
   console.log( 'User connected to socket' );
   for ( const [ key, event ] of Object.entries( socketEvents ) ) {
     if ( socketEventHandlers[ event ] ) {
