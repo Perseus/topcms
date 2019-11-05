@@ -1,8 +1,8 @@
 'use strict'
-import { isUnique } from '../../validators/validators';
-import { JobTypes } from '../../../config';
+const { isUnique } = require( '../../validators/validators' );
+const { JobTypes } = require( '../../../config' );
 
-export default ( sequelize, DataTypes ) => {
+const guildModel = ( sequelize, DataTypes ) => {
   const Guild = sequelize.define( 'Guild', {
 
     guild_id: {
@@ -42,3 +42,5 @@ export default ( sequelize, DataTypes ) => {
 
   return Guild;
 };
+
+module.exports = guildModel;

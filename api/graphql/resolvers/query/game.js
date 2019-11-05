@@ -1,11 +1,11 @@
-import sequelize from 'sequelize';
-import path from 'path';
-import { promises, access } from 'fs';
+const sequelize = require( 'sequelize' );
+const path = require( 'path' );
+const { promises, access } = require( 'fs' );
 
-import { AccountServer, GameDB } from '../../../database/models';
-import { GeneralConfig } from '../../../config';
+const { AccountServer, GameDB } = require( '../../../database/models' );
+const { GeneralConfig } = require( '../../../config' );
 
-export async function gameStats( object, args, context, info ) {
+module.exports.gameStats = async function gameStats( object, args, context, info ) {
   try {
     const userCountQuery = await AccountServer.User.findAll( {
       raw: true,
@@ -44,7 +44,7 @@ export async function gameStats( object, args, context, info ) {
 }
 
 
-export async function staffStatuses() {
+module.exports.staffStatuses = async function staffStatuses() {
   try {
     const retrievedAdminAccounts = await GameDB.Account.findAll( {
       where: {
@@ -77,7 +77,7 @@ export async function staffStatuses() {
   }
 }
 
-export async function serverRateInfo() {
+module.exports.serverRateInfo = async function serverRateInfo() {
   try {
     const configFile = await promises.readFile( path.join( __dirname, '..', '..', '..', 'config', 'interactableConfig.json' ), 'utf8' );
     const serverRates = JSON.parse( configFile ).rates;
@@ -88,7 +88,7 @@ export async function serverRateInfo() {
   }
 }
 
-export async function playerRankings( object, args ) {
+module.exports.playerRankings = async function playerRankings( object, args ) {
   try {
     const { filter } = args;
     let validAccounts = await AccountServer.User.getAllUnbannedAccounts();
@@ -147,7 +147,7 @@ export async function playerRankings( object, args ) {
   }
 }
 
-export async function guildRankings( object, args ) {
+module.exports.guildRankings = async function guildRankings( object, args ) {
   try {
     const { filter } = args;
 

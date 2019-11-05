@@ -1,15 +1,16 @@
-import { AuthenticationError, UserInputError } from 'apollo-server';
-import sequelize, { Sequelize } from 'sequelize';
+const { AuthenticationError, UserInputError } = require( 'apollo-server' );
+const sequelize = require( 'sequelize' );
+const { Sequelize } = require( 'sequelize' );
 
-import { AccountServer, GameDB } from '../../../database/models/index';
-import { GeneralConfig } from '../../../config';
+const { AccountServer, GameDB } = require( '../../../database/models/index' );
+const { GeneralConfig } = require( '../../../config' );
 
-export async function users( object, args, context, info ) {
+module.exports.users = async function users( object, args, context, info ) {
   const fetchedUsers = await AccountServer.User.findAll();
   return fetchedUsers;
 }
 
-export async function me( object, args, context, info ) {
+module.exports.me = async function me( object, args, context, info ) {
   try {
     const userID = context.req.user;
     const user = await AccountServer.User.findOne( {
@@ -23,7 +24,7 @@ export async function me( object, args, context, info ) {
   }
 }
 
-export async function logout( object, args, context, info ) {
+module.exports.logout = async function logout( object, args, context, info ) {
   try {
     context.res.clearCookie( '_sid' );
     return 'LOGOUT_SUCCESS';
@@ -33,7 +34,7 @@ export async function logout( object, args, context, info ) {
 }
 
 
-export async function usersWithFilter( object, args, context ) {
+module.exports.usersWithFilter = async function usersWithFilter( object, args, context ) {
   try {
     const { filter, searchKey } = args;
     let { offset, limit } = args;
@@ -98,7 +99,7 @@ export async function usersWithFilter( object, args, context ) {
   }
 }
 
-export async function filteredUser( object, args ) {
+module.exports.filteredUser = async function filteredUser( object, args ) {
   try {
     const { id } = args;
     const user = AccountServer.User.findOne( {
@@ -111,7 +112,7 @@ export async function filteredUser( object, args ) {
 }
 
 
-export async function charactersWithFilter( object, args, context ) {
+module.exports.charactersWithFilter = async function charactersWithFilter( object, args, context ) {
   try {
     const { filter, searchKey } = args;
     let { offset, limit } = args;
@@ -218,7 +219,7 @@ export async function charactersWithFilter( object, args, context ) {
   }
 }
 
-export async function filteredCharacter( object, args ) {
+module.exports.filteredCharacter = async function filteredCharacter( object, args ) {
   try {
     const { id } = args;
     const character = await GameDB.Character.findOne( {

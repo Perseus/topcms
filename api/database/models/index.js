@@ -1,7 +1,7 @@
-import Sequelize from 'sequelize';
-import fs from 'fs';
-import path from 'path';
-import config from '../config/config.json';
+const Sequelize = require( 'sequelize' );
+const fs = require( 'fs' );
+const path = require( 'path' );
+const config = require( '../config/config.json' );
 
 const basename = path.basename( __filename );
 const accountServerModelDirectory = path.join( __dirname, '/./AccountServer/' );

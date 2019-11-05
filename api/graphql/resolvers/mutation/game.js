@@ -1,13 +1,13 @@
-import path from 'path';
-import { promises } from 'fs';
-import { UserInputError } from 'apollo-server';
-import { Sequelize } from 'sequelize';
-import crypto from 'crypto';
+const path = require( 'path' );
+const { promises } = require( 'fs' );
+const { UserInputError } = require( 'apollo-server' );
+const { Sequelize } = require( 'sequelize' );
+const crypto = require( 'crypto' );
 
-import { AccountServer, GameDB } from '../../../database/models';
-import { pubsub } from '../subscriptions';
+const { AccountServer, GameDB } = require( '../../../database/models' );
+const { pubsub } = require( '../subscriptions' );
 
-export async function updateServerRates( context, args ) {
+module.exports.updateServerRates = async function updateServerRates( context, args ) {
   try {
     const { rates: {
  solo, party, drop, ship, fairy 
@@ -30,7 +30,7 @@ export async function updateServerRates( context, args ) {
   }
 }
 
-export async function toggleUserBan( context, args ) {
+module.exports.toggleUserBan = async function toggleUserBan( context, args ) {
   try {
     const { id, newBanStatus } = args;
     await AccountServer.User.update( {

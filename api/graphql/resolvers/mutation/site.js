@@ -1,9 +1,9 @@
-import { AccountServer, GameDB } from '../../../database/models/index';
-import { UserInputError } from 'apollo-server';
-import { composeGraphQLError } from '../../../helpers/errorHandler';
-import { GeneralConfig } from '../../../config';
+const { AccountServer, GameDB } = require( '../../../database/models/index' );
+const { UserInputError } = require( 'apollo-server' );
+const { composeGraphQLError } = require( '../../../helpers/errorHandler' );
+const { GeneralConfig } = require( '../../../config' );
 
-export async function createAuthor( object, args, context, info ) {
+module.exports.createAuthor = async function createAuthor( object, args, context, info ) {
   const { name } = args;
   try {
     const createdAuthor = await GameDB.Author.create( {
@@ -16,7 +16,7 @@ export async function createAuthor( object, args, context, info ) {
   }
 }
 
-export async function editAuthor( object, args, context, info ) {
+module.exports.editAuthor = async function editAuthor( object, args, context, info ) {
   const { id, name } = args;
   try {
     const authorUpdated = await GameDB.Author.update( {
@@ -36,7 +36,7 @@ export async function editAuthor( object, args, context, info ) {
   }
 }
 
-export async function deleteAuthor( object, args, context, info ) {
+module.exports.deleteAuthor = async function deleteAuthor( object, args, context, info ) {
   const { id } = args;
 
   try {
@@ -55,7 +55,7 @@ export async function deleteAuthor( object, args, context, info ) {
   }
 }
 
-export async function createDownload( object, args, context, info ) {
+module.exports.createDownload = async function createDownload( object, args, context, info ) {
   const { title, url, author, version, section, description } = args;
   
   if ( !GeneralConfig.DOWNLOAD_SECTIONS.includes( section ) ) {
@@ -79,7 +79,7 @@ export async function createDownload( object, args, context, info ) {
   }
 }
 
-export async function editDownload( object, args, context, info ) {
+module.exports.editDownload = async function editDownload( object, args, context, info ) {
   const { id, title, url, author, version, section, description } = args;
 
   if ( !GeneralConfig.DOWNLOAD_SECTIONS.includes( section ) ) {
@@ -111,7 +111,7 @@ export async function editDownload( object, args, context, info ) {
 }
 
 
-export async function deleteDownload( object, args, context, info ) {
+module.exports.deleteDownload = async function deleteDownload( object, args, context, info ) {
 
   
   const { id } = args;
@@ -131,7 +131,7 @@ export async function deleteDownload( object, args, context, info ) {
   }
 }
 
-export async function createNewsArticle( object, args, context, info ) {
+module.exports.createNewsArticle = async function createNewsArticle( object, args, context, info ) {
   try {
     const { input: { title, content, author } } = args;
     const createdNewsArticle = await GameDB.NewsArticle.create ( {
@@ -152,7 +152,7 @@ export async function createNewsArticle( object, args, context, info ) {
   }
 }
 
-export async function deleteNewsArticle( object, args ) {
+module.exports.deleteNewsArticle = async function deleteNewsArticle( object, args ) {
   try {
     const { id } = args;
     const deletedNewsArticle = await GameDB.NewsArticle.destroy( {
@@ -170,7 +170,7 @@ export async function deleteNewsArticle( object, args ) {
 }
 
 
-export async function editNewsArticle( object, args ) {
+module.exports.editNewsArticle = async function editNewsArticle( object, args ) {
   const { input: { id, title, content, author } } = args;
   try {
     const updatedNewsArticle = await GameDB.NewsArticle.update( {

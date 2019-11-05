@@ -91,7 +91,7 @@ function runShellScript( script ) {
 }
 
 
-async function build() {
+async function build( args ) {
   console.log( colors.bgMagenta( ' STARTING SETUP PROCESS \n' ) );
 
   const databaseDetails = {
@@ -99,50 +99,79 @@ async function build() {
     GameDB: {},
   };
 
-  console.log( colors.bgCyan( ' DATABASE SETUP ' ) );
+  let shouldExecuteEverything = false;
+  if ( args.length <= 2 ) {
+    shouldExecuteEverything = true;
+  }
 
-  const accountServerDetails = await getDatabaseDetails( 'AccountServer' );
-  const gameDbDetails = await getDatabaseDetails( 'GameDB' );
+  if ( args.includes( 'database' ) || shouldExecuteEverything ) {
+    console.log( colors.bgCyan( ' DATABASE SETUP ' ) );
 
-  databaseDetails.AccountServer = accountServerDetails;
-  databaseDetails.GameDB = gameDbDetails;
+    const accountServerDetails = await getDatabaseDetails( 'AccountServer' );
+    const gameDbDetails = await getDatabaseDetails( 'GameDB' );
 
-  await writeDBDetails( databaseDetails );
-  console.log( colors.bgCyan( ' DB DETAILS WRITTEN TO CONFIG FILES \n' ) );
+    databaseDetails.AccountServer = accountServerDetails;
+    databaseDetails.GameDB = gameDbDetails;
+
+    await writeDBDetails( databaseDetails );
+    console.log( colors.bgCyan( ' DB DETAILS WRITTEN TO CONFIG FILES \n' ) );
+  }
 
 
-  console.log( colors.bgCyan( ' GENERATING JWT SECRET KEY ' ) );
-  await generateJWTKey();
-  console.log( colors.bgCyan( ' JWT KEY GENERATED \n' ) );
+  if ( args.includes( 'jwt' ) || shouldExecuteEverything ) {
+    console.log( colors.bgCyan( ' GENERATING JWT SECRET KEY ' ) );
+    await generateJWTKey();
+    console.log( colors.bgCyan( ' JWT KEY GENERATED \n' ) );
+  }
 
 
-  console.log( colors.bgCyan( ' GENERATING WEB ENV FILE ' ) );
-  await getWebEnvDetails();
-  console.log( colors.bgCyan( ' WEB ENV FILE GENERATED \n' ) );
+  if ( args.includes( 'webenv' ) || shouldExecuteEverything ) {
+    console.log( colors.bgCyan( ' GENERATING WEB ENV FILE ' ) );
+    await getWebEnvDetails();
+    console.log( colors.bgCyan( ' WEB ENV FILE GENERATED \n' ) );
+  }
 
-  console.log( colors.bgCyan( ' INSTALLING WEB NPM PACKAGES ' ) );
-  let loadingTimer = twirlTimer( ' Installing packages ' );
-  shell.cd( '..' );
-  shell.cd( 'web' );
-  await runShellScript( 'npm i --silent' );
-  await runShellScript( 'npm i -g nodemon sequelize-cli' );
-  clearInterval( loadingTimer );
+  if ( args.includes( 'apipackages' ) || shouldExecuteEverything ) {
+    console.log( colors.bgCyan( ' INSTALLING API NPM PACKAGES ' ) );
+    const loadingTimer = twirlTimer( ' Installing packages ' );
+    await runShellScript( 'npm i --silent' );
+    await runShellScript( 'npm i -g nodemon sequelize-cli pm2' );
+    clearInterval( loadingTimer );
+  }
 
-  console.log( colors.bgCyan( ' BUILDING WEB BUNDLE' ) );
-  await runShellScript( 'npm run build' );
-  console.log( colors.bgCyan( ' COPYING WEB BUNDLE TO API DIRECTORY' ) );
-  await runShellScript( `cp -r dist/ ../api/` );
+  if ( args.includes( 'webpackages' ) || shouldExecuteEverything ) {
+    console.log( colors.bgCyan( ' INSTALLING WEB NPM PACKAGES ' ) );
+    const loadingTimer = twirlTimer( ' Installing packages ' );
+    shell.cd( '..' );
+    shell.cd( 'web' );
+    await runShellScript( 'npm i --silent' );
+    clearInterval( loadingTimer );
+  }
 
-  console.log( colors.bgCyan( ' MIGRATING DATABASE TABLES ' ) );
-  loadingTimer = twirlTimer( ' Migrating DB ' );
-  shell.cd( '..' );
-  shell.cd( 'api/database' );
-  await runShellScript( 'npx sequelize db:migrate --env="GameDB"' );
-  clearTimeout( loadingTimer );
+  if ( args.includes( 'buildweb' ) || shouldExecuteEverything ) {
+    shell.cd( '..' );
+    shell.cd( 'web' );
+    console.log( colors.bgCyan( ' BUILDING WEB BUNDLE' ) );
+    await runShellScript( 'npm run build' );
+    console.log( colors.bgCyan( ' COPYING WEB BUNDLE TO API DIRECTORY' ) );
+    const aa = shell.cp( '-R', 'dist/', '../api/' );
+    console.log( aa );
+  }
+
+  if ( args.includes( 'migrate' ) || shouldExecuteEverything ) {
+    console.log( colors.bgCyan( ' MIGRATING DATABASE TABLES ' ) );
+    const loadingTimer = twirlTimer( ' Migrating DB ' );
+    shell.cd( '..' );
+    shell.cd( 'api/database' );
+    await runShellScript( 'npx sequelize db:migrate --env="GameDB"' );
+    clearTimeout( loadingTimer );
+  }
 
   console.log( colors.bgMagenta( ' WEBSITE SETUP DONE! \n' ) );
   process.exit();
 }
 
 
-build();
+const args = process.argv;
+
+build( args );

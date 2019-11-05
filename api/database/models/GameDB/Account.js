@@ -1,8 +1,6 @@
+const { isUnique } = require( '../../validators/validators' );
 
-;
-import { isUnique } from '../../validators/validators';
-
-export default ( sequelize, DataTypes ) => {
+const accountModel = ( sequelize, DataTypes ) => {
   const Account = sequelize.define( 'Account', {
 
     act_id: {
@@ -76,3 +74,5 @@ export default ( sequelize, DataTypes ) => {
 
   return Account;
 };
+
+module.exports = accountModel;

@@ -1,8 +1,8 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+const { promises: fs } = require( 'fs' );
+const path = require( 'path' );
 
-import SocketEvents from './SocketEvents';
-import ItemInfoParser from '../utils/ItemInfoParser';
+const SocketEvents = require( './SocketEvents' );
+const ItemInfoParser = require( '../utils/ItemInfoParser' );
 
 const socketEventHandlers = {
   [ SocketEvents.START_ITEM_INFO_CACHE ]: async ( socket, args ) => {
@@ -26,4 +26,4 @@ const socketEventHandlers = {
   }
 };
 
-export default socketEventHandlers;
+module.exports = socketEventHandlers;

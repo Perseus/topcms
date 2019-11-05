@@ -1,6 +1,6 @@
-import { AccountServer, GameDB } from '../../database/models/index';
-import { AuthenticationError } from 'apollo-server';
-import _ from 'lodash';
+const { AccountServer, GameDB } = require( '../../database/models/index' );
+const { AuthenticationError } = require( 'apollo-server' );
+const _ = require( 'lodash' );
 
 
 /**
@@ -12,7 +12,7 @@ import _ from 'lodash';
  * @param {Object} args Arguments provided to the directive ( in this case, intended ROLE of the user )
  * @param {Object} context GraphQL context object
  */
-export async function isAuthenticatedDirective( next, src, args, context ) {
+module.exports.isAuthenticatedDirective = async function isAuthenticatedDirective( next, src, args, context ) {
   const userID = context.req.user;
 
   if ( !userID || _.isNull( userID ) ) {
@@ -46,6 +46,6 @@ export async function isAuthenticatedDirective( next, src, args, context ) {
 }
 
 
-export async function websocketAuthentication( connectionParams, webSocket ) {
+module.exports.websocketAuthentication = async function websocketAuthentication( connectionParams, webSocket ) {
   console.log( connectionParams, webSocket );
 }

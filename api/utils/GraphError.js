@@ -12,4 +12,4 @@ class GraphError extends Error {
 }
 
 
-export default GraphError;
+module.exports =  GraphError;

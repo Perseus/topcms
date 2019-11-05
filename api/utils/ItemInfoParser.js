@@ -1,11 +1,11 @@
-import crypto from 'crypto';
-import fs from 'fs';
-import serialize from 'serialize-javascript';
+const crypto = require( 'crypto' );
+const fs = require( 'fs' );
+const serialize = require( 'serialize-javascript' );
 
-import { ItemInfoAttributeMap } from '../config/ItemInfoItemAttributes';
-import TError from './TError';
+const { ItemInfoAttributeMap } = require( '../config/ItemInfoItemAttributes' );
+const TError = require( './TError' );
 
-export default class ItemInfoParser {
+module.exports =  class ItemInfoParser {
   constructor( fileData, filePath ) {
     this.fileData = fileData;
     this.filePath = filePath;

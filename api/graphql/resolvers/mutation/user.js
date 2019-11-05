@@ -1,9 +1,9 @@
-import crypto from 'crypto';
+const crypto = require( 'crypto' );
 
-import { UserInputError, AuthenticationError, ValidationError } from 'apollo-server';
-import { AccountServer, GameDB } from '../../../database/models';
+const { UserInputError, AuthenticationError, ValidationError } = require( 'apollo-server' );
+const { AccountServer, GameDB } = require( '../../../database/models' );
 
-export async function updateUser( obj, args, context ) {
+module.exports.updateUser = async function updateUser( obj, args, context ) {
   try {
     const { userInfo } = args;
     const { req: { user } } = context;
@@ -71,7 +71,7 @@ export async function updateUser( obj, args, context ) {
   }
 }
 
-export async function updateUserFromAdmin( context, args ) {
+module.exports.updateUserFromAdmin = async function updateUserFromAdmin( context, args ) {
   try {
     const {
       id, email, gm, password
@@ -120,7 +120,7 @@ export async function updateUserFromAdmin( context, args ) {
   }
 }
 
-export async function resetUserSecurityCode( context, args ) {
+module.exports.resetUserSecurityCode = async function resetUserSecurityCode( context, args ) {
   try {
     const { id } = args;
 

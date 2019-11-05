@@ -1,10 +1,10 @@
 
-import { isUnique } from '../../validators/validators';
-import { JobTypes, CharacterModelTypes } from '../../../config';
-import InventoryParser from '../../../utils/InventoryParser';
+const { isUnique } = require( '../../validators/validators' );
+const { JobTypes, CharacterModelTypes } = require( '../../../config' );
+const InventoryParser = require( '../../../utils/InventoryParser' );
 
 
-export default ( sequelize, DataTypes ) => {
+const characterModel = ( sequelize, DataTypes ) => {
   const Character = sequelize.define( 'Character', {
 
     cha_id: {
@@ -92,3 +92,5 @@ export default ( sequelize, DataTypes ) => {
 
   return Character;
 };
+
+module.exports = characterModel;

@@ -1,14 +1,14 @@
-import http from 'http';
-import dotenv from 'dotenv';
-import socketio from 'socket.io';
+const http = require( 'http' );
+const dotenv = require( 'dotenv' );
+const socketio = require( 'socket.io' );
 // GraphQL Subscription
-import { execute, subscribe } from 'graphql';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
+const { execute, subscribe } = require( 'graphql' );
+const { SubscriptionServer } = require( 'subscriptions-transport-ws' );
 
-import app from './app';
-import schema from './graphql/schema/schema';
-import socketEventHandlers from './socket';
-import { socketAuthMiddleware } from './helpers/authHelpers';
+const app = require( './app' );
+const schema = require( './graphql/schema/schema' );
+const socketEventHandlers = require( './socket' );
+const { socketAuthMiddleware } = require( './helpers/authHelpers' );
 
 dotenv.config();
 

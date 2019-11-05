@@ -1,4 +1,4 @@
-export const CharacterModelTypes = {
+module.exports.CharacterModelTypes = {
   1: 'Lance',
   2: 'Carsise',
   3: 'Phyllis',

@@ -1,17 +1,17 @@
 // import required packages
-import env from 'dotenv';
-import express from 'express';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
-import csurf from 'csurf';
-import path from 'path';
+const env = require( 'dotenv' );
+const express = require( 'express' );
+const cors = require( 'cors' );
+const cookieParser = require( 'cookie-parser' );
+const morgan = require( 'morgan' );
+const csurf = require( 'csurf' );
+const path = require( 'path' );
 
-import { ApolloServer } from 'apollo-server-express';
-import { errorHandlerMiddleware } from './helpers/errorHandler';
-import schema from './graphql/schema/schema';
-import { authMiddleware } from './helpers/authHelpers';
-import routes from './routes';
+const { ApolloServer } = require( 'apollo-server-express' );
+const { errorHandlerMiddleware } = require( './helpers/errorHandler' );
+const schema = require( './graphql/schema/schema' );
+const { authMiddleware } = require( './helpers/authHelpers' );
+const routes = require( './routes' );
 
 // initialize environment variables
 env.config();

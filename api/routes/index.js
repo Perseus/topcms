@@ -1,7 +1,7 @@
-import express from 'express';
-import multer from 'multer';
-import path from 'path';
-import itemInfoUpload from './fileHandlers/itemInfoUpload';
+const express = require( 'express' );
+const multer = require( 'multer' );
+const path = require( 'path' );
+const itemInfoUpload = require( './fileHandlers/itemInfoUpload' );
 
 const router = express.Router();
 const storage = multer.diskStorage( {
@@ -48,4 +48,4 @@ router.post( '/uploadItemInfo', ( req, res ) => {
 } );
 
 
-export default router;
+module.exports =  router;
