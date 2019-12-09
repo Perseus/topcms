@@ -18,9 +18,6 @@ const NewsList = {
     'sidebar-navigation-container': SidebarNavigationContainer,
   },
   created() {
-    this.getServerStats();
-    this.retrieveStaffInfo();
-    this.fetchServerRates();
   },
   mounted() {
     this.total = this.totalArticles;

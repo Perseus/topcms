@@ -19,9 +19,6 @@ const DownloadList = {
     'sidebar-navigation-container': SidebarNavigationContainer,
   },
   created() {
-    this.fetchServerRates();
-    this.retrieveStaffInfo();
-    this.getServerStats();
     this.getSiteDownloads();
   },
 

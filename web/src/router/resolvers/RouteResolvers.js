@@ -12,10 +12,7 @@ const RouteResolvers = {
     return true;
   },
 
-  [ RouteNames.ROOT.__LANDING__ ]: async () => {
-    await store.dispatch( ActionTypes.retrieveLandingPageInformation );
-    return true;
-  },
+  [ RouteNames.ROOT.__LANDING__ ]: async () => true,
 
   [ RouteNames.ADMIN.NEWS.CREATE ]: async ( route ) => {
     const { site } = store.state;

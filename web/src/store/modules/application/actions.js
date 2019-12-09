@@ -13,8 +13,8 @@ const Actions = {
     commit( MutationTypes.APPLICATION_LOADING );
 
     await dispatch( ActionTypes.retrieveUser );
-    dispatch( ActionTypes.connectToSocketServer );
-    dispatch( ActionTypes.setInitialRoute, payload.route );
+    await dispatch( ActionTypes.connectToSocketServer );
+    await dispatch( ActionTypes.setInitialRoute, payload.route );
 
     commit( MutationTypes.APPLICATION_LOADED );
   },

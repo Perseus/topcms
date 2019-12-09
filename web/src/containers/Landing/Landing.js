@@ -22,10 +22,6 @@ const Landing = {
     'server-detail-structure': ServerDetailStructure,
   },
   created() {
-    this.getServerStats();
-    this.retrieveLandingPageInformation();
-    this.retrieveStaffInfo();
-    this.fetchServerRates();
   },
   computed: {
     ...getStateGetters(),
