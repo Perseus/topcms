@@ -54,13 +54,13 @@
         <div class="card-content inventory-information">
           <div class="character-gear-container">
             <div :class="[ 'character-gear', key ]" v-for="(gear, key) in currentGear" :key="key">
-              <b-tooltip :label="getTooltipLabel( gear )" animated>
+              <inventory-item-tooltip v-if="gear" :tooltipContent="getContentForTooltip(gear)">
                 <img
                   class="gear-icon"
                   :src="`${publicPath}img/icons/${getItemIcon(  gear )}.png`"
                   v-if="doesItemHaveIcon(gear)"
                 />
-              </b-tooltip>
+              </inventory-item-tooltip>
             </div>
           </div>
         </div>

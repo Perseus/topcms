@@ -1,5 +1,9 @@
-import { ItemAttributeMap } from '../../config/ItemAttributeMap';
+import _ from 'lodash';
 
+import { ItemAttributeMap } from '../../config/ItemAttributeMap';
+import { getInventoryItemDetailHTML } from '../../utils/CharacterUtils';
+
+import InventoryItemTooltip from '../InventoryItemTooltip/InventoryItemTooltip.vue';
 
 const InventoryGrid = {
   name: 'inventory-grid',
@@ -8,6 +12,10 @@ const InventoryGrid = {
       type: Object,
       default: () => {},
     }
+  },
+
+  components: {
+    'item-tooltip': InventoryItemTooltip,
   },
 
   data() {
@@ -46,7 +54,6 @@ const InventoryGrid = {
       const totalItems = this.inventoryContent.length;
       const emptyGridItems = this.maximumItems - totalItems;
 
-
       return emptyGridItems;
     },
 
@@ -72,9 +79,21 @@ const InventoryGrid = {
       if ( !this.inventoryContent || !Array.isArray( this.inventoryContent ) ) {
         return false;
       }
-
-      const doesItemExist = this.inventoryContent.filter( inventoryItem => inventoryItem.slot === index );
+      const doesItemExist = _.find( this.inventoryContent, inventoryItem => Number( inventoryItem.slot ) === index );
       return Boolean( doesItemExist );
+    },
+
+    getContentForTooltip( index ) {
+      const item = this.getItemAtSlot( index );
+      return getInventoryItemDetailHTML( item );
+    },
+
+    getItemCount( item ) {
+      if ( !item || !item.dbAttributes ) {
+        return '';
+      }
+      const itemCount = item.dbAttributes[ 2 ];
+      return itemCount;
     }
   }
 };

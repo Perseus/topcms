@@ -1,0 +1,23 @@
+.inventory-item-tooltip {
+  position: relative;
+
+  &:hover {
+    & > .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 1;
+  background-color: #000;
+  color: #FFF;
+  padding: 8px;
+  border-radius: 8px;
+  bottom: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .2s;
+}

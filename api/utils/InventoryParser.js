@@ -2,7 +2,7 @@ const path = require( 'path' );
 const _ = require( 'lodash' );
 
 const logger = require( './FileLogger' );
-const { DBInventoryAttributeMap: AttributeMap, DBInventoryGearMap: GearMap } = require( '../config' );
+const { DBInventoryAttributeMap: AttributeMap, DBInventoryGearMap: GearMap, ItemInfoInventoryAttributeMap: IIInventoryMap } = require( '../config' );
 const ItemInfoParser = require( './ItemInfoParser' );
 
 /* eslint-disable class-methods-use-this */
@@ -182,6 +182,7 @@ class InventoryParser {
     const itemId = itemDetails.id;
     const itemInformation = await itemInfoParser.getItemInformation( itemId );
     itemDetails.itemInfo = itemInformation;
+    itemDetails.dbAttributes = item;
 
     return itemDetails;
   }
@@ -198,6 +199,7 @@ class InventoryParser {
     const itemInfoParser = new ItemInfoParser( null, path.join( 'data' ) );
     const itemInformation = await itemInfoParser.getItemInformation( itemDetails.id );
     itemDetails.itemInfo = itemInformation;
+    itemDetails.dbAttributes = item;
 
     return itemDetails;
   }
@@ -216,4 +218,4 @@ class InventoryParser {
 }
 
 
-module.exports =  InventoryParser;
+module.exports = InventoryParser;

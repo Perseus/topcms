@@ -53,3 +53,14 @@ module.exports.DBInventoryGearMap = {
   RING_RIGHT: 9,
   WEAPON_LEFT_HAND: 10,
 };
+
+
+module.exports.ItemInfoInventoryAttributeMap = {
+  ID: 0,
+  NAME: 1,
+  ICON: 2,
+  ITEM_TYPE: 10,
+  ENERGY: 75,
+  DURABILITY: 75,
+  DESCRIPTION: 93,
+};

@@ -17,4 +17,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+
+.item-count-container {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #FFFFFF;
+  padding: 1px;
+  font-size: 14px;
 }

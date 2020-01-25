@@ -2,11 +2,15 @@ import { mapState, mapActions } from 'vuex';
 
 import InventoryGrid from '../../../../components/InventoryGrid/InventoryGrid.vue';
 import { ItemAttributeMap } from '../../../../config/ItemAttributeMap';
+import { getInventoryItemDetailHTML } from '../../../../utils/CharacterUtils';
+
+import InventoryItemTooltip from '../../../../components/InventoryItemTooltip/InventoryItemTooltip.vue';
 
 const GameAdminCharacter = {
   name: 'game-admin-character',
   components: {
     'inventory-grid': InventoryGrid,
+    'inventory-item-tooltip': InventoryItemTooltip,
   },
 
   data() {
@@ -40,6 +44,14 @@ const GameAdminCharacter = {
         // eslint-disable-next-line
         return '';
       }
+    },
+
+    getContentForTooltip( gear ) {
+      if ( gear.itemInfo ) {
+        return getInventoryItemDetailHTML( gear );
+      }
+
+      return '';
     },
 
     doesItemHaveIcon( item ) {
