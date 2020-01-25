@@ -28,7 +28,6 @@ const InventoryGrid = {
 
   mounted() {
     this.inventoryContent = this.inventory.content || [];
-    console.log( this.inventoryContent );
   },
 
   methods: {
