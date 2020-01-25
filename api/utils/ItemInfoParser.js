@@ -5,7 +5,7 @@ const serialize = require( 'serialize-javascript' );
 const { ItemInfoAttributeMap } = require( '../config/ItemInfoItemAttributes' );
 const TError = require( './TError' );
 
-module.exports =  class ItemInfoParser {
+module.exports = class ItemInfoParser {
   constructor( fileData, filePath ) {
     this.fileData = fileData;
     this.filePath = filePath;
@@ -98,4 +98,4 @@ module.exports =  class ItemInfoParser {
       return null;
     }
   }
-}
+};
