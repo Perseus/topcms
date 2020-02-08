@@ -1,6 +1,6 @@
-const { AccountServer, GameDB } = require( '../../database/models/index' );
 const { AuthenticationError } = require( 'apollo-server' );
 const _ = require( 'lodash' );
+const { AccountServer, GameDB } = require( '../../database/models/index' );
 
 
 /**
@@ -8,7 +8,7 @@ const _ = require( 'lodash' );
  * Auth directive for GraphQL queries and mutations. Retrieves the user's
  * ID from the request ( added to it by the auth middleware ), validates authentication and authorization
  * @param {Function} next Callback to proceed with the GraphQL query after processing the user
- * @param {*} src 
+ * @param {*} src
  * @param {Object} args Arguments provided to the directive ( in this case, intended ROLE of the user )
  * @param {Object} context GraphQL context object
  */
@@ -31,9 +31,8 @@ module.exports.isAuthenticatedDirective = async function isAuthenticatedDirectiv
       if ( args.role ) {
         if ( accessLevels.includes( args.role ) ) {
           return next();
-        } else {
-          throw new AuthenticationError( 'UNAUTHORIZED' );
         }
+        throw new AuthenticationError( 'UNAUTHORIZED' );
       } else {
         return next();
       }
@@ -43,9 +42,9 @@ module.exports.isAuthenticatedDirective = async function isAuthenticatedDirectiv
   } catch ( err ) {
     throw new Error( err );
   }
-}
+};
 
 
 module.exports.websocketAuthentication = async function websocketAuthentication( connectionParams, webSocket ) {
   console.log( connectionParams, webSocket );
-}
+};

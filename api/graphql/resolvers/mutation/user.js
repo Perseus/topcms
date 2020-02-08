@@ -69,7 +69,7 @@ module.exports.updateUser = async function updateUser( obj, args, context ) {
   } catch ( err ) {
     throw new UserInputError( err );
   }
-}
+};
 
 module.exports.updateUserFromAdmin = async function updateUserFromAdmin( context, args ) {
   try {
@@ -118,7 +118,7 @@ module.exports.updateUserFromAdmin = async function updateUserFromAdmin( context
   } catch ( err ) {
     return new UserInputError( err );
   }
-}
+};
 
 module.exports.resetUserSecurityCode = async function resetUserSecurityCode( context, args ) {
   try {
@@ -142,4 +142,4 @@ module.exports.resetUserSecurityCode = async function resetUserSecurityCode( con
   } catch ( err ) {
     throw new UserInputError( err );
   }
-}
+};

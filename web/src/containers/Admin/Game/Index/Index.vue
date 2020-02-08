@@ -55,11 +55,29 @@
               >{{value }}</b-dropdown-item>
             </b-dropdown>
           </b-field>
-          <b-button class="is-pulled-right search-btn" :loading="isFetchingCharacters" native-type="submit">Search</b-button>
+          <b-button
+            class="is-pulled-right search-btn"
+            :loading="isFetchingCharacters"
+            native-type="submit"
+          >Search</b-button>
         </form>
       </div>
     </div>
-    <div class="mall-handle-section"></div>
+    <div class="mall-handle-section">
+      <div class="manage-mall-section card">
+        <header class="card-header">
+          <p class="card-header-title">Manage Commerce</p>
+        </header>
+        <div class="manage-mall-card card-content">
+          <b-button
+            class="is-button is-primary"
+            @click="redirectToMallCategories"
+          >Manage Mall Categories</b-button>
+          <b-button class="is-button is-primary">Manage Item Mall</b-button>
+          <b-button class="is-button is-primary">Manage Award Center</b-button>
+        </div>
+      </div>
+    </div>
     <div class="other-actions-section">
       <div class="manage-iteminfo-sectiona card">
         <header class="card-header">

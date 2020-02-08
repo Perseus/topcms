@@ -210,6 +210,12 @@ const typeDefs = gql`
     id: Int
   }
 
+  type CommerceCategory {
+    id: Int
+    name: String
+    total_items: Int
+  }
+
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
@@ -231,6 +237,7 @@ const typeDefs = gql`
     guildRankings(filter: String!): [GuildRankingItem]
     filteredUser(id: ID!): User @isAuthenticated(role: ADMIN)
     filteredCharacter(id: ID!): Character @isAuthenticated(role: ADMIN)
+    commerceCategories: [CommerceCategory]
   }
 
   type Mutation {
@@ -253,6 +260,11 @@ const typeDefs = gql`
     updateUserFromAdmin(id: ID!, email: String, password: String, gm: Int): User @isAuthenticated(role: ADMIN)
     cacheItemInfo: [ ItemInfoObject ] @isAuthenticated(role: ADMIN)
     resetUserSecurityCode(id: ID!): User @isAuthenticated(role: ADMIN)
+
+    createCommerceCategory(name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
+    editCommerceCategory(id: ID!, name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
+    deleteCommerceCategory(id: ID!): CommerceCategory @isAuthenticated(role: ADMIN)
+    
   }
 
 `;

@@ -54,6 +54,11 @@ const ActionTypes = {
   generateItemInfoCache: 'generateItemInfoCache',
   uploadItemInfo: 'uploadItemInfo',
   resetUserSecurityCode: 'resetUserSecurityCode',
+
+  retrieveMallCategories: 'retrieveMallCategories',
+  createMallCategory: 'createMallCategory',
+  editMallCategory: 'editMallCategory',
+  deleteMallCategory: 'deleteMallCategory',
 };
 
 export default ActionTypes;

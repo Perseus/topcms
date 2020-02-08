@@ -15,6 +15,6 @@
         "explorer.confirmDragAndDrop": false,
         "window.zoomLevel": 0,
         "sync.gist": "5d5841903f25d9edf41632c74ed9323d",
-        "workbench.colorTheme": "Panda Syntax"
+        "workbench.colorTheme": "Dracula Soft"
     }
 }
