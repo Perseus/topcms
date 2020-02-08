@@ -4,31 +4,30 @@ const path = require( 'path' );
 const errorsFilePath = path.join( 'logs', 'errors.log' );
 const actionsFilePath = path.join( 'logs', 'actions.log' );
 
-const logger = createLogger({
+const logger = createLogger( {
   level: 'info',
   format: format.combine(
-    format.timestamp({
+    format.timestamp( {
       format: 'YYYY-MM-DD HH:mm:ss'
-    }),
-    format.errors({ stack: true }),
+    } ),
+    format.errors( { stack: true } ),
     format.splat(),
     format.json()
   ),
   defaultMeta: { service: 'topCMS' },
   transports: [
-    new transports.File({ filename: errorsFilePath, level: 'error' }),
-    new transports.File({ filename: actionsFilePath, level: 'action' })
+    new transports.File( { filename: errorsFilePath, level: 'error' } ),
+    new transports.File( { filename: actionsFilePath, level: 'debug' } )
   ]
-});
+} );
 
 if ( process.env.NODE_ENV !== 'prod' ) {
-  logger.add( new transports.Console( { 
-    format: format.combine( 
+  logger.add( new transports.Console( {
+    format: format.combine(
       format.colorize(),
       format.simple()
     )
   } ) );
 }
 
-
-module.exports =  logger;
+module.exports = logger;

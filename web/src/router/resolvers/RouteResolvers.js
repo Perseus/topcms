@@ -128,6 +128,14 @@ const RouteResolvers = {
     }
   },
 
+  [ RouteNames.ADMIN.COMMERCE.CATEGORIES ]: async () => {
+    try {
+      await store.dispatch( ActionTypes.retrieveMallCategories );
+      return true;
+    } catch ( err ) {
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    }
+  }
 };
 
 export default RouteResolvers;

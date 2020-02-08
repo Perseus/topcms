@@ -63,11 +63,9 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrieveUser ] ( { commit } ) {
+  async [ ActionTypes.retrieveUser ] ( { commit, dispatch } ) {
     try {
-      const retrieveUserResponse = await apolloClient.query( {
-        query: getCurrentUserQuery
-      } );
+      const retrieveUserResponse = await graphQLRequest( dispatch, 'query', getCurrentUserQuery, 'getCurrentUser' );
       const { name, email, account_details } = retrieveUserResponse.data.me;
       commit( MutationTypes.SIGNIN_COMPLETE, {
         username: name,

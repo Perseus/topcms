@@ -7,19 +7,29 @@ import routerModule from './modules/router';
 import gameModule from './modules/game';
 import siteModule from './modules/site';
 import adminModule from './modules/admin';
+import commerceModule from './modules/commerce';
 
+import Request from '../services/GraphQLRequest';
 Vue.use( Vuex );
 
-export default new Vuex.Store( {
-  modules: {
-    application: applicationModule,
-    user: userModule,
-    router: routerModule,
-    game: gameModule,
-    site: siteModule,
-    admin: adminModule,
-  },
-  plugins: [
-    createLogger(),
-  ]
-} );
+function getStore() {
+  const store = new Vuex.Store( {
+    modules: {
+      application: applicationModule,
+      user: userModule,
+      router: routerModule,
+      game: gameModule,
+      site: siteModule,
+      admin: adminModule,
+      commerce: commerceModule,
+    },
+    plugins: [
+      createLogger(),
+    ]
+  });
+
+  Request.init( store );
+  return store;
+}
+
+export default getStore();

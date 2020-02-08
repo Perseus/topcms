@@ -101,7 +101,7 @@ const AuthorDashboard = {
       if ( !id ) {
         return;
       }
-      this.$dialog.confirm( {
+      this.$buefy.dialog.confirm( {
         title: 'Deleting author',
         message: 'Are you sure you want to <b>delete</b> this author? This action cannot be undone.',
         confirmText: 'Delete author',

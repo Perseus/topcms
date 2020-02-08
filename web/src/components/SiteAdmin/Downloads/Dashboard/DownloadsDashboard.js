@@ -79,7 +79,7 @@ const DownloadsDashboard = {
       if ( !id ) {
         return;
       }
-      this.$dialog.confirm( {
+      this.$buefy.dialog.confirm( {
         title: 'Deleting Download',
         message: 'Are you sure you want to <b>delete</b> this download? This action cannot be undone.',
         confirmText: 'Delete Download',

@@ -104,3 +104,9 @@
 {"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4012677388, actual CRC: -282289908","service":"topCMS","timestamp":"2020-01-25 08:04:41"}
 {"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4012677388, actual CRC: -282289908","service":"topCMS","timestamp":"2020-01-25 08:04:55"}
 {"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4013463820, actual CRC: -281503476","service":"topCMS","timestamp":"2020-01-25 11:47:30"}
+{"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4013463820, actual CRC: -281503476","service":"topCMS","timestamp":"2020-01-25 21:19:39"}
+{"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4013463820, actual CRC: -281503476","service":"topCMS","timestamp":"2020-01-25 21:20:02"}
+{"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4013463820, actual CRC: -281503476","service":"topCMS","timestamp":"2020-01-25 21:21:01"}
+{"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4013463820, actual CRC: -281503476","service":"topCMS","timestamp":"2020-01-25 21:21:12"}
+{"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4013463820, actual CRC: -281503476","service":"topCMS","timestamp":"2020-01-25 21:21:27"}
+{"level":"error","message":"CRC Mismatch while parsing inventory: computed CRC: 4013463820, actual CRC: -281503476","service":"topCMS","timestamp":"2020-01-26 12:56:51"}

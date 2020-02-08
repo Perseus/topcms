@@ -20,6 +20,8 @@ import AdminGameAccounts from '../../containers/Admin/Game/Accounts/Accounts.vue
 import AdminGameAccount from '../../containers/Admin/Game/Account/Account.vue';
 import AdminGameCharacters from '../../containers/Admin/Game/Characters/Characters.vue';
 import AdminGameCharacter from '../../containers/Admin/Game/Character/Character.vue';
+import AdminCommerce from '../../containers/Admin/Commerce/AdminCommerceIndex.vue';
+import AdminCommerceCategories from '../../containers/Admin/Commerce/Categories/Categories.vue';
 
 
 import { RootResolver } from '../resolvers';
@@ -85,6 +87,17 @@ const RouteConfig = [
                 name: RouteNames.ADMIN.GAME.CHARACTER,
                 path: '/admin/game/character/:id',
                 component: AdminGameCharacter,
+              }
+            ]
+          },
+          {
+            path: 'commerce',
+            component: AdminCommerce,
+            children: [
+              {
+                name: RouteNames.ADMIN.COMMERCE.CATEGORIES,
+                path: 'categories',
+                component: AdminCommerceCategories,
               }
             ]
           },

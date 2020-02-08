@@ -1,0 +1,17 @@
+{"level":"debug","message":"Commerce category 2 created by ","service":"topCMS","timestamp":"2020-02-08 10:22:43"}
+{"level":"debug","message":"Commerce category 1 created by ","service":"topCMS","timestamp":"2020-02-08 10:23:42"}
+{"level":"debug","message":"Commerce category Pets3 created. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:25:35"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 1 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:37:54"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 13 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:37:58"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 2 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:37:59"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 3 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:01"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 4 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:02"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 5 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:03"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 6 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:05"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 7 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:06"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 8 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:07"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 9 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:08"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 10 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:09"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 11 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:10"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 12 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:11"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category Pets created. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:21"}

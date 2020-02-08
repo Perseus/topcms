@@ -57,6 +57,10 @@ const Index = {
   methods: {
     ...mapActionsToMethods(),
 
+    redirectToMallCategories() {
+      this.changeRoute( { name: RouteNames.ADMIN.COMMERCE.CATEGORIES } );
+    },
+
     async searchAccounts() {
       const filterKey = _.findKey( this.accountSearchFilters, filter => filter === this.selectedAccountSearchFilter );
       await this.retrieveFilteredAccounts( { filter: filterKey, searchKey: this.accountSearchTerm, offset: 0 } );

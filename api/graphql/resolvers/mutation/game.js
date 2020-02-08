@@ -9,9 +9,11 @@ const { pubsub } = require( '../subscriptions' );
 
 module.exports.updateServerRates = async function updateServerRates( context, args ) {
   try {
-    const { rates: {
- solo, party, drop, ship, fairy 
-} } = args;
+    const {
+      rates: {
+        solo, party, drop, ship, fairy
+      }
+    } = args;
     const configFile = await promises.readFile( path.join( __dirname, '..', '..', '..', 'config', 'interactableConfig.json' ), 'utf8' );
     const currentServerRates = JSON.parse( configFile );
 
@@ -28,7 +30,7 @@ module.exports.updateServerRates = async function updateServerRates( context, ar
   } catch ( err ) {
     return err;
   }
-}
+};
 
 module.exports.toggleUserBan = async function toggleUserBan( context, args ) {
   try {
@@ -51,4 +53,4 @@ module.exports.toggleUserBan = async function toggleUserBan( context, args ) {
   } catch ( err ) {
     return err;
   }
-}
+};
