@@ -1,7 +1,7 @@
 const Sequelize = require( 'sequelize' );
 const fs = require( 'fs' );
 const path = require( 'path' );
-const config = require( '../config/config.json' );
+const config = require( '../config/config.js' );
 
 const basename = path.basename( __filename );
 const accountServerModelDirectory = path.join( __dirname, '/./AccountServer/' );
