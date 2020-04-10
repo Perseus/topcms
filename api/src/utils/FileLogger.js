@@ -1,8 +1,8 @@
 const { createLogger, format, transports } = require( 'winston' );
 const path = require( 'path' );
 
-const errorsFilePath = path.join( 'logs', 'errors.log' );
-const actionsFilePath = path.join( 'logs', 'actions.log' );
+const errorsFilePath = path.join( 'dist/logs', 'errors.log' );
+const actionsFilePath = path.join( 'dist/logs', 'actions.log' );
 
 const logger = createLogger( {
   level: 'info',
