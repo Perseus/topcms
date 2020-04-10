@@ -216,6 +216,30 @@ const typeDefs = gql`
     total_items: Int
   }
 
+  enum MallTypes {
+    ITEM_MALL
+    AWARD_CENTER
+  }
+
+  type CommerceItem {
+    id: Int
+    itemId: Int
+    price: Int
+    availableQuantity: Int
+    categoryId: ID
+    mallType: MallTypes
+  }
+
+  type CommerceListItem {
+    id: Int
+    itemId: Int
+    name: String
+    price: Int
+    availableQuantity: Int
+    categoryId: Int
+    mallType: MallTypes
+  }
+
   type Query {
     users: [User] @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
@@ -238,6 +262,7 @@ const typeDefs = gql`
     filteredUser(id: ID!): User @isAuthenticated(role: ADMIN)
     filteredCharacter(id: ID!): Character @isAuthenticated(role: ADMIN)
     commerceCategories: [CommerceCategory]
+    allMallItems: [CommerceListItem] @isAuthenticated(role: USER)
   }
 
   type Mutation {
@@ -264,6 +289,10 @@ const typeDefs = gql`
     createCommerceCategory(name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
     editCommerceCategory(id: ID!, name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
     deleteCommerceCategory(id: ID!): CommerceCategory @isAuthenticated(role: ADMIN)
+
+    createCommerceItem(itemId: Int!, price: Int!, availableQuantity: Int, categoryId: Int!, mallType: MallTypes!): CommerceItem @isAuthenticated(role: ADMIN)
+    editCommerceItem(id: ID!, itemId: Int, price: Int, availableQuantity: Int, categoryId: Int, mallType: MallTypes): CommerceItem @isAuthenticated(role: ADMIN)
+    deleteCommerceItem(id: ID!): CommerceItem @isAuthenticated(role: ADMIN)
     
   }
 

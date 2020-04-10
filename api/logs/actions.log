@@ -15,3 +15,10 @@
 {"type":"commerceCategory","level":"debug","message":"Commerce category 11 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:10"}
 {"type":"commerceCategory","level":"debug","message":"Commerce category 12 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:11"}
 {"type":"commerceCategory","level":"debug","message":"Commerce category Pets created. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:21"}
+{"type":"commerceItem","level":"debug","message":"Commerce item 2 created. ","user":1002,"service":"topCMS","timestamp":"2020-02-09 11:43:27"}
+{"type":"commerceItem","level":"debug","message":"Commerce item undefined updated. ","user":1002,"service":"topCMS","timestamp":"2020-02-09 11:44:04"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category Armor created. ","user":1002,"service":"topCMS","timestamp":"2020-02-09 15:19:16"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category Weapons created. ","user":1002,"service":"topCMS","timestamp":"2020-02-09 15:19:24"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category Apparel created. ","user":1002,"service":"topCMS","timestamp":"2020-02-09 15:19:26"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category Utilities created. ","user":1002,"service":"topCMS","timestamp":"2020-02-09 15:19:30"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category Miscellaneous  created. ","user":1002,"service":"topCMS","timestamp":"2020-02-09 15:19:37"}

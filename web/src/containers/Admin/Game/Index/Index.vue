@@ -73,8 +73,10 @@
             class="is-button is-primary"
             @click="redirectToMallCategories"
           >Manage Mall Categories</b-button>
-          <b-button class="is-button is-primary">Manage Item Mall</b-button>
-          <b-button class="is-button is-primary">Manage Award Center</b-button>
+          <b-button
+            class="is-button is-primary"
+            @click="redirectToManageMall"
+          >Manage Item Mall/Award Center</b-button>
         </div>
       </div>
     </div>

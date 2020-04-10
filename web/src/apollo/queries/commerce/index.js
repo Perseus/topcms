@@ -9,3 +9,17 @@ export const getCommerceCategories = gql`
     }
   }
 `;
+
+
+export const getMallItems = gql`
+  query getMallItems {
+    allMallItems {
+      id
+      name
+      itemId
+      categoryId
+      availableQuantity
+      mallType
+    }
+  }
+`;

@@ -135,6 +135,18 @@ const RouteResolvers = {
     } catch ( err ) {
       return { name: RouteNames.ADMIN.GAME.INDEX };
     }
+  },
+
+  [ RouteNames.ADMIN.COMMERCE.MANAGE_MALL ]: async () => {
+    try {
+      await Promise.all( [
+        store.dispatch( ActionTypes.retrieveMallCategories ),
+        store.dispatch( ActionTypes.retrieveMallItems )
+      ] );
+      return true;
+    } catch ( err ) {
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    }
   }
 };
 

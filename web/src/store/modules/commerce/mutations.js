@@ -27,6 +27,11 @@ const Mutations = {
   [ MutationTypes.DELETE_COMMERCE_CATEGORY ] ( state, payload ) {
     const { id } = payload;
     state.commerceCategories = state.commerceCategories.filter( category => category.id !== id );
+  },
+
+  [ MutationTypes.FETCHED_MALL_ITEMS ] ( state, payload ) {
+    const { items } = payload;
+    state.mallItems = items;
   }
 };
 

@@ -22,7 +22,7 @@ import AdminGameCharacters from '../../containers/Admin/Game/Characters/Characte
 import AdminGameCharacter from '../../containers/Admin/Game/Character/Character.vue';
 import AdminCommerce from '../../containers/Admin/Commerce/AdminCommerceIndex.vue';
 import AdminCommerceCategories from '../../containers/Admin/Commerce/Categories/Categories.vue';
-
+import AdminCommerceItemMall from '../../containers/Admin/Commerce/ItemMall/ItemMall.vue';
 
 import { RootResolver } from '../resolvers';
 import { adminGuard, userGuard } from '../guards';
@@ -98,6 +98,11 @@ const RouteConfig = [
                 name: RouteNames.ADMIN.COMMERCE.CATEGORIES,
                 path: 'categories',
                 component: AdminCommerceCategories,
+              },
+              {
+                name: RouteNames.ADMIN.COMMERCE.MANAGE_MALL,
+                path: 'manage-mall',
+                component: AdminCommerceItemMall,
               }
             ]
           },

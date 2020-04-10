@@ -61,6 +61,10 @@ const Index = {
       this.changeRoute( { name: RouteNames.ADMIN.COMMERCE.CATEGORIES } );
     },
 
+    redirectToManageMall() {
+      this.changeRoute( { name: RouteNames.ADMIN.COMMERCE.MANAGE_MALL } );
+    },
+
     async searchAccounts() {
       const filterKey = _.findKey( this.accountSearchFilters, filter => filter === this.selectedAccountSearchFilter );
       await this.retrieveFilteredAccounts( { filter: filterKey, searchKey: this.accountSearchTerm, offset: 0 } );

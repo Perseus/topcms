@@ -29,6 +29,7 @@ const RouteNames = {
     },
     COMMERCE: {
       CATEGORIES: 'ADMIN.COMMERCE.CATEGORIES',
+      MANAGE_MALL: 'ADMIN.COMMERCE.MANAGE_MALL',
     },
     SITE: 'ADMIN.SITE',
     NEWS: {

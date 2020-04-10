@@ -28,6 +28,7 @@ module.exports = ( sequelize, DataTypes ) => {
     }
   }, {
     tableName: 'ItemMall',
+    timestamps: false,
   } );
 
   ItemMall.associate = function( models ) {

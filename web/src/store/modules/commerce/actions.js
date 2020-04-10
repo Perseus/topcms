@@ -1,4 +1,4 @@
-import { getCommerceCategories } from '../../../apollo/queries/commerce';
+import { getCommerceCategories, getMallItems } from '../../../apollo/queries/commerce';
 import { createMallCategoryMutation, editMallCategoryMutation, deleteMallCategoryMutation } from '../../../apollo/mutations/commerce';
 
 
@@ -55,6 +55,16 @@ const Actions = {
       commit( MutationTypes.DELETE_COMMERCE_CATEGORY, { id } );
     } catch ( err ) {
       Logger.log( `Error at action deleteMallCategory ${err}`, 'error' );
+    }
+  },
+
+  async [ ActionTypes.retrieveMallItems ] ( { commit } ) {
+    try {
+      const response = await request.graphQLRequest( 'query', getMallItems, 'getMallItems' );
+      const { allMallItems } = response.data;
+      commit( MutationTypes.FETCHED_MALL_ITEMS, { items: allMallItems } );
+    } catch ( err ) {
+      Logger.log( `Error at action retrieveMallItems ${err}`, 'error' );
     }
   }
 };

@@ -90,9 +90,12 @@ module.exports = class ItemInfoParser {
     } );
   }
 
-  async getItemInformation( itemId ) {
+  async getItemInformation( itemId, options = {} ) {
     try {
       const fileData = await fs.promises.readFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, 'utf-8' );
+      if ( options.shouldParseJSON ) {
+        return JSON.parse( fileData );
+      }
       return fileData;
     } catch ( err ) {
       return null;

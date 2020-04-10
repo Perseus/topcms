@@ -59,6 +59,8 @@ const ActionTypes = {
   createMallCategory: 'createMallCategory',
   editMallCategory: 'editMallCategory',
   deleteMallCategory: 'deleteMallCategory',
+
+  retrieveMallItems: 'retrieveMallItems',
 };
 
 export default ActionTypes;
