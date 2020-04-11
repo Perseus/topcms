@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: "production"
+  
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+
+  pre_build:
+    commands:
+      - bash build/install.sh
+  
+  build:
+    commands:
+      - bash build/build.sh
+  
+artifacts:
+  files: dist/**/*
