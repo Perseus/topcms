@@ -2,7 +2,7 @@ import AWS from 'aws-sdk';
 import SSM from 'aws-sdk/clients/ssm';
 
 // eslint-disable-next-line
-// @ts-ignore
+// @ts-ignoretslint
 import envFile from 'envfile';
 import path from 'path';
 import { promises as fs } from 'fs';
@@ -48,8 +48,8 @@ function parseSSMParams( params: SSM.ParameterList ): Record<string, string> {
           GAME_DB_PASSWORD: splitParams[ 2 ],
           GAME_DB_HOST: splitParams[ 3 ],
         } );
-
         break;
+
       default:
     }
   } );
