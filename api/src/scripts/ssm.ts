@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk';
+import AWS, { SharedIniFileCredentials } from 'aws-sdk';
 import SSM from 'aws-sdk/clients/ssm';
 
 // eslint-disable-next-line
@@ -7,8 +7,16 @@ import envFile from 'envfile';
 import path from 'path';
 import { promises as fs } from 'fs';
 
+const awsCredentialProfile = process.argv[ 1 ];
+
 function fetchSSMParams( params: SSM.GetParametersRequest ): Promise<SSM.GetParametersResult> {
-  const credentials = new AWS.SharedIniFileCredentials( { profile: 'topcms' } );
+  let credentials: SharedIniFileCredentials;
+  if ( awsCredentialProfile ) {
+    credentials = new AWS.SharedIniFileCredentials( { profile: awsCredentialProfile } );
+  } else {
+    credentials = new AWS.SharedIniFileCredentials();
+  }
+
   const ssm = new SSM( {
     credentials,
     region: 'ap-south-1',

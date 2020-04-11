@@ -12,7 +12,8 @@
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "lint": "eslint . --ext .js,.ts",
-    "setup": "node scripts/builder.js"
+    "setup": "node dist/scripts/builder.js",
+    "fetch-ssm": "node dist/scripts/ssm.js topcms"
   },
   "author": "Perseus",
   "license": "ISC",
