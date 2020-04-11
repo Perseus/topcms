@@ -1,8 +1,10 @@
-{
+module.exports = {
   "extends": [
-    "airbnb"
+    "airbnb",
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2018,
     "ecmaFeatures": {
@@ -134,9 +136,16 @@
     "object-curly-spacing": [
       "error",
       "always"
+    ],
+    "import/no-extraneous-dependencies": [
+      "error", 
+      { 
+        "devDependencies": [ "src/scripts/*" ]
+      }
     ]
   },
   "plugins": [
+    '@typescript-eslint',
     "prettier"
   ]
 }

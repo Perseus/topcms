@@ -12,7 +12,7 @@ module.exports.authMiddleware = function authMiddleware( { req, res } ) {
     }
   }
   return { req, res };
-}
+};
 
 module.exports.retrieveUserFromRequest = function retrieveUserFromRequest( request ) {
   const requestCookies = request.cookies;
@@ -24,7 +24,7 @@ module.exports.retrieveUserFromRequest = function retrieveUserFromRequest( reque
   const verifiedToken = verify( requestCookies._sid, process.env.JWT_SECRET );
 
   return verifiedToken.data.id;
-}
+};
 
 module.exports.retrieveUserFromSocketRequest = function retrieveUserFromSocketRequest( socket ) {
   try {
@@ -39,7 +39,7 @@ module.exports.retrieveUserFromSocketRequest = function retrieveUserFromSocketRe
   } catch ( err ) {
     return err;
   }
-}
+};
 
 module.exports.socketAuthMiddleware = function socketAuthMiddleware( socket, next ) {
   try {
@@ -52,4 +52,4 @@ module.exports.socketAuthMiddleware = function socketAuthMiddleware( socket, nex
   } catch ( err ) {
     next( new Error( 'Authentication failed' ) );
   }
-}
+};

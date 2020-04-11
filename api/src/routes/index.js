@@ -48,4 +48,4 @@ router.post( '/uploadItemInfo', ( req, res ) => {
 } );
 
 
-module.exports =  router;
+module.exports = router;
