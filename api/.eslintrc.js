@@ -4,6 +4,13 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [ ".js", ".ts" ],
+      }
+    }
+  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2018,

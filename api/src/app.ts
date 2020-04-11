@@ -1,17 +1,17 @@
 // import required packages
-const env = require( 'dotenv' );
-const express = require( 'express' );
-const cors = require( 'cors' );
-const cookieParser = require( 'cookie-parser' );
-const morgan = require( 'morgan' );
-const csurf = require( 'csurf' );
-const path = require( 'path' );
+import env from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+import path from 'path';
+import { ApolloServer } from 'apollo-server-express';
 
-const { ApolloServer } = require( 'apollo-server-express' );
-const { errorHandlerMiddleware } = require( './helpers/errorHandler' );
-const schema = require( './graphql/schema/schema' );
-const { authMiddleware } = require( './helpers/authHelpers' );
-const routes = require( './routes' );
+import { errorHandlerMiddleware } from './helpers/errorHandler';
+import schema from './graphql/schema/schema';
+import { authMiddleware } from './helpers/authHelpers';
+import routes from './routes';
+
 
 // initialize environment variables
 env.config();
@@ -19,20 +19,16 @@ env.config();
 // initialize express app
 const app = express();
 
-// const csrfMiddleware = csurf( {
-//   cookie: true
-// } );
-
 const server = new ApolloServer( {
   schema,
   context: authMiddleware,
 } );
 
-const urlWhitelist = [ 'http://localhost', 'http://localhost:8080' ];
+const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', process.env.APP_URL ];
 
 const corsOptions = {
   credentials: true,
-  origin: ( origin, callback ) => {
+  origin: ( origin: string, callback: Function ): void => {
     if ( process.env.NODE_ENV === 'dev' ) {
       callback( null, true );
     } else if ( urlWhitelist.includes( origin ) ) {
@@ -42,8 +38,6 @@ const corsOptions = {
     }
   }
 };
-
-const apiPath = '/graphql';
 
 app.use( cookieParser() );
 app.use( cors( corsOptions ) );
@@ -60,4 +54,4 @@ app.get( '/*', ( req, res ) => {
 
 server.applyMiddleware( { app, cors: false } );
 
-module.exports = app;
+export default app;
