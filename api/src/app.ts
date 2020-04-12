@@ -24,7 +24,7 @@ const server = new ApolloServer( {
   context: authMiddleware,
 } );
 
-const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', process.env.APP_URL ];
+const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', process.env.APP_URL, 'http://topcms.anirudhsingh.dev', 'https://topcms.anirudhsingh.dev', 'http://13.234.118.205', 'https://13.234.118.205' ];
 
 const corsOptions = {
   credentials: true,

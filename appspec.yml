@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/topcms
+hooks:
+  BeforeInstall:
+    - location: build/install-dependencies.sh
+      runas: root
+  ApplicationStart:
+    - location: build/start-prod.sh
+      runas: root
+  ApplicationStop:
+    - location: build/stop-prod.sh
+      runas: root

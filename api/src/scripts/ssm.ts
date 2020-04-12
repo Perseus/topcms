@@ -1,4 +1,4 @@
-import AWS, { SharedIniFileCredentials } from 'aws-sdk';
+import AWS, { SharedIniFileCredentials, EnvironmentCredentials } from 'aws-sdk';
 import SSM from 'aws-sdk/clients/ssm';
 
 // eslint-disable-next-line
@@ -10,11 +10,11 @@ import { promises as fs } from 'fs';
 const awsCredentialProfile = process.argv[ 1 ];
 
 function fetchSSMParams( params: SSM.GetParametersRequest ): Promise<SSM.GetParametersResult> {
-  let credentials: SharedIniFileCredentials;
+  let credentials: SharedIniFileCredentials|EnvironmentCredentials;
   if ( awsCredentialProfile ) {
     credentials = new AWS.SharedIniFileCredentials( { profile: awsCredentialProfile } );
   } else {
-    credentials = new AWS.SharedIniFileCredentials();
+    credentials = new AWS.EnvironmentCredentials( 'AWS' );
   }
 
   const ssm = new SSM( {
@@ -93,8 +93,30 @@ const paramsToFetch = {
   ],
 };
 
+( async (): Promise<void> => {
+  const { env } = process;
+  let parsedParams = {};
+  try {
+    if ( env.SSM_AccountServer_DETAILS && env.SSM_GameDB_DETAILS ) {
+      const parameters = [
+        {
+          Name: 'AccountServer_DETAILS',
+          Value: env.SSM_AccountServer_DETAILS,
+        },
+        {
+          Name: 'GameDB_DETAILS',
+          Value: env.SSM_GameDB_DETAILS
+        }
+      ];
+      parsedParams = await parseSSMParams( parameters );
+    } else {
+      const fetchedParams = await fetchSSMParams( paramsToFetch );
+      parsedParams = await parseSSMParams( fetchedParams.Parameters );
+    }
 
-fetchSSMParams( paramsToFetch ).then( ( data ) => {
-  const parsedParams = parseSSMParams( data.Parameters );
-  writeParamsToEnvFile( parsedParams ).then( () => console.log( 'SSM Params written to env file successfully!' ) );
-} ).catch( err => console.log( err ) );
+    await writeParamsToEnvFile( parsedParams );
+    console.log( 'SSM Params written to env file successfully!' );
+  } catch ( err ) {
+    console.log( err );
+  }
+} )();

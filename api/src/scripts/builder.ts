@@ -184,7 +184,7 @@ async function build( processes: Array<string> ): Promise<void> {
     console.log( colors.bgCyan( ' BUILDING WEB BUNDLE' ) );
     await runShellScript( 'npm run build' );
     console.log( colors.bgCyan( ' COPYING WEB BUNDLE TO API DIRECTORY' ) );
-    const aa = shell.cp( '-R', 'dist/', '../api/' );
+    const aa = shell.cp( '-R', 'dist/', '../api/dist/' );
     console.log( aa );
   }
 
