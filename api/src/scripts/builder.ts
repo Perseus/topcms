@@ -99,7 +99,13 @@ async function getWebEnvDetails(): Promise<void> {
 
 async function generateJWTKey(): Promise<void> {
   const jwtKey = uuid.v4();
-  return promises.writeFile( path.join( __dirname, '..', '.env' ), `JWT_SECRET=${jwtKey}` );
+  const sourceEnvFile = path.join( '.env' );
+  const currentEnvData = envfile.parseFileSync( sourceEnvFile );
+
+  Object.assign( currentEnvData, { JWT_SECRET: jwtKey } );
+
+  const newEnvData = envfile.stringifySync( currentEnvData );
+  return promises.writeFile( sourceEnvFile, newEnvData );
 }
 
 async function writeDBDetails( details: Record<string, Record<string, string>> ): Promise<void> {
