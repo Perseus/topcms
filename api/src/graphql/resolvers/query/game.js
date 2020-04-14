@@ -41,7 +41,7 @@ module.exports.gameStats = async function gameStats( object, args, context, info
   } catch ( err ) {
     return err;
   }
-}
+};
 
 
 module.exports.staffStatuses = async function staffStatuses() {
@@ -75,7 +75,7 @@ module.exports.staffStatuses = async function staffStatuses() {
   } catch ( err ) {
     return err;
   }
-}
+};
 
 module.exports.serverRateInfo = async function serverRateInfo() {
   try {
@@ -86,7 +86,7 @@ module.exports.serverRateInfo = async function serverRateInfo() {
   } catch ( err ) {
     return err;
   }
-}
+};
 
 module.exports.playerRankings = async function playerRankings( object, args ) {
   try {
@@ -145,7 +145,7 @@ module.exports.playerRankings = async function playerRankings( object, args ) {
   } catch ( err ) {
     return err;
   }
-}
+};
 
 module.exports.guildRankings = async function guildRankings( object, args ) {
   try {
@@ -167,4 +167,4 @@ module.exports.guildRankings = async function guildRankings( object, args ) {
   } catch ( err ) {
     return err;
   }
-}
+};

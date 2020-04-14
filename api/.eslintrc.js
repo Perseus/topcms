@@ -7,7 +7,7 @@ module.exports = {
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [ ".js", ".ts" ],
+        "extensions": [ ".js", ".ts", ".d.ts" ],
       }
     }
   },
@@ -149,6 +149,11 @@ module.exports = {
       { 
         "devDependencies": [ "src/scripts/*" ]
       }
+    ],
+    "lines-between-class-members": [
+      "error",
+      "always",
+      { exceptAfterSingleLine: true },
     ]
   },
   "plugins": [

@@ -1,6 +1,7 @@
-const { ValidationError } = require( 'apollo-server' );
+import { ValidationError } from 'apollo-server';
+import { Model } from 'sequelize/types';
 
-function isUnique( model, field, value ) {
+function isUnique( model: Model, field, value ): Promise<void> {
   return new Promise( ( resolve, reject ) => {
     model.findOne( {
       where: {
@@ -16,6 +17,6 @@ function isUnique( model, field, value ) {
   } );
 }
 
-module.exports = {
-  isUnique,
+export {
+  isUnique
 };

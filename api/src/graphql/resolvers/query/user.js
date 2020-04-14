@@ -1,14 +1,19 @@
+import User from '../../../database/models/AccountServer/User';
+
 const { AuthenticationError, UserInputError } = require( 'apollo-server' );
 const sequelize = require( 'sequelize' );
 const { Sequelize } = require( 'sequelize' );
+
 
 const { AccountServer, GameDB } = require( '../../../database/models/index' );
 const { GeneralConfig } = require( '../../../config' );
 
 module.exports.users = async function users( object, args, context, info ) {
-  const fetchedUsers = await AccountServer.User.findAll();
+  // const fetchedUsers = await AccountServer.User.findAll();
+  // return fetchedUsers;
+  const fetchedUsers = await User.findAll();
   return fetchedUsers;
-}
+};
 
 module.exports.me = async function me( object, args, context, info ) {
   try {
@@ -22,7 +27,7 @@ module.exports.me = async function me( object, args, context, info ) {
   } catch ( err ) {
     return err;
   }
-}
+};
 
 module.exports.logout = async function logout( object, args, context, info ) {
   try {
@@ -31,7 +36,7 @@ module.exports.logout = async function logout( object, args, context, info ) {
   } catch ( err ) {
     return err;
   }
-}
+};
 
 
 module.exports.usersWithFilter = async function usersWithFilter( object, args, context ) {
@@ -97,7 +102,7 @@ module.exports.usersWithFilter = async function usersWithFilter( object, args, c
   } catch ( err ) {
     return new UserInputError( err );
   }
-}
+};
 
 module.exports.filteredUser = async function filteredUser( object, args ) {
   try {
@@ -109,7 +114,7 @@ module.exports.filteredUser = async function filteredUser( object, args ) {
   } catch ( err ) {
     return err;
   }
-}
+};
 
 
 module.exports.charactersWithFilter = async function charactersWithFilter( object, args, context ) {
@@ -217,7 +222,7 @@ module.exports.charactersWithFilter = async function charactersWithFilter( objec
   } catch ( err ) {
     return new UserInputError( err );
   }
-}
+};
 
 module.exports.filteredCharacter = async function filteredCharacter( object, args ) {
   try {
@@ -232,4 +237,4 @@ module.exports.filteredCharacter = async function filteredCharacter( object, arg
   } catch ( err ) {
     return err;
   }
-}
+};
