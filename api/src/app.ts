@@ -22,14 +22,15 @@ const app = express();
 const server = new ApolloServer( {
   schema,
   context: authMiddleware,
+  debug: ( process.env.NODE_ENV !== 'production' ),
 } );
 
-const urlWhitelist = [ 'http://localhost', 'http://localhost:8080', process.env.APP_URL, 'http://topcms.anirudhsingh.dev', 'https://topcms.anirudhsingh.dev', 'http://13.234.118.205', 'https://13.234.118.205' ];
+const urlWhitelist = [ 'http://localhost:3000', 'http://localhost:8080', process.env.APP_URL ];
 
 const corsOptions = {
   credentials: true,
   origin: ( origin: string, callback: Function ): void => {
-    if ( process.env.NODE_ENV === 'dev' ) {
+    if ( process.env.NODE_ENV === 'development' ) {
       callback( null, true );
     } else if ( urlWhitelist.includes( origin ) ) {
       callback( null, true );
@@ -39,16 +40,20 @@ const corsOptions = {
   }
 };
 
+const frontendDirectory = path.join( __dirname, '../dist/dist' );
+
 app.use( cookieParser() );
 app.use( cors( corsOptions ) );
 app.use( errorHandlerMiddleware );
 app.use( morgan( 'combined' ) );
 
 app.use( '/api', routes );
-app.use( '/assets', express.static( 'dist/assets' ) );
-app.use( '/img', express.static( 'dist/img' ) );
+app.use( '/assets', express.static( `${frontendDirectory}/assets` ) );
+app.use( '/img', express.static( `${frontendDirectory}/img` ) );
+
+// TODO: Change the way bundling works on the frontend, use server to render the bundle
 app.get( '/*', ( req, res ) => {
-  res.sendFile( path.join( __dirname, 'dist/index.html' ) );
+  res.sendFile( path.join( __dirname, '../dist/dist/index.html' ) );
 } );
 
 

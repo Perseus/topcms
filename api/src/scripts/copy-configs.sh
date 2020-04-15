@@ -1,0 +1,1 @@
+cp src/config/interactableConfig.json dist/config/interactableConfig.json

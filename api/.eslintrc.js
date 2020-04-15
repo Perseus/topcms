@@ -3,11 +3,12 @@ module.exports = {
     "airbnb",
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:import/typescript',
   ],
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [ ".js", ".ts" ],
+        "extensions": [ ".js", ".ts", ".d.ts" ],
       }
     }
   },
@@ -149,6 +150,14 @@ module.exports = {
       { 
         "devDependencies": [ "src/scripts/*" ]
       }
+    ],
+    "import/no-cycle": [
+      2
+    ],
+    "lines-between-class-members": [
+      "error",
+      "always",
+      { exceptAfterSingleLine: true },
     ]
   },
   "plugins": [

@@ -5,15 +5,16 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod:linux": "NODE_ENV=prod && pm2 start server.js",
-    "dev:linux": "NODE_ENV=dev && tsc && nodemon dist/server.js",
-    "prod:win": "set NODE_ENV=prod && pm2 start server.js",
-    "dev:win": "set NODE_ENV=dev && nodemon server.js",
+    "prod": "NODE_ENV=production && pm2 start server.js",
+    "dev": "NODE_ENV=development TS_NODE_FILES=true ts-node-dev --no-notify src/server.ts --watch",
+    "prod:win": "set NODE_ENV=production && pm2 start server.js",
+    "dev:win": "set NODE_ENV=development && ts-node-dev src/server.ts",
     "build-ts": "tsc",
-    "watch-ts": "tsc -w",
+    "watch-ts": "npm run copy:configs && tsc -w ",
     "lint": "eslint . --ext .js,.ts",
     "setup": "node dist/scripts/builder.js",
-    "fetch-ssm": "node dist/scripts/ssm.js topcms"
+    "fetch-ssm": "node dist/scripts/ssm.js topcms",
+    "copy:configs": "bash src/scripts/copy-configs.sh"
   },
   "author": "Perseus",
   "license": "ISC",
@@ -32,6 +33,7 @@
     "graphql-constraint-directive": "^1.4.0",
     "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^4.0.5",
+    "jade": "^1.11.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "morgan": "^1.9.1",
@@ -72,9 +74,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
-    "eslint-plugin-vue": "^5.2.2",
     "ora": "^4.0.3",
     "shelljs": "^0.8.3",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3",
     "uuid": "^3.3.3"
   }

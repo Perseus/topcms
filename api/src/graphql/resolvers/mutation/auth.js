@@ -1,9 +1,12 @@
+import User from '../../../database/models/AccountServer/User';
+
 const crypto = require( 'crypto' );
 
 const { AuthenticationError, UserInputError } = require( 'apollo-server' );
 const jsonwebtoken = require( 'jsonwebtoken' );
 const { AccountServer, GameDB } = require( '../../../database/models/index' );
 const { extractErrors } = require( '../../../helpers/errorHandler' );
+
 
 module.exports.createUser = async function createUser( obj, args, context, info ) {
   try {
@@ -25,13 +28,13 @@ module.exports.createUser = async function createUser( obj, args, context, info 
     const errors = extractErrors( err );
     throw new UserInputError( 'INVALID_AUTH', { validationErrors: errors } );
   }
-}
+};
 
 module.exports.loginUser = async function loginUser( obj, args, context ) {
   try {
     const { input } = args;
     const hashedPassword = crypto.createHash( 'md5' ).update( input.password ).digest( 'hex' ).toUpperCase();
-    const user = await AccountServer.User.findOne( {
+    const user = await User.findOne( {
       where: {
         name: input.username,
         password: hashedPassword
@@ -63,7 +66,7 @@ module.exports.loginUser = async function loginUser( obj, args, context ) {
   } catch ( err ) {
     return err;
   }
-}
+};
 
 module.exports.logoutUser = async function logoutUser( obj, args, context ) {
   try {
@@ -74,4 +77,4 @@ module.exports.logoutUser = async function logoutUser( obj, args, context ) {
   } catch ( err ) {
     return err;
   }
-}
+};
