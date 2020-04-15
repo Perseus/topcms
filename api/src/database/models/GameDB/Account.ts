@@ -10,7 +10,7 @@ import { AccessLevels } from '../../../types/db';
 import User from '../AccountServer/User';
 import Character from './Character';
 
-export default class Account extends Model {
+class Account extends Model {
   public act_id!: number;
   public act_name!: string;
   public gm!: number;
@@ -90,3 +90,11 @@ Account.hasMany( Character, {
   foreignKey: 'act_id',
   as: 'characters'
 } );
+
+Character.belongsTo( Account, {
+  targetKey: 'act_id',
+  foreignKey: 'act_id',
+  as: 'account'
+} );
+
+export default Account;

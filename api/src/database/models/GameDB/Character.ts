@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { Model, DataTypes, Association } from 'sequelize/types';
+import { Model, DataTypes, Association } from 'sequelize';
 
 import { GameDB } from '../..';
-import Account from './Account';
 // const { isUnique } = require( '../../validators/validators' );
+import Guild from './Guild';
+import Resource from './Resource';
+
+import InventoryParser from '../../../utils/InventoryParser';
+
 const { JobTypes, CharacterModelTypes } = require( '../../../config' );
-const InventoryParser = require( '../../../utils/InventoryParser' );
 
 export default class Character extends Model {
   public cha_id!: number;
@@ -34,9 +37,8 @@ export default class Character extends Model {
   public delflag!: number;
 
   public static associations: {
-    account: Association<Character, Account>;
-    // guild: Association<Character, Guild>;
-    // resource: Association<Character, Resource>;
+    guild: Association<Character, Guild>;
+    resource: Association<Character, Resource>;
   }
 }
 
@@ -100,28 +102,32 @@ Character.init( {
   estop: DataTypes.STRING,
   delflag: DataTypes.INTEGER,
 
-},
-{
+}, {
   tableName: 'character',
   timestamps: false,
   sequelize: GameDB,
 } );
 
-Character.belongsTo( Account, {
-  targetKey: 'act_id',
-  foreignKey: 'act_id',
-  as: 'account'
+Guild.belongsTo( Character, {
+  targetKey: 'cha_id',
+  foreignKey: 'leader_id',
+  as: 'leader',
 } );
 
-//     this.hasOne( models.Guild, {
-//       sourceKey: 'guild_id',
-//       foreignKey: 'guild_id',
-//       as: 'guild'
-//     } );
+Character.hasOne( Guild, {
+  sourceKey: 'guild_id',
+  foreignKey: 'guild_id',
+  as: 'guild',
+} );
 
-//     this.hasMany( models.Resource, {
-//       sourceKey: 'cha_id',
-//       foreignKey: 'cha_id',
-//       as: 'inventories',
-//     } );
-//   };
+Character.hasMany( Resource, {
+  sourceKey: 'cha_id',
+  foreignKey: 'cha_id',
+  as: 'inventories'
+} );
+
+Resource.belongsTo( Character, {
+  targetKey: 'cha_id',
+  foreignKey: 'cha_id',
+  as: 'character'
+} );
