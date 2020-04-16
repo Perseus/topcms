@@ -1,45 +1,61 @@
+import { UserInputError } from 'apollo-server';
+import sequelize from 'sequelize';
+
+import { resolve } from '../../utils/resolver';
 import User from '../../../database/models/AccountServer/User';
+import Character from '../../../database/models/GameDB/Character';
+import Resource from '../../../database/models/GameDB/Resource';
+import Guild from '../../../database/models/GameDB/Guild';
+import Account from '../../../database/models/GameDB/Account';
 
-const { AuthenticationError, UserInputError } = require( 'apollo-server' );
-const sequelize = require( 'sequelize' );
-const { Sequelize } = require( 'sequelize' );
+import { GeneralConfig } from '../../../config';
+import TError from '../../../utils/TError';
 
-
-const { AccountServer, GameDB } = require( '../../../database/models/index' );
-const { GeneralConfig } = require( '../../../config' );
-
-module.exports.users = async function users( object, args, context, info ) {
-  // const fetchedUsers = await AccountServer.User.findAll();
-  // return fetchedUsers;
-  const fetchedUsers = await User.findAll();
-  return fetchedUsers;
-};
-
-module.exports.me = async function me( object, args, context, info ) {
-  try {
-    const userID = context.req.user;
-    const user = await AccountServer.User.findOne( {
-      where: {
-        id: userID
-      }
-    } );
-    return user;
-  } catch ( err ) {
-    return err;
+export const users = resolve( {
+  async exec() {
+    const fetchedUsers = await User.findAll();
+    return {
+      data: fetchedUsers
+    };
   }
-};
+} );
 
-module.exports.logout = async function logout( object, args, context, info ) {
+export const me = resolve( {
+  async exec( { context } ) {
+    const { id } = context.req.user;
+
+    try {
+      const user = await User.findOne( {
+        where: {
+          id
+        }
+      } );
+      return {
+        data: user
+      };
+    } catch ( err ) {
+      throw new TError( {
+        code: 'user.NOT_FOUND',
+        message: 'User was not found',
+        params: {
+          id,
+        }
+      } );
+    }
+  }
+} );
+
+
+export async function logout( object, args, context, info ): Promise<string> {
   try {
     context.res.clearCookie( '_sid' );
     return 'LOGOUT_SUCCESS';
   } catch ( err ) {
     return err;
   }
-};
+}
 
-
-module.exports.usersWithFilter = async function usersWithFilter( object, args, context ) {
+export async function usersWithFilter( object, args: Record<string, string|number> ): Promise<Record<User[], number>|UserInputError> {
   try {
     const { filter, searchKey } = args;
     let { offset, limit } = args;
@@ -52,11 +68,11 @@ module.exports.usersWithFilter = async function usersWithFilter( object, args, c
       limit = 10;
     }
 
-    const filterTableMapper = GeneralConfig.ACCOUNT_SEARCH_FILTERS[ filter ];
+    const filterTableMapper = GeneralConfig.AccountSearchFilters[ filter ];
 
     // TODO: combine these queries
     if ( searchKey ) {
-      const users = await AccountServer.User.findAll( {
+      const foundUsers = await User.findAll( {
         where: {
           [ filterTableMapper ]: {
             [ sequelize.Op.like ]: `%${searchKey}%`,
@@ -65,7 +81,7 @@ module.exports.usersWithFilter = async function usersWithFilter( object, args, c
         offset,
         limit
       } );
-      const totalUsersQuery = await AccountServer.User.findAll( {
+      const totalUsersQuery = await User.findAll( {
         attributes:
         [
           [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
@@ -78,16 +94,16 @@ module.exports.usersWithFilter = async function usersWithFilter( object, args, c
       } );
 
       return {
-        users,
+        users: foundUsers,
         total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
       };
     }
-    const users = await AccountServer.User.findAll( {
+    const foundUsers = await User.findAll( {
       offset,
       limit
     } );
 
-    const totalUsersQuery = await AccountServer.User.findAll( {
+    const totalUsersQuery = await User.findAll( {
       attributes:
         [
           [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
@@ -96,18 +112,18 @@ module.exports.usersWithFilter = async function usersWithFilter( object, args, c
     } );
 
     return {
-      users,
+      users: foundUsers,
       total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
     };
   } catch ( err ) {
     return new UserInputError( err );
   }
-};
+}
 
 module.exports.filteredUser = async function filteredUser( object, args ) {
   try {
     const { id } = args;
-    const user = AccountServer.User.findOne( {
+    const user = User.findOne( {
       where: { id }
     } );
     return user;
@@ -130,30 +146,30 @@ module.exports.charactersWithFilter = async function charactersWithFilter( objec
       limit = 10;
     }
 
-    const filterTableMapper = GeneralConfig.CHARACTER_SEARCH_FILTERS[ filter ];
+    const filterTableMapper = GeneralConfig.CharacterSearchFilters[ filter ];
     let characters = [];
 
 
-    if ( filterTableMapper === GeneralConfig.CHARACTER_SEARCH_FILTERS.ACCOUNT_NAME ) {
-      characters = await GameDB.Character.findAll( {
+    if ( filterTableMapper === GeneralConfig.CharacterSearchFilters.ACCOUNT_NAME ) {
+      characters = await Character.findAll( {
         include: [ {
-          model: GameDB.Account,
+          model: Account,
           where: {
             act_name: {
               [ sequelize.Op.like ]: `%${searchKey || ''}%`,
             },
           },
           as: 'account'
-        }, { model: GameDB.Guild, as: 'guild' } ],
+        }, { model: Guild, as: 'guild' } ],
       } );
 
-      const totalCharactersQuery = await GameDB.Character.findAll( {
+      const totalCharactersQuery = await Character.findAll( {
         attributes:
         [
           [ sequelize.fn( 'COUNT', 'cha_id' ), 'totalCharacters' ]
         ],
         include: [ {
-          model: GameDB.Account,
+          model: Account,
           where: {
             act_name: {
               [ sequelize.Op.like ]: `%${searchKey || ''}%`,
@@ -172,21 +188,21 @@ module.exports.charactersWithFilter = async function charactersWithFilter( objec
     }
     // TODO: combine these queries
     if ( searchKey ) {
-      characters = await GameDB.Character.findAll( {
+      characters = await Character.findAll( {
         where: {
           [ filterTableMapper ]: {
             [ sequelize.Op.like ]: `%${searchKey}%`,
           }
         },
         include: [ {
-          model: GameDB.Account,
+          model: Account,
           as: 'account'
-        }, { model: GameDB.Guild, as: 'guild' } ],
+        }, { model: Guild, as: 'guild' } ],
         offset,
         limit
       } );
 
-      const totalCharactersQuery = await GameDB.Character.findAll( {
+      const totalCharactersQuery = await Character.findAll( {
         attributes:
         [
           [ sequelize.fn( 'COUNT', sequelize.col( 'cha_id' ) ), 'totalCharacters' ]
@@ -203,12 +219,12 @@ module.exports.charactersWithFilter = async function charactersWithFilter( objec
       };
     }
 
-    characters = await GameDB.Character.findAll( {
+    characters = await Character.findAll( {
       offset,
       limit
     } );
 
-    const totalCharactersQuery = await GameDB.Character.findAll( {
+    const totalCharactersQuery = await Character.findAll( {
       attributes:
       [
         [ sequelize.fn( 'COUNT', sequelize.col( 'cha_id' ) ), 'totalCharacters' ]
@@ -227,9 +243,9 @@ module.exports.charactersWithFilter = async function charactersWithFilter( objec
 module.exports.filteredCharacter = async function filteredCharacter( object, args ) {
   try {
     const { id } = args;
-    const character = await GameDB.Character.findOne( {
+    const character = await Character.findOne( {
       where: { cha_id: id },
-      include: [ { model: GameDB.Resource, as: 'inventories' }, { model: GameDB.Guild, as: 'guild' } ],
+      include: [ { model: Resource, as: 'inventories' }, { model: Guild, as: 'guild' } ],
     } );
 
 

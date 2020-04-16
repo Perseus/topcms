@@ -2,7 +2,6 @@ const sequelize = require( 'sequelize' );
 const path = require( 'path' );
 const { promises, access } = require( 'fs' );
 
-const { AccountServer, GameDB } = require( '../../../database/models' );
 const { GeneralConfig } = require( '../../../config' );
 
 module.exports.gameStats = async function gameStats( object, args, context, info ) {

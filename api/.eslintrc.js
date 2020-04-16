@@ -78,7 +78,7 @@ module.exports = {
     "import/prefer-default-export": 0,
     "import": 0,
     "func-names": 0,
-    "space-before-function-paren": 0,
+    "space-before-function-paren": [ "error", "never" ],
     "comma-dangle": 0,
     "max-len": 0,
     "import/extensions": 0,
@@ -158,7 +158,9 @@ module.exports = {
       "error",
       "always",
       { exceptAfterSingleLine: true },
-    ]
+    ],
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": [ "off" ]
   },
   "plugins": [
     '@typescript-eslint',
