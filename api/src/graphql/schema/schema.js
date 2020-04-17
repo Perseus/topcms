@@ -32,12 +32,20 @@ const typeDefs = gql`
     isEmail
   }
 
-  type GetUsersResponse {
+  type MultipleUsersResponse {
     code: String!
     success: Boolean!
     message: String
     errors: JSON
     data: [User]
+  }
+
+  type SingleUserResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: User
   }
   
   input SignUpInput {
@@ -236,8 +244,8 @@ const typeDefs = gql`
 
 
   type Query {
-    users: GetUsersResponse
-    me: User @isAuthenticated(role: USER)
+    users: MultipleUsersResponse
+    me: SingleUserResponse @isAuthenticated(role: USER)
     usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersItem @isAuthenticated(role: ADMIN)
     charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersItem @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)

@@ -1,8 +1,15 @@
-const { verify, TokenExpiredError } = require( 'jsonwebtoken' );
-const { getCookie } = require( '../utils/CookieUtils' );
+import { verify, TokenExpiredError } from 'jsonwebtoken';
+import { Request, Response } from 'express';
+// import type { ExpressParams } from '../types/express';
+import { getCookie } from '../utils/CookieUtils';
+
+interface ExpressParams {
+  req: Request;
+  res: Response;
+}
 
 
-module.exports.authMiddleware = function authMiddleware( { req, res } ) {
+module.exports.authMiddleware = function authMiddleware( { req, res }: ExpressParams ): ExpressParams {
   try {
     const user = module.exports.retrieveUserFromRequest( req );
     req.user = user;

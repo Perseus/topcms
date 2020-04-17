@@ -3,8 +3,8 @@ interface UserSessionData {
   name: string;
 }
 
-declare namespace Express {
-  export interface Request {
+declare module 'Express' {
+   interface Request {
     user: UserSessionData;
   }
 }

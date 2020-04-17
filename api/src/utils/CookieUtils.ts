@@ -1,4 +1,4 @@
-module.exports.getCookie = function getCookie( cookies: string, name: string ): string {
+export const getCookie = function getCookie( cookies: string, name: string ): string {
   const cookie: Record<string, string> = {};
   cookies.split( ';' ).forEach( ( el ) => {
     const [ k, v ] = el.split( '=' );
