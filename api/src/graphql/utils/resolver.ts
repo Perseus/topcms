@@ -1,24 +1,10 @@
 import { GraphQLResolveInfo } from 'graphql';
 import Joi from '@hapi/joi';
+import { Request, Response } from 'express';
 
+import _ from 'lodash';
 import TError from '../../utils/TError';
-
-interface ResolverResponse {
-  code: string;
-  success: boolean;
-  message?: string;
-}
-
-interface ResolverSuccessResponse extends ResolverResponse {
-  // Can't think of a way to define types for the data property. Resolvers can respond with data in any format.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any;
-}
-
-interface ResolverErrorResponse extends ResolverResponse {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  errors: Record<string, any>;
-}
+import { sequelizeErrorHandler } from './errorHandler';
 
 interface ResolverParams {
   parent: ResolverResponse;
@@ -30,6 +16,7 @@ interface ResolverParams {
 
 interface ResolverReturnValue {
   message?: string;
+
   // Can't think of a way to define types for the data property. Resolvers can respond with data in any format.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
@@ -40,34 +27,35 @@ interface ResolverFunction {
 }
 
 interface ResolverWrapperParams {
-  validationSchema?: Joi.ObjectSchema;
-  exec: ResolverFunction;
+  validationSchema?: Record<string, Joi.Schema>;
+  action: ResolverFunction;
 }
 
 interface ResolverContextParam {
-  req: Express.Request;
-  res: Express.Response;
+  req: Request;
+  res: Response;
 }
+
 
 export function resolve( params: ResolverWrapperParams ): Function {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async( parent: ResolverResponse, args: Record<any, any>, context: ResolverContextParam, info: GraphQLResolveInfo ): Promise<ResolverSuccessResponse|ResolverErrorResponse> => {
-    const { validationSchema, exec } = params;
-    if ( validationSchema ) {
+    const { validationSchema, action } = params;
+    if ( validationSchema && !_.isEmpty( validationSchema ) ) {
       try {
-        await validationSchema.validateAsync( args );
+        await Joi.object( validationSchema ).validateAsync( args );
       } catch ( err ) {
         return {
           code: 'input.VALIDATION_ERROR',
-          success: true,
+          success: false,
           message: 'There were validation errors.',
-          errors: err,
+          errors: err.details,
         };
       }
     }
 
     try {
-      const { data, message } = await exec( {
+      const { data, message } = await action( {
         parent,
         args,
         context,
@@ -79,7 +67,6 @@ export function resolve( params: ResolverWrapperParams ): Function {
         success: true,
         data
       };
-      console.log( resolverResponse );
 
       if ( message ) {
         resolverResponse.message = message;
@@ -97,7 +84,7 @@ export function resolve( params: ResolverWrapperParams ): Function {
         };
       }
 
-      throw new Error( err );
+      return sequelizeErrorHandler( err );
     }
   };
 }

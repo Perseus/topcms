@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import {
-  Model, DataTypes, Op, Association
-} from 'sequelize';
+import { DataTypes, Association } from 'sequelize';
 
 import { GameDB } from '../..';
+import BaseModel from '../../utils/model';
 
 import { AccessLevels } from '../../../types/db';
 import User from '../AccountServer/User';
 import Character from './Character';
 
-class Account extends Model {
+class Account extends BaseModel {
   public act_id!: number;
   public act_name!: string;
   public gm!: number;

@@ -213,6 +213,30 @@ const typeDefs = gql`
     total: Int
   }
 
+  type FilteredUsersResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: FilteredUsersItem
+  }
+
+  type FilteredUserResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: User
+  }
+
+  type FilteredCharactersResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: FilteredCharactersItem
+  }
+
   type FilteredCharactersItem {
     characters: [Character]
     total: Int
@@ -236,10 +260,10 @@ const typeDefs = gql`
 
 
   type Query {
-    users: GetUsersResponse
+    users: GetUsersResponse @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
-    usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersItem @isAuthenticated(role: ADMIN)
-    charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersItem @isAuthenticated(role: ADMIN)
+    usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersResponse @isAuthenticated(role: ADMIN)
+    charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersResponse @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
     newsArticles: [NewsArticle]
@@ -254,7 +278,7 @@ const typeDefs = gql`
     serverRateInfo: ServerRateInfo
     playerRankings(filter: String!): [CharacterRankingItem]
     guildRankings(filter: String!): [GuildRankingItem]
-    filteredUser(id: ID!): User @isAuthenticated(role: ADMIN)
+    filteredUser(id: ID!): FilteredUserResponse 
     filteredCharacter(id: ID!): Character @isAuthenticated(role: ADMIN)
     commerceCategories: [CommerceCategory]
   }
@@ -283,7 +307,6 @@ const typeDefs = gql`
     createCommerceCategory(name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
     editCommerceCategory(id: ID!, name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
     deleteCommerceCategory(id: ID!): CommerceCategory @isAuthenticated(role: ADMIN)
-    
   }
 
 `;

@@ -1,6 +1,6 @@
-import { UserInputError } from 'apollo-server';
 import sequelize from 'sequelize';
 
+import Joi from '../../utils/validator';
 import { resolve } from '../../utils/resolver';
 import User from '../../../database/models/AccountServer/User';
 import Character from '../../../database/models/GameDB/Character';
@@ -8,11 +8,16 @@ import Resource from '../../../database/models/GameDB/Resource';
 import Guild from '../../../database/models/GameDB/Guild';
 import Account from '../../../database/models/GameDB/Account';
 
-import { GeneralConfig } from '../../../config';
+import { AccountSearchFilters, CharacterSearchFilters } from '../../../config';
 import TError from '../../../utils/TError';
 
+/**
+ * REQUIRES_ADMIN
+ *
+ * Returns an array of all users in the `account_login` table
+ */
 export const users = resolve( {
-  async exec() {
+  async action() {
     const fetchedUsers = await User.findAll();
     return {
       data: fetchedUsers
@@ -20,175 +25,167 @@ export const users = resolve( {
   }
 } );
 
+/**
+ * Returns the data of the currently logged in user
+ */
 export const me = resolve( {
-  async exec( { context } ) {
+  async action( { context } ) {
     const { id } = context.req.user;
+    const user = await User.findOne( {
+      where: {
+        id
+      },
+      rejectOnEmpty: true,
+    } );
 
-    try {
-      const user = await User.findOne( {
-        where: {
-          id
-        }
-      } );
-      return {
-        data: user
-      };
-    } catch ( err ) {
-      throw new TError( {
-        code: 'user.NOT_FOUND',
-        message: 'User was not found',
-        params: {
-          id,
-        }
-      } );
-    }
+    return {
+      data: user
+    };
   }
 } );
 
-
-export async function logout( object, args, context, info ): Promise<string> {
-  try {
+/**
+ * Logs the current user out by removing the session cookie
+ */
+export const logout = resolve( {
+  async action( { context } ) {
     context.res.clearCookie( '_sid' );
-    return 'LOGOUT_SUCCESS';
-  } catch ( err ) {
-    return err;
+    return {
+      data: 'LOGOUT_SUCCESS',
+    };
   }
-}
+} );
 
-export async function usersWithFilter( object, args: Record<string, string|number> ): Promise<Record<User[], number>|UserInputError> {
-  try {
-    const { filter, searchKey } = args;
-    let { offset, limit } = args;
+/**
+ * REQUIRES_ADMIN
+ *
+ * Fetches a list of accounts depending on a few arguments
+ * @param {string} filter - The field to use to look for the user (IP, account name, account ID, MAC)
+ * @param {string} searchKey - The search key to look for
+ * @param {string} offset - Pagination offset
+ * @param {string} limit - Number of users to fetch
+ */
+export const usersWithFilter = resolve( {
+  validationSchema: {
+    filter: Joi.string().valid( ...Object.keys( AccountSearchFilters ) ),
+    searchKey: Joi.string().exist(),
+    offset: Joi.number().default( 0 ),
+    limit: Joi.number().default( 10 ),
+  },
+  async action( { args } ) {
+    const {
+      filter, searchKey, offset, limit
+    } = args;
 
-    if ( !offset ) {
-      offset = 0;
-    }
+    const filterTableMapper = AccountSearchFilters[ filter ];
 
-    if ( !limit ) {
-      limit = 10;
-    }
-
-    const filterTableMapper = GeneralConfig.AccountSearchFilters[ filter ];
-
-    // TODO: combine these queries
-    if ( searchKey ) {
-      const foundUsers = await User.findAll( {
-        where: {
-          [ filterTableMapper ]: {
-            [ sequelize.Op.like ]: `%${searchKey}%`,
-          }
-        },
-        offset,
-        limit
-      } );
-      const totalUsersQuery = await User.findAll( {
-        attributes:
-        [
-          [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
-        ],
-        where: {
-          [ filterTableMapper ]: {
-            [ sequelize.Op.like ]: `%${searchKey}%`,
-          }
+    if ( !filterTableMapper ) {
+      throw new TError( {
+        code: 'input.INVALID_PARAMS',
+        message: 'Invalid search filter provided',
+        params: {
+          filter
         }
       } );
-
-      return {
-        users: foundUsers,
-        total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
-      };
     }
-    const foundUsers = await User.findAll( {
+
+    const foundUsers = await User.findAndCountAll( {
+      where: {
+        [ filterTableMapper ]: {
+          [ sequelize.Op.like ]: `%${searchKey}%`
+        }
+      },
       offset,
       limit
     } );
 
-    const totalUsersQuery = await User.findAll( {
-      attributes:
-        [
-          [ sequelize.fn( 'COUNT', sequelize.col( 'id' ) ), 'totalUsers' ]
-        ]
+    const { count, rows } = foundUsers;
+    return {
+      data: {
+        users: rows,
+        total: count
+      }
+    };
+  }
+} );
 
+/**
+ * REQUIRES_ADMIN
+ *
+ * Fetches one user's data
+ * @param {string} id - The account id of the user to fetch
+ */
+export const filteredUser = resolve( {
+  validationSchema: {
+    id: Joi.number().exist(),
+  },
+  async action( { args } ) {
+    const { id } = args;
+    const user = await User.findOne( {
+      where: { id },
+      rejectOnEmpty: true,
     } );
 
     return {
-      users: foundUsers,
-      total: JSON.parse( JSON.stringify( totalUsersQuery[ 0 ] ) ).totalUsers,
+      data: user,
     };
-  } catch ( err ) {
-    return new UserInputError( err );
   }
-}
+} );
 
-module.exports.filteredUser = async function filteredUser( object, args ) {
-  try {
-    const { id } = args;
-    const user = User.findOne( {
-      where: { id }
-    } );
-    return user;
-  } catch ( err ) {
-    return err;
-  }
-};
+/**
+ * REQUIRES_ADMIN
+ *
+ * Fetches a list of characters depending on a few arguments
+ * @param {string} filter - The field to use to look for the character (account name, character name, character id)
+ * @param {string} searchKey - The search key to look for
+ * @param {string} offset - Pagination offset
+ * @param {string} limit - Number of characters to fetch
+ */
+export const charactersWithFilter = resolve( {
+  validationSchema: {
+    filter: Joi.string().valid( ...Object.keys( CharacterSearchFilters ) ),
+    searchKey: Joi.string().exist(),
+    offset: Joi.number().default( 0 ),
+    limit: Joi.number().default( 10 ),
+  },
+  async action( { args } ) {
+    const {
+      filter, searchKey, offset, limit
+    } = args;
 
+    const filterTableMapper = CharacterSearchFilters[ filter ];
 
-module.exports.charactersWithFilter = async function charactersWithFilter( object, args, context ) {
-  try {
-    const { filter, searchKey } = args;
-    let { offset, limit } = args;
-
-    if ( !offset ) {
-      offset = 0;
-    }
-
-    if ( !limit ) {
-      limit = 10;
-    }
-
-    const filterTableMapper = GeneralConfig.CharacterSearchFilters[ filter ];
-    let characters = [];
-
-
-    if ( filterTableMapper === GeneralConfig.CharacterSearchFilters.ACCOUNT_NAME ) {
-      characters = await Character.findAll( {
-        include: [ {
-          model: Account,
-          where: {
-            act_name: {
-              [ sequelize.Op.like ]: `%${searchKey || ''}%`,
-            },
-          },
-          as: 'account'
-        }, { model: Guild, as: 'guild' } ],
+    if ( !filterTableMapper ) {
+      throw new TError( {
+        code: 'input.INVALID_PARAMS',
+        message: 'Invalid search filter provided',
+        params: {
+          filter
+        }
       } );
+    }
 
-      const totalCharactersQuery = await Character.findAll( {
-        attributes:
-        [
-          [ sequelize.fn( 'COUNT', 'cha_id' ), 'totalCharacters' ]
+    let results: { rows: Character[]; count: number };
+
+    if ( filterTableMapper === CharacterSearchFilters.ACCOUNT_NAME ) {
+      results = await Character.findAndCountAll( {
+        include: [
+          {
+            model: Account,
+            where: {
+              act_name: {
+                [ sequelize.Op.like ]: `%${searchKey}%`
+              }
+            },
+            as: 'account'
+          },
+          { model: Guild, as: 'guild' }
         ],
-        include: [ {
-          model: Account,
-          where: {
-            act_name: {
-              [ sequelize.Op.like ]: `%${searchKey || ''}%`,
-            },
-          },
-          attributes: [ 'act_id', 'act_name' ],
-          as: 'account'
-        } ],
-        group: [ 'cha_id', 'account.act_id', 'account.act_name' ],
+        offset,
+        limit
       } );
-
-      return {
-        characters,
-        total: totalCharactersQuery.length
-      };
-    }
-    // TODO: combine these queries
-    if ( searchKey ) {
-      characters = await Character.findAll( {
+    } else {
+      results = await Character.findAndCountAll( {
         where: {
           [ filterTableMapper ]: {
             [ sequelize.Op.like ]: `%${searchKey}%`,
@@ -201,56 +198,50 @@ module.exports.charactersWithFilter = async function charactersWithFilter( objec
         offset,
         limit
       } );
-
-      const totalCharactersQuery = await Character.findAll( {
-        attributes:
-        [
-          [ sequelize.fn( 'COUNT', sequelize.col( 'cha_id' ) ), 'totalCharacters' ]
-        ],
-        where: {
-          [ filterTableMapper ]: {
-            [ sequelize.Op.like ]: `%${searchKey}%`,
-          }
-        },
-      } );
-      return {
-        characters,
-        total: JSON.parse( JSON.stringify( totalCharactersQuery[ 0 ] ) ).totalCharacters,
-      };
     }
 
-    characters = await Character.findAll( {
-      offset,
-      limit
-    } );
 
-    const totalCharactersQuery = await Character.findAll( {
-      attributes:
-      [
-        [ sequelize.fn( 'COUNT', sequelize.col( 'cha_id' ) ), 'totalCharacters' ]
-      ],
+    return {
+      data: {
+        characters: results.rows,
+        total: results.count,
+      }
+    };
+  }
+} );
+
+/**
+ * REQUIRES_ADMIN
+ *
+ * Fetches one character's data
+ * @param {string} id - The account id of the character to fetch
+ */
+export const filteredCharacter = resolve( {
+  validationSchema: {
+    id: Joi.number().exist(),
+  },
+  async action( { args } ) {
+    const { id } = args;
+
+    const character = await Character.findOne( {
+
+      where: {
+        cha_id: id
+      },
+
+      include: [ {
+        model: Resource,
+        as: 'inventories'
+      }, {
+        model: Guild,
+        as: 'guild'
+      } ],
+
+      rejectOnEmpty: true,
     } );
 
     return {
-      characters,
-      total: JSON.parse( JSON.stringify( totalCharactersQuery[ 0 ] ) ).totalCharacters,
+      data: character,
     };
-  } catch ( err ) {
-    return new UserInputError( err );
   }
-};
-
-module.exports.filteredCharacter = async function filteredCharacter( object, args ) {
-  try {
-    const { id } = args;
-    const character = await Character.findOne( {
-      where: { cha_id: id },
-      include: [ { model: Resource, as: 'inventories' }, { model: Guild, as: 'guild' } ],
-    } );
-
-
-    return character;
-  } catch ( err ) {
-    return err;
-  }
-};
+} );

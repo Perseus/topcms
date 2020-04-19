@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { Model, DataTypes, Association } from 'sequelize';
+import { DataTypes, Association } from 'sequelize';
 
-import { GameDB } from '../..';
 // const { isUnique } = require( '../../validators/validators' );
 import Guild from './Guild';
 import Resource from './Resource';
 
+import { GameDB } from '../..';
+import BaseModel from '../../utils/model';
 import InventoryParser from '../../../utils/InventoryParser';
 
 const { JobTypes, CharacterModelTypes } = require( '../../../config' );
 
-export default class Character extends Model {
+export default class Character extends BaseModel {
   public cha_id!: number;
   public cha_name!: string;
   public act_id!: number;

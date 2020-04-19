@@ -7,7 +7,6 @@ import morgan from 'morgan';
 import path from 'path';
 import { ApolloServer } from 'apollo-server-express';
 
-import { errorHandlerMiddleware } from './helpers/errorHandler';
 import schema from './graphql/schema/schema';
 import { authMiddleware } from './helpers/authHelpers';
 import routes from './routes';
@@ -44,7 +43,6 @@ const frontendDirectory = path.join( __dirname, '../dist/dist' );
 
 app.use( cookieParser() );
 app.use( cors( corsOptions ) );
-app.use( errorHandlerMiddleware );
 app.use( morgan( 'combined' ) );
 
 app.use( '/api', routes );
