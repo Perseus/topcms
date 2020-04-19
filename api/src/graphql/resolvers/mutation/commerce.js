@@ -1,7 +1,5 @@
 const sequelize = require( 'sequelize' );
 const path = require( 'path' );
-
-const { AccountServer, GameDB } = require( '../../../database/models' );
 const logger = require( '../../../utils/FileLogger' );
 
 async function createCommerceCategory( obj, args, context ) {

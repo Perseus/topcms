@@ -1,5 +1,4 @@
 const { UserInputError } = require( 'apollo-server' );
-const { AccountServer, GameDB } = require( '../../../database/models/index' );
 const { composeGraphQLError } = require( '../../../helpers/errorHandler' );
 const { GeneralConfig } = require( '../../../config' );
 

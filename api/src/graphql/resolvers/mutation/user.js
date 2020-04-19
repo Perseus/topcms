@@ -1,7 +1,6 @@
 const crypto = require( 'crypto' );
 
 const { UserInputError, AuthenticationError, ValidationError } = require( 'apollo-server' );
-const { AccountServer, GameDB } = require( '../../../database/models' );
 
 module.exports.updateUser = async function updateUser( obj, args, context ) {
   try {

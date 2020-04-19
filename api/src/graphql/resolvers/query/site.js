@@ -1,19 +1,18 @@
 const sequelize = require( 'sequelize' );
 const { UserInputError } = require( 'apollo-server' );
-const { AccountServer, GameDB } = require( '../../../database/models' );
 
 module.exports.newsArticles = async function newsArticles( object, args, context, info ) {
   return await GameDB.NewsArticle.findAll( { include: [ { model: GameDB.Author, as: 'author' } ] } );
-}
+};
 
 module.exports.authors = async function authors() {
   return await GameDB.Author.findAll();
-}
+};
 
 module.exports.downloads = async function downloads() {
   const result = await GameDB.Download.findAll( { include: [ { model: GameDB.Author, as: 'author' } ] } );
   return result;
-}
+};
 
 module.exports.newsArticle = async function newsArticle( context, args ) {
   try {
@@ -23,7 +22,7 @@ module.exports.newsArticle = async function newsArticle( context, args ) {
   } catch ( err ) {
     throw new UserInputError( 'INVALID_INPUT', { validationErrors: [ 'INVALID_ID' ] } );
   }
-}
+};
 
 module.exports.newsFeed = async function newsFeed( context, args ) {
   let { offset, limit } = args;
@@ -58,4 +57,4 @@ module.exports.newsFeed = async function newsFeed( context, args ) {
   } catch ( err ) {
     return err;
   }
-}
+};

@@ -1,13 +1,23 @@
+import { GraphQLJSONObject, GraphQLJSON } from 'graphql-type-json';
+
 const { gql } = require( 'apollo-server-express' );
 const { makeExecutableSchema } = require( 'graphql-tools' );
 const ConstraintDirective = require( 'graphql-constraint-directive' );
 const resolvers = require( '../resolvers' );
 const { isAuthenticatedDirective, websocketAuthentication } = require( '../directives/auth' );
 
+Object.assign( resolvers, {
+  JSON: GraphQLJSON,
+  JSONObject: GraphQLJSONObject
+} );
+
 const typeDefs = gql`
   
   directive @isAuthenticated(role: AccessLevels) on FIELD_DEFINITION | QUERY
   directive @constraint(minLength: Int, maxLength: Int, startsWith: String, endsWith: String, contains: String, notContains: String, pattern: String, format: String, min: Float, max: Float, exclusiveMin: Float, exclusiveMax: Float, multipleOf: Float) on FIELD_DEFINITION | QUERY | INPUT_FIELD_DEFINITION
+
+  scalar JSON
+  scalar JSONObject
 
   enum AccessLevels {
     ADMIN
@@ -22,6 +32,14 @@ const typeDefs = gql`
     isEmail
   }
 
+  type GetUsersResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: [User]
+  }
+  
   input SignUpInput {
     email: String! @constraint(format: "email", minLength: 1)
     username: String! @constraint(minLength: 5)
@@ -195,6 +213,30 @@ const typeDefs = gql`
     total: Int
   }
 
+  type FilteredUsersResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: FilteredUsersItem
+  }
+
+  type FilteredUserResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: User
+  }
+
+  type FilteredCharactersResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: FilteredCharactersItem
+  }
+
   type FilteredCharactersItem {
     characters: [Character]
     total: Int
@@ -216,11 +258,12 @@ const typeDefs = gql`
     total_items: Int
   }
 
+
   type Query {
-    users: [User] @isAuthenticated(role: ADMIN)
+    users: GetUsersResponse @isAuthenticated(role: ADMIN)
     me: User @isAuthenticated(role: USER)
-    usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersItem @isAuthenticated(role: ADMIN)
-    charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersItem @isAuthenticated(role: ADMIN)
+    usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersResponse @isAuthenticated(role: ADMIN)
+    charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersResponse @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
     newsArticles: [NewsArticle]
@@ -235,7 +278,7 @@ const typeDefs = gql`
     serverRateInfo: ServerRateInfo
     playerRankings(filter: String!): [CharacterRankingItem]
     guildRankings(filter: String!): [GuildRankingItem]
-    filteredUser(id: ID!): User @isAuthenticated(role: ADMIN)
+    filteredUser(id: ID!): FilteredUserResponse 
     filteredCharacter(id: ID!): Character @isAuthenticated(role: ADMIN)
     commerceCategories: [CommerceCategory]
   }
@@ -264,7 +307,6 @@ const typeDefs = gql`
     createCommerceCategory(name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
     editCommerceCategory(id: ID!, name: String!): CommerceCategory @isAuthenticated(role: ADMIN)
     deleteCommerceCategory(id: ID!): CommerceCategory @isAuthenticated(role: ADMIN)
-    
   }
 
 `;

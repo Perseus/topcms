@@ -4,7 +4,6 @@ const { UserInputError } = require( 'apollo-server' );
 const { Sequelize } = require( 'sequelize' );
 const crypto = require( 'crypto' );
 
-const { AccountServer, GameDB } = require( '../../../database/models' );
 const { pubsub } = require( '../subscriptions' );
 
 module.exports.updateServerRates = async function updateServerRates( context, args ) {

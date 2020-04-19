@@ -1,7 +1,5 @@
 const { AuthenticationError } = require( 'apollo-server' );
 const _ = require( 'lodash' );
-const { AccountServer, GameDB } = require( '../../database/models/index' );
-
 
 /**
  * isAuthenticatedDirective

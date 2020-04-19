@@ -1,11 +1,14 @@
-import { Model, DataTypes, Association } from 'sequelize';
-import { GameDB } from '../..';
+import { DataTypes, Association } from 'sequelize';
+
 
 import NewsArticle from './NewsArticle';
 import Poll from './Poll';
 import Download from './Download';
 
-export default class Author extends Model {
+import { GameDB } from '../..';
+import BaseModel from '../../utils/model';
+
+export default class Author extends BaseModel {
   public id!: number;
   public name!: string;
 

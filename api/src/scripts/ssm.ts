@@ -7,8 +7,7 @@ import envFile from 'envfile';
 import path from 'path';
 import { promises as fs } from 'fs';
 
-const awsCredentialProfile = process.argv[ 1 ];
-
+const awsCredentialProfile = process.argv[ 2 ];
 function fetchSSMParams( params: SSM.GetParametersRequest ): Promise<SSM.GetParametersResult> {
   let credentials: SharedIniFileCredentials|EnvironmentCredentials;
   if ( awsCredentialProfile ) {
@@ -65,7 +64,7 @@ function parseSSMParams( params: SSM.ParameterList ): Record<string, string> {
 }
 
 function writeParamsToEnvFile( params: Record<string, string> ): Promise<boolean> {
-  return new Promise( async ( resolve, reject ) => {
+  return new Promise( async( resolve, reject ) => {
     const sourcePath = path.join( '.env' );
     let currentEnvData = {};
     try {
@@ -93,7 +92,7 @@ const paramsToFetch = {
   ],
 };
 
-( async (): Promise<void> => {
+( async(): Promise<void> => {
   const { env } = process;
   let parsedParams = {};
   try {
@@ -108,10 +107,10 @@ const paramsToFetch = {
           Value: env.SSM_GameDB_DETAILS
         }
       ];
-      parsedParams = await parseSSMParams( parameters );
+      parsedParams = parseSSMParams( parameters );
     } else {
       const fetchedParams = await fetchSSMParams( paramsToFetch );
-      parsedParams = await parseSSMParams( fetchedParams.Parameters );
+      parsedParams = parseSSMParams( fetchedParams.Parameters );
     }
 
     await writeParamsToEnvFile( parsedParams );

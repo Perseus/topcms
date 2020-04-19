@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import crypto from 'crypto';
-import { Model, DataTypes, Op } from 'sequelize';
+import { DataTypes, Op } from 'sequelize';
 
+import BaseModel from '../../utils/model';
 import { AccessLevels } from '../../../types/db';
 import { AccountServer } from '../..';
 
 import AccountModel from '../GameDB/Account';
 
-
-export default class User extends Model {
+export default class User extends BaseModel {
   public id!: number;
   public name!: string;
   public password!: string;

@@ -4,7 +4,6 @@ const crypto = require( 'crypto' );
 
 const { AuthenticationError, UserInputError } = require( 'apollo-server' );
 const jsonwebtoken = require( 'jsonwebtoken' );
-const { AccountServer, GameDB } = require( '../../../database/models/index' );
 const { extractErrors } = require( '../../../helpers/errorHandler' );
 
 

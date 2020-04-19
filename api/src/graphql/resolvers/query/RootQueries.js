@@ -1,4 +1,4 @@
-const { GameDB } = require( '../../../database/models/' );
+
 
 module.exports.User = {
 
@@ -34,7 +34,7 @@ module.exports.User = {
       } catch ( err ) {
         return err;
       }
-    } 
+    }
     return null;
   }
 
