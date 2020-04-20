@@ -18,3 +18,5 @@ export {
   AccountServer,
   GameDB,
 };
+
+// GameDB.addHook()

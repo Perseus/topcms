@@ -1,4 +1,5 @@
-const Query = require( './query' );
+import Query from './query';
+
 const { Mutation } = require( './mutation' );
 const { User } = require( './query/RootQueries' );
 const { Subscription } = require( './subscriptions' );

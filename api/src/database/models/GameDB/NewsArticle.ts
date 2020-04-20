@@ -1,10 +1,15 @@
-import { Model, DataTypes } from 'sequelize';
-import { GameDB } from '../..';
+import { DataTypes, BelongsToGetAssociationMixin } from 'sequelize';
 
-export default class NewsArticle extends Model {
+import { GameDB } from '../..';
+import BaseModel from '../../utils/model';
+import type { Author } from '../../../types/db/models';
+
+export default class NewsArticle extends BaseModel {
   public id!: number;
   public title!: string;
   public content!: string;
+
+  public getAuthor!: BelongsToGetAssociationMixin<Author>;
 }
 
 NewsArticle.init( {
