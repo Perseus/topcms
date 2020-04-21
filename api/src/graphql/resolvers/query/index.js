@@ -1,11 +1,11 @@
-const UserQueries = require( './user' );
-const GameQueries = require( './game' );
-const SiteQueries = require( './site' );
-const CommerceQueries = require( './commerce' );
+import UserQueries from './user';
+import GameQueries from './game';
+import * as SiteQueries from './site';
+import CommerceQueries from './commerce';
 
-module.exports = {
+export default {
   ...UserQueries,
-  ...SiteQueries,
   ...GameQueries,
-  ...CommerceQueries,
+  ...SiteQueries,
+  ...CommerceQueries
 };

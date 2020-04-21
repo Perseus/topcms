@@ -1,12 +1,15 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, BelongsToGetAssociationMixin } from 'sequelize';
 
 import { GameDB } from '../..';
+import type { Author } from '../../../types/db/models';
 
 export default class Poll extends Model {
   public id!: number;
   public title!: string;
   public options!: string;
   public votes!: string;
+
+  public getAuthor!: BelongsToGetAssociationMixin<Author>;
 }
 
 Poll.init( {

@@ -1,14 +1,18 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, BelongsToGetAssociationMixin } from 'sequelize';
 
 import { GameDB } from '../..';
+import BaseModel from '../../utils/model';
+import type { Author } from '../../../types/db/models';
 
-export default class Download extends Model {
+export default class Download extends BaseModel {
   public id!: number;
   public title!: string;
   public url!: string;
   public section!: string;
   public version!: string;
   public description!: string;
+
+  public getAuthor!: BelongsToGetAssociationMixin<Author>;
 }
 
 Download.init( {

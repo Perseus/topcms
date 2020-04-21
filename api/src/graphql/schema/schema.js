@@ -258,6 +258,54 @@ const typeDefs = gql`
     total_items: Int
   }
 
+  type DownloadResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: Download
+  }
+
+  type DownloadsResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: [Download]
+  }
+
+  type NewsArticleResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: NewsArticle
+  }
+
+  type NewsArticlesResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: [NewsArticle]
+  }
+
+  type AuthorResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: Author
+  }
+
+  type AuthorsResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: [Author]
+  }
+
 
   type Query {
     users: GetUsersResponse @isAuthenticated(role: ADMIN)
@@ -266,14 +314,14 @@ const typeDefs = gql`
     charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersResponse @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
     gameStats: GameStats
-    newsArticles: [NewsArticle]
+    newsArticles: NewsArticlesResponse
     newsFeed(offset: Int, limit: Int): NewsFeed
-    author(id: Int!): Author
-    authors: [Author]
-    downloads: [Download]
+    author(id: Int!): AuthorResponse
+    authors: AuthorsResponse
+    downloads: DownloadsResponse
     polls: [Poll] @isAuthenticated(role: SITE)
-    newsArticle(id: Int!): NewsArticle
-    download(id: Int!): Download
+    newsArticle(id: Int!): NewsArticleResponse
+    download(id: Int!): DownloadResponse
     staffStatuses: [StaffStatus]
     serverRateInfo: ServerRateInfo
     playerRankings(filter: String!): [CharacterRankingItem]
@@ -287,16 +335,16 @@ const typeDefs = gql`
     createUser(input: SignUpInput!): User
     loginUser(input: LoginInput!): User
     logoutUser: User
-    createAuthor(name: String!): Author @isAuthenticated(role: SITE)
-    createNewsArticle(input: NewsArticleInput!): NewsArticle @isAuthenticated(role: SITE) 
-    createDownload(title: String!, url: String!, author: Int!, section: String!, description: String!, version: String!): Download @isAuthenticated(role: SITE)
+    createAuthor(name: String!): AuthorResponse @isAuthenticated(role: SITE)
+    createNewsArticle(input: NewsArticleInput!): NewsArticleResponse @isAuthenticated(role: SITE) 
+    createDownload(title: String!, url: String!, author: Int!, section: String!, description: String!, version: String!): DownloadResponse @isAuthenticated(role: SITE)
     createPoll(title: String!, options: String!, author: Int!): Poll @isAuthenticated(role: SITE)
-    editAuthor(id: Int!, name: String!): Author @isAuthenticated(role: SITE)
-    editNewsArticle(input: NewsArticleInput!): NewsArticle @isAuthenticated(role: SITE)
-    editDownload(id: Int!, title: String!, url: String!, author: Int!, section: String!, description: String!, version: String!): Download @isAuthenticated(role: SITE) 
-    deleteAuthor(id: Int!): Author @isAuthenticated(role: SITE)
+    editAuthor(id: Int!, name: String!): AuthorResponse @isAuthenticated(role: SITE)
+    editNewsArticle(input: NewsArticleInput!): NewsArticleResponse @isAuthenticated(role: SITE)
+    editDownload(id: Int!, title: String, url: String, author: Int, section: String, description: String, version: String): DownloadResponse
+    deleteAuthor(id: Int!): AuthorResponse @isAuthenticated(role: SITE)
     deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
-    deleteNewsArticle(id: Int!): NewsArticle @isAuthenticated(role: SITE)
+    deleteNewsArticle(id: Int!): NewsArticleResponse @isAuthenticated(role: SITE)
     updateServerRates(rates: ServerRateInfoInput): ServerRateInfo @isAuthenticated(role: SITE)
     updateUser(userInfo: UpdateUserInput!): User @isAuthenticated(role: USER)
     toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
