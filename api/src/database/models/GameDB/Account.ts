@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { DataTypes, Association } from 'sequelize';
+import { DataTypes, Association, HasManyGetAssociationsMixin } from 'sequelize';
 import Character from './Character';
 
 import { GameDB } from '../..';
@@ -22,6 +22,8 @@ class Account extends BaseModel {
   public static associations: {
     characters: Association<Account, Character>;
   }
+
+  public getCharacters!: HasManyGetAssociationsMixin<Character>;
 
   async getAccountDetails( UserModel: typeof User, attributes: Array<string> ): Promise<User> {
     try {

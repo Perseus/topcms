@@ -13,6 +13,18 @@ interface AccountSearchFilters {
   ACCOUNT_ID: string;
 }
 
+interface PlayerRankingFilters {
+  [index: string]: string;
+  GOLD: string;
+  LEVEL: string;
+}
+
+interface AdminLevels {
+  [index: string]: string;
+  ADMIN: string;
+  HD: string;
+}
+
 export const AccountSearchFilters: AccountSearchFilters = {
   ACCOUNT_NAME: 'name',
   IP_ADDRESS: 'last_login_ip',
@@ -26,13 +38,13 @@ export const CharacterSearchFilters: CharacterSearchFilters = {
   CHARACTER_ID: 'cha_id',
 };
 
-export const DownloadSections: string[] = [ 'Client', 'Patch', 'Other' ];
-
-export const AdminLevels: Record<string, string> = {
-  ADMIN: 'ADMIN',
-  HD: 'SITE',
+export const PlayerRankingFilters: PlayerRankingFilters = {
+  GOLD: 'gd',
+  LEVEL: 'degree'
 };
 
+
+export const DownloadSections: string[] = [ 'Client', 'Patch', 'Other' ];
 export const IncludeAdminInRanking = true;
 export const MaximumRankingItems = 30;
 export const shouldNewAccountsBeGMs = false;

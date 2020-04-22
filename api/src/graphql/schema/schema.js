@@ -78,7 +78,15 @@ const typeDefs = gql`
     accounts: Int
     characters: Int
     online: Int
-    online_record: Int
+    onlineRecord: Int
+  }
+
+  type GameStatsResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: GameStats
   }
 
   type Download {
@@ -313,7 +321,7 @@ const typeDefs = gql`
     usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersResponse @isAuthenticated(role: ADMIN)
     charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersResponse @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
-    gameStats: GameStats
+    gameStats: GameStatsResponse
     newsArticles: NewsArticlesResponse
     newsFeed(offset: Int, limit: Int): NewsFeed
     author(id: Int!): AuthorResponse

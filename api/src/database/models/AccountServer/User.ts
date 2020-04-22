@@ -15,11 +15,13 @@ export default class User extends BaseModel {
   public password!: string;
   public originalPassword!: string;
   public email!: string;
-  public login_status!: string;
+  public login_status!: number;
   public last_login_time!: Date;
   public last_login_ip!: string;
   public last_login_mac!: string;
   public ban!: number;
+
+  public accessLevels: AccessLevels[];
 
 
   /**

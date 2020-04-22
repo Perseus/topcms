@@ -1,5 +1,5 @@
-import UserQueries from './user';
-import GameQueries from './game';
+import * as UserQueries from './user';
+import * as GameQueries from './game';
 import * as SiteQueries from './site';
 import CommerceQueries from './commerce';
 
