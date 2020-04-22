@@ -7,7 +7,7 @@ import TError from '../../utils/TError';
 import { sequelizeErrorHandler } from './errorHandler';
 
 interface ResolverParams {
-  parent: ResolverResponse;
+  parent: ResolverSuccessResponse;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   args: Record<string, any>;
   context: ResolverContextParam;

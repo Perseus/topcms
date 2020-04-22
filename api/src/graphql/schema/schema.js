@@ -1,9 +1,9 @@
 import { GraphQLJSONObject, GraphQLJSON } from 'graphql-type-json';
+import resolvers from '../resolvers';
 
 const { gql } = require( 'apollo-server-express' );
 const { makeExecutableSchema } = require( 'graphql-tools' );
 const ConstraintDirective = require( 'graphql-constraint-directive' );
-const resolvers = require( '../resolvers' );
 const { isAuthenticatedDirective, websocketAuthentication } = require( '../directives/auth' );
 
 Object.assign( resolvers, {

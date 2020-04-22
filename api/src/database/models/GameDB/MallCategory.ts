@@ -1,10 +1,12 @@
-import { Model, DataTypes, Association } from 'sequelize';
-
-import { GameDB } from '../..';
+import { DataTypes, Association } from 'sequelize';
 
 import ItemMall from './ItemMall';
 
-export default class MallCategory extends Model {
+import { GameDB } from '../..';
+import BaseModel from '../../utils/model';
+
+
+export default class MallCategory extends BaseModel {
   public id!: number;
   public name!: string;
 
