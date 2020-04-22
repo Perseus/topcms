@@ -23,7 +23,7 @@ export class User extends BaseModel {
    password: string;
    originalPassword: string;
    email: string;
-   login_status: string;
+   login_status: number;
    last_login_time: Date;
    last_login_ip: string;
    last_login_mac: string;
