@@ -35,3 +35,4 @@ export const AdminLevels: Record<string, string> = {
 
 export const IncludeAdminInRanking = true;
 export const MaximumRankingItems = 30;
+export const shouldNewAccountsBeGMs = false;

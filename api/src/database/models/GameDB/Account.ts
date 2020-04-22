@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { DataTypes, Association } from 'sequelize';
+import Character from './Character';
 
 import { GameDB } from '../..';
 import BaseModel from '../../utils/model';
 
+import type { User } from '../../../types/db/models';
 import { AccessLevels } from '../../../types/db';
-import User from '../AccountServer/User';
-import Character from './Character';
 
 class Account extends BaseModel {
   public act_id!: number;
@@ -23,19 +23,18 @@ class Account extends BaseModel {
     characters: Association<Account, Character>;
   }
 
-  async getAccountDetails( attributes: Array<string> ): Promise<User> {
+  async getAccountDetails( UserModel: typeof User, attributes: Array<string> ): Promise<User> {
     try {
       let accountDetails: User;
-
       if ( attributes && attributes.length > 0 ) {
-        accountDetails = await User.findOne( {
+        accountDetails = await UserModel.findOne( {
           where: {
             id: this.act_id
           },
           attributes
         } );
       } else {
-        accountDetails = await User.findOne( {
+        accountDetails = await UserModel.findOne( {
           where: {
             id: this.act_id
           }
@@ -46,6 +45,11 @@ class Account extends BaseModel {
     } catch ( err ) {
       return null;
     }
+  }
+
+  async resetSecurityCode(): Promise<void> {
+    this.set( 'password', '' );
+    await this.save();
   }
 }
 
