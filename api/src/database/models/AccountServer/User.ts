@@ -74,6 +74,13 @@ export default class User extends BaseModel {
     } );
     return accounts;
   }
+
+
+  matchPassword( password: string ): boolean {
+    const passwordHash = crypto.createHash( 'md5' ).update( password ).digest( 'hex' ).toUpperCase();
+
+    return ( passwordHash === this.password );
+  }
 }
 
 User.init( {
@@ -101,7 +108,12 @@ User.init( {
 }, {
   sequelize: AccountServer,
   tableName: 'account_login',
-  timestamps: false
+  timestamps: false,
+  defaultScope: {
+    attributes: {
+      exclude: [ 'originalPassword' ],
+    }
+  }
 } );
 
 User.beforeCreate( model => new Promise( ( resolve, reject ) => {

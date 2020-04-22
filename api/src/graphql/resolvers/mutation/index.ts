@@ -1,14 +1,12 @@
 import * as SiteMutations from './site';
+import * as AuthMutations from './auth';
+import * as UserMutations from './user';
 
-const { createUser, loginUser, logoutUser } = require( './auth' );
 const GameMutations = require( './game' );
-const UserMutations = require( './user' );
 const CommerceMutations = require( './commerce' );
 
 module.exports.Mutation = {
-  createUser,
-  loginUser,
-  logoutUser,
+  ...AuthMutations,
   ...SiteMutations,
   ...GameMutations,
   ...UserMutations,

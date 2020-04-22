@@ -41,7 +41,7 @@ export const createAuthor = resolve( {
  */
 export const editAuthor = resolve( {
   validationSchema: {
-    id: Joi.number().presence( 'required' ),
+    id: Joi.number().required(),
     name: Joi.string().min( 3 ),
   },
   async action( { args } ) {
@@ -72,7 +72,7 @@ export const editAuthor = resolve( {
  */
 export const deleteAuthor = resolve( {
   validationSchema: {
-    id: Joi.number().presence( 'required' ),
+    id: Joi.number().required(),
   },
   async action( { args } ) {
     const { id } = args;
@@ -106,10 +106,10 @@ export const createDownload = resolve( {
   validationSchema: {
     title: Joi.string().min( 3 ),
     url: Joi.string().uri(),
-    author: Joi.number().presence( 'required' ),
-    version: Joi.string().presence( 'required' ),
+    author: Joi.number().required(),
+    version: Joi.string().required(),
     section: Joi.string().valid( ...DownloadSections ),
-    description: Joi.string().presence( 'required' ),
+    description: Joi.string().required(),
   },
   async action( { args } ) {
     const {
@@ -153,13 +153,13 @@ export const createDownload = resolve( {
  */
 export const editDownload = resolve( {
   validationSchema: {
-    id: Joi.number().presence( 'required' ),
-    title: Joi.string().min( 3 ).presence( 'optional' ),
-    url: Joi.string().uri().presence( 'optional' ),
-    author: Joi.number().presence( 'optional' ),
-    version: Joi.string().presence( 'optional' ),
-    section: Joi.string().valid( ...DownloadSections ).presence( 'optional' ),
-    description: Joi.string().presence( 'optional' ),
+    id: Joi.number().required(),
+    title: Joi.string().min( 3 ).optional(),
+    url: Joi.string().uri().optional(),
+    author: Joi.number().optional(),
+    version: Joi.string().optional(),
+    section: Joi.string().valid( ...DownloadSections ).optional(),
+    description: Joi.string().optional(),
   },
   async action( { args } ) {
     const {
@@ -200,7 +200,7 @@ export const editDownload = resolve( {
  */
 export const deleteDownload = resolve( {
   validationSchema: {
-    id: Joi.number().presence( 'required' ),
+    id: Joi.number().required(),
   },
   async action( { args } ) {
     const { id } = args;
@@ -232,9 +232,9 @@ export const deleteDownload = resolve( {
 export const createNewsArticle = resolve( {
   validationSchema: {
     input: Joi.object( {
-      title: Joi.string().min( 3 ).presence( 'required' ),
-      content: Joi.string().min( 5 ).presence( 'required' ),
-      author_id: Joi.number().presence( 'required' )
+      title: Joi.string().min( 3 ).required(),
+      content: Joi.string().min( 5 ).required(),
+      author_id: Joi.number().required()
     } ),
   },
   async action( { args } ) {
@@ -272,7 +272,7 @@ export const createNewsArticle = resolve( {
  */
 export const deleteNewsArticle = resolve( {
   validationSchema: {
-    id: Joi.number().presence( 'required' ),
+    id: Joi.number().required(),
   },
   async action( { args } ) {
     const { id } = args;
@@ -304,10 +304,10 @@ export const deleteNewsArticle = resolve( {
 export const editNewsArticle = resolve( {
   validationSchema: {
     input: Joi.object( {
-      id: Joi.number().presence( 'required' ),
-      title: Joi.string().min( 3 ).presence( 'optional' ),
-      content: Joi.string().presence( 'optional' ),
-      author: Joi.string().presence( 'optional' )
+      id: Joi.number().required(),
+      title: Joi.string().min( 3 ).optional(),
+      content: Joi.string().optional(),
+      author: Joi.string().optional()
     } )
   },
   async action( { args } ) {
@@ -324,7 +324,7 @@ export const editNewsArticle = resolve( {
       rejectOnEmpty: true
     } );
 
-    articleToUpdate.set( args );
+    articleToUpdate.set( args.input );
 
     await articleToUpdate.save();
     await articleToUpdate.reload( {
