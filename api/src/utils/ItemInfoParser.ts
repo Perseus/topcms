@@ -1,18 +1,21 @@
-const crypto = require( 'crypto' );
-const fs = require( 'fs' );
-const serialize = require( 'serialize-javascript' );
+import crypto from 'crypto';
+import fs from 'fs';
+import serialize from 'serialize-javascript';
+import { ItemInfoAttributeMap } from '../config';
 
-const { ItemInfoAttributeMap } = require( '../config/ItemInfoItemAttributes' );
-const TError = require( './TError' );
+import TError from './TError';
 
-module.exports = class ItemInfoParser {
-  constructor( fileData, filePath ) {
+export default class ItemInfoParser {
+  private fileData!: string;
+  private filePath!: string;
+
+  constructor( fileData: string, filePath: string ) {
     this.fileData = fileData;
     this.filePath = filePath;
   }
 
 
-  async parseFileData( cb ) {
+  async parseFileData( cb: Function ): Promise<void> {
     const { fileData } = this;
     const items = fileData.split( '\n' );
     const currentChecksum = await this.getCurrentChecksum();
@@ -37,21 +40,18 @@ module.exports = class ItemInfoParser {
     await this.setCurrentChecksum( fileHash );
 
     for ( const item of items ) {
-      if ( item.includes( '//' ) ) {
-        continue;
-      }
-
-      const itemDetails = item.split( '\t' );
-      await this.writeItemData( itemDetails );
-      currentItem += 1;
-      if ( currentItem % 100 === 0 || currentItem === totalItems ) {
-        cb( { currentItem, totalItems } );
+      if ( !item.includes( '//' ) ) {
+        const itemDetails = item.split( '\t' );
+        await this.writeItemData( itemDetails );
+        currentItem += 1;
+        if ( currentItem % 100 === 0 || currentItem === totalItems ) {
+          cb( { currentItem, totalItems } );
+        }
       }
     }
   }
 
-
-  async getCurrentChecksum() {
+  async getCurrentChecksum(): Promise<string> {
     try {
       const file = await fs.promises.readFile( `${this.filePath}/ItemInfoCache/checksum.dat`, 'utf-8' );
       return file;
@@ -60,7 +60,7 @@ module.exports = class ItemInfoParser {
     }
   }
 
-  async writeItemData( itemData ) {
+  async writeItemData( itemData: string[] ): Promise<void> {
     try {
       const itemId = parseInt( itemData[ ItemInfoAttributeMap.ID ], 10 );
       await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, serialize( itemData ), 'utf-8' );
@@ -72,7 +72,7 @@ module.exports = class ItemInfoParser {
     }
   }
 
-  async setCurrentChecksum( checksum ) {
+  async setCurrentChecksum( checksum: string ): Promise<void> {
     try {
       await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/checksum.dat`, checksum );
     } catch ( err ) {
@@ -80,7 +80,7 @@ module.exports = class ItemInfoParser {
     }
   }
 
-  generateFileChecksum() {
+  generateFileChecksum(): Promise<string> {
     return new Promise( ( resolve, reject ) => {
       const hash = crypto.createHash( 'sha1' );
       const rs = fs.createReadStream( `${this.filePath}/ItemInfo.txt` );
@@ -90,7 +90,7 @@ module.exports = class ItemInfoParser {
     } );
   }
 
-  async getItemInformation( itemId ) {
+  async getItemInformation( itemId: number ): Promise<string> {
     try {
       const fileData = await fs.promises.readFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, 'utf-8' );
       return fileData;
@@ -98,4 +98,4 @@ module.exports = class ItemInfoParser {
       return null;
     }
   }
-};
+}

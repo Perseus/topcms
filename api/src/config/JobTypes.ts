@@ -1,4 +1,4 @@
-module.exports.JobTypes = {
+export const JobTypes = {
 
   // top-1 uses IDs for their jobs
   0: 'Newbie',
@@ -20,5 +20,5 @@ module.exports.JobTypes = {
   16: 'Voyager',
   17: 'Upstart',
   18: 'Engineer'
-  
+
 };

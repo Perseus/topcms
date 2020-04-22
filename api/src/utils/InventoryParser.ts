@@ -1,14 +1,20 @@
-const path = require( 'path' );
-const _ = require( 'lodash' );
+import path from 'path';
+import _ from 'lodash';
 
-const logger = require( './FileLogger' );
-const { DBInventoryAttributeMap: AttributeMap, DBInventoryGearMap: GearMap, ItemInfoInventoryAttributeMap: IIInventoryMap } = require( '../config' );
-const ItemInfoParser = require( './ItemInfoParser' );
+import logger from './FileLogger';
+import { DBInventoryAttributeMap as AttributeMap, DBInventoryGearMap as GearMap } from '../config';
+import ItemInfoParser from './ItemInfoParser';
 
 /* eslint-disable class-methods-use-this */
 
 class InventoryParser {
-  constructor( inventoryType, inventoryContent ) {
+  private inventoryType!: number;
+  private inventoryContent!: string;
+  private encryptedInventory!: string;
+  private cryptKey!: string;
+  private parsedInventory: Record<string, string|number>;
+
+  constructor( inventoryType: number, inventoryContent: string ) {
     this.inventoryType = inventoryType;
     this.inventoryContent = inventoryContent;
     this.encryptedInventory = '';
@@ -18,7 +24,7 @@ class InventoryParser {
   }
 
 
-  async storeDecryptedInventory() {
+  async storeDecryptedInventory(): Promise<void> {
     let maxSize;
     let numberOfSomething;
     let encryptedInventory;
