@@ -18,3 +18,4 @@ api/doc
 api/data/ItemInfoCache/*.dat
 api/dist
 web/dist
+api/src/frontend
