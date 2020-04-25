@@ -51,9 +51,8 @@ app.use( morgan( 'combined' ) );
 app.use( '/api', routes );
 app.use( '/frontend', express.static( frontendDirectory ) );
 app.use( '/assets', express.static( `${frontendDirectory}/assets` ) );
-app.use( '/img', express.static( `${frontendDirectory}/img` ) );
+app.use( '/img', express.static( `${frontendDirectory}/assets/img/` ) );
 
-// TODO: Change the way bundling works on the frontend, use server to render the bundle
 app.get( '/*', ( req, res ) => {
   res.render( 'index', { pageTitle: 'topCMS' } );
 } );

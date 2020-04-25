@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prod": "NODE_ENV=production && pm2 start server.js",
-    "dev": "NODE_ENV=development TS_NODE_FILES=true ts-node-dev --no-notify src/server.ts --watch",
+    "dev": "NODE_ENV=development TS_NODE_FILES=true ts-node-dev --ignore-watch node_modules --no-notify src/server.ts --watch",
     "prod:win": "set NODE_ENV=production && pm2 start server.js",
     "dev:win": "set NODE_ENV=development && ts-node-dev src/server.ts",
     "build-ts": "tsc",
