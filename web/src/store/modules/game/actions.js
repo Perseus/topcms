@@ -10,7 +10,7 @@ import { updateServerRatesMutation } from '../../../apollo/mutations/admin/game'
 import Logger from '../../../services/Logger';
 
 const Actions = {
-  async [ ActionTypes.getServerStats ] ( { commit } ) {
+  async [ ActionTypes.getServerStats] ( { commit } ) {
     commit( MutationTypes.RETRIEVING_GAME_STATS );
 
     try {

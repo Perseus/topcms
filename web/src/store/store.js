@@ -10,6 +10,7 @@ import adminModule from './modules/admin';
 import commerceModule from './modules/commerce';
 
 import Request from '../services/GraphQLRequest';
+
 Vue.use( Vuex );
 
 function getStore() {
@@ -26,7 +27,7 @@ function getStore() {
     plugins: [
       createLogger(),
     ]
-  });
+  } );
 
   Request.init( store );
   return store;

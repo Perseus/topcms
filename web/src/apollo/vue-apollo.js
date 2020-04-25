@@ -19,8 +19,8 @@ Vue.use( VueApollo );
 const AUTH_TOKEN = 'apollo-token';
 
 // Http endpoint
-const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql';
-const wsEndpoint = process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql';
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:3000/graphql';
+const wsEndpoint = process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:3000/graphql';
 // Config
 const defaultOptions = {
   // You can use `https` for secure connection (recommended in production)

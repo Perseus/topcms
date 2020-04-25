@@ -15,7 +15,7 @@ import socketHandler from '../../../socket';
 import RouteNames from '../../../config/RouteNames';
 
 const Actions = {
-  async [ ActionTypes.retrieveFilteredAccounts ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.retrieveFilteredAccounts ]( { commit, dispatch }, payload ) {
     try {
       const { offset, filter, searchKey } = payload;
       const response = await graphQLRequest( dispatch, 'query', getFilteredAccounts, 'getFilteredAccounts', {
@@ -30,7 +30,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.toggleBanForUser ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.toggleBanForUser ]( { commit, dispatch }, payload ) {
     try {
       const { id, currentBan } = payload;
       let newBan = null;
@@ -56,7 +56,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrieveAccountData ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.retrieveAccountData ]( { commit, dispatch }, payload ) {
     try {
       const { id } = payload;
       const response = await graphQLRequest( dispatch, 'query', getAccountData, 'getAccountData', {
@@ -69,7 +69,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.adminUpdateUserEmail ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.adminUpdateUserEmail ]( { commit, dispatch }, payload ) {
     try {
       const { email, id } = payload;
       const response = await graphQLRequest( dispatch, 'mutation', updateUserFromAdmin, 'updateUserFromAdmin', {
@@ -99,7 +99,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.adminUpdateUser ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.adminUpdateUser ]( { commit, dispatch }, payload ) {
     try {
       const response = await graphQLRequest( dispatch, 'mutation', updateUserFromAdmin, 'updateUserFromAdmin', {
         ...payload
@@ -127,7 +127,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrieveFilteredCharacters ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.retrieveFilteredCharacters ]( { commit, dispatch }, payload ) {
     try {
       const { offset, filter, searchKey } = payload;
       const response = await graphQLRequest( dispatch, 'query', getFilteredCharacters, 'getFilteredCharacters', {
@@ -142,7 +142,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrieveCharacter ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.retrieveCharacter ]( { commit, dispatch }, payload ) {
     try {
       const { id } = payload;
 
@@ -164,7 +164,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.generateItemInfoCache ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.generateItemInfoCache ]( { commit, dispatch }, payload ) {
     try {
       commit( MutationTypes.CACHING_ITEM_INFO );
       socketHandler.emit( 'generateItemInfoCache' );
@@ -207,7 +207,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.uploadItemInfo ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.uploadItemInfo ]( { commit, dispatch }, payload ) {
     try {
       dispatch( ActionTypes.updateRequestsInProgress, { type: 'START', name: 'uploadItemInfo' } );
 
@@ -234,7 +234,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.resetUserSecurityCode ] ( { dispatch }, payload ) {
+  async [ ActionTypes.resetUserSecurityCode ]( { dispatch }, payload ) {
     try {
       const { id } = payload;
       await graphQLRequest( dispatch, 'mutation', resetUserSecurityCode, 'resetUserSecurityCode', {

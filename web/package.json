@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
+    "build-dev": "vue-cli-service build --watch",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -50,8 +51,10 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-vue": "^5.2.2",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.14.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.6.10"
+    "shelljs": "^0.8.4",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.43.0"
   }
 }
