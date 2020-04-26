@@ -30,6 +30,10 @@ const Landing = {
     areThereAnyNewsArticles() {
       return ( Object.keys( this.newsFeed ).length > 0 );
     },
+    fetchingNewsFeed() {
+      console.log( this.requestsInProgress );
+      return ( this.requestsInProgress.includes( 'getNewsFeed' ) );
+    },
   },
 
   methods: {
@@ -81,13 +85,13 @@ function getActionDispatchers() {
 function mapStateToComputed() {
   return mapState( {
     newsFeed: state => state.application.newsFeed,
-    fetchingNewsFeed: state => state.application.fetchingNewsFeed,
     fetchedNewsFeed: state => state.application.fetchedNewsFeed,
     GMInfo: state => state.game.GMInfo,
     fetchingStaffInfo: state => state.game.isFetchingStaffInfo,
     fetchedStaffInfo: state => state.game.isFetchedStaffInfo,
     fetchingServerRates: state => state.game.isFetchingServerRates,
     serverRates: state => state.game.serverRates,
+    requestsInProgress: state => state.application.currentRequestsInProgress,
   } );
 }
 

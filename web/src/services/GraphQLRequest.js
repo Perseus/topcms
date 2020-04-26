@@ -1,7 +1,7 @@
 import { apolloClient } from '../apollo';
 import ActionTypes from '../store/types/ActionTypes';
 
-export async function graphQLRequest( dispatch, type = 'query', requestSchema, requestName, variables = {}, options = {} ) {
+async function graphQLRequest( dispatch, type = 'query', requestSchema, requestName, variables = {}, options = {} ) {
   let response = {};
   dispatch( ActionTypes.updateRequestsInProgress, { name: requestName, type: 'START' } );
 
@@ -59,6 +59,14 @@ class Request {
 
   async graphQLRequest( type = 'query', requestSchema, requestName, variables, options = {} ) {
     return graphQLRequest( this.store.dispatch, type, requestSchema, requestName, variables, options );
+  }
+
+  mutation( ...args ) {
+    return this.graphQLRequest( 'mutation', ...args );
+  }
+
+  query( ...args ) {
+    return this.graphQLRequest( 'query', ...args );
   }
 }
 

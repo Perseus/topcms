@@ -4,22 +4,23 @@ import { createMallCategoryMutation, editMallCategoryMutation, deleteMallCategor
 
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
-import request, { graphQLRequest } from '../../../services/GraphQLRequest';
+import request from '../../../services/GraphQLRequest';
 
 import Logger from '../../../services/Logger';
 
 const Actions = {
-  async [ ActionTypes.retrieveMallCategories ] ( { commit, dispatch } ) {
+  async [ ActionTypes.retrieveMallCategories ]( { commit, dispatch } ) {
     try {
-      const response = await graphQLRequest( dispatch, 'query', getCommerceCategories, 'getCommerceCategories' );
+      const response = await request.graphQLRequest( 'query', getCommerceCategories, 'getCommerceCategories' );
       const { commerceCategories } = response.data;
+
       commit( MutationTypes.FETCHED_COMMERCE_CATEGORIES, { commerceCategories } );
     } catch ( err ) {
       Logger.log( `Error at action retrieveMallCategories ${err}`, 'error' );
     }
   },
 
-  async [ ActionTypes.createMallCategory ] ( { commit, dispatch }, { name } ) {
+  async [ ActionTypes.createMallCategory ]( { commit, dispatch }, { name } ) {
     try {
       const response = await request.graphQLRequest( 'mutation', createMallCategoryMutation, 'createMallCategory', {
         name
@@ -32,7 +33,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.editMallCategory ] ( { commit }, { id, name } ) {
+  async [ ActionTypes.editMallCategory ]( { commit }, { id, name } ) {
     try {
       const response = await request.graphQLRequest( 'mutation', editMallCategoryMutation, 'editMallCategory', {
         id,
@@ -46,7 +47,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.deleteMallCategory ] ( { commit }, { id } ) {
+  async [ ActionTypes.deleteMallCategory ]( { commit }, { id } ) {
     try {
       await request.graphQLRequest( 'mutation', deleteMallCategoryMutation, 'deleteMallCategory', {
         id

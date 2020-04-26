@@ -12,9 +12,10 @@ import {
   createAuthorMutation, deleteAuthorMutation, updateAuthorMutation, createDownloadMutation, editDownloadMutation, deleteDownloadMutation, createNewsArticleMutation, deleteNewsArticleMutation, updateNewsArticleMutation
 } from '../../../apollo/mutations/site';
 import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
+import request from '../../../services/GraphQLRequest';
 
 const Actions = {
-  async [ ActionTypes.getSiteAuthors ] ( { commit }, payload ) {
+  async [ ActionTypes.getSiteAuthors ]( { commit }, payload ) {
     if ( !payload || !payload.isFetchingAll ) {
       commit( MutationTypes.FETCHING_SITE_INFO );
     }
@@ -32,7 +33,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.getSiteDownloads ] ( { commit }, payload ) {
+  async [ ActionTypes.getSiteDownloads ]( { commit }, payload ) {
     if ( !payload || !payload.isFetchingAll ) {
       commit( MutationTypes.FETCHING_SITE_INFO );
     }
@@ -50,7 +51,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.getSiteNewsArticles ] ( { commit }, payload ) {
+  async [ ActionTypes.getSiteNewsArticles ]( { commit }, payload ) {
     if ( !payload || !payload.isFetchingAll ) {
       commit( MutationTypes.FETCHING_SITE_INFO );
     }
@@ -67,7 +68,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.getAllSiteInfo ] ( { commit, dispatch, state } ) {
+  async [ ActionTypes.getAllSiteInfo ]( { commit, dispatch, state } ) {
     commit( MutationTypes.FETCHING_SITE_INFO );
     await dispatch( ActionTypes.getSiteAuthors, { isFetchingAll: true } );
     await dispatch( ActionTypes.getSiteDownloads, { isFetchingAll: true } );
@@ -75,17 +76,13 @@ const Actions = {
     commit( MutationTypes.FETCHED_SITE_INFO );
   },
 
-  async [ ActionTypes.createSiteAuthor ] ( { commit }, payload ) {
+  async [ ActionTypes.createSiteAuthor ]( { commit }, payload ) {
     const { name } = payload;
-    commit( MutationTypes.CREATING_SITE_INFO, { type: 'author' } );
-    try {
-      const response = await apolloClient.mutate( {
-        mutation: createAuthorMutation,
-        variables: {
-          name
-        }
-      } );
 
+    try {
+      const response = await request.graphQLRequest( 'mutation', createAuthorMutation, 'createAuthor', {
+        name
+      } );
       const author = response.data.createAuthor;
 
       commit( MutationTypes.CREATED_SITE_INFO, { type: 'author', data: author } );
@@ -95,15 +92,11 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.deleteSiteAuthor ] ( { commit }, payload ) {
+  async [ ActionTypes.deleteSiteAuthor ]( { commit }, payload ) {
     const { id } = payload;
-    commit( MutationTypes.DELETING_SITE_INFO, { type: 'author' } );
     try {
-      await apolloClient.mutate( {
-        mutation: deleteAuthorMutation,
-        variables: {
-          id
-        }
+      await request.graphQLRequest( 'mutation', deleteAuthorMutation, 'deleteAuthor', {
+        id
       } );
 
       Snackbar.open( {
@@ -112,6 +105,7 @@ const Actions = {
         position: 'is-top',
         duration: 2000,
       } );
+
       commit( MutationTypes.DELETED_SITE_INFO, { type: 'author', id } );
     } catch ( err ) {
       const extractedErrors = extractGraphQLErrors( err );
@@ -119,18 +113,16 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.updateSiteAuthor ] ( { commit }, payload ) {
+  async [ ActionTypes.updateSiteAuthor ]( { commit }, payload ) {
     const { id, name } = payload;
-    commit( MutationTypes.UPDATING_SITE_INFO, { type: 'author' } );
     try {
-      await apolloClient.mutate( {
-        mutation: updateAuthorMutation,
-        variables: {
-          id,
-          name
-        }
+      await request.graphQLRequest( 'mutation', updateAuthorMutation, 'updateAuthor', {
+        id,
+        name
       } );
+
       commit( MutationTypes.UPDATED_SITE_INFO, { type: 'author', id, name } );
+
       Snackbar.open( {
         message: 'Author successfully updated',
         type: 'is-success',
@@ -144,26 +136,23 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.createSiteDownload ] ( { commit }, payload ) {
+  async [ ActionTypes.createSiteDownload ]( { commit }, payload ) {
     try {
       const {
         name, link, author, section, description, version
       } = payload;
-      commit( MutationTypes.CREATING_SITE_INFO, { type: 'download' } );
 
-      const response = await apolloClient.mutate( {
-        mutation: createDownloadMutation,
-        variables: {
-          title: name,
-          url: link,
-          author,
-          section,
-          description,
-          version,
-        }
+      const response = await request.graphQLRequest( 'mutation', createDownloadMutation, 'createDownload', {
+        title: name,
+        url: link,
+        author,
+        section,
+        description,
+        version
       } );
 
       commit( MutationTypes.CREATED_SITE_INFO, { type: 'download', data: response.data.createDownload } );
+
       Snackbar.open( {
         message: 'Download successfully created',
         type: 'is-success',
@@ -176,25 +165,20 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.updateSiteDownload ] ( { commit }, payload ) {
+  async [ ActionTypes.updateSiteDownload ]( { commit }, payload ) {
     try {
       const {
         id, title, author, url, section, description, version
       } = payload;
 
-      commit( MutationTypes.UPDATING_SITE_INFO, { type: 'download' } );
-
-      const response = await apolloClient.mutate( {
-        mutation: editDownloadMutation,
-        variables: {
-          id,
-          title,
-          author: author.id,
-          url,
-          section,
-          description,
-          version,
-        }
+      const response = await request.graphQLRequest( 'mutation', editDownloadMutation, 'editDownload', {
+        id,
+        title,
+        author: author.id,
+        url,
+        section,
+        description,
+        version
       } );
 
       Snackbar.open( {
@@ -215,19 +199,17 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.deleteSiteDownload ] ( { commit }, payload ) {
+  async [ ActionTypes.deleteSiteDownload ]( { commit }, payload ) {
     try {
       const { id } = payload;
       commit( MutationTypes.DELETING_SITE_INFO, { type: 'download' } );
       try {
-        await apolloClient.mutate( {
-          mutation: deleteDownloadMutation,
-          variables: {
-            id
-          }
+        await request.mutation( deleteDownloadMutation, 'deleteDownload', {
+          id
         } );
 
         commit( MutationTypes.DELETED_SITE_INFO, { type: 'download', id } );
+
         Snackbar.open( {
           message: 'Download successfully deleted',
           type: 'is-success',
@@ -243,18 +225,15 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.createSiteNews ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.createSiteNews ]( { commit, dispatch }, payload ) {
     try {
       const { title, content, author } = payload;
-      commit( MutationTypes.CREATING_SITE_INFO, { type: 'news' } );
-      const response = await apolloClient.mutate( {
-        mutation: createNewsArticleMutation,
-        variables: {
-          input: {
-            title,
-            content,
-            author
-          }
+
+      const response = await request.mutation( createNewsArticleMutation, 'createNewsArticle', {
+        input: {
+          title,
+          content,
+          author
         }
       } );
 
@@ -278,21 +257,18 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.updateSiteNews ] ( { commit, dispatch }, payload ) {
+  async [ ActionTypes.updateSiteNews ]( { commit, dispatch }, payload ) {
     try {
       const {
         id, title, content, author
       } = payload;
-      commit( MutationTypes.UPDATING_SITE_INFO, { type: 'news' } );
-      const response = await apolloClient.mutate( {
-        mutation: updateNewsArticleMutation,
-        variables: {
-          input: {
-            id: Number( id ),
-            title,
-            content,
-            author
-          }
+
+      const response = await request.mutation( updateNewsArticleMutation, {
+        input: {
+          id: Number( id ),
+          title,
+          content,
+          author
         }
       } );
 
@@ -318,18 +294,16 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.deleteSiteNews ] ( { commit }, payload ) {
+  async [ ActionTypes.deleteSiteNews ]( { commit }, payload ) {
     try {
       const { id } = payload;
-      commit( MutationTypes.DELETING_SITE_INFO, { type: 'news' } );
-      await apolloClient.mutate( {
-        mutation: deleteNewsArticleMutation,
-        variables: {
-          id
-        }
+
+      await request.mutation( deleteNewsArticleMutation, 'deleteNewsArticle', {
+        id
       } );
 
       commit( MutationTypes.DELETED_SITE_INFO, { type: 'news', id } );
+
       Snackbar.open( {
         message: 'News Article successfully deleted',
         type: 'is-success',
@@ -349,15 +323,12 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.getSiteNewsArticle ] ( { commit }, payload ) {
+  async [ ActionTypes.getSiteNewsArticle ]( { commit }, payload ) {
     try {
       const { id } = payload;
-      commit( MutationTypes.FETCHING_SITE_INFO, { type: 'news' } );
-      const response = await apolloClient.query( {
-        query: getNewsArticleQuery,
-        variables: {
-          id
-        }
+
+      const response = await request.query( getNewsArticleQuery, 'getNewsArticle', {
+        id
       } );
       commit( MutationTypes.FETCHED_SITE_NEWS, { newsArticle: response.data.newsArticle } );
       commit( MutationTypes.FETCHED_SITE_INFO );

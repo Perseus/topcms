@@ -7,9 +7,10 @@ import {
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 
-import { split } from 'apollo-link';
+import { split, ApolloLink } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import { RequestMutatorLink } from './links';
 
 
 // Install the vue plugin
@@ -79,6 +80,10 @@ const defaultOptions = {
 //   wsLink
 // );
 
+const links = ApolloLink.from( [
+  RequestMutatorLink
+] );
+
 // Call this in the Vue app file
 export function createProvider( options = {} ) {
   // Create apollo client
@@ -88,6 +93,7 @@ export function createProvider( options = {} ) {
     // link,
     cache: new InMemoryCache(),
     connectToDevTools: true,
+    link: links,
   } );
   apolloClient.wsClient = wsClient;
 
@@ -110,40 +116,4 @@ export function createProvider( options = {} ) {
   } );
 
   return apolloProvider;
-}
-
-// Manually call this when user log in
-export async function onLogin( apolloClient, token ) {
-  if ( typeof localStorage !== 'undefined' && token ) {
-    localStorage.setItem( AUTH_TOKEN, token );
-  }
-  if ( apolloClient.wsClient ) restartWebsockets( apolloClient.wsClient );
-  try {
-    await apolloClient.resetStore();
-  } catch ( e ) {
-    // eslint-disable-next-line no-console
-    console.log(
-      '%cError on cache reset (login)',
-      'color: orange;',
-      e.message
-    );
-  }
-}
-
-// Manually call this when user log out
-export async function onLogout( apolloClient ) {
-  if ( typeof localStorage !== 'undefined' ) {
-    localStorage.removeItem( AUTH_TOKEN );
-  }
-  if ( apolloClient.wsClient ) restartWebsockets( apolloClient.wsClient );
-  try {
-    await apolloClient.resetStore();
-  } catch ( e ) {
-    // eslint-disable-next-line no-console
-    console.log(
-      '%cError on cache reset (logout)',
-      'color: orange;',
-      e.message
-    );
-  }
 }

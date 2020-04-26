@@ -32,6 +32,7 @@ const ServerDetailStructure = {
     areThereAnyNewsArticles() {
       return ( Object.keys( this.newsFeed ).length > 0 );
     },
+
   },
 
   methods: {
@@ -60,6 +61,7 @@ function mapStateToComputed() {
     fetchedStaffInfo: state => state.game.isFetchedStaffInfo,
     fetchingServerRates: state => state.game.isFetchingServerRates,
     serverRates: state => state.game.serverRates,
+    requestsInProgress: state => state.application.currentRequestsInProgress,
   } );
 }
 

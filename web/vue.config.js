@@ -1,6 +1,8 @@
 const webpack = require( 'webpack' );
 const shell = require( 'shelljs' );
 const path = require( 'path' );
+const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
+
 const constants = require( './build/Constants' );
 
 module.exports = {
@@ -10,8 +12,17 @@ module.exports = {
 
   productionSourceMap: false,
 
+  filenameHashing: false,
+
   configureWebpack: {
     devtool: 'cheap-module-eval-source-map',
+    output: {
+      filename: '[name].js',
+      chunkFilename: '[name].js',
+    },
+    plugins: [
+      new CleanWebpackPlugin(),
+    ]
   },
 
   css: {
@@ -53,11 +64,7 @@ function bundleCopyHandler( percentage, message, ...args ) {
     console.log( '-- Copying bundle to API directory -- ' );
     shell.rm( '-rf', 'dist/img' );
 
-    if ( isRunningInDevMode() ) {
-      shell.mkdir( constants.DEV_BUNDLE_COPY_DIRECTORY );
-      shell.cp( '-R', 'dist/*', constants.DEV_BUNDLE_COPY_DIRECTORY );
-      shell.cp( '-R', 'public/img/*', `${constants.DEV_BUNDLE_COPY_DIRECTORY}/assets/img` );
-    } else {
+    if ( isBuildingProd() ) {
       shell.mkdir( constants.PROD_BUNDLE_COPY_DIRECTORY );
       shell.cp( '-R', 'dist/*', constants.PROD_BUNDLE_COPY_DIRECTORY );
       shell.cp( '-R', 'public/img/*', `${constants.PROD_BUNDLE_COPY_DIRECTORY}/assets/img` );

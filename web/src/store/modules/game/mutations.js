@@ -11,23 +11,23 @@ const Mutations = {
     state.retrievingGameStats = false;
   },
 
-  [ MutationTypes.FETCHING_STAFF_ONLINE_STATUS ] ( state ) {
+  [ MutationTypes.FETCHING_STAFF_ONLINE_STATUS ]( state ) {
     state.isFetchingStaffInfo = true;
     state.isFetchedStaffInfo = false;
   },
 
-  [ MutationTypes.FETCHED_STAFF_ONLINE_STATUS ] ( state, payload ) {
+  [ MutationTypes.FETCHED_STAFF_ONLINE_STATUS ]( state, payload ) {
     state.isFetchingStaffInfo = false;
     state.isFetchedStaffInfo = true;
     state.GMInfo = payload.staffData;
   },
 
-  [ MutationTypes.FETCHING_SERVER_RATES ] ( state ) {
+  [ MutationTypes.FETCHING_SERVER_RATES ]( state ) {
     state.isFetchingServerRates = true;
     state.areServerRatesFetched = false;
   },
 
-  [ MutationTypes.FETCHED_SERVER_RATES ] ( state, payload ) {
+  [ MutationTypes.FETCHED_SERVER_RATES ]( state, payload ) {
     const { rates } = payload;
 
     state.isFetchingServerRates = false;
@@ -35,24 +35,24 @@ const Mutations = {
     state.serverRates = rates;
   },
 
-  [ MutationTypes.UPDATING_SERVER_RATES ] ( state ) {
+  [ MutationTypes.UPDATING_SERVER_RATES ]( state ) {
     state.isUpdatingServerRates = true;
   },
 
-  [ MutationTypes.RETRIEVING_PLAYER_RANKING ] ( state ) {
+  [ MutationTypes.RETRIEVING_PLAYER_RANKING ]( state ) {
     state.isRetrievingPlayerRanking = true;
   },
 
-  [ MutationTypes.RETRIEVED_PLAYER_RANKING ] ( state, payload ) {
+  [ MutationTypes.RETRIEVED_PLAYER_RANKING ]( state, payload ) {
     state.isRetrievingPlayerRanking = false;
     state.playerRanking = payload.playerRanking;
   },
 
-  [ MutationTypes.RETRIEVING_GUILD_RANKING ] ( state ) {
+  [ MutationTypes.RETRIEVING_GUILD_RANKING ]( state ) {
     state.isRetrievingGuildRanking = true;
   },
 
-  [ MutationTypes.RETRIEVED_GUILD_RANKING ] ( state, payload ) {
+  [ MutationTypes.RETRIEVED_GUILD_RANKING ]( state, payload ) {
     state.isRetrievingGuildRanking = false;
     state.guildRanking = payload.guildRanking;
   }

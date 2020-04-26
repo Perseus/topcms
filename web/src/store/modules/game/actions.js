@@ -2,21 +2,18 @@ import { SnackbarProgrammatic as Snackbar } from 'buefy';
 
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
-import { apolloClient } from '../../../apollo';
 import {
   getGameStatsQuery, getStaffOnlineStatusQuery, getServerRatesQuery, getPlayerRanking, getGuildRanking
 } from '../../../apollo/queries/admin/game';
 import { updateServerRatesMutation } from '../../../apollo/mutations/admin/game';
+
+import request from '../../../services/GraphQLRequest';
 import Logger from '../../../services/Logger';
 
 const Actions = {
-  async [ ActionTypes.getServerStats] ( { commit } ) {
-    commit( MutationTypes.RETRIEVING_GAME_STATS );
-
+  async [ ActionTypes.getServerStats ]( { commit } ) {
     try {
-      const gameStatsResponse = await apolloClient.query( {
-        query: getGameStatsQuery
-      } );
+      const gameStatsResponse = await request.graphQLRequest( 'query', getGameStatsQuery, 'getGameStats' );
       commit( MutationTypes.RETRIEVED_GAME_STATS, { gameStats: gameStatsResponse.data.gameStats } );
     } catch ( err ) {
       Logger.log( `Error at getServerStats: ${err} ` );
@@ -24,43 +21,36 @@ const Actions = {
   },
 
 
-  async [ ActionTypes.retrieveStaffOnlineStatus ] ( { commit, } ) {
+  async [ ActionTypes.retrieveStaffOnlineStatus ]( { commit, } ) {
     try {
-      commit( MutationTypes.FETCHING_STAFF_ONLINE_STATUS );
-      const staffStatusResponse = await apolloClient.query( {
-        query: getStaffOnlineStatusQuery
-      } );
+      const staffStatusResponse = await request.graphQLRequest( 'query', getStaffOnlineStatusQuery, 'getStaffOnlineStatus' );
       commit( MutationTypes.FETCHED_STAFF_ONLINE_STATUS, { staffData: staffStatusResponse.data.staffStatuses } );
     } catch ( err ) {
       Logger.log( `Error at retrieveStaffOnlineStatus: ${err}` );
     }
   },
 
-  async [ ActionTypes.fetchServerRates ] ( { commit } ) {
+  async [ ActionTypes.fetchServerRates ]( { commit } ) {
     try {
-      commit( MutationTypes.FETCHING_SERVER_RATES );
-      const serverRatesResponse = await apolloClient.query( {
-        query: getServerRatesQuery,
+      const serverRatesResponse = await request.graphQLRequest( 'query', getServerRatesQuery, 'getServerRates', null, {
         fetchPolicy: 'network-only'
       } );
+
       commit( MutationTypes.FETCHED_SERVER_RATES, { rates: serverRatesResponse.data.serverRateInfo } );
     } catch ( err ) {
       Logger.log( `Error at fetchServerRates: ${err}` );
     }
   },
 
-  async [ ActionTypes.updateServerRates ] ( { commit }, payload ) {
+  async [ ActionTypes.updateServerRates ]( { commit }, payload ) {
     try {
       const { rates } = payload;
-      commit( MutationTypes.UPDATING_SERVER_RATES );
-      const updatedServerRatesResponse = await apolloClient.mutate( {
-        mutation: updateServerRatesMutation,
-        variables: {
-          rates,
-        }
+      const updatedServerRatesResponse = await request.graphQLRequest( 'mutation', updateServerRatesMutation, 'updateServerRates', {
+        rates
       } );
 
       commit( MutationTypes.FETCHED_SERVER_RATES, { rates: updatedServerRatesResponse.data.updateServerRates } );
+
       Snackbar.open( {
         duration: 2000,
         message: 'Server Rates updated successfully!',
@@ -78,15 +68,9 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrievePlayerRanking ] ( { commit }, { filter } ) {
+  async [ ActionTypes.retrievePlayerRanking ]( { commit }, { filter } ) {
     try {
-      commit( MutationTypes.RETRIEVING_PLAYER_RANKING );
-      const response = await apolloClient.query( {
-        query: getPlayerRanking,
-        variables: {
-          filter
-        }
-      } );
+      const response = await request.graphQLRequest( 'query', getPlayerRanking, 'getPlayerRanking', { filter } );
 
       commit( MutationTypes.RETRIEVED_PLAYER_RANKING, { playerRanking: response.data.playerRankings } );
     } catch ( err ) {
@@ -100,14 +84,10 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrieveGuildRanking ] ( { commit } ) {
+  async [ ActionTypes.retrieveGuildRanking ]( { commit } ) {
     try {
-      commit( MutationTypes.RETRIEVING_GUILD_RANKING );
-      const response = await apolloClient.query( {
-        query: getGuildRanking,
-        variables: {
-          filter: 'FILTER'
-        }
+      const response = await request.graphQLRequest( 'query', getGuildRanking, 'getGuildRanking', {
+        filter: 'FILTER'
       } );
 
       commit( MutationTypes.RETRIEVED_GUILD_RANKING, { guildRanking: response.data.guildRankings } );

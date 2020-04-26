@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { commonQueryFields } from '../../../utils';
 
 export const getAuthorsQuery = gql`
     query getAuthors {
@@ -65,21 +66,24 @@ export const getNewsArticleQuery = gql`
 `;
 
 export const getNewsFeedQuery = gql`
-    query newsFeed($offset: Int, $limit: Int) {
+    query getNewsFeed($offset: Int, $limit: Int) {
         newsFeed(offset: $offset, limit: $limit) {
-            articles {
-                id
-                title
-                createdAt
-                updatedAt
-                content
-                author {
-                    id
-                    name
-                }
+            ${commonQueryFields()}
+            data {
+                articles {
+                        id
+                        title
+                        createdAt
+                        updatedAt
+                        content
+                        author {
+                            id
+                            name
+                        }
+                    }
+                offset
+                total_articles
             }
-            offset
-            total_articles
         }
     }
 `;
