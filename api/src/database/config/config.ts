@@ -3,7 +3,7 @@ import { Options } from 'sequelize/types';
 require( 'dotenv' ).config();
 
 
-const queryLoggingFunction = ( process.env.NODE_ENV !== 'production' ? console.log : (): boolean => false );
+const queryLoggingFunction = ( process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test' ? console.log : (): boolean => false );
 
 const AccountServer: Options = {
   database: process.env.ACCOUNT_SERVER_DB,
@@ -12,6 +12,9 @@ const AccountServer: Options = {
   host: process.env.ACCOUNT_SERVER_HOST,
   dialect: 'mssql',
   logging: queryLoggingFunction,
+  dialectOptions: {
+    enableArithAbort: false,
+  }
 };
 
 const GameDB: Options = {
@@ -21,6 +24,9 @@ const GameDB: Options = {
   host: process.env.GAME_DB_HOST,
   dialect: 'mssql',
   logging: queryLoggingFunction,
+  dialectOptions: {
+    enableArithAbort: false,
+  }
 };
 
 const dbConfig: Record<string, Options> = {

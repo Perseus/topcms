@@ -148,7 +148,7 @@ module.exports = {
     "import/no-extraneous-dependencies": [
       "error", 
       { 
-        "devDependencies": [ "src/scripts/*" ]
+        "devDependencies": [ "src/scripts/*", "tests/*/**" ]
       }
     ],
     "import/no-cycle": [

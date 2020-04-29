@@ -19,7 +19,7 @@ env.config();
 // initialize express app
 const app = express();
 
-const server = new ApolloServer( {
+export const server = new ApolloServer( {
   schema,
   context: authMiddleware,
   debug: ( process.env.NODE_ENV !== 'production' ),

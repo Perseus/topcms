@@ -7,7 +7,7 @@ import ItemInfoParser from './ItemInfoParser';
 
 /* eslint-disable class-methods-use-this */
 
-class InventoryParser {
+export default class InventoryParser {
   private inventoryType!: number;
   private inventoryContent!: string;
   private encryptedInventory!: string;
@@ -222,6 +222,3 @@ class InventoryParser {
     console.log( gemString );
   }
 }
-
-
-module.exports = InventoryParser;

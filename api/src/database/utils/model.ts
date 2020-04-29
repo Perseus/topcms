@@ -9,6 +9,11 @@ export interface OverridenFindOptions extends FindOptions {
    * Throw if nothing was found.
    */
   rejectOnEmpty?: boolean | Error;
+
+  /**
+   * Throw if entry was found
+   */
+  rejectOnFound?: boolean | Error;
 }
 
 /**
@@ -19,8 +24,17 @@ export default class BaseModel extends Model {
   /**
    * We're overriding the findOne functionality to throw a custom error if a result was not found in the DB instead of sequelize's default error
    */
-  public static findOne<M extends BaseModel>( this: { new (): M } & typeof Model, options: OverridenFindOptions = { rejectOnEmpty: true } ): BluebirdPromise<M | null> {
-    return super.findOne.call( this, options ).then( ( result: M ) => result )
+  public static findOne<M extends BaseModel>( this: { new (): M } & typeof Model, options: OverridenFindOptions = { rejectOnEmpty: true, rejectOnFound: false } ): BluebirdPromise<M | null> {
+    return super.findOne.call( this, options ).then( ( result: M ) => {
+      if ( result && options.rejectOnFound ) {
+        throw new TError( {
+          code: `${this.name.toLowerCase()}.FOUND`,
+          message: `${this.name} was found but shouldn't have been.`
+        } );
+      }
+
+      return result;
+    } )
       .catch( ( err: any ) => {
         const { name } = err;
 

@@ -39,7 +39,7 @@ interface ResolverContextParam {
 
 export function resolve( params: ResolverWrapperParams ): Function {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return async( parent: ResolverResponse, args: Record<any, any>, context: ResolverContextParam, info: GraphQLResolveInfo ): Promise<ResolverSuccessResponse|ResolverErrorResponse> => {
+  return async( parent: ResolverSuccessResponse, args: Record<any, any>, context: ResolverContextParam, info: GraphQLResolveInfo ): Promise<ResolverSuccessResponse|ResolverErrorResponse> => {
     const { validationSchema, action } = params;
     if ( validationSchema && !_.isEmpty( validationSchema ) ) {
       try {
