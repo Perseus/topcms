@@ -4,7 +4,6 @@ import Logger from '../../../services/Logger';
 import MutationTypes from '../../types/MutationTypes';
 import ActionTypes from '../../types/ActionTypes';
 import RouteNames from '../../../config/RouteNames';
-import { apolloClient } from '../../../apollo';
 import {
   getAuthorsQuery, getDownloadsQuery, getNewsArticlesQuery, getNewsArticleQuery
 } from '../../../apollo/queries/admin/site';
@@ -21,9 +20,8 @@ const Actions = {
     }
 
     try {
-      const response = await apolloClient.query( {
-        query: getAuthorsQuery
-      } );
+      const response = await request.query( getAuthorsQuery );
+
       commit( MutationTypes.FETCHED_SITE_AUTHORS, { authors: response.data.authors } );
       if ( !payload || !payload.isFetchingAll ) {
         commit( MutationTypes.FETCHED_SITE_INFO );
@@ -39,9 +37,8 @@ const Actions = {
     }
 
     try {
-      const response = await apolloClient.query( {
-        query: getDownloadsQuery
-      } );
+      const response = await request.query( getDownloadsQuery );
+
       commit( MutationTypes.FETCHED_SITE_DOWNLOADS, { downloads: response.data.downloads } );
       if ( !payload || !payload.isFetchingAll ) {
         commit( MutationTypes.FETCHED_SITE_INFO );
@@ -56,9 +53,8 @@ const Actions = {
       commit( MutationTypes.FETCHING_SITE_INFO );
     }
     try {
-      const response = await apolloClient.query( {
-        query: getNewsArticlesQuery
-      } );
+      const response = await request.query( getNewsArticleQuery );
+
       commit( MutationTypes.FETCHED_SITE_NEWS, { newsArticles: response.data.newsArticles } );
       if ( !payload || !payload.isFetchingAll ) {
         commit( MutationTypes.FETCHED_SITE_INFO );
@@ -80,7 +76,7 @@ const Actions = {
     const { name } = payload;
 
     try {
-      const response = await request.graphQLRequest( 'mutation', createAuthorMutation, 'createAuthor', {
+      const response = await request.mutation( createAuthorMutation, {
         name
       } );
       const author = response.data.createAuthor;
@@ -95,9 +91,10 @@ const Actions = {
   async [ ActionTypes.deleteSiteAuthor ]( { commit }, payload ) {
     const { id } = payload;
     try {
-      await request.graphQLRequest( 'mutation', deleteAuthorMutation, 'deleteAuthor', {
+      await request.mutation( deleteAuthorMutation, {
         id
       } );
+
 
       Snackbar.open( {
         message: 'Author successfully deleted',
@@ -116,11 +113,10 @@ const Actions = {
   async [ ActionTypes.updateSiteAuthor ]( { commit }, payload ) {
     const { id, name } = payload;
     try {
-      await request.graphQLRequest( 'mutation', updateAuthorMutation, 'updateAuthor', {
+      await request.mutation( updateAuthorMutation, {
         id,
         name
       } );
-
       commit( MutationTypes.UPDATED_SITE_INFO, { type: 'author', id, name } );
 
       Snackbar.open( {
@@ -142,7 +138,7 @@ const Actions = {
         name, link, author, section, description, version
       } = payload;
 
-      const response = await request.graphQLRequest( 'mutation', createDownloadMutation, 'createDownload', {
+      const response = await request.mutation( createDownloadMutation, {
         title: name,
         url: link,
         author,
@@ -171,7 +167,7 @@ const Actions = {
         id, title, author, url, section, description, version
       } = payload;
 
-      const response = await request.graphQLRequest( 'mutation', editDownloadMutation, 'editDownload', {
+      const response = await request.mutation( editDownloadMutation, {
         id,
         title,
         author: author.id,
@@ -204,7 +200,7 @@ const Actions = {
       const { id } = payload;
       commit( MutationTypes.DELETING_SITE_INFO, { type: 'download' } );
       try {
-        await request.mutation( deleteDownloadMutation, 'deleteDownload', {
+        await request.mutation( deleteDownloadMutation, {
           id
         } );
 
@@ -229,7 +225,7 @@ const Actions = {
     try {
       const { title, content, author } = payload;
 
-      const response = await request.mutation( createNewsArticleMutation, 'createNewsArticle', {
+      const response = await request.mutation( createNewsArticleMutation, {
         input: {
           title,
           content,
@@ -298,7 +294,7 @@ const Actions = {
     try {
       const { id } = payload;
 
-      await request.mutation( deleteNewsArticleMutation, 'deleteNewsArticle', {
+      await request.mutation( deleteNewsArticleMutation, {
         id
       } );
 
