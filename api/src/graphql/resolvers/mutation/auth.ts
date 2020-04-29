@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import Joi from '@hapi/joi';
+import { Op } from 'sequelize';
 
 import { resolve } from '../../utils/resolver';
 
@@ -32,6 +33,20 @@ export const createUser = resolve( {
         password
       }
     } = args;
+
+    await User.findOne( {
+      where: {
+        [ Op.or ]: [
+          {
+            name: username
+          },
+          {
+            email,
+          }
+        ]
+      },
+      rejectOnFound: true
+    } );
 
     const user = await User.create( {
       name: username,

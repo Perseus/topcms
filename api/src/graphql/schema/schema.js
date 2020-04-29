@@ -41,9 +41,9 @@ const typeDefs = gql`
   }
   
   input SignUpInput {
-    email: String! @constraint(format: "email", minLength: 1)
-    username: String! @constraint(minLength: 5)
-    password: String! @constraint(minLength: 8)
+    email: String!
+    username: String! 
+    password: String!
   }
 
   input LoginInput {
@@ -314,6 +314,14 @@ const typeDefs = gql`
     data: [Author]
   }
 
+  type UserResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: User
+  }
+
 
   type Query {
     users: GetUsersResponse @isAuthenticated(role: ADMIN)
@@ -340,7 +348,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(input: SignUpInput!): User
+    createUser(input: SignUpInput!): UserResponse
     loginUser(input: LoginInput!): User
     logoutUser: User
     createAuthor(name: String!): AuthorResponse @isAuthenticated(role: SITE)
@@ -379,4 +387,4 @@ const schema = makeExecutableSchema( {
 } );
 
 
-module.exports = schema;
+export default schema;
