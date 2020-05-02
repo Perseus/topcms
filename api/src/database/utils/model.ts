@@ -1,6 +1,8 @@
 import {
   Model, Promise as BluebirdPromise, FindOptions
 } from 'sequelize';
+import _ from 'lodash';
+
 import TError from '../../utils/TError';
 
 
@@ -24,7 +26,9 @@ export default class BaseModel extends Model {
   /**
    * We're overriding the findOne functionality to throw a custom error if a result was not found in the DB instead of sequelize's default error
    */
-  public static findOne<M extends BaseModel>( this: { new (): M } & typeof Model, options: OverridenFindOptions = { rejectOnEmpty: true, rejectOnFound: false } ): BluebirdPromise<M | null> {
+  public static findOne<M extends BaseModel>( this: { new (): M } & typeof Model, options: OverridenFindOptions ): BluebirdPromise<M | null> {
+    options.rejectOnEmpty = _.isBoolean( options.rejectOnEmpty ) ? options.rejectOnEmpty : true;
+
     return super.findOne.call( this, options ).then( ( result: M ) => {
       if ( result && options.rejectOnFound ) {
         throw new TError( {
@@ -36,8 +40,14 @@ export default class BaseModel extends Model {
       return result;
     } )
       .catch( ( err: any ) => {
+        if ( err instanceof TError ) {
+          throw new TError( {
+            code: err.code,
+            message: err.message,
+            params: err.params
+          } );
+        }
         const { name } = err;
-
         switch ( name ) {
           case 'SequelizeEmptyResultError':
             throw new TError( {

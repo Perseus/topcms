@@ -74,12 +74,14 @@ export function resolve( params: ResolverWrapperParams ): Function {
 
       return resolverResponse;
     } catch ( err ) {
+      console.log( err );
       if ( err instanceof TError ) {
         const { code, message } = err;
 
         return {
           code,
           success: true,
+          message,
           errors: [ message ],
         };
       }

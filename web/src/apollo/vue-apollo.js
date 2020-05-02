@@ -80,9 +80,9 @@ const defaultOptions = {
 //   wsLink
 // );
 
-const links = ApolloLink.from( [
-  RequestMutatorLink
-] );
+// const links = ApolloLink.from( [
+//   RequestMutatorLink
+// ] );
 
 // Call this in the Vue app file
 export function createProvider( options = {} ) {
@@ -93,7 +93,7 @@ export function createProvider( options = {} ) {
     // link,
     cache: new InMemoryCache(),
     connectToDevTools: true,
-    link: links,
+    // link: links,
   } );
   apolloClient.wsClient = wsClient;
 

@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import path from 'path';
 import { ApolloServer } from 'apollo-server-express';
 import pug from 'pug';
+import depthLimit from 'graphql-depth-limit';
 
 import schema from './graphql/schema/schema';
 import { authMiddleware } from './helpers/authHelpers';
@@ -23,9 +24,10 @@ export const server = new ApolloServer( {
   schema,
   context: authMiddleware,
   debug: ( process.env.NODE_ENV !== 'production' ),
+  validationRules: [ depthLimit( 5 ) ]
 } );
 
-const urlWhitelist = [ 'http://localhost:3000', 'http://localhost:8080', process.env.APP_URL ];
+const urlWhitelist = [ 'http://localhost:3000', 'http://localhost:3001', process.env.APP_URL ];
 
 const corsOptions = {
   credentials: true,

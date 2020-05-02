@@ -12,22 +12,39 @@ import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import Logger from '../../../services/Logger';
 import RouteNames from '../../../config/RouteNames';
 
+import { handleRegistrationErrors } from '../../helpers/user';
+
 const Actions = {
   async [ ActionTypes.registerUser ]( { commit, dispatch }, payload ) {
     commit( MutationTypes.REGISTERING_USER );
     try {
       const { username, password, email } = payload;
-      const createdUser = await request.mutation( registerUserMutation, {
+      const response = await request.mutation( registerUserMutation, {
         input: {
           username,
           password,
           email
         }
       } );
-      dispatch( ActionTypes.changeRoute, {
-        name: RouteNames.AUTH.LOGIN
+
+      const { createUser: createUserResponse } = response;
+
+      if ( createUserResponse.code !== 'OK' ) {
+        handleRegistrationErrors( createUserResponse );
+        return;
+      }
+
+      const { data } = createUserResponse;
+
+      commit( MutationTypes.SIGNIN_COMPLETE, {
+        username: data.name,
+        email: data.email,
+        account_details: data.account_details
       } );
-      commit( MutationTypes.REGISTRATION_COMPLETE );
+
+      dispatch( ActionTypes.changeRoute, {
+        name: RouteNames.ROOT.__LANDING__
+      } );
     } catch ( err ) {
       commit( MutationTypes.REGISTRATION_COMPLETE, { errors: extractGraphQLErrors( err ) } );
     }
@@ -37,13 +54,20 @@ const Actions = {
     commit( MutationTypes.SIGNING_IN_USER );
     try {
       const { username, password } = payload;
-      const loginResponse = await request.mutation( loginUserMutation, {
+      const response = await request.mutation( loginUserMutation, {
         input: {
           username,
           password
         }
       } );
-      const { name, email, account_details } = loginResponse.data.loginUser;
+
+      const { loginUser: loginResponse } = response;
+
+      if ( loginResponse.code !== 'OK' ) {
+        throw new Error( loginResponse.code );
+      }
+
+      const { name, email, account_details } = loginResponse.data;
       commit( MutationTypes.SIGNIN_COMPLETE, {
         username: name,
         email,
@@ -53,21 +77,30 @@ const Actions = {
         name: RouteNames.ROOT.__LANDING__
       } );
     } catch ( err ) {
-      commit( MutationTypes.SIGNIN_COMPLETE, { errors: extractGraphQLErrors( err ) } );
+      commit( MutationTypes.SIGNIN_FAILED, { errors: extractGraphQLErrors( err ) } );
     }
   },
 
   async [ ActionTypes.retrieveUser ]( { commit, dispatch } ) {
     try {
-      const retrieveUserResponse = await request.query( getCurrentUserQuery );
-      const { name, email, account_details } = retrieveUserResponse.data.me;
+      const response = await request.query( getCurrentUserQuery );
+
+      const { me: currentUserResponse } = response;
+
+      if ( currentUserResponse.code !== 'OK' ) {
+        throw new Error( currentUserResponse.code );
+      }
+
+      const { name, email, account_details } = currentUserResponse.data;
       commit( MutationTypes.SIGNIN_COMPLETE, {
         username: name,
         email,
         account_details
       } );
     } catch ( err ) {
-      const error = extractGraphQLErrors( err );
+      commit( MutationTypes.SIGNIN_FAILED, {
+        errors: [ err ]
+      } );
     }
   },
 
@@ -85,7 +118,7 @@ const Actions = {
   async [ ActionTypes.updateUser ]( { commit, dispatch }, payload ) {
     try {
       const { newPassword: new_password, oldPassword: old_password, email } = payload;
-      const response = await graphQLRequest( dispatch, 'mutation', updateUserMutation, 'updateUser', {
+      const response = await request.mutation( updateUserMutation, {
         userInfo: {
           new_password,
           old_password,

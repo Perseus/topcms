@@ -1,6 +1,7 @@
 import TError from '../../../utils/TError';
 import Account from '../../../database/models/GameDB/Account';
 import Character from '../../../database/models/GameDB/Character';
+import UserModel from '../../../database/models/AccountServer/User';
 
 /**
  * These are properties on the User object that aren't a part of the database but we allow querying.
@@ -9,8 +10,8 @@ export const User = {
   /**
    * Fetches account details from GameDB for a User
    */
-  async account_details( obj: ResolverSuccessResponse ): Promise<Account> {
-    const userId = obj.data.id;
+  async account_details( obj: UserModel ): Promise<Account> {
+    const userId = obj.id;
     if ( userId ) {
       try {
         const accountDetails = await Account.findOne( {

@@ -4,7 +4,7 @@ import resolvers from '../resolvers';
 const { gql } = require( 'apollo-server-express' );
 const { makeExecutableSchema } = require( 'graphql-tools' );
 const ConstraintDirective = require( 'graphql-constraint-directive' );
-const { isAuthenticatedDirective, websocketAuthentication } = require( '../directives/auth' );
+const { isAuthenticatedDirective } = require( '../directives/auth' );
 
 Object.assign( resolvers, {
   JSON: GraphQLJSON,
@@ -64,6 +64,14 @@ const typeDefs = gql`
     drop: Int
     ship: Int
     fairy: Int
+  }
+
+  type ServerRateInfoResponse {
+    code: String!
+    success: Boolean!
+    message: String
+    errors: JSON
+    data: ServerRateInfo
   }
 
   input ServerRateInfoInput {
@@ -325,7 +333,7 @@ const typeDefs = gql`
 
   type Query {
     users: GetUsersResponse @isAuthenticated(role: ADMIN)
-    me: User @isAuthenticated(role: USER)
+    me: UserResponse @isAuthenticated(role: USER)
     usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersResponse @isAuthenticated(role: ADMIN)
     charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersResponse @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
@@ -339,7 +347,7 @@ const typeDefs = gql`
     newsArticle(id: Int!): NewsArticleResponse
     download(id: Int!): DownloadResponse
     staffStatuses: [StaffStatus]
-    serverRateInfo: ServerRateInfo
+    serverRateInfo: ServerRateInfoResponse
     playerRankings(filter: String!): [CharacterRankingItem]
     guildRankings(filter: String!): [GuildRankingItem]
     filteredUser(id: ID!): FilteredUserResponse 
@@ -349,7 +357,7 @@ const typeDefs = gql`
 
   type Mutation {
     createUser(input: SignUpInput!): UserResponse
-    loginUser(input: LoginInput!): User
+    loginUser(input: LoginInput!): UserResponse
     logoutUser: User
     createAuthor(name: String!): AuthorResponse @isAuthenticated(role: SITE)
     createNewsArticle(input: NewsArticleInput!): NewsArticleResponse @isAuthenticated(role: SITE) 
@@ -361,7 +369,7 @@ const typeDefs = gql`
     deleteAuthor(id: Int!): AuthorResponse @isAuthenticated(role: SITE)
     deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
     deleteNewsArticle(id: Int!): NewsArticleResponse @isAuthenticated(role: SITE)
-    updateServerRates(rates: ServerRateInfoInput): ServerRateInfo @isAuthenticated(role: SITE)
+    updateServerRates(rates: ServerRateInfoInput): ServerRateInfoResponse @isAuthenticated(role: SITE)
     updateUser(userInfo: UpdateUserInput!): User @isAuthenticated(role: USER)
     toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
     updateUserFromAdmin(id: ID!, email: String, password: String, gm: Int): User @isAuthenticated(role: ADMIN)

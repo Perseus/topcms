@@ -14,7 +14,13 @@ const Actions = {
   async [ ActionTypes.getServerStats ]( { commit } ) {
     try {
       const gameStatsResponse = await request.query( getGameStatsQuery );
-      commit( MutationTypes.RETRIEVED_GAME_STATS, { gameStats: gameStatsResponse.data.gameStats } );
+      const { gameStats: response } = gameStatsResponse;
+
+      if ( response.success !== true ) {
+        throw new Error( response );
+      }
+
+      commit( MutationTypes.RETRIEVED_GAME_STATS, { gameStats: response.data } );
     } catch ( err ) {
       Logger.log( `Error at getServerStats: ${err} ` );
     }
@@ -32,11 +38,16 @@ const Actions = {
 
   async [ ActionTypes.fetchServerRates ]( { commit } ) {
     try {
-      const serverRatesResponse = await request.query( getServerRatesQuery, null, {
+      const response = await request.query( getServerRatesQuery, null, {
         fetchPolicy: 'network-only'
       } );
 
-      commit( MutationTypes.FETCHED_SERVER_RATES, { rates: serverRatesResponse.data.serverRateInfo } );
+      const { serverRateInfo: rateResponse } = response;
+
+      const { data } = rateResponse;
+
+      console.log( data );
+      commit( MutationTypes.FETCHED_SERVER_RATES, { rates: data } );
     } catch ( err ) {
       Logger.log( `Error at fetchServerRates: ${err}` );
     }

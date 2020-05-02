@@ -1,12 +1,16 @@
 import gql from 'graphql-tag';
+import { commonQueryFields } from '../../utils';
 
 const getCurrentUserQuery = gql`
     query getCurrentUser {
         me {
-            name
-            email
-            account_details {
-                access_levels
+            ${commonQueryFields()}
+            data {
+                name
+                email
+                account_details {
+                    access_levels
+                }
             }
         }
     }

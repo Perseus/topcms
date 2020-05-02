@@ -16,17 +16,13 @@ const Actions = {
   },
 
   [ ActionTypes.changeRoute ]( { commit }, payload ) {
-    try {
-      const { name, metaData } = payload;
-      const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
+    const { name, metaData } = payload;
+    const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
 
-      commit( MutationTypes.CHANGE_ROUTE, {
-        name,
-        metaData: routeMetaData
-      } );
-    } catch ( err ) {
-      console.log( 'err' );
-    }
+    commit( MutationTypes.CHANGE_ROUTE, {
+      name,
+      metaData: routeMetaData
+    } );
   }
 };
 

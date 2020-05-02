@@ -1,12 +1,16 @@
 import gql from 'graphql-tag';
+import { commonQueryFields } from '../../utils';
 
 export const loginUserMutation = gql`
     mutation loginUser($input: LoginInput!) {
         loginUser(input: $input) {
-            name
-            email
-            account_details {
-                access_levels
+            ${commonQueryFields()}
+            data {
+                name
+                email
+                account_details {
+                    access_levels
+                }
             }
         }
     }
@@ -15,10 +19,13 @@ export const loginUserMutation = gql`
 export const registerUserMutation = gql`
     mutation createUser($input: SignUpInput!) {
         createUser(input: $input) {
-            name
-            email
-            account_details {
-                access_levels
+            ${commonQueryFields()}
+            data {
+                name
+                email
+                account_details {
+                    access_levels
+                }
             }
         }
     }

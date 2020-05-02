@@ -1,12 +1,16 @@
 import gql from 'graphql-tag';
+import { commonQueryFields } from '../../../utils';
 
 export const getGameStatsQuery = gql`
     query getGameStats {
         gameStats {
-            accounts
-            characters
-            online
-            online_record
+            ${commonQueryFields()}
+            data {
+                accounts
+                characters
+                online
+                onlineRecord
+            }
         }
     }
 `;
@@ -25,11 +29,14 @@ export const getStaffOnlineStatusQuery = gql`
 export const getServerRatesQuery = gql`
     query serverRatesInfo {
         serverRateInfo {
-            solo
-            party
-            fairy
-            ship
-            drop
+            ${commonQueryFields()}
+            data {
+                solo
+                party
+                fairy
+                ship
+                drop
+            }
         }
     }
 `;
