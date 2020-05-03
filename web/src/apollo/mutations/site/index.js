@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { commonQueryFields } from '../../utils';
 
 export const updateAuthorMutation = gql`
     mutation updateAuthor($id: Int!, $name: String!) {
@@ -12,9 +13,12 @@ export const updateAuthorMutation = gql`
 export const createAuthorMutation = gql`
     mutation createAuthor($name: String!) {
         createAuthor(name: $name) {
-            id
-            name
-            createdAt
+            ${commonQueryFields()}
+            data {
+                id
+                name
+                createdAt
+            }
         }
     }
 `;

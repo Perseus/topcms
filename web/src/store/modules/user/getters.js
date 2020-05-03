@@ -1,3 +1,5 @@
+import GeneralConfig from '../../../config/GeneralConfig';
+
 const Getters = {
   isUserRegistering( state ) {
     return state.authProcessingState.isRegistering;
@@ -15,10 +17,12 @@ const Getters = {
     return state.username;
   },
   canAccessSiteAdmin( state ) {
-    return ( state.permissions.includes( 'SITE' ) );
+    console.log( state.permissions );
+    return ( state.permissions.includes( GeneralConfig.ACCESS_LEVELS.SITE ) );
   },
   canAccessGameAdmin( state ) {
-    return ( state.permissions.includes( 'ADMIN' ) );
+    console.log( state.permissions );
+    return ( state.permissions.includes( GeneralConfig.ACCESS_LEVELS.ADMIN ) );
   }
 };
 

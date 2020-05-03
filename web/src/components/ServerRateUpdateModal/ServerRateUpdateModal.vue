@@ -94,6 +94,11 @@ export default {
   created() {
     this.serverRates = Object.assign({}, this.rates);
   },
+  watch: {
+    rates(newVal, oldVal) {
+      this.serverRates = Object.assign({}, this.rates);
+    }
+  },
   methods: {
     async updateServerRates() {
       const didFormValidationSucceed = await this.$validator.validateAll();
