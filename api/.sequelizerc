@@ -1,5 +1,4 @@
 const path = require('path');
-const dotenv = require('dotenv').config();
 
 module.exports = {
   'config': path.resolve('./dist/database/config', 'config.js'),

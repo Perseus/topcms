@@ -12,7 +12,7 @@ import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import Logger from '../../../services/Logger';
 import RouteNames from '../../../config/RouteNames';
 
-import { handleRegistrationErrors } from '../../helpers/user';
+import { handleRegistrationErrors, handleLoginErrors } from '../../helpers/user';
 
 const Actions = {
   async [ ActionTypes.registerUser ]( { commit, dispatch }, payload ) {
@@ -28,12 +28,6 @@ const Actions = {
       } );
 
       const { createUser: createUserResponse } = response;
-
-      if ( createUserResponse.code !== 'OK' ) {
-        handleRegistrationErrors( createUserResponse );
-        return;
-      }
-
       const { data } = createUserResponse;
 
       commit( MutationTypes.SIGNIN_COMPLETE, {
@@ -46,7 +40,7 @@ const Actions = {
         name: RouteNames.ROOT.__LANDING__
       } );
     } catch ( err ) {
-      commit( MutationTypes.REGISTRATION_COMPLETE, { errors: extractGraphQLErrors( err ) } );
+      handleRegistrationErrors( err );
     }
   },
 
@@ -62,12 +56,8 @@ const Actions = {
       } );
 
       const { loginUser: loginResponse } = response;
-
-      if ( loginResponse.code !== 'OK' ) {
-        throw new Error( loginResponse.code );
-      }
-
       const { name, email, account_details } = loginResponse.data;
+
       commit( MutationTypes.SIGNIN_COMPLETE, {
         username: name,
         email,
@@ -77,7 +67,7 @@ const Actions = {
         name: RouteNames.ROOT.__LANDING__
       } );
     } catch ( err ) {
-      commit( MutationTypes.SIGNIN_FAILED, { errors: extractGraphQLErrors( err ) } );
+      handleLoginErrors( err );
     }
   },
 

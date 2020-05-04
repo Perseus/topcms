@@ -43,32 +43,3 @@ export const loginUser = ( { req, res }: ExpressParams, params: LoginUserParams 
 
   res.cookie( '_sid', jwtToken, { httpOnly: true, sameSite: true } );
 };
-
-
-// module.exports.retrieveUserFromSocketRequest = function retrieveUserFromSocketRequest( socket ) {
-//   try {
-//     const _sid = getCookie( socket.request.headers.cookie, '_sid' );
-
-//     if ( !_sid ) {
-//       return null;
-//     }
-
-//     const verifiedToken = verify( _sid, process.env.JWT_SECRET );
-//     return verifiedToken.data.id;
-//   } catch ( err ) {
-//     return err;
-//   }
-// };
-
-// module.exports.socketAuthMiddleware = function socketAuthMiddleware( socket, next ) {
-//   try {
-//     const user = retrieveUserFromSocketRequest( socket );
-//     if ( !user ) {
-//       next( new Error( 'Authentication failed' ) );
-//     }
-
-//     socket.join( `Room:{${user}}`, next );
-//   } catch ( err ) {
-//     next( new Error( 'Authentication failed' ) );
-//   }
-// };

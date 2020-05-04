@@ -41,12 +41,9 @@ const Actions = {
       const response = await request.query( getServerRatesQuery, null, {
         fetchPolicy: 'network-only'
       } );
-
       const { serverRateInfo: rateResponse } = response;
-
       const { data } = rateResponse;
 
-      console.log( data );
       commit( MutationTypes.FETCHED_SERVER_RATES, { rates: data } );
     } catch ( err ) {
       Logger.log( `Error at fetchServerRates: ${err}` );

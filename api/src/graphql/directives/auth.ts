@@ -24,7 +24,12 @@ interface ResolverContextParam {
  * @param {Object} context GraphQL context object
  */
 export const isAuthenticatedDirective = async( next: Function, _, args: AuthenticationDirectiveArguments, context: ResolverContextParam ): Promise<void> => {
-  const userID = context.req.user.id;
+  const { req } = context;
+  if ( !req.user || !req.user.id ) {
+    throw new AuthenticationError( 'user.NOT_AUTHENTICATED' );
+  }
+
+  const userID = req.user.id;
 
   if ( !userID ) {
     throw new AuthenticationError( 'user.NOT_AUTHENTICATED' );
