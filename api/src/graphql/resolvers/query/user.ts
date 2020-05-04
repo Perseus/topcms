@@ -35,7 +35,6 @@ export const me = resolve( {
       where: {
         id
       },
-      rejectOnEmpty: true,
     } );
 
     return {

@@ -1,17 +1,24 @@
 import { Sequelize, Options } from 'sequelize';
 
-import config from './config/config';
+import * as config from './config/config';
 
 function getDbConfig( dbName: string ): Options {
-  const dbConfig: Options = config[ dbName ];
+  let dbConfig: Options;
+  if ( dbName === 'AccountServer' ) {
+    dbConfig = config.AccountServer;
+  } else {
+    dbConfig = config.GameDB;
+  }
   return dbConfig;
 }
 const AccountServer = new Sequelize( {
-  ...getDbConfig( 'AccountServer' )
+  ...getDbConfig( 'AccountServer' ),
+  dialect: 'mssql',
 } );
 
 const GameDB = new Sequelize( {
   ...getDbConfig( 'GameDB' ),
+  dialect: 'mssql',
 } );
 
 export {

@@ -1,12 +1,16 @@
 import gql from 'graphql-tag';
+import { commonQueryFields } from '../../../utils';
 
 export const getGameStatsQuery = gql`
     query getGameStats {
         gameStats {
-            accounts
-            characters
-            online
-            online_record
+            ${commonQueryFields()}
+            data {
+                accounts
+                characters
+                online
+                onlineRecord
+            }
         }
     }
 `;
@@ -14,9 +18,12 @@ export const getGameStatsQuery = gql`
 export const getStaffOnlineStatusQuery = gql`
     query staffStatus {
         staffStatuses {
-            name
-            type
-            is_online
+            ${commonQueryFields()}
+            data {
+                name
+                type
+                is_online
+            }
         }
     }
 `;
@@ -25,11 +32,14 @@ export const getStaffOnlineStatusQuery = gql`
 export const getServerRatesQuery = gql`
     query serverRatesInfo {
         serverRateInfo {
-            solo
-            party
-            fairy
-            ship
-            drop
+            ${commonQueryFields()}
+            data {
+                solo
+                party
+                fairy
+                ship
+                drop
+            }
         }
     }
 `;
@@ -37,12 +47,15 @@ export const getServerRatesQuery = gql`
 export const getPlayerRanking = gql`
     query playerRanking($filter: String!) {
         playerRankings(filter: $filter) {
-            cha_name
-            gd
-            job
-            degree
-            guild {
-                guild_name
+            ${commonQueryFields()}
+            data {
+                cha_name
+                gd
+                job
+                degree
+                guild {
+                    guild_name
+                }
             }
       }
     }
@@ -52,11 +65,14 @@ export const getPlayerRanking = gql`
 export const getGuildRanking = gql`
     query guildRanking($filter: String!) {
         guildRankings(filter: $filter) {
-            guild_name
-            leader {
-                cha_name
+            ${commonQueryFields()}
+            data {
+                guild_name
+                leader {
+                    cha_name
+                }
+                member_total
             }
-            member_total
         }
     }
 `;
@@ -65,17 +81,20 @@ export const getGuildRanking = gql`
 export const getFilteredAccounts = gql`
     query usersWithFilter($filter: String!, $searchKey: String, $offset: Int, $limit: Int) {
         usersWithFilter(filter: $filter, searchKey: $searchKey, offset: $offset, limit: $limit) {
-            users {
-                id
-                name
-                last_login_ip
-                last_login_mac
-                ban
-                account_details {
-                    gm
+            ${commonQueryFields()}
+            data {
+                users {
+                    id
+                    name
+                    last_login_ip
+                    last_login_mac
+                    ban
+                    account_details {
+                        gm
+                    }
                 }
+                total
             }
-            total
         }
     }
 `;
@@ -83,21 +102,24 @@ export const getFilteredAccounts = gql`
 export const getAccountData = gql`
     query filteredUser($id: ID!) {
         filteredUser(id: $id) {
-            id
-            name
-            email
-            ban
-            last_login_ip
-            last_login_mac
-            account_details {
-              gm
-            }
-            character_details {
-              cha_id
-              cha_name
-              job
-              icon
-              delflag
+            ${commonQueryFields()}
+            data {
+                id
+                name
+                email
+                ban
+                last_login_ip
+                last_login_mac
+                account_details {
+                  gm
+                }
+                character_details {
+                  cha_id
+                  cha_name
+                  job
+                  icon
+                  delflag
+                }
             }
         }
     }
@@ -106,18 +128,21 @@ export const getAccountData = gql`
 export const getFilteredCharacters = gql`
     query charactersWithFilter($filter: String!, $searchKey: String, $offset: Int, $limit: Int) {
         charactersWithFilter(filter: $filter, searchKey: $searchKey, offset: $offset, limit: $limit) {
-            total
-            characters {
-                cha_name
-                cha_id
-                account {
-                    act_id
-                    act_name
-                }
-                degree
-                gd
-                guild {
-                    guild_name
+            ${commonQueryFields()}
+            data {
+                total
+                characters {
+                    cha_name
+                    cha_id
+                    account {
+                        act_id
+                        act_name
+                    }
+                    degree
+                    gd
+                    guild {
+                        guild_name
+                    }
                 }
             }
         }
@@ -127,23 +152,26 @@ export const getFilteredCharacters = gql`
 export const getCharacterData = gql`
     query filteredCharacter($id: ID!) {
         filteredCharacter(id: $id) {
-            cha_name
-            map_x
-            map_y
-            map
-            bank
-            job
-            gd
-            degree
-            look
-            credit
-            inventories {
-                    id
-                    cha_id
-                    content
-            }
-            guild {
-                guild_name
+            ${commonQueryFields()}
+            data {
+                cha_name
+                map_x
+                map_y
+                map
+                bank
+                job
+                gd
+                degree
+                look
+                credit
+                inventories {
+                        id
+                        cha_id
+                        content
+                }
+                guild {
+                    guild_name
+                }    
             }
     }
 }

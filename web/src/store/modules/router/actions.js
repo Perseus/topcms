@@ -5,7 +5,7 @@ import MutationTypes from '../../types/MutationTypes';
 
 const Actions = {
 
-  [ ActionTypes.setInitialRoute ] ( { commit }, payload ) {
+  [ ActionTypes.setInitialRoute ]( { commit }, payload ) {
     const { name, metaData } = payload;
     const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
 
@@ -15,7 +15,7 @@ const Actions = {
     } );
   },
 
-  [ ActionTypes.changeRoute ] ( { commit }, payload ) {
+  [ ActionTypes.changeRoute ]( { commit }, payload ) {
     const { name, metaData } = payload;
     const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
 

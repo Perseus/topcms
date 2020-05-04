@@ -195,7 +195,7 @@ async function build( processes: Array<string> ): Promise<void> {
   }
 
   if ( processes.includes( 'migrate' ) || shouldExecuteEverything ) {
-    const spinner = ora( 'Migration GameDB Tables' );
+    const spinner = ora( 'Migrating GameDB Tables' );
     spinner.start();
     await runShellScript( 'npx sequelize db:migrate --env="GameDB"' );
     spinner.succeed();

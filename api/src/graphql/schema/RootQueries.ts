@@ -5,7 +5,7 @@ export const typeDefs = gql`
     act_id: ID
     act_name: String
     gm: Int
-    access_levels: [String]
+    access_levels: [Int]
   }
 
   type Character {

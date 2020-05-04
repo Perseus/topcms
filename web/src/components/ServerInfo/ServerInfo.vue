@@ -16,7 +16,7 @@
         </li>
         <li class="server-stat">
           <span class="stat-name">Online Record:</span>
-          <span class="stat-number">{{ gameStats.online_record }}</span>
+          <span class="stat-number">{{ gameStats.onlineRecord }}</span>
         </li>
       </ul>
     </div>

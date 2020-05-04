@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import Joi from '@hapi/joi';
 import { Op } from 'sequelize';
 
@@ -8,6 +7,7 @@ import User from '../../../database/models/AccountServer/User';
 import Account from '../../../database/models/GameDB/Account';
 import { shouldNewAccountsBeGMs } from '../../../config';
 import { hashPassword } from '../../../helpers/user';
+import { loginUser as logUserIn } from '../../../helpers/authHelpers';
 
 /**
  * Creates a new user
@@ -25,7 +25,7 @@ export const createUser = resolve( {
     } )
   },
 
-  async action( { args } ) {
+  async action( { args, context } ) {
     const {
       input: {
         username,
@@ -45,6 +45,7 @@ export const createUser = resolve( {
           }
         ]
       },
+      rejectOnEmpty: false,
       rejectOnFound: true
     } );
 
@@ -59,6 +60,13 @@ export const createUser = resolve( {
       act_id: user.id,
       act_name: user.name,
       gm: shouldNewAccountsBeGMs ? 99 : 0,
+    } );
+
+    const scope = await user.getAccessLevel();
+
+    logUserIn( context, {
+      id: user.id,
+      scope
     } );
 
     return {
@@ -93,24 +101,19 @@ export const loginUser = resolve( {
       where: {
         name: username,
         password: hashedPassword
-      }
+      },
     } );
+
 
     const scope = await user.getAccessLevel();
-    const jwtToken = jwt.sign( {
+
+    logUserIn( context, {
       id: user.id,
-      createdAt: Date.now(),
-      scope,
-    }, process.env.JWT_SECRET, {
-      expiresIn: '6h'
+      scope
     } );
 
-    context.res.cookie( '_sid', jwtToken, { httpOnly: true, sameSite: true } );
-
     return {
-      data: {
-        user
-      }
+      data: user
     };
   }
 } );

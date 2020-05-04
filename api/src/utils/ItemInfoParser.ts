@@ -14,7 +14,6 @@ export default class ItemInfoParser {
     this.filePath = filePath;
   }
 
-
   async parseFileData( cb: Function ): Promise<void> {
     const { fileData } = this;
     const items = fileData.split( '\n' );

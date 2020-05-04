@@ -47,4 +47,4 @@ export const PlayerRankingFilters: PlayerRankingFilters = {
 export const DownloadSections: string[] = [ 'Client', 'Patch', 'Other' ];
 export const IncludeAdminInRanking = true;
 export const MaximumRankingItems = 30;
-export const shouldNewAccountsBeGMs = false;
+export const shouldNewAccountsBeGMs = true;

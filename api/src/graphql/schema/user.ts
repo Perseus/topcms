@@ -24,6 +24,11 @@ export const typeDefs = gql`
 
   type UserResponse {
     ${getCommonResponseFields()}
+    data: User
+  }
+  
+  type UsersResponse {
+    ${getCommonResponseFields()}
     data: [User]
   }
 

@@ -3,6 +3,7 @@ import { mapActions, mapGetters } from 'vuex';
 import ActionTypes from '../../store/types/ActionTypes';
 import { changeRoute } from '../../utils/RouterUtils';
 import RouteNames from '../../config/RouteNames';
+import TInput from '../../components/ValidationInputs/BInputWithValidation.vue';
 
 const Register = {
 
@@ -13,6 +14,9 @@ const Register = {
       password: '',
       email: '',
     };
+  },
+  components: {
+    TInput
   },
   methods: {
     ...getActionDispatchers(),

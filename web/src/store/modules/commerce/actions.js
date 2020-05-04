@@ -11,7 +11,7 @@ import Logger from '../../../services/Logger';
 const Actions = {
   async [ ActionTypes.retrieveMallCategories ]( { commit, dispatch } ) {
     try {
-      const response = await request.graphQLRequest( 'query', getCommerceCategories, 'getCommerceCategories' );
+      const response = await request.query( getCommerceCategories );
       const { commerceCategories } = response.data;
 
       commit( MutationTypes.FETCHED_COMMERCE_CATEGORIES, { commerceCategories } );
@@ -22,7 +22,7 @@ const Actions = {
 
   async [ ActionTypes.createMallCategory ]( { commit, dispatch }, { name } ) {
     try {
-      const response = await request.graphQLRequest( 'mutation', createMallCategoryMutation, 'createMallCategory', {
+      const response = await request.mutation( createMallCategoryMutation, {
         name
       } );
 
@@ -35,7 +35,7 @@ const Actions = {
 
   async [ ActionTypes.editMallCategory ]( { commit }, { id, name } ) {
     try {
-      const response = await request.graphQLRequest( 'mutation', editMallCategoryMutation, 'editMallCategory', {
+      const response = await request.mutation( editMallCategoryMutation, {
         id,
         name
       } );
@@ -49,7 +49,7 @@ const Actions = {
 
   async [ ActionTypes.deleteMallCategory ]( { commit }, { id } ) {
     try {
-      await request.graphQLRequest( 'mutation', deleteMallCategoryMutation, 'deleteMallCategory', {
+      await request.mutation( deleteMallCategoryMutation, {
         id
       } );
 

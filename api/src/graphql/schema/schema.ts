@@ -1,11 +1,12 @@
 import { GraphQLJSONObject, GraphQLJSON } from 'graphql-type-json';
-import resolvers from '../resolvers';
-import SchemaDefs from './index.ts';
+import { gql } from 'apollo-server-express';
+import { makeExecutableSchema } from 'graphql-tools';
+import ConstraintDirective from 'graphql-constraint-directive';
 
-const { gql } = require( 'apollo-server-express' );
-const { makeExecutableSchema } = require( 'graphql-tools' );
-const ConstraintDirective = require( 'graphql-constraint-directive' );
-const { isAuthenticatedDirective, websocketAuthentication } = require( '../directives/auth' );
+import SchemaDefs from './index';
+
+import resolvers from '../resolvers';
+import { isAuthenticatedDirective } from '../directives/auth';
 
 Object.assign( resolvers, {
   JSON: GraphQLJSON,
@@ -54,4 +55,4 @@ const schema = makeExecutableSchema( {
 } );
 
 
-module.exports = schema;
+export default schema;

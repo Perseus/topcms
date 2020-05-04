@@ -31,7 +31,6 @@ const Landing = {
       return ( Object.keys( this.newsFeed ).length > 0 );
     },
     fetchingNewsFeed() {
-      console.log( this.requestsInProgress );
       return ( this.requestsInProgress.includes( 'getNewsFeed' ) );
     },
   },

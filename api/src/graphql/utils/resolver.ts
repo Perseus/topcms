@@ -3,6 +3,7 @@ import Joi from '@hapi/joi';
 import { Request, Response } from 'express';
 
 import _ from 'lodash';
+import { IFieldResolver } from 'graphql-tools';
 import TError from '../../utils/TError';
 import { sequelizeErrorHandler } from './errorHandler';
 
@@ -37,7 +38,8 @@ interface ResolverContextParam {
 }
 
 
-export function resolve( params: ResolverWrapperParams ): Function {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function resolve( params: ResolverWrapperParams ): IFieldResolver<ResolverSuccessResponse, Record<any, any>, ResolverContextParam> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async( parent: ResolverSuccessResponse, args: Record<any, any>, context: ResolverContextParam, info: GraphQLResolveInfo ): Promise<ResolverSuccessResponse|ResolverErrorResponse> => {
     const { validationSchema, action } = params;
@@ -74,12 +76,14 @@ export function resolve( params: ResolverWrapperParams ): Function {
 
       return resolverResponse;
     } catch ( err ) {
+      console.log( err );
       if ( err instanceof TError ) {
         const { code, message } = err;
 
         return {
           code,
           success: true,
+          message,
           errors: [ message ],
         };
       }

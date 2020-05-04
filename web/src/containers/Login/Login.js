@@ -1,6 +1,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import ActionTypes from '../../store/types/ActionTypes';
 import RouteNames from '../../config/RouteNames';
+import TInput from '../../components/ValidationInputs/BInputWithValidation.vue';
 
 const Login = {
   name: 't-login',
@@ -9,6 +10,9 @@ const Login = {
       username: '',
       password: '',
     };
+  },
+  components: {
+    TInput,
   },
   computed: {
     ...getStateGetters(),
@@ -40,25 +44,11 @@ const Login = {
 
   methods: {
     ...getActionDispatchers(),
-    async onUserLogin() {
-      try {
-        const didFormValidationSucceed = await this.$validator.validateAll();
-        if ( !didFormValidationSucceed ) {
-          return;
-        }
-        this.loginUser( {
-          username: this.username,
-          password: this.password
-        } );
-      } catch ( err ) {
-        const errorMessage = process.env.NODE_ENV === 'development' ? err : 'There was an error while trying to login.';
-        this.$buefy.toast.open( {
-          duration: 5000,
-          message: errorMessage,
-          position: 'is-bottom-right',
-          type: 'is-danger',
-        } );
-      }
+    onUserLogin() {
+      this.loginUser( {
+        username: this.username,
+        password: this.password
+      } );
     },
     redirectToSignup() {
       this.changeRoute( {

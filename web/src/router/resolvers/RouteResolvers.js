@@ -7,14 +7,14 @@ import Logger from '../../services/Logger';
 
 const RouteResolvers = {
 
-  [ RouteNames.ROOT.__ROOT__ ]: async ( route ) => {
+  [ RouteNames.ROOT.__ROOT__ ]: async( route ) => {
     await store.dispatch( ActionTypes.bootstrapApplication, { route } );
     return true;
   },
 
-  [ RouteNames.ROOT.__LANDING__ ]: async () => true,
+  [ RouteNames.ROOT.__LANDING__ ]: async() => true,
 
-  [ RouteNames.ADMIN.NEWS.CREATE ]: async ( route ) => {
+  [ RouteNames.ADMIN.NEWS.CREATE ]: async( route ) => {
     const { site } = store.state;
     if ( site.authors.length === 0 ) {
       await store.dispatch( ActionTypes.getSiteAuthors, { route } );
@@ -24,7 +24,7 @@ const RouteResolvers = {
     return true;
   },
 
-  [ RouteNames.ADMIN.NEWS.EDIT ]: async ( route ) => {
+  [ RouteNames.ADMIN.NEWS.EDIT ]: async( route ) => {
     try {
       const { site } = store.state;
       const { to } = route;
@@ -98,7 +98,7 @@ const RouteResolvers = {
     }
   },
 
-  [ RouteNames.ADMIN.GAME.ACCOUNT ]: async ( route ) => {
+  [ RouteNames.ADMIN.GAME.ACCOUNT ]: async( route ) => {
     try {
       await store.dispatch( ActionTypes.retrieveAccountData, { id: route.to.params.id } );
       return true;
@@ -119,7 +119,7 @@ const RouteResolvers = {
     }
   },
 
-  [ RouteNames.ADMIN.GAME.CHARACTER ]: async ( route ) => {
+  [ RouteNames.ADMIN.GAME.CHARACTER ]: async( route ) => {
     try {
       await store.dispatch( ActionTypes.retrieveCharacter, { id: Number( route.to.params.id ) } );
       return true;
@@ -128,7 +128,7 @@ const RouteResolvers = {
     }
   },
 
-  [ RouteNames.ADMIN.COMMERCE.CATEGORIES ]: async () => {
+  [ RouteNames.ADMIN.COMMERCE.CATEGORIES ]: async() => {
     try {
       await store.dispatch( ActionTypes.retrieveMallCategories );
       return true;

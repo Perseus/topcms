@@ -2,12 +2,7 @@ import App from '../../containers/App/App.vue';
 import Landing from '../../containers/Landing/Landing.vue';
 import Register from '../../containers/Register/Register.vue';
 import Login from '../../containers/Login/Login.vue';
-import AdminPanel from '../../containers/Admin/Admin.vue';
-import AdminSite from '../../containers/Admin/Site/Site.vue';
-import AdminGame from '../../containers/Admin/Game/Game.vue';
 import RouteNames from '../../config/RouteNames';
-import NewsCreate from '../../containers/Admin/Site/NewsCreate/NewsCreate.vue';
-import NewsEdit from '../../containers/Admin/Site/NewsEdit/NewsEdit.vue';
 import NewsItemContainer from '../../containers/NewsItemContainer/NewsItemContainer.vue';
 import NewsContainer from '../../containers/NewsContainer/NewsContainer.vue';
 import NewsList from '../../containers/NewsList/NewsList.vue';
@@ -15,17 +10,10 @@ import DownloadList from '../../containers/DownloadList/DownloadList.vue';
 import Ranking from '../../containers/Ranking/Ranking.vue';
 import UserAccountManagement from '../../containers/UserAccountManagement/UserAccountManagement.vue';
 import AccountDetails from '../../containers/AccountDetails/AccountDetails.vue';
-import AdminGameIndex from '../../containers/Admin/Game/Index/Index.vue';
-import AdminGameAccounts from '../../containers/Admin/Game/Accounts/Accounts.vue';
-import AdminGameAccount from '../../containers/Admin/Game/Account/Account.vue';
-import AdminGameCharacters from '../../containers/Admin/Game/Characters/Characters.vue';
-import AdminGameCharacter from '../../containers/Admin/Game/Character/Character.vue';
-import AdminCommerce from '../../containers/Admin/Commerce/AdminCommerceIndex.vue';
-import AdminCommerceCategories from '../../containers/Admin/Commerce/Categories/Categories.vue';
-
 
 import { RootResolver } from '../resolvers';
-import { adminGuard, userGuard } from '../guards';
+import { userGuard } from '../guards';
+import adminRoutes from './routes/admin';
 
 const RouteConfig = [
   {
@@ -49,72 +37,6 @@ const RouteConfig = [
         path: '/login',
       },
       {
-        name: RouteNames.ADMIN.DASHBOARD,
-        component: AdminPanel,
-        path: '/admin',
-        children: [
-          {
-            path: '/admin/site',
-            alias: '/',
-            name: RouteNames.ADMIN.SITE,
-            component: AdminSite,
-          },
-          {
-            path: '/admin/game',
-            component: AdminGame,
-            children: [
-              {
-                name: RouteNames.ADMIN.GAME.INDEX,
-                path: '/',
-                component: AdminGameIndex
-              },
-              {
-                name: RouteNames.ADMIN.GAME.ACCOUNTS,
-                path: '/admin/game/accounts',
-                component: AdminGameAccounts,
-              },
-              {
-                name: RouteNames.ADMIN.GAME.ACCOUNT,
-                path: '/admin/game/account/:id',
-                component: AdminGameAccount
-              },
-              {
-                name: RouteNames.ADMIN.GAME.CHARACTERS,
-                path: '/admin/game/characters',
-                component: AdminGameCharacters,
-              },
-              {
-                name: RouteNames.ADMIN.GAME.CHARACTER,
-                path: '/admin/game/character/:id',
-                component: AdminGameCharacter,
-              }
-            ]
-          },
-          {
-            path: 'commerce',
-            component: AdminCommerce,
-            children: [
-              {
-                name: RouteNames.ADMIN.COMMERCE.CATEGORIES,
-                path: 'categories',
-                component: AdminCommerceCategories,
-              }
-            ]
-          },
-          {
-            path: '/admin/news/create',
-            name: RouteNames.ADMIN.NEWS.CREATE,
-            component: NewsCreate,
-          },
-          {
-            path: '/admin/news/edit/:id/',
-            name: RouteNames.ADMIN.NEWS.EDIT,
-            component: NewsEdit
-          }
-        ],
-        beforeEnter: adminGuard
-      },
-      {
         component: UserAccountManagement,
         path: '/account',
         children: [
@@ -127,6 +49,7 @@ const RouteConfig = [
         ],
         beforeEnter: userGuard,
       },
+      adminRoutes,
       {
         path: '/news',
         component: NewsContainer,

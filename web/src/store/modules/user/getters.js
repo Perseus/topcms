@@ -1,9 +1,11 @@
+import GeneralConfig from '../../../config/GeneralConfig';
+
 const Getters = {
-  isUserRegistering( state ) {
-    return state.authProcessingState.isRegistering;
+  isUserRegistering( state, getters, rootState ) {
+    return ( rootState.application.currentRequestsInProgress.includes( 'createUser' ) );
   },
-  isUserLoggingIn( state ) {
-    return state.authProcessingState.isLoggingIn;
+  isUserLoggingIn( state, getters, rootState ) {
+    return ( rootState.application.currentRequestsInProgress.includes( 'loginUser' ) );
   },
   isUserLoggedIn( state ) {
     return state.isLoggedIn;
@@ -15,10 +17,10 @@ const Getters = {
     return state.username;
   },
   canAccessSiteAdmin( state ) {
-    return ( state.permissions.includes( 'SITE' ) );
+    return ( state.permissions.includes( GeneralConfig.ACCESS_LEVELS.SITE ) );
   },
   canAccessGameAdmin( state ) {
-    return ( state.permissions.includes( 'ADMIN' ) );
+    return ( state.permissions.includes( GeneralConfig.ACCESS_LEVELS.ADMIN ) );
   }
 };
 

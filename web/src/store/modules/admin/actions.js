@@ -19,7 +19,7 @@ const Actions = {
   async [ ActionTypes.retrieveFilteredAccounts ]( { commit, dispatch }, payload ) {
     try {
       const { offset, filter, searchKey } = payload;
-      const response = await request.graphQLRequest( 'query', getFilteredAccounts, 'getFilteredAccounts', {
+      const response = await request.query( getFilteredAccounts, {
         offset,
         filter,
         searchKey
@@ -41,7 +41,7 @@ const Actions = {
         newBan = 0;
       }
 
-      const response = await request.graphQLRequest( 'mutation', toggleUserBan, 'toggleUserBan', {
+      const response = await request.mutation( toggleUserBan, {
         id: Number( id ),
         newBanStatus: newBan
       } );
@@ -60,8 +60,8 @@ const Actions = {
   async [ ActionTypes.retrieveAccountData ]( { commit, dispatch }, payload ) {
     try {
       const { id } = payload;
-      const response = await request.graphQLRequest( 'query', getAccountData, 'getAccountData', {
-        id: Number( id )
+      const response = await request.query( getAccountData, {
+        id: Number( id ),
       } );
 
       commit( MutationTypes.SET_FETCHED_ACCOUNT_DATA, { user: response.data.filteredUser } );
@@ -73,7 +73,7 @@ const Actions = {
   async [ ActionTypes.adminUpdateUserEmail ]( { commit, dispatch }, payload ) {
     try {
       const { email, id } = payload;
-      const response = await request.graphQLRequest( 'mutation', updateUserFromAdmin, 'updateUserFromAdmin', {
+      const response = await request.mutation( updateUserFromAdmin, {
         id,
         email
       } );
@@ -102,7 +102,7 @@ const Actions = {
 
   async [ ActionTypes.adminUpdateUser ]( { commit, dispatch }, payload ) {
     try {
-      const response = await request.graphQLRequest( 'mutation', updateUserFromAdmin, 'updateUserFromAdmin', {
+      const response = await request.mutation( updateUserFromAdmin, {
         ...payload
       } );
 
@@ -131,7 +131,8 @@ const Actions = {
   async [ ActionTypes.retrieveFilteredCharacters ]( { commit, dispatch }, payload ) {
     try {
       const { offset, filter, searchKey } = payload;
-      const response = await request.graphQLRequest( 'query', getFilteredCharacters, 'getFilteredCharacters', {
+
+      const response = await request.query( getFilteredCharacters, {
         offset,
         filter,
         searchKey
@@ -147,12 +148,9 @@ const Actions = {
     try {
       const { id } = payload;
 
-      const response = await request.graphQLRequest( 'query', getCharacterData, 'getCharacterData', {
-        id: Number( id )
-      }, {
-        fetchPolicy: 'network-only',
+      const response = await request.query( getCharacterData, {
+        id: Number( id ),
       } );
-
       const characterDetails = characterInventoryCooker( response.data.filteredCharacter );
 
       if ( !characterDetails ) {
@@ -238,7 +236,7 @@ const Actions = {
   async [ ActionTypes.resetUserSecurityCode ]( { dispatch }, payload ) {
     try {
       const { id } = payload;
-      await request.graphQLRequest( 'mutation', resetUserSecurityCode, 'resetUserSecurityCode', {
+      await request.mutation( resetUserSecurityCode, {
         id: Number( id )
       } );
 
