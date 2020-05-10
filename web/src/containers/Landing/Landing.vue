@@ -1,7 +1,10 @@
 <template>
   <server-detail-structure>
     <template slot="main-content">
-      <section class="news-feed" v-if="areThereAnyNewsArticles">
+      <div class="no-news-articles" v-if="!areThereAnyNewsArticles">
+        No news articles found
+      </div>
+      <section class="news-feed" v-else>
         <div class="card news-feed-card" v-for="(newsArticle) in newsFeed" :key="newsArticle.id">
           <header class="card-header">
             <p class="card-header-title news-title">{{ newsArticle.title }}</p>

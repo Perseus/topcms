@@ -4,10 +4,6 @@ import clip from 'text-clipper';
 
 
 import ActionTypes from '../../store/types/ActionTypes';
-import ServerInfo from '../../components/ServerInfo/ServerInfo.vue';
-import StaffStatusContainer from '../../components/StaffStatusContainer/StaffStatusContainer.vue';
-import ServerRatesContainer from '../../components/ServerRates/ServerRates.vue';
-import SidebarNavigationContainer from '../../components/SidebarNavigationContainer/SidebarNavigationContainer.vue';
 import ServerDetailStructure from '../ServerDetailStructure/ServerDetailStructure.vue';
 
 import RouteNames from '../../config/RouteNames';
@@ -15,10 +11,6 @@ import RouteNames from '../../config/RouteNames';
 const Landing = {
   name: 't-landing',
   components: {
-    'server-info': ServerInfo,
-    'staff-status-container': StaffStatusContainer,
-    'server-rates-container': ServerRatesContainer,
-    'sidebar-navigation-container': SidebarNavigationContainer,
     'server-detail-structure': ServerDetailStructure,
   },
   created() {
@@ -96,8 +88,7 @@ function mapStateToComputed() {
 
 function getStateGetters() {
   return mapGetters( {
-    isRetrievingGameStats: 'isRetrievingGameStats',
-    gameStats: 'gameStats',
+    isRetrievingGameStats: 'isRetrievingGameStats'
   } );
 }
 

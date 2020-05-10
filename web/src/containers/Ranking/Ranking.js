@@ -6,12 +6,12 @@ const RankingPage = {
   name: 'ranking-page',
   data() {
     return {
-      playerFilter: 'gold',
+      playerFilter: 'GOLD',
     };
   },
 
   created() {
-    this.retrievePlayerRanking( { filter: 'gold' } );
+    this.retrievePlayerRanking( { filter: 'GOLD' } );
     this.retrieveGuildRanking();
   },
 
@@ -22,6 +22,14 @@ const RankingPage = {
   },
   computed: {
     ...mapStateToComputed(),
+
+    areThereAnyPlayers() {
+      return ( this.playerRanking.length > 0 );
+    },
+
+    areThereAnyGuilds() {
+      return ( this.guildRanking.length > 0 );
+    },
   },
 
   methods: {

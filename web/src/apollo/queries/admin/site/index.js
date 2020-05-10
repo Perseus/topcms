@@ -4,9 +4,12 @@ import { commonQueryFields } from '../../../utils';
 export const getAuthorsQuery = gql`
     query getAuthors {
         authors {
-            id
-            name
-            createdAt
+            ${commonQueryFields()}
+            data {
+                id
+                name
+                createdAt
+            }
         }
     }
 `;
@@ -14,17 +17,20 @@ export const getAuthorsQuery = gql`
 export const getDownloadsQuery = gql`
     query getDownloads {
         downloads {
-            id
-            title
-            url
-            section
-            description
-            version
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                url
+                section
+                description
+                version
+                author {
+                    id
+                    name
+                }
+                createdAt
             }
-            createdAt
         }
     }
 `;

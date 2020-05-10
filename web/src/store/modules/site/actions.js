@@ -12,37 +12,24 @@ import {
 } from '../../../apollo/mutations/site';
 import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import request from '../../../services/GraphQLRequest';
+import { handleSiteItemCreationErrors } from '../../helpers/site';
 
 const Actions = {
-  async [ ActionTypes.getSiteAuthors ]( { commit }, payload ) {
-    if ( !payload || !payload.isFetchingAll ) {
-      commit( MutationTypes.FETCHING_SITE_INFO );
-    }
-
+  async [ ActionTypes.getSiteAuthors ]( { commit } ) {
     try {
-      const response = await request.query( getAuthorsQuery );
+      const { authors: authorsResponse } = await request.query( getAuthorsQuery );
 
-      commit( MutationTypes.FETCHED_SITE_AUTHORS, { authors: response.data.authors } );
-      if ( !payload || !payload.isFetchingAll ) {
-        commit( MutationTypes.FETCHED_SITE_INFO );
-      }
+      commit( MutationTypes.FETCHED_SITE_AUTHORS, { authors: authorsResponse.data } );
     } catch ( err ) {
       Logger.log( `error at getSiteAuthors: ${err}` );
     }
   },
 
-  async [ ActionTypes.getSiteDownloads ]( { commit }, payload ) {
-    if ( !payload || !payload.isFetchingAll ) {
-      commit( MutationTypes.FETCHING_SITE_INFO );
-    }
-
+  async [ ActionTypes.getSiteDownloads ]( { commit } ) {
     try {
-      const response = await request.query( getDownloadsQuery );
+      const { downloads: downloadsResponse } = await request.query( getDownloadsQuery );
 
-      commit( MutationTypes.FETCHED_SITE_DOWNLOADS, { downloads: response.data.downloads } );
-      if ( !payload || !payload.isFetchingAll ) {
-        commit( MutationTypes.FETCHED_SITE_INFO );
-      }
+      commit( MutationTypes.FETCHED_SITE_DOWNLOADS, { downloads: downloadsResponse.data } );
     } catch ( err ) {
       Logger.log( `error at getSiteDownloads: ${err}` );
     }
@@ -76,15 +63,13 @@ const Actions = {
     const { name } = payload;
 
     try {
-      const response = await request.mutation( createAuthorMutation, {
+      const { createAuthor: createAuthorResponse } = await request.mutation( createAuthorMutation, {
         name
       } );
-      const author = response.data.createAuthor;
 
-      commit( MutationTypes.CREATED_SITE_INFO, { type: 'author', data: author } );
+      commit( MutationTypes.CREATED_SITE_INFO, { type: 'author', data: createAuthorResponse.data } );
     } catch ( err ) {
-      const extractedErrors = extractGraphQLErrors( err );
-      commit( MutationTypes.CREATED_SITE_INFO, { type: 'author', hasError: true, error: extractedErrors } );
+      handleSiteItemCreationErrors( err );
     }
   },
 

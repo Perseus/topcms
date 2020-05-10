@@ -5,6 +5,7 @@ import RouteNames from '../../../config/RouteNames';
 
 function getInitialState() {
   return {
+    prevRoute: '',
     currentRoute: RouteNames.ROOT.__LANDING__,
     metaData: {},
   };

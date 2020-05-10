@@ -21,6 +21,15 @@ export const createAuthor = resolve( {
   },
   async action( { args } ) {
     const { name } = args;
+
+    await Author.findOne( {
+      where: {
+        name
+      },
+      rejectOnEmpty: false,
+      rejectOnFound: true
+    } );
+
     const createdAuthor = await Author.create( {
       name
     } );

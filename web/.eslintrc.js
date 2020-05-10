@@ -6,6 +6,8 @@ module.exports = {
     "import/resolver": {
       "node": {
         "extensions": [ ".js", ".ts", ".d.ts" ],
+        "paths": ["src"],
+        "moduleDirectory": [ 'node_modules', 'src/' ],
       }
     }
   },
@@ -144,7 +146,7 @@ module.exports = {
     "import/no-extraneous-dependencies": [
       "error", 
       { 
-        "devDependencies": [ "src/build/*", "vue.config.js" ]
+        "devDependencies": [ "src/build/*", "vue.config.js", "tests/*/**" ]
       }
     ],
     "import/no-cycle": [

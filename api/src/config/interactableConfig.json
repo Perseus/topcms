@@ -1,7 +1,7 @@
 {
   "rates": {
-    "solo": 5,
-    "party": 4,
+    "solo": 9,
+    "party": 6,
     "drop": 2,
     "ship": 3000,
     "fairy": 3

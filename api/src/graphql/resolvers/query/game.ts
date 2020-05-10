@@ -43,7 +43,7 @@ export const gameStats = resolve( {
         accounts: userCount,
         characters: characterCount,
         online: onlineCount,
-        onlineRecord,
+        onlineRecord: onlineRecord || 0,
       }
     };
   }
@@ -70,15 +70,15 @@ export const staffStatuses = resolve( {
       } );
 
       let firstCharacter: Character;
-      if ( characterDetails ) {
-        [ firstCharacter ] = characterDetails;
-      }
 
-      adminAccounts.push( {
-        name: firstCharacter.cha_name,
-        type: ( retrievedAdminAccounts[ i ].gm === 99 ? 'GM' : 'HD' ),
-        isOnline: accountData.login_status === 1
-      } );
+      if ( characterDetails.length > 0 ) {
+        [ firstCharacter ] = characterDetails;
+        adminAccounts.push( {
+          name: firstCharacter.cha_name,
+          type: ( retrievedAdminAccounts[ i ].gm === 99 ? 'GM' : 'HD' ),
+          isOnline: accountData.login_status === 1
+        } );
+      }
     }
 
     return {
@@ -118,7 +118,7 @@ export const playerRankings = resolve( {
       const accessLevelRetrievalPromises = [];
 
       validAccounts.forEach( ( account ) => {
-        const promise = new Promise( ( resolve, reject ) => {
+        const promise = new Promise( ( resolve ) => {
           account.getAccessLevel().then( ( result ) => {
             account.accessLevels = result;
             resolve();
@@ -145,7 +145,7 @@ export const playerRankings = resolve( {
           [ Op.in ]: validAccountIDs
         }
       },
-      order: [ orderParam, 'DESC' ],
+      order: [ [ orderParam, 'DESC' ] ],
       include: [
         {
           model: Guild,
@@ -172,7 +172,7 @@ export const guildRankings = resolve( {
           [ Op.ne ]: 0,
         }
       },
-      order: [ 'member_total', 'DESC' ],
+      order: [ [ 'member_total', 'DESC' ] ],
       include: [ {
         model: Character,
         as: 'leader'

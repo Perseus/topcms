@@ -1,5 +1,7 @@
 <template>
-  <form @submit.prevent="handleUpdateUser">
+<ValidationObserver v-slot="{ handleSubmit }">
+
+  <form @submit.prevent="handleSubmit(handleUpdateUser)">
     <div class="user-account-details card">
       <header class="card-header">
         <div class="card-header-title">Manage your account</div>
@@ -12,18 +14,7 @@
             <b-field label="Username">
               <b-input v-model="userDetails.username" disabled></b-input>
             </b-field>
-            <b-field
-              :type="{ 'is-danger': errors.has('email') }"
-              :message="errors.first('email')"
-              label="Email"
-            >
-              <b-input
-                v-validate="'required'"
-                name="email"
-                v-model="userDetails.email"
-                type="email"
-              ></b-input>
-            </b-field>
+            <TInput mode="passive" label="Email" name="Email" v-model="userDetails.email" type="email" rules="email" />
           </div>
         </div>
 
@@ -32,7 +23,9 @@
         <div class="form-section">
           <div class="section-title">Change Password</div>
           <div class="section-fields password">
-            <b-field
+            <TInput mode="passive" label="Old Password" name="Old Password" v-model="oldPassword" type="password" rules="min:5|required_if:newPassword" />
+            <TInput mode="passive" label="New Password" name="New Password" v-model="newPassword" type="password" rules="min:5" vId="newPassword" />
+            <!-- <b-field
               :type="{ 'is-danger': errors.has('old password') }"
               :message="errors.first('old password')"
               label="Old Password"
@@ -55,7 +48,7 @@
                 v-model="newPassword"
                 type="password"
               ></b-input>
-            </b-field>
+            </b-field> -->
           </div>
         </div>
       </div>
@@ -74,6 +67,7 @@
       </footer>
     </div>
   </form>
+</ValidationObserver>
 </template>
 
 <script src="./AccountDetails.js"></script>

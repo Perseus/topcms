@@ -24,14 +24,6 @@
   }
 }
 
-.server-rates-container {
-  margin-top: 2rem;
-}
-
-.server-info-container {
-  margin-top: 2rem;
-}
-
 .news-article-container {
   display: flex;
   justify-content: center;
@@ -71,4 +63,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.no-news-found {
+  font-size: 2rem;
+  font-weight: 300;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: .5px solid #e7e7e7;
 }

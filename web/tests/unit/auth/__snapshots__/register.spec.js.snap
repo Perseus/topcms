@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Register renders correctly 1`] = `
+<section class="container register-form">
+  <div class="card">
+    <div class="card-content"><span><form><span label="Username" name="Username"><div class="field" name="Username"><label class="label">Username</label> <div class="control"><input type="text" autocomplete="off" data-test="Username" label="Username" name="Username" class="input"> <!----> <!----> <!----></div> <p class="help"></p></div></span> <span label="E-mail" name="E-mail"><div class="field" name="E-mail"><label class="label">E-mail</label> <div class="control"><input type="text" autocomplete="off" data-test="E-mail" label="E-mail" name="E-mail" class="input"> <!----> <!----> <!----></div> <p class="help"></p></div></span> <span label="Password" type="password" name="Password"><div class="field" name="Password"><label class="label">Password</label> <div class="control"><input type="password" autocomplete="off" data-test="Password" label="Password" name="Password" class="input"> <!----> <!----> <!----></div> <p class="help"></p></div></span> <span label="Confirm Password" type="password" name="Confirm Password"><div class="field" name="Confirm Password"><label class="label">Confirm Password</label> <div class="control"><input type="password" autocomplete="off" data-test="Confirm Password" label="Confirm Password" name="Confirm Password" class="input"> <!----> <!----> <!----></div> <p class="help"></p></div></span>
+      <div class="cta"><a href="#" class="have-account-cta">Already have an account ?</a> <button type="submit" data-test="register-button" class="button is-primary">
+          <!----> <span>Register</span>
+          <!----></button></div>
+      </form>
+      </span>
+    </div>
+  </div>
+</section>
+`;

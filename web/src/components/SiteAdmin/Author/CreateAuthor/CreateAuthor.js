@@ -1,14 +1,17 @@
+import { ValidationObserver } from 'vee-validate';
+import TInput from '@/components/ValidationInputs/TInput.vue';
+
 const CreateAuthor = {
   name: 'admin-create-author',
   props: {
     isLoading: {
       type: Boolean,
       default: false,
-    },
-    authorCreationError: {
-      type: String,
-      default: '',
     }
+  },
+  components: {
+    TInput,
+    ValidationObserver
   },
   data() {
     return {

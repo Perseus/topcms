@@ -62,13 +62,13 @@ function mapStateToComputed() {
     fetchingServerRates: state => state.game.isFetchingServerRates,
     serverRates: state => state.game.serverRates,
     requestsInProgress: state => state.application.currentRequestsInProgress,
+    gameStats: state => state.game.gameStats,
   } );
 }
 
 function getStateGetters() {
   return mapGetters( {
-    isRetrievingGameStats: 'isRetrievingGameStats',
-    gameStats: 'gameStats',
+    isRetrievingGameStats: 'isRetrievingGameStats'
   } );
 }
 

@@ -1,13 +1,12 @@
+import request from '../../../services/GraphQLRequest';
+
 const Getters = {
-  isRetrievingGameStats( state, getters, rootState ) {
-    return ( rootState.application.currentRequestsInProgress.includes( 'getGameStats' ) );
+  isRetrievingGameStats() {
+    return request.isRequestInProgress( 'getGameStats' );
   },
 
-  isFetchingStaffInfo( _, __, rootState ) {
-    // return ( rootState.application.currentRequestsInProgress.includes( ''))
-  },
-  gameStats( state ) {
-    return state.gameStats;
+  isFetchingStaffInfo() {
+    return request.isRequestInProgress( 'staffStatus' );
   }
 };
 

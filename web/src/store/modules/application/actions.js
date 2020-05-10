@@ -26,39 +26,25 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrieveLandingPageInformation ]( { commit }, payload ) {
+  [ ActionTypes.retrieveLandingPageInformation ]( { commit, dispatch }, payload ) {
+    dispatch( ActionTypes.getSiteNewsFeed );
+  },
+
+  async [ ActionTypes.getSiteNewsFeed ]( { commit }, payload ) {
     const limit = payload ? payload.limit || 5 : 5;
     const offset = payload ? payload.offset || 0 : 0;
 
     try {
       commit( MutationTypes.FETCHING_NEWS_FEED );
-      const newsFeedResponse = await request.query( getNewsFeedQuery, {
+      const { newsFeed: newsFeedResponse } = await request.query( getNewsFeedQuery, {
         limit,
         offset
       }, { fetchPolicy: 'network-only' } );
 
-      const feed = newsFeedResponse.data.newsFeed.articles;
-      commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.newsFeed.offset } );
+      const feed = newsFeedResponse.data.articles;
+      commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.offset } );
     } catch ( err ) {
       Logger.log( `Error at retrieveLandingPageInformation: ${err}` );
-    }
-  },
-
-  async [ ActionTypes.getSiteNewsFeed ]( { commit }, payload ) {
-    const limit = payload ? payload.limit || 10 : 10;
-    const offset = payload ? payload.offset || 0 : 0;
-
-    try {
-      commit( MutationTypes.FETCHING_NEWS_FEED );
-      const newsFeedResponse = await request.query( getNewsFeedQuery, {
-        limit,
-        offset
-      } );
-
-      const feed = newsFeedResponse.data.newsFeed.articles;
-      commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.newsFeed.offset, totalArticles: newsFeedResponse.data.newsFeed.total_articles } );
-    } catch ( err ) {
-      Logger.log( `Error at getSiteNewsFeed: ${err} ` );
     }
   },
 

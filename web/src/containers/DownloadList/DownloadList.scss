@@ -1,11 +1,3 @@
-.server-rates-container {
-  margin-top: 2rem;
-}
-
-.server-info-container {
-  margin-top: 2rem;
-}
-
 .download-info {
   align-self: center;
   margin-right: 10px;
@@ -52,4 +44,10 @@
 .download-section-body {
   border: 1px solid #efefef;
   padding: 2rem;
+}
+
+.no-downloads-found {
+  font-size: 1.1rem;
+  font-weight: 300;
+  text-align: center;
 }

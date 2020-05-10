@@ -4,8 +4,8 @@
       <div class="card-content">
         <ValidationObserver v-slot="{ handleSubmit }" ref="loginForm">
           <form @submit.prevent="handleSubmit(onUserLogin)">
-            <TInput label="Username" rules="required" v-model="username" name="Username"></TInput>
-            <TInput label="Password" type="password" rules="required|min:5" v-model="password" name="Password"></TInput>
+            <TInput label="Username" rules="required" v-model="username" name="Username"/>
+            <TInput label="Password" type="password" rules="required|min:5" v-model="password" name="Password"/>
 
             <div class="cta">
               <div class="small-action-group">

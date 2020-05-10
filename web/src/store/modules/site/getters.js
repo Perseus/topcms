@@ -1,11 +1,13 @@
 import _ from 'lodash';
 
+import request from '../../../services/GraphQLRequest';
+
 const Getters = {
   isFetchingSiteInfo( state ) {
     return state.fetchingSiteInfo;
   },
-  isCreatingAuthor( state ) {
-    return state.authorProcessingState.isCreating;
+  isCreatingAuthor() {
+    return request.isRequestInProgress( 'createAuthor' );
   },
   authorCreationError( state ) {
     return state.authorProcessingState.errors;

@@ -29,7 +29,7 @@ const Actions = {
 
   async [ ActionTypes.retrieveStaffOnlineStatus ]( { commit, } ) {
     try {
-      const staffStatusResponse = await request.query( getStaffOnlineStatusQuery );
+      const { staffStatuses: staffStatusResponse } = await request.query( getStaffOnlineStatusQuery );
       commit( MutationTypes.FETCHED_STAFF_ONLINE_STATUS, { staffData: staffStatusResponse.data.staffStatuses } );
     } catch ( err ) {
       Logger.log( `Error at retrieveStaffOnlineStatus: ${err}` );
@@ -53,11 +53,13 @@ const Actions = {
   async [ ActionTypes.updateServerRates ]( { commit }, payload ) {
     try {
       const { rates } = payload;
-      const updatedServerRatesResponse = await request.mutation( updateServerRatesMutation, {
-        rates
+      const parsedRates = _.mapValues( rates, parseInt );
+
+      const { updateServerRates: updatedServerRatesResponse } = await request.mutation( updateServerRatesMutation, {
+        rates: parsedRates
       } );
 
-      commit( MutationTypes.FETCHED_SERVER_RATES, { rates: updatedServerRatesResponse.data.updateServerRates } );
+      commit( MutationTypes.FETCHED_SERVER_RATES, { rates: updatedServerRatesResponse.data } );
 
       Snackbar.open( {
         duration: 2000,
@@ -78,10 +80,11 @@ const Actions = {
 
   async [ ActionTypes.retrievePlayerRanking ]( { commit }, { filter } ) {
     try {
-      const response = await request.query( getPlayerRanking, {
+      const { playerRankings: playerRankingsResponse } = await request.query( getPlayerRanking, {
         filter
       } );
-      commit( MutationTypes.RETRIEVED_PLAYER_RANKING, { playerRanking: response.data.playerRankings } );
+
+      commit( MutationTypes.RETRIEVED_PLAYER_RANKING, { playerRanking: playerRankingsResponse.data } );
     } catch ( err ) {
       Logger.log( `Error at action retrievePlayerRanking: ${err} ` );
       Snackbar.open( {
@@ -95,10 +98,10 @@ const Actions = {
 
   async [ ActionTypes.retrieveGuildRanking ]( { commit } ) {
     try {
-      const response = await request.query( getGuildRanking, {
+      const { guildRankings: guildRankingsResponse } = await request.query( getGuildRanking, {
         filter: 'FILTER'
       } );
-      commit( MutationTypes.RETRIEVED_GUILD_RANKING, { guildRanking: response.data.guildRankings } );
+      commit( MutationTypes.RETRIEVED_GUILD_RANKING, { guildRanking: guildRankingsResponse.data } );
     } catch ( err ) {
       Logger.log( `Error at action retrieveGuildRanking: ${err} ` );
     }

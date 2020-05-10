@@ -22,7 +22,7 @@ export const updateServerRates = resolve( {
       party: Joi.number().optional(),
       drop: Joi.number().optional(),
       ship: Joi.number().optional(),
-      fairy: Joi.number().optional
+      fairy: Joi.number().optional(),
     } )
   },
   async action( { args } ) {

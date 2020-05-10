@@ -12,12 +12,15 @@ const routerPlugin = ( router, store ) => {
 };
 
 function _changeRoute( router, newRoute ) {
-  const { currentRoute: newRouteName, metaData } = newRoute;
+  const { currentRoute: newRouteName, metaData, prevRoute } = newRoute;
+  const { route: prevRouteName, metaData: prevMeta } = prevRoute;
 
-  router.push( {
-    name: newRouteName,
-    ...metaData
-  } );
+  if ( newRouteName !== prevRouteName || ( newRouteName === prevRouteName && !_.isEqual( prevMeta, metaData ) ) ) {
+    router.push( {
+      name: newRouteName,
+      ...metaData
+    } );
+  }
 }
 
 export default routerPlugin;

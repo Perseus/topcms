@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { Validator } from 'vee-validate';
-import Register from '../../../src/containers/Register/Register.vue';
+// import Register from '../../../src/containers/Register/Register.vue';
+import Register from '@/containers/Register/Register.vue';
 
 describe( 'Register', () => {
   it( 'Renders all elements', () => {

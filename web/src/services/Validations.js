@@ -1,10 +1,14 @@
 import { extend } from 'vee-validate';
 import {
-  required, min, email, confirmed
+  required, min, email, confirmed, required_if, numeric
 } from 'vee-validate/dist/rules';
 
 
-extend( 'required', required );
+extend( 'required', {
+  ...required,
+
+  message: fieldName => `${fieldName} is required`
+} );
 
 extend( 'min', {
   ...min,
@@ -16,4 +20,14 @@ extend( 'email', {
   message: fieldName => `${fieldName} needs to be a valid e-mail`,
 } );
 
-extend( 'confirmed', confirmed );
+extend( 'confirmed', {
+  ...confirmed,
+  message: ( fieldName, args ) => `This field's value needs to match the value in ${args.target}`
+} );
+
+extend( 'required_if', required_if );
+
+extend( 'numeric', {
+  ...numeric,
+  message: fieldName => `${fieldName} needs to be a valid number`
+} );

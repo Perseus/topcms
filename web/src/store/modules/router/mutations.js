@@ -6,6 +6,11 @@ const Mutations = {
     state.metaData = metaData;
   },
   [ MutationTypes.CHANGE_ROUTE ]( state, { name, metaData } ) {
+    state.prevRoute = {
+      route: state.currentRoute,
+      metaData: state.metaData,
+    };
+
     state.currentRoute = name;
     state.metaData = metaData;
   }
