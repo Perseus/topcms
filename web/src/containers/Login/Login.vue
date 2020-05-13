@@ -20,6 +20,7 @@
                 type="is-primary"
                 native-type="submit"
                 class="login-btn"
+                data-test="login-button"
                 :loading="isUserLoggingIn"
               >
                 Login

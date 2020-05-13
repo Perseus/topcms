@@ -1,6 +1,6 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 
-import ServerDetailStructure from '@/containers/ServerDetailStructure/ServerDetailStructure.vue';
+import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
 import ActionTypes from '../../store/types/ActionTypes';
 import GeneralConfig from '../../config/GeneralConfig';
 import { getDateInWordsToNow } from '../../utils/DateUtils';

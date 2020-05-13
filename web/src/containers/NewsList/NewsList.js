@@ -1,7 +1,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 import clip from 'text-clipper';
 
-import ServerDetailStructure from '@/containers/ServerDetailStructure/ServerDetailStructure.vue';
+import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
 import ActionTypes from '../../store/types/ActionTypes';
 import RouteNames from '../../config/RouteNames';
 import { getDateInWordsToNow } from '../../utils/DateUtils';

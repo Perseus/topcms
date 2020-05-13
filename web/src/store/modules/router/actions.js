@@ -9,7 +9,7 @@ const Actions = {
     const { name, metaData } = payload;
     const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
 
-    commit( MutationTypes.SET_INITIAL_ROUTE, {
+    commit( MutationTypes.CHANGE_ROUTE_WITHOUT_PLUGIN, {
       name,
       metaData: routeMetaData
     } );
@@ -20,6 +20,16 @@ const Actions = {
     const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
 
     commit( MutationTypes.CHANGE_ROUTE, {
+      name,
+      metaData: routeMetaData
+    } );
+  },
+
+  [ ActionTypes.changeRouteWithoutPlugin ]( { commit }, payload ) {
+    const { name, metaData } = payload;
+    const routeMetaData = _.pick( metaData, [ 'params', 'hash', 'query' ] );
+
+    commit( MutationTypes.CHANGE_ROUTE_WITHOUT_PLUGIN, {
       name,
       metaData: routeMetaData
     } );

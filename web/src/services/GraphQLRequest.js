@@ -48,6 +48,7 @@ async function graphQLRequest( dispatch, type = 'query', requestSchema, variable
         success, message, code, errors, data
       } = response[ firstDataKey ];
       if ( success !== true || code !== 'OK' ) {
+        console.log( 'bruh1' );
         throw new TError( {
           success,
           message,

@@ -31,12 +31,13 @@
         </b-table-column>
       </template>
     </b-table>
-    <b-modal :active.sync="shouldShowCreateDownloadModal" has-modal-card>
+    <b-modal :active.sync="shouldShowCreateDownloadModal"  has-modal-card>
       <create-download-modal
         @createDownload="handleCreateDownload"
         :isLoading="isCreatingDownload"
         :downloadCreationError="downloadCreationError"
         :authors="authors"
+        v-if="shouldShowCreateDownloadModal"
       ></create-download-modal>
     </b-modal>
     <b-modal :active="shouldShowEditDownloadModal" @close="handleCloseEditModal" has-modal-card>
@@ -47,6 +48,7 @@
         :downloadDetails="editDownloadModalDetails"
         :downloadEditingError="downloadEditingError"
         :authors="authors"
+        v-if="shouldShowEditDownloadModal"
       ></edit-download-modal>
     </b-modal>
   </section>

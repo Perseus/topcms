@@ -45,7 +45,6 @@ const Actions = {
   },
 
   async [ ActionTypes.loginUser ]( { commit, dispatch }, payload ) {
-    commit( MutationTypes.SIGNING_IN_USER );
     try {
       const { username, password } = payload;
       const response = await request.mutation( loginUserMutation, {
@@ -54,7 +53,6 @@ const Actions = {
           password
         }
       } );
-
       const { loginUser: loginResponse } = response;
       const { name, email, account_details } = loginResponse.data;
 

@@ -18,9 +18,9 @@
           aria-previous-label="Previous page"
           aria-page-label="Page"
           aria-current-label="Current page"
-          v-if="total > 0"
+          v-if="newsFeed.length > 0"
         ></b-pagination>
-        <div class="no-news-found" v-if="total === 0">
+        <div class="no-news-found" v-if="newsFeed.length === 0">
           No news articles found
         </div>
         <div class="card news-feed-card" v-for="(news) in newsFeed" :key="news.id">

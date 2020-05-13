@@ -1,4 +1,4 @@
-import { ValidationObserver } from 'vee-validate';
+
 import TInput from '@/components/ValidationInputs/TInput.vue';
 
 const CreateAuthor = {
@@ -10,8 +10,7 @@ const CreateAuthor = {
     }
   },
   components: {
-    TInput,
-    ValidationObserver
+    TInput
   },
   data() {
     return {

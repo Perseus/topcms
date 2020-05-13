@@ -51,18 +51,7 @@ const Mutations = {
       state.news.push( payload.data );
     }
   },
-  [ MutationTypes.UPDATING_SITE_INFO ]( state, payload ) {
-    state[ `${payload.type}ProcessingState` ].isUpdating = true;
-  },
   [ MutationTypes.UPDATED_SITE_INFO ]( state, payload ) {
-    state[ `${payload.type}ProcessingState` ].isUpdating = false;
-
-    const hasError = _.get( payload, 'hasError', false );
-    if ( hasError ) {
-      state[ `${payload.type}ProcessingState` ].errors = payload.error;
-      return;
-    }
-
     if ( payload.type === 'author' ) {
       const authorIndex = _.findIndex( state.authors, author => author.id === payload.id );
       state.authors[ authorIndex ].name = payload.name;
@@ -70,12 +59,7 @@ const Mutations = {
 
     if ( payload.type === 'download' ) {
       const downloadIndex = _.findIndex( state.downloads, download => download.id === payload.id );
-      state.downloads[ downloadIndex ].title = payload.title;
-      state.downloads[ downloadIndex ].url = payload.url;
-      state.downloads[ downloadIndex ].author = payload.author;
-      state.downloads[ downloadIndex ].description = payload.description;
-      state.downloads[ downloadIndex ].version = payload.version;
-      state.downloads[ downloadIndex ].section = payload.section;
+      Object.assign( state.downloads[ downloadIndex ], payload );
     }
 
     if ( payload.type === 'news' ) {

@@ -21,7 +21,6 @@
       
 
 <script>
-import { ValidationObserver } from 'vee-validate';
 import TInput from '@/components/ValidationInputs/TInput.vue';
 
 export default {
@@ -33,7 +32,6 @@ export default {
     }
   },
   components: {
-    ValidationObserver,
     TInput,
   },
   data() {

@@ -125,7 +125,7 @@ export const createDownload = resolve( {
       title, url, author, version, section, description
     } = args;
 
-    const createdDownload = await Download.create( {
+    const response = await Download.create( {
       title,
       url,
       version,
@@ -140,6 +140,18 @@ export const createDownload = resolve( {
         }
       ]
     } );
+
+    const createdDownload = await Download.findOne( {
+      where: {
+        id: response.id
+      },
+      include: [
+        {
+          model: Author,
+          as: 'author'
+        }
+      ]
+    }, );
 
     return {
       data: createdDownload
@@ -243,7 +255,7 @@ export const createNewsArticle = resolve( {
     input: Joi.object( {
       title: Joi.string().min( 3 ).required(),
       content: Joi.string().min( 5 ).required(),
-      author_id: Joi.number().required()
+      author: Joi.number().required()
     } ),
   },
   async action( { args } ) {
@@ -253,11 +265,16 @@ export const createNewsArticle = resolve( {
       }
     } = args;
 
-    const newsArticle = await NewsArticle.create( {
+    const response = await NewsArticle.create( {
       title,
       content,
       author_id: author
-    }, {
+    } );
+
+    const newsArticle = await NewsArticle.findOne( {
+      where: {
+        id: response.id
+      },
       include: [
         {
           model: Author,
@@ -265,6 +282,7 @@ export const createNewsArticle = resolve( {
         }
       ]
     } );
+
 
     return {
       data: newsArticle
@@ -316,7 +334,7 @@ export const editNewsArticle = resolve( {
       id: Joi.number().required(),
       title: Joi.string().min( 3 ).optional(),
       content: Joi.string().optional(),
-      author: Joi.string().optional()
+      author: Joi.number().optional()
     } )
   },
   async action( { args } ) {

@@ -1,5 +1,8 @@
+
+import TInput from '@components/ValidationInputs/TInput.vue';
+
 const EditAuthor = {
-  name: 'admin-create-author',
+  name: 'admin-edit-author',
   props: {
     isLoading: {
       type: Boolean,
@@ -14,6 +17,11 @@ const EditAuthor = {
       default: '',
     }
   },
+
+  components: {
+    TInput,
+  },
+
   data() {
     return {
       name: '',

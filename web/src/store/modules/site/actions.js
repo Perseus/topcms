@@ -35,19 +35,13 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.getSiteNewsArticles ]( { commit }, payload ) {
-    if ( !payload || !payload.isFetchingAll ) {
-      commit( MutationTypes.FETCHING_SITE_INFO );
-    }
+  async [ ActionTypes.getSiteNewsArticles ]( { commit } ) {
     try {
-      const response = await request.query( getNewsArticleQuery );
+      const { newsArticles: response } = await request.query( getNewsArticlesQuery );
 
-      commit( MutationTypes.FETCHED_SITE_NEWS, { newsArticles: response.data.newsArticles } );
-      if ( !payload || !payload.isFetchingAll ) {
-        commit( MutationTypes.FETCHED_SITE_INFO );
-      }
+      commit( MutationTypes.FETCHED_SITE_NEWS, { newsArticles: response.data } );
     } catch ( err ) {
-      Logger.log( `error at getSiteAuthors: ${err}` );
+      Logger.log( `error at getSiteNewsArticles: ${err}` );
     }
   },
 
@@ -111,9 +105,7 @@ const Actions = {
         duration: 2000,
       } );
     } catch ( err ) {
-      const extractedErrors = extractGraphQLErrors( err );
       Logger.log( err, 'error' );
-      commit( MutationTypes.UPDATED_SITE_INFO, { type: 'author', hasError: true, error: extractedErrors } );
     }
   },
 
@@ -123,7 +115,7 @@ const Actions = {
         name, link, author, section, description, version
       } = payload;
 
-      const response = await request.mutation( createDownloadMutation, {
+      const { createDownload: response } = await request.mutation( createDownloadMutation, {
         title: name,
         url: link,
         author,
@@ -132,7 +124,7 @@ const Actions = {
         version
       } );
 
-      commit( MutationTypes.CREATED_SITE_INFO, { type: 'download', data: response.data.createDownload } );
+      commit( MutationTypes.CREATED_SITE_INFO, { type: 'download', data: response.data } );
 
       Snackbar.open( {
         message: 'Download successfully created',
@@ -142,7 +134,8 @@ const Actions = {
       } );
     } catch ( err ) {
       Logger.log( `error at createSiteDownload: ${err}`, 'error' );
-      commit( MutationTypes.CREATED_SITE_INFO, { hasError: true, error: err, type: 'download' } );
+
+      handleSiteItemCreationErrors( err, 'download' );
     }
   },
 
@@ -152,7 +145,7 @@ const Actions = {
         id, title, author, url, section, description, version
       } = payload;
 
-      const response = await request.mutation( editDownloadMutation, {
+      const { editDownload: response } = await request.mutation( editDownloadMutation, {
         id,
         title,
         author: author.id,
@@ -170,7 +163,7 @@ const Actions = {
       } );
 
       commit( MutationTypes.UPDATED_SITE_INFO, {
-        type: 'download', id, title, url, author: response.data.editDownload.author, section, description, version,
+        type: 'download', id, title, url, author: response.data.author, section, description, version,
       } );
     } catch ( err ) {
       Logger.log( `Error at ${ActionTypes.updateSiteDownload} action: ${err}` );
@@ -181,28 +174,23 @@ const Actions = {
   },
 
   async [ ActionTypes.deleteSiteDownload ]( { commit }, payload ) {
+    const { id } = payload;
     try {
-      const { id } = payload;
-      commit( MutationTypes.DELETING_SITE_INFO, { type: 'download' } );
-      try {
-        await request.mutation( deleteDownloadMutation, {
-          id
-        } );
+      await request.mutation( deleteDownloadMutation, {
+        id
+      } );
 
-        commit( MutationTypes.DELETED_SITE_INFO, { type: 'download', id } );
+      commit( MutationTypes.DELETED_SITE_INFO, { type: 'download', id } );
 
-        Snackbar.open( {
-          message: 'Download successfully deleted',
-          type: 'is-success',
-          position: 'is-top',
-          duration: 2000,
-        } );
-      } catch ( err ) {
-        const extractedErrors = extractGraphQLErrors( err );
-        commit( MutationTypes.DELETED_SITE_INFO, { type: 'download', hasError: true, error: extractedErrors } );
-      }
+      Snackbar.open( {
+        message: 'Download successfully deleted',
+        type: 'is-success',
+        position: 'is-top',
+        duration: 2000,
+      } );
     } catch ( err ) {
-      Logger.log( `error at deleteSiteDownload: ${err}` );
+      const extractedErrors = extractGraphQLErrors( err );
+      commit( MutationTypes.DELETED_SITE_INFO, { type: 'download', hasError: true, error: extractedErrors } );
     }
   },
 
@@ -210,7 +198,7 @@ const Actions = {
     try {
       const { title, content, author } = payload;
 
-      const response = await request.mutation( createNewsArticleMutation, {
+      const { createNewsArticle: response } = await request.mutation( createNewsArticleMutation, {
         input: {
           title,
           content,
@@ -218,7 +206,7 @@ const Actions = {
         }
       } );
 
-      commit( MutationTypes.CREATED_SITE_INFO, { type: 'news', data: response.data.createNewsArticle } );
+      commit( MutationTypes.CREATED_SITE_INFO, { type: 'news', data: response.data } );
       Snackbar.open( {
         message: 'News article successfully created',
         type: 'is-success',
@@ -244,7 +232,7 @@ const Actions = {
         id, title, content, author
       } = payload;
 
-      const response = await request.mutation( updateNewsArticleMutation, {
+      const { editNewsArticle: response } = await request.mutation( updateNewsArticleMutation, {
         input: {
           id: Number( id ),
           title,
@@ -261,7 +249,7 @@ const Actions = {
       } );
 
       commit( MutationTypes.UPDATED_SITE_INFO, {
-        type: 'news', id, title, content, author: response.data.editNewsArticle.author
+        type: 'news', id, title, content, author: response.data.author
       } );
       dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.SITE } );
     } catch ( err ) {
@@ -308,10 +296,10 @@ const Actions = {
     try {
       const { id } = payload;
 
-      const response = await request.query( getNewsArticleQuery, 'getNewsArticle', {
+      const { newsArticle: response } = await request.query( getNewsArticleQuery, {
         id
       } );
-      commit( MutationTypes.FETCHED_SITE_NEWS, { newsArticle: response.data.newsArticle } );
+      commit( MutationTypes.FETCHED_SITE_NEWS, { newsArticle: response.data } );
       commit( MutationTypes.FETCHED_SITE_INFO );
     } catch ( err ) {
       Logger.log( `error at Action getSiteNewsArticle: ${err}` );

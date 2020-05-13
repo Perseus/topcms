@@ -19,6 +19,7 @@ export const newsArticles = resolve( {
         }
       ]
     } );
+
     return {
       data: result,
     };

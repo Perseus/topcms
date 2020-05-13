@@ -40,14 +40,17 @@ export const getDownloadsQuery = gql`
 export const getNewsArticlesQuery = gql`
     query getNewsArticles {
         newsArticles {
-            id
-            title
-            content
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                content
+                author {
+                    id
+                    name
+                }
+                createdAt
             }
-            createdAt
         }
     }
 `;
@@ -59,14 +62,17 @@ export const getNewsArticlesQuery = gql`
 export const getNewsArticleQuery = gql`
     query getNewsArticle($id: Int!) {
         newsArticle(id: $id) {
-            id
-            title
-            content
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                content
+                author {
+                    id
+                    name
+                }
+                createdAt
             }
-            createdAt
         }
     }
 `;

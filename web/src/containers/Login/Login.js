@@ -17,30 +17,7 @@ const Login = {
   computed: {
     ...getStateGetters(),
   },
-  watch: {
-    authErrors( newVal ) {
-      if ( newVal.length !== 0 ) {
-        const errors = newVal;
-        errors.forEach( ( error ) => {
-          if ( error.code === 'INCORRECT_CREDENTIALS' ) {
-            this.$buefy.toast.open( {
-              duration: 3000,
-              message: 'The username or the password is incorrect',
-              position: 'is-top',
-              type: 'is-danger',
-            } );
-          }
 
-          if ( error.code === 'CONSTRAINT_ERROR' ) {
-            this.errors.add( {
-              field: error.field,
-              msg: error.msg
-            } );
-          }
-        } );
-      }
-    }
-  },
 
   methods: {
     ...getActionDispatchers(),
@@ -71,7 +48,6 @@ function getActionDispatchers() {
 function getStateGetters() {
   return mapGetters( {
     isUserLoggingIn: 'isUserLoggingIn',
-    authErrors: 'authErrors',
   } );
 }
 

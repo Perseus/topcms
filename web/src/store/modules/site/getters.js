@@ -12,8 +12,8 @@ const Getters = {
   authorCreationError( state ) {
     return state.authorProcessingState.errors;
   },
-  isUpdatingAuthor( state ) {
-    return state.authorProcessingState.isUpdating;
+  isUpdatingAuthor() {
+    return request.isRequestInProgress( 'updateAuthor' );
   },
   authorEditingError( state ) {
     return state.authorProcessingState.errors;
@@ -26,17 +26,21 @@ const Getters = {
 
     return null;
   },
-  isCreatingDownload( state ) {
-    return state.downloadProcessingState.isCreating;
+  isCreatingDownload() {
+    return request.isRequestInProgress( 'createDownload' );
   },
   isUpdatingDownload( state ) {
-    return state.downloadProcessingState.isUpdating;
+    return request.isRequestInProgress( 'editDownload' );
   },
   downloadManagementError( state ) {
     return state.downloadProcessingState.errors;
   },
-  isCreatingNews( state ) {
-    return state.newsProcessingState.isCreating;
+  isCreatingNews() {
+    return request.isRequestInProgress( 'createNewsArticle' );
+  },
+
+  isUpdatingNews() {
+    return request.isRequestInProgress( 'editNewsArticle' );
   }
 };
 

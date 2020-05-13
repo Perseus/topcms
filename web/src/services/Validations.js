@@ -31,3 +31,17 @@ extend( 'numeric', {
   ...numeric,
   message: fieldName => `${fieldName} needs to be a valid number`
 } );
+
+extend( 'is_url', {
+  validate: ( value ) => {
+    let url;
+    try {
+      url = new URL( value );
+    } catch ( _ ) {
+      return false;
+    }
+
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  },
+  message: fieldName => `${fieldName} needs to be a valid URL`
+} );

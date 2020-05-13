@@ -15,11 +15,6 @@ const Register = {
       email: '',
     };
   },
-
-  mounted() {
-    console.log( 'AAAAAAAAAAAAAAAAAAA' );
-    console.log( this.username, this.password, this.email );
-  },
   components: {
     TInput
   },

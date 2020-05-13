@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   "extends": [
     "airbnb",
@@ -7,7 +9,16 @@ module.exports = {
       "node": {
         "extensions": [ ".js", ".ts", ".d.ts" ],
         "paths": ["src"],
-        "moduleDirectory": [ 'node_modules', 'src/' ],
+        "moduleDirectory": [ 'node_modules', 'src/*/**' ],
+      },
+      alias: {
+        map: [
+          ['@containers', path.join(__dirname, 'src/containers')],
+          ['@services', path.join(__dirname, 'src/services')],
+          ['@store', path.join(__dirname, 'src/store')],
+          ['@components', path.join(__dirname, 'src/components')]
+        ],
+        extensions: [ ".js", ".ts", ".d.ts", ".vue" ],
       }
     }
   },
