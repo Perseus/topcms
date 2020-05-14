@@ -46,6 +46,12 @@ module.exports = {
 
     config.plugin( 'progress' )
       .use( webpack.ProgressPlugin, [ bundleCopyHandler ] );
+
+    config.resolve.alias
+      .set( '@containers', path.resolve( __dirname, 'src/containers' ) )
+      .set( '@services', path.resolve( __dirname, 'src/services' ) )
+      .set( '@store', path.resolve( __dirname, 'src/store' ) )
+      .set( '@components', path.resolve( __dirname, 'src/components' ) );
   }
 };
 

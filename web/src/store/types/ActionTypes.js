@@ -12,6 +12,7 @@ const ActionTypes = {
 
   setInitialRoute: 'setInitialRoute',
   changeRoute: 'changeRoute',
+  changeRouteWithoutPlugin: 'changeRouteWithoutPlugin',
   updateRequestsInProgress: 'updateRequestsInProgress',
   toggleModal: 'toggleModal',
 

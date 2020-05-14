@@ -1,6 +1,9 @@
 import { mapState, mapActions, mapGetters } from 'vuex';
 import _ from 'lodash';
+import { ValidationProvider } from 'vee-validate';
 
+
+import TInput from '@components/ValidationInputs/TInput.vue';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
 
@@ -14,6 +17,11 @@ const NewsEdit = {
       author: {},
       currentNewsId: this.$route.params.id,
     };
+  },
+
+  components: {
+    TInput,
+    ValidationProvider
   },
 
   created() {
@@ -38,25 +46,14 @@ const NewsEdit = {
   methods: {
     ...mapActionsToMethods(),
 
-    async handleEditNews() {
-      const didFormValidationSucceed = await this.$validator.validateAll();
-      if ( !didFormValidationSucceed ) {
+    handleEditNews() {
+      if ( !this.author ) {
         return;
       }
 
-      try {
-        await this.editNewsArticle( {
-          id: this.currentNewsId, title: this.title, content: this.content, author: this.author
-        } );
-      } catch ( err ) {
-        const errorMessage = process.env.NODE_ENV === 'development' ? err : 'There was an error while trying to create a news article.';
-        this.$buefy.toast.open( {
-          duration: 5000,
-          message: errorMessage,
-          position: 'is-bottom-right',
-          type: 'is-danger',
-        } );
-      }
+      this.editNewsArticle( {
+        id: this.currentNewsId, title: this.title, content: this.content, author: this.author
+      } );
     },
 
     goBack() {
@@ -67,7 +64,7 @@ const NewsEdit = {
 
 function mapComputedToGetters() {
   return mapGetters( {
-    isLoading: 'isCreatingNews',
+    isLoading: 'isUpdatingNews',
   } );
 }
 

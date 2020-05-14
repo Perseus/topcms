@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   "extends": [
     "airbnb",
@@ -6,6 +8,17 @@ module.exports = {
     "import/resolver": {
       "node": {
         "extensions": [ ".js", ".ts", ".d.ts" ],
+        "paths": ["src"],
+        "moduleDirectory": [ 'node_modules', 'src/*/**' ],
+      },
+      alias: {
+        map: [
+          ['@containers', path.join(__dirname, 'src/containers')],
+          ['@services', path.join(__dirname, 'src/services')],
+          ['@store', path.join(__dirname, 'src/store')],
+          ['@components', path.join(__dirname, 'src/components')]
+        ],
+        extensions: [ ".js", ".ts", ".d.ts", ".vue" ],
       }
     }
   },
@@ -144,7 +157,7 @@ module.exports = {
     "import/no-extraneous-dependencies": [
       "error", 
       { 
-        "devDependencies": [ "src/build/*", "vue.config.js" ]
+        "devDependencies": [ "src/build/*", "vue.config.js", "tests/*/**" ]
       }
     ],
     "import/no-cycle": [

@@ -1,83 +1,28 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <form>
-        <b-field
-          :type="{ 'is-danger': errors.has('soloExp') }"
-          :message="errors.first('soloExp')"
-          label="Solo EXP"
-        >
-          <b-numberinput
-            v-validate="'required'"
-            name="soloExp"
-            :value="serverRates.solo"
-            v-model="serverRates.solo"
-          ></b-numberinput>
-        </b-field>
-        <b-field
-          :type="{ 'is-danger': errors.has('partyExp') }"
-          :message="errors.first('partyExp')"
-          name="partyExp"
-          label="Party EXP"
-        >
-          <b-numberinput
-            v-validate="'required'"
-            name="partyExp"
-            :value="serverRates.party"
-            v-model="serverRates.party"
-          ></b-numberinput>
-        </b-field>
-        <b-field
-          :type="{ 'is-danger': errors.has('dropRate') }"
-          :message="errors.first('dropRate')"
-          name="dropRate"
-          label="Drop Rate"
-        >
-          <b-numberinput
-            v-validate="'required'"
-            name="dropRate"
-            :value="serverRates.drop"
-            v-model="serverRates.drop"
-          ></b-numberinput>
-        </b-field>
-        <b-field
-          :type="{ 'is-danger': errors.has('shipExp') }"
-          :message="errors.first('shipExp')"
-          name="shipExp"
-          label="Ship EXP"
-        >
-          <b-numberinput
-            v-validate="'required'"
-            name="shipExp"
-            :value="serverRates.ship"
-            v-model="serverRates.ship"
-          ></b-numberinput>
-        </b-field>
-        <b-field
-          :type="{ 'is-danger': errors.has('fairyExp') }"
-          :message="errors.first('fairyExp')"
-          name="fairyExp"
-          label="Fairy EXP"
-        >
-          <b-numberinput
-            v-validate="'required'"
-            name="fairyExp"
-            :value="serverRates.fairy"
-            v-model="serverRates.fairy"
-          ></b-numberinput>
-        </b-field>
-        <b-button
-          class="edit-rates-btn"
-          type="is-primary"
-          @click="updateServerRates"
-        >Edit Server Rates</b-button>
-      </form>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(updateServerRates)">
+          <TInput label="Solo EXP" v-model="serverRates.solo" name="Solo EXP" rules="required|numeric" />
+          <TInput label="Party EXP" v-model="serverRates.party" name="Party EXP" rules="required|numeric" />
+          <TInput label="Drop Rate" v-model="serverRates.drop" name="Drop Rate" rules="required|numeric" />
+          <TInput label="Ship EXP" v-model="serverRates.ship" name="Ship EXP" rules="required|numeric" />
+          <TInput label="Fairy EXP" v-model="serverRates.fairy" name="Fairy EXP" rules="required|numeric" />
+          <b-button
+            class="edit-rates-btn"
+            type="is-primary"
+            native-type="submit"
+          >Edit Server Rates</b-button>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
       
 
 <script>
+import TInput from '@/components/ValidationInputs/TInput.vue';
+
 export default {
   name: "server-rate-update-modal",
   props: {
@@ -85,6 +30,9 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  components: {
+    TInput,
   },
   data() {
     return {
@@ -100,12 +48,8 @@ export default {
     }
   },
   methods: {
-    async updateServerRates() {
-      const didFormValidationSucceed = await this.$validator.validateAll();
-      if (!didFormValidationSucceed) {
-        return;
-      }
-
+    updateServerRates() {
+      console.log(this.rates, this.serverRates);
       this.$emit("handleServerRateUpdate", { rates: this.serverRates });
     }
   }

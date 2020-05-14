@@ -1,22 +1,14 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
-import clip from 'text-clipper';
 
-
+import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
 import ActionTypes from '../../store/types/ActionTypes';
-import ServerInfo from '../../components/ServerInfo/ServerInfo.vue';
-import StaffStatusContainer from '../../components/StaffStatusContainer/StaffStatusContainer.vue';
-import ServerRatesContainer from '../../components/ServerRates/ServerRates.vue';
-import SidebarNavigationContainer from '../../components/SidebarNavigationContainer/SidebarNavigationContainer.vue';
 import GeneralConfig from '../../config/GeneralConfig';
 import { getDateInWordsToNow } from '../../utils/DateUtils';
 
 const DownloadList = {
   name: 'download-list',
   components: {
-    'server-info': ServerInfo,
-    'staff-status-container': StaffStatusContainer,
-    'server-rates-container': ServerRatesContainer,
-    'sidebar-navigation-container': SidebarNavigationContainer,
+    'server-detail-structure': ServerDetailStructure,
   },
   created() {
     this.getSiteDownloads();
@@ -55,6 +47,12 @@ const DownloadList = {
 
     getDownloadSections() {
       return GeneralConfig.DOWNLOAD_SECTIONS;
+    },
+
+    areThereAnyDownloadsForSection( section ) {
+      const downloads = this.getDownloads( section );
+
+      return ( downloads.length > 0 );
     },
 
     getSourceIcon( download ) {
@@ -120,8 +118,7 @@ function mapStateToComputed() {
 
 function getStateGetters() {
   return mapGetters( {
-    isRetrievingGameStats: 'isRetrievingGameStats',
-    gameStats: 'gameStats',
+    isRetrievingGameStats: 'isRetrievingGameStats'
   } );
 }
 

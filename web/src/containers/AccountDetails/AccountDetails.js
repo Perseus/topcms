@@ -1,6 +1,8 @@
 import { mapState, mapActions } from 'vuex';
 import ActionTypes from '../../store/types/ActionTypes';
 
+import TInput from '../../components/ValidationInputs/TInput.vue';
+
 const AccountDetails = {
   name: 'account-details',
   data() {
@@ -9,6 +11,10 @@ const AccountDetails = {
       oldPassword: '',
       newPassword: '',
     };
+  },
+
+  components: {
+    TInput
   },
 
   mounted() {

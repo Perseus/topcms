@@ -19,6 +19,7 @@ export const newsArticles = resolve( {
         }
       ]
     } );
+
     return {
       data: result,
     };
@@ -45,6 +46,27 @@ export const downloads = resolve( {
   },
 } );
 
+/**
+ * Returns a list of all the Authors in the DB
+ */
+export const authors = resolve( {
+  async action() {
+    const result = await Author.findAll( {
+      include: [
+        {
+          model: NewsArticle,
+        },
+        {
+          model: Download,
+        }
+      ]
+    } );
+
+    return {
+      data: result
+    };
+  }
+} );
 /**
  * Returns data about a single download
  *

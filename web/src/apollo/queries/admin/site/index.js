@@ -4,9 +4,12 @@ import { commonQueryFields } from '../../../utils';
 export const getAuthorsQuery = gql`
     query getAuthors {
         authors {
-            id
-            name
-            createdAt
+            ${commonQueryFields()}
+            data {
+                id
+                name
+                createdAt
+            }
         }
     }
 `;
@@ -14,17 +17,20 @@ export const getAuthorsQuery = gql`
 export const getDownloadsQuery = gql`
     query getDownloads {
         downloads {
-            id
-            title
-            url
-            section
-            description
-            version
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                url
+                section
+                description
+                version
+                author {
+                    id
+                    name
+                }
+                createdAt
             }
-            createdAt
         }
     }
 `;
@@ -34,14 +40,17 @@ export const getDownloadsQuery = gql`
 export const getNewsArticlesQuery = gql`
     query getNewsArticles {
         newsArticles {
-            id
-            title
-            content
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                content
+                author {
+                    id
+                    name
+                }
+                createdAt
             }
-            createdAt
         }
     }
 `;
@@ -53,14 +62,17 @@ export const getNewsArticlesQuery = gql`
 export const getNewsArticleQuery = gql`
     query getNewsArticle($id: Int!) {
         newsArticle(id: $id) {
-            id
-            title
-            content
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                content
+                author {
+                    id
+                    name
+                }
+                createdAt
             }
-            createdAt
         }
     }
 `;

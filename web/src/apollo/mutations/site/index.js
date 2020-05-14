@@ -4,8 +4,11 @@ import { commonQueryFields } from '../../utils';
 export const updateAuthorMutation = gql`
     mutation updateAuthor($id: Int!, $name: String!) {
         editAuthor(id: $id, name: $name) {
-            id
-            name
+            ${commonQueryFields()}
+            data {
+                id
+                name
+            }
         }
     }
 `;
@@ -26,7 +29,10 @@ export const createAuthorMutation = gql`
 export const deleteAuthorMutation = gql`
     mutation deleteAuthor($id: Int!) {
         deleteAuthor(id: $id) {
-            id
+            ${commonQueryFields()}
+            data {
+                id
+            }
         }
     }
 `;
@@ -34,16 +40,19 @@ export const deleteAuthorMutation = gql`
 export const createDownloadMutation = gql`
     mutation createDownload($title: String!, $url: String!, $author: Int!, $section: String!, $description: String!, $version: String!) {
         createDownload(title: $title, url: $url, author: $author, section: $section, description: $description, version: $version) {
-            id
-            title
-            url
-            description
-            version
-            section
-            createdAt
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                url
+                description
+                version
+                section
+                createdAt
+                author {
+                    id
+                    name
+                }
             }
         }
     }
@@ -52,16 +61,19 @@ export const createDownloadMutation = gql`
 export const editDownloadMutation = gql`
     mutation editDownload($id: Int!, $title: String!, $url: String!, $author: Int!, $section: String!, $description: String!, $version: String!) {
         editDownload(id: $id, title: $title, url: $url, author: $author, section: $section, description: $description, version: $version) {
-            id
-            title
-            url
-            description
-            version
-            section
-            createdAt
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                url
+                description
+                version
+                section
+                createdAt
+                author {
+                    id
+                    name
+                }
             }
         }
     }
@@ -70,7 +82,10 @@ export const editDownloadMutation = gql`
 export const deleteDownloadMutation = gql`
     mutation deleteDownload($id: Int!) {
         deleteDownload(id: $id) {
-            id
+            ${commonQueryFields()}
+            data {
+                id
+            }
         }
     }
 `;
@@ -78,14 +93,17 @@ export const deleteDownloadMutation = gql`
 export const createNewsArticleMutation = gql`
     mutation createNewsArticle($input: NewsArticleInput!) {
         createNewsArticle(input: $input) {
-            id
-            title
-            content
-            createdAt
-            updatedAt
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                content
+                createdAt
+                updatedAt
+                author {
+                    id
+                    name
+                }
             }
         }
     }
@@ -95,7 +113,10 @@ export const createNewsArticleMutation = gql`
 export const deleteNewsArticleMutation = gql`
     mutation deleteNewsArticle($id: Int!) {
         deleteNewsArticle(id: $id) {
-            id
+            ${commonQueryFields()}
+            data {
+                id
+            }
         }
     }
 `;
@@ -103,13 +124,16 @@ export const deleteNewsArticleMutation = gql`
 export const updateNewsArticleMutation = gql`
     mutation editNewsArticle($input: NewsArticleInput!) {
         editNewsArticle(input: $input) {
-            id
-            title
-            content
-            createdAt
-            author {
+            ${commonQueryFields()}
+            data {
                 id
-                name
+                title
+                content
+                createdAt
+                author {
+                    id
+                    name
+                }
             }
         }
     }

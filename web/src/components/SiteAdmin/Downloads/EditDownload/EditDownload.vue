@@ -1,119 +1,93 @@
 <template>
-  <form @submit.prevent="handleEditDownload">
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Edit Download</p>
-      </header>
-      <section class="modal-card-body">
-        <b-field label="Title">
-          <b-input
-            type="text"
-            :value="title"
-            name="title"
-            v-validate="'required'"
-            placeholder="Download title"
-            v-model="title"
-            required
-          ></b-input>
-        </b-field>
+    <ValidationObserver v-slot="{ handleSubmit }">
+    <form @submit.prevent="handleSubmit(handleEditDownload)">
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit Download</p>
+        </header>
+        <section class="modal-card-body">
+          <TInput v-model="title" name="Download Title" label="Title" rules="required:|min:3" />
+          <TInput v-model="url" name="Download URL" label="URL" rules="required|is_url" />
 
-        <b-field label="URL">
-          <b-input
-            type="text"
-            :value="url"
-            name="url"
-            v-validate="'required|url'"
-            placeholder="Download URL"
-            v-model="url"
-            required
-          ></b-input>
-        </b-field>
+          <ValidationProvider
+              rules="required"
+              immediate
+              v-slot="{ errors, valid }"
+              name="Description">
+              <b-field
+                label="Description"
+                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                :message="errors"
+              >
+                <froala
+                  id="edit"
+                  :tag="'textarea'"
+                  name="description"
+                  v-model="description"
+                  required
+                ></froala>
+              </b-field>
+            </ValidationProvider>
 
-        <b-field
-          label="Description"
-          :type="{ 'is-danger': errors.has('description') }"
-          :message="errors.first('description')"
-        >
-          <froala
-            id="edit"
-            :tag="'textarea'"
-            v-validate="'required'"
-            name="description"
-            v-model="description"
-          ></froala>
-        </b-field>
 
-        <b-field label="Section">
-          <b-dropdown v-model="section" aria-role="list">
-            <button class="button is-primary" type="button" slot="trigger">
-              <span>{{ section }}</span>
-              <b-icon icon="caret-down" size="is-small"></b-icon>
-            </button>
-            <b-dropdown-item
-              v-for="(downloadSection, index) in downloadSections"
-              :key="index"
-              :value="downloadSection"
-              aria-role="listitem"
-            >{{downloadSection }}</b-dropdown-item>
-          </b-dropdown>
-        </b-field>
+          <b-field label="Section">
+            <b-dropdown v-model="section" aria-role="list">
+              <button class="button is-primary" type="button" slot="trigger">
+                <span>{{ section }}</span>
+                <b-icon icon="caret-down" size="is-small"></b-icon>
+              </button>
+              <b-dropdown-item
+                v-for="(downloadSection, index) in downloadSections"
+                :key="index"
+                :value="downloadSection"
+                aria-role="listitem"
+              >{{ downloadSection }}</b-dropdown-item>
+            </b-dropdown>
+          </b-field>
 
-        <b-field
-          label="Version"
-          :type="{ 'is-danger': errors.has('version') }"
-          :message="errors.first('version')"
-        >
-          <b-input
-            type="text"
-            :value="version"
-            name="version"
-            v-validate="{ required: true }"
-            placeholder="Download Version"
-            v-model="version"
-            required
-          ></b-input>
-        </b-field>
+        
+          <TInput label="Version" v-model="version" name="Download Version" rules="required" />
 
-        <b-field label="Author" class="select-author">
-          <h3
-            class="is-size-6 has-text-danger"
-            v-if="authors.length === 0"
-          >No authors found! Please create an author.</h3>
-          <b-dropdown v-else v-model="author" aria-role="list">
-            <button class="button is-primary" type="button" slot="trigger">
-              <span>{{ author.name }}</span>
-              <b-icon icon="caret-down" size="is-small"></b-icon>
-            </button>
-            <b-dropdown-item
-              v-for="(authorItem) in authors"
-              :key="authorItem.id"
-              :value="authorItem"
-              aria-role="listitem"
-            >{{ authorItem.name }}</b-dropdown-item>
-          </b-dropdown>
-        </b-field>
-        <span
-          v-if="downloadEditingError.length > 0"
-          class="has-text-danger is-size-6"
-        >{{ downloadEditingError }}</span>
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button" type="button" @click="$parent.close()">Close</button>
-        <button
-          :class="[ 'button', 'is-success', { 'is-loading': isLoading } ]"
-          type="submit"
-        >Edit Download</button>
-      </footer>
-    </div>
-  </form>
+          <b-field label="Author" class="select-author">
+            <h3
+              class="is-size-6 has-text-danger"
+              v-if="authors.length === 0"
+            >No authors found! Please create an author.</h3>
+            <b-dropdown v-else v-model="author" aria-role="list">
+              <button class="button is-primary" type="button" slot="trigger">
+                <span>{{ author.name }}</span>
+                <b-icon icon="caret-down" size="is-small"></b-icon>
+              </button>
+              <b-dropdown-item
+                v-for="(authorItem) in authors"
+                :key="authorItem.id"
+                :value="authorItem.id"
+                aria-role="listitem"
+              >{{ authorItem.name }}</b-dropdown-item>
+            </b-dropdown>
+          </b-field>
+
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button" type="button" @click="$parent.close()">Close</button>
+          <button
+            :class="[ 'button', 'is-success', { 'is-loading': isLoading } ]"
+            type="submit"
+          >Edit Download</button>
+        </footer>
+      </div>
+    </form>
+  </ValidationObserver>
 </template>
 
 
 <script>
-import GeneralConfig from "../../../../config/GeneralConfig";
+import GeneralConfig from '../../../../config/GeneralConfig';
+import { ValidationProvider } from 'vee-validate';
+import TInput from '@components/ValidationInputs/TInput';
 
 export default {
-  name: "edit-download-modal",
+  name: 'edit-download-modal',
   props: {
     isLoading: {
       type: Boolean,
@@ -125,7 +99,7 @@ export default {
     },
     downloadEditingError: {
       type: String,
-      default: ""
+      default: ''
     },
     authors: {
       type: Array,
@@ -134,16 +108,21 @@ export default {
   },
   data() {
     return {
-      id: "",
-      title: "",
-      author: "",
-      url: "",
-      description: "",
-      version: "",
-      section: "Client"
+      id: '',
+      title: '',
+      author: '',
+      url: '',
+      description: '',
+      version: '',
+      section: 'Client'
     };
   },
 
+ components: {
+    TInput,
+    ValidationProvider
+  },
+  
   computed: {
     downloadSections() {
       return GeneralConfig.DOWNLOAD_SECTIONS;
@@ -163,10 +142,10 @@ export default {
   },
   methods: {
     handleEditDownload() {
-      if (this.title === "" || this.author === "" || this.url === "") {
+      if (this.title === '' || this.author === '' || this.url === '') {
         return;
       }
-      this.$emit("editDownload", {
+      this.$emit('editDownload', {
         id: this.id,
         title: this.title,
         author: this.author,

@@ -4,12 +4,13 @@
     :name="$attrs.name || $attrs.label"
     :rules="rules"
     v-slot="{ errors, valid }"
+    :mode="$attrs.mode || 'eager'"
     >
     <b-field
       v-bind="$attrs"
       :type="{ 'is-danger': errors[0], 'is-success': valid }"
       :message="errors">
-      <b-input v-model="innerValue" v-bind="$attrs"></b-input>
+      <b-input v-model="innerValue" v-bind="$attrs" autocomplete="off" :data-test="$attrs.name"></b-input>
     </b-field>
   </ValidationProvider>
 </template>
@@ -55,6 +56,12 @@ export default {
     if ( this.value ) {
       this.innerValue = this.value;
     }
-  }
+  },
+
+  mounted() {
+    if ( this.value ) {
+      this.innerValue = this.value;
+    }
+  },
 }
 </script>

@@ -2,16 +2,16 @@ import _ from 'lodash';
 import MutationTypes from '../../types/MutationTypes';
 
 const Mutations = {
-  [ MutationTypes.FETCHING_SITE_INFO ] ( state ) {
+  [ MutationTypes.FETCHING_SITE_INFO ]( state ) {
     state.fetchingSiteInfo = true;
   },
-  [ MutationTypes.FETCHED_SITE_AUTHORS ] ( state, { authors } ) {
+  [ MutationTypes.FETCHED_SITE_AUTHORS ]( state, { authors } ) {
     state.authors = authors;
   },
-  [ MutationTypes.FETCHED_SITE_DOWNLOADS ] ( state, { downloads } ) {
+  [ MutationTypes.FETCHED_SITE_DOWNLOADS ]( state, { downloads } ) {
     state.downloads = downloads;
   },
-  [ MutationTypes.FETCHED_SITE_NEWS ] ( state, { newsArticles, newsArticle } ) {
+  [ MutationTypes.FETCHED_SITE_NEWS ]( state, { newsArticles, newsArticle } ) {
     if ( newsArticle ) {
       if ( !_.find( state.news, { id: newsArticle.id } ) ) {
         state.news.push( newsArticle );
@@ -22,14 +22,14 @@ const Mutations = {
       state.news = newsArticles;
     }
   },
-  [ MutationTypes.FETCHED_SITE_INFO ] ( state ) {
+  [ MutationTypes.FETCHED_SITE_INFO ]( state ) {
     state.fetchingSiteInfo = false;
     state.fetchedSiteInfo = true;
   },
-  [ MutationTypes.CREATING_SITE_INFO ] ( state, payload ) {
+  [ MutationTypes.CREATING_SITE_INFO ]( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isCreating = true;
   },
-  [ MutationTypes.CREATED_SITE_INFO ] ( state, payload ) {
+  [ MutationTypes.CREATED_SITE_INFO ]( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isCreating = false;
 
     const hasError = _.get( payload, 'hasError', false );
@@ -51,18 +51,7 @@ const Mutations = {
       state.news.push( payload.data );
     }
   },
-  [ MutationTypes.UPDATING_SITE_INFO ] ( state, payload ) {
-    state[ `${payload.type}ProcessingState` ].isUpdating = true;
-  },
-  [ MutationTypes.UPDATED_SITE_INFO ] ( state, payload ) {
-    state[ `${payload.type}ProcessingState` ].isUpdating = false;
-
-    const hasError = _.get( payload, 'hasError', false );
-    if ( hasError ) {
-      state[ `${payload.type}ProcessingState` ].errors = payload.error;
-      return;
-    }
-
+  [ MutationTypes.UPDATED_SITE_INFO ]( state, payload ) {
     if ( payload.type === 'author' ) {
       const authorIndex = _.findIndex( state.authors, author => author.id === payload.id );
       state.authors[ authorIndex ].name = payload.name;
@@ -70,12 +59,7 @@ const Mutations = {
 
     if ( payload.type === 'download' ) {
       const downloadIndex = _.findIndex( state.downloads, download => download.id === payload.id );
-      state.downloads[ downloadIndex ].title = payload.title;
-      state.downloads[ downloadIndex ].url = payload.url;
-      state.downloads[ downloadIndex ].author = payload.author;
-      state.downloads[ downloadIndex ].description = payload.description;
-      state.downloads[ downloadIndex ].version = payload.version;
-      state.downloads[ downloadIndex ].section = payload.section;
+      Object.assign( state.downloads[ downloadIndex ], payload );
     }
 
     if ( payload.type === 'news' ) {
@@ -85,10 +69,10 @@ const Mutations = {
       state.news[ newsIndex ].author = payload.author;
     }
   },
-  [ MutationTypes.DELETING_SITE_INFO ] ( state, payload ) {
+  [ MutationTypes.DELETING_SITE_INFO ]( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isDeleting = true;
   },
-  [ MutationTypes.DELETED_SITE_INFO ] ( state, payload ) {
+  [ MutationTypes.DELETED_SITE_INFO ]( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isDeleting = false;
 
     const hasError = _.get( payload, 'hasError', false );

@@ -1,7 +1,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import ActionTypes from '../../store/types/ActionTypes';
 import RouteNames from '../../config/RouteNames';
-import TInput from '../../components/ValidationInputs/BInputWithValidation.vue';
+import TInput from '../../components/ValidationInputs/TInput.vue';
 
 const Login = {
   name: 't-login',
@@ -17,30 +17,7 @@ const Login = {
   computed: {
     ...getStateGetters(),
   },
-  watch: {
-    authErrors( newVal ) {
-      if ( newVal.length !== 0 ) {
-        const errors = newVal;
-        errors.forEach( ( error ) => {
-          if ( error.code === 'INCORRECT_CREDENTIALS' ) {
-            this.$buefy.toast.open( {
-              duration: 3000,
-              message: 'The username or the password is incorrect',
-              position: 'is-top',
-              type: 'is-danger',
-            } );
-          }
 
-          if ( error.code === 'CONSTRAINT_ERROR' ) {
-            this.errors.add( {
-              field: error.field,
-              msg: error.msg
-            } );
-          }
-        } );
-      }
-    }
-  },
 
   methods: {
     ...getActionDispatchers(),
@@ -71,7 +48,6 @@ function getActionDispatchers() {
 function getStateGetters() {
   return mapGetters( {
     isUserLoggingIn: 'isUserLoggingIn',
-    authErrors: 'authErrors',
   } );
 }
 

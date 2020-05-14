@@ -33,6 +33,7 @@
         @createAuthor="handleCreateAuthor"
         :isLoading="isCreatingAuthor"
         :authorCreationError="authorCreationError"
+        v-if="shouldShowCreateAuthorModal"
       ></create-author-modal>
     </b-modal>
     <b-modal :active="shouldShowEditAuthorModal" @close="handleCloseEditModal" has-modal-card>
@@ -42,6 +43,7 @@
         :isLoading="isEditingAuthor"
         :authorDetails="editAuthorModalDetails"
         :authorEditingError="authorEditingError"
+        v-if="shouldShowEditAuthorModal"
       ></edit-author-modal>
     </b-modal>
   </section>

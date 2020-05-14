@@ -48,6 +48,7 @@ async function graphQLRequest( dispatch, type = 'query', requestSchema, variable
         success, message, code, errors, data
       } = response[ firstDataKey ];
       if ( success !== true || code !== 'OK' ) {
+        console.log( 'bruh1' );
         throw new TError( {
           success,
           message,
@@ -97,6 +98,19 @@ class Request {
 
   query( requestSchema, variables, options ) {
     return this.graphQLRequest( 'query', requestSchema, variables, options );
+  }
+
+  isRequestInProgress( requestName ) {
+    const requestsInProgress = this.store.state.application.currentRequestsInProgress;
+    let isRequestInProgress = false;
+
+    requestsInProgress.forEach( ( request ) => {
+      if ( request.includes( requestName ) ) {
+        isRequestInProgress = true;
+      }
+    } );
+
+    return isRequestInProgress;
   }
 }
 

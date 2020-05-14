@@ -109,6 +109,7 @@ const Site = {
 
     handleShowEditAuthor( id ) {
       this.shouldShowEditAuthorModal = true;
+      console.log( 'editing author', id, this.authors );
       const extractedAuthor = this.authors.filter( author => author.id === id );
       [ this.editAuthorModalDetails ] = extractedAuthor;
     },

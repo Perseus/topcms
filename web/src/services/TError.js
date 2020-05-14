@@ -9,6 +9,8 @@ export default class TError extends Error {
     this.name = 'TError';
     this.message = error.message;
     this.params = error.params;
+    this.success = error.success;
+    this.errors = error.errors;
     this.stack = ( new Error( error.message ) ).stack;
   }
 }

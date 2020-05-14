@@ -1,6 +1,8 @@
 import { mapState, mapActions, mapGetters } from 'vuex';
 import _ from 'lodash';
+import { ValidationProvider } from 'vee-validate';
 
+import TInput from '@components/ValidationInputs/TInput.vue';
 import ActionTypes from '../../../../store/types/ActionTypes';
 
 const NewsCreate = {
@@ -12,6 +14,11 @@ const NewsCreate = {
       content: '',
       author: {},
     };
+  },
+
+  components: {
+    TInput,
+    ValidationProvider
   },
 
   created() {
@@ -28,23 +35,12 @@ const NewsCreate = {
   methods: {
     ...mapActionsToMethods(),
 
-    async handleCreateNews() {
-      const didFormValidationSucceed = await this.$validator.validateAll();
-      if ( !didFormValidationSucceed || !this.author ) {
+    handleCreateNews() {
+      if ( !this.author ) {
         return;
       }
 
-      try {
-        await this.createNewsArticle( { title: this.title, content: this.content, author: this.author } );
-      } catch ( err ) {
-        const errorMessage = process.env.NODE_ENV === 'development' ? err : 'There was an error while trying to create a news article.';
-        this.$buefy.toast.open( {
-          duration: 5000,
-          message: errorMessage,
-          position: 'is-bottom-right',
-          type: 'is-danger',
-        } );
-      }
+      this.createNewsArticle( { title: this.title, content: this.content, author: this.author } );
     }
   },
 };

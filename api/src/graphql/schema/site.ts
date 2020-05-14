@@ -22,7 +22,7 @@ export const typeDefs = gql`
     editNewsArticle(input: NewsArticleInput!): NewsArticleResponse @isAuthenticated(role: SITE)
     editDownload(id: Int!, title: String, url: String, author: Int, section: String, description: String, version: String): DownloadResponse
     deleteAuthor(id: Int!): AuthorResponse @isAuthenticated(role: SITE)
-    deleteDownload(id: Int!): Download @isAuthenticated(role: SITE)
+    deleteDownload(id: Int!): DownloadResponse @isAuthenticated(role: SITE)
     deleteNewsArticle(id: Int!): NewsArticleResponse @isAuthenticated(role: SITE)
     cacheItemInfo: [ ItemInfoObject ] @isAuthenticated(role: ADMIN)
   }

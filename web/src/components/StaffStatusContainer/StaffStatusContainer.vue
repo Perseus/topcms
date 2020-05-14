@@ -9,7 +9,10 @@
         v-if="isFetchingStaffInfo"
       ></b-loading>
       <ul class="staff-list" v-else>
-        <li class="staff-item" v-for="(staff) in staffInfo" :key="staff.name">
+        <div class="no-staff" v-if="staffInfo.length === 0">
+          There are currently no staff characters online
+        </div>
+        <li class="staff-item" v-for="(staff) in staffInfo" :key="staff.name" v-else>
           <span class="is-size-6 has-text-info">[{{ staff.type }}] {{ staff.name }}</span>
           <div
             :class="['staff-indicator', { 'has-background-success': isStaffOnline( staff.is_online ), 'has-background-danger': !isStaffOnline( staff.is_online ) } ]"
