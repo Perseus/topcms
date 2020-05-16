@@ -13,7 +13,8 @@ const routerPlugin = ( router, store ) => {
 
 function _changeRoute( router, newRoute ) {
   const { currentRoute: newRouteName, metaData, prevRoute } = newRoute;
-  const { route: prevRouteName, metaData: prevMeta } = prevRoute;
+  const { metaData: prevMeta } = prevRoute;
+  const prevRouteName = router.history.current.name;
 
   if ( newRouteName !== prevRouteName || ( newRouteName === prevRouteName && !_.isEqual( prevMeta, metaData ) ) ) {
     router.push( {

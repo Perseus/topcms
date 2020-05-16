@@ -83,7 +83,7 @@ export const updateUserFromAdmin = resolve( {
     id: Joi.number().required(),
     email: Joi.string().email().optional(),
     gm: Joi.number().optional(),
-    password: Joi.string().optional()
+    password: Joi.string().min( 5 ).optional()
   },
   async action( { args } ) {
     const {

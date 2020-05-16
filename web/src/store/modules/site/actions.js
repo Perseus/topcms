@@ -17,7 +17,9 @@ import { handleSiteItemCreationErrors } from '../../helpers/site';
 const Actions = {
   async [ ActionTypes.getSiteAuthors ]( { commit } ) {
     try {
-      const { authors: authorsResponse } = await request.query( getAuthorsQuery );
+      const { authors: authorsResponse } = await request.query( getAuthorsQuery, null, {
+        fetchPolicy: 'network-only'
+      } );
 
       commit( MutationTypes.FETCHED_SITE_AUTHORS, { authors: authorsResponse.data } );
     } catch ( err ) {
@@ -27,7 +29,9 @@ const Actions = {
 
   async [ ActionTypes.getSiteDownloads ]( { commit } ) {
     try {
-      const { downloads: downloadsResponse } = await request.query( getDownloadsQuery );
+      const { downloads: downloadsResponse } = await request.query( getDownloadsQuery, null, {
+        fetchPolicy: 'network-only'
+      } );
 
       commit( MutationTypes.FETCHED_SITE_DOWNLOADS, { downloads: downloadsResponse.data } );
     } catch ( err ) {
@@ -37,7 +41,9 @@ const Actions = {
 
   async [ ActionTypes.getSiteNewsArticles ]( { commit } ) {
     try {
-      const { newsArticles: response } = await request.query( getNewsArticlesQuery );
+      const { newsArticles: response } = await request.query( getNewsArticlesQuery, null, {
+        fetchPolicy: 'network-only'
+      } );
 
       commit( MutationTypes.FETCHED_SITE_NEWS, { newsArticles: response.data } );
     } catch ( err ) {
@@ -45,12 +51,10 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.getAllSiteInfo ]( { commit, dispatch, state } ) {
-    commit( MutationTypes.FETCHING_SITE_INFO );
-    await dispatch( ActionTypes.getSiteAuthors, { isFetchingAll: true } );
-    await dispatch( ActionTypes.getSiteDownloads, { isFetchingAll: true } );
-    await dispatch( ActionTypes.getSiteNewsArticles, { isFetchingAll: true } );
-    commit( MutationTypes.FETCHED_SITE_INFO );
+  async [ ActionTypes.getAllSiteInfo ]( { dispatch } ) {
+    await dispatch( ActionTypes.getSiteAuthors );
+    await dispatch( ActionTypes.getSiteDownloads );
+    await dispatch( ActionTypes.getSiteNewsArticles );
   },
 
   async [ ActionTypes.createSiteAuthor ]( { commit }, payload ) {
@@ -84,8 +88,14 @@ const Actions = {
 
       commit( MutationTypes.DELETED_SITE_INFO, { type: 'author', id } );
     } catch ( err ) {
-      const extractedErrors = extractGraphQLErrors( err );
-      commit( MutationTypes.DELETED_SITE_INFO, { type: 'author', hasError: true, error: extractedErrors } );
+      if ( err.code === 'db.FK_CONSTRAINT' ) {
+        Snackbar.open( {
+          message: 'There are other news articles or downloads that were created by this author. Please delete those before deleting the author.',
+          type: 'is-danger',
+          position: 'is-top',
+          duration: 5000
+        } );
+      }
     }
   },
 

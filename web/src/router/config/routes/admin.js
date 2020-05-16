@@ -13,7 +13,7 @@ import AdminCommerce from '../../../containers/Admin/Commerce/AdminCommerceIndex
 import AdminCommerceCategories from '../../../containers/Admin/Commerce/Categories/Categories.vue';
 import RouteNames from '../../../config/RouteNames';
 
-import { adminGuard } from '../../guards';
+import { adminGuard, siteGuard } from '../../guards';
 
 export default {
   name: RouteNames.ADMIN.DASHBOARD,
@@ -25,6 +25,7 @@ export default {
       alias: '/',
       name: RouteNames.ADMIN.SITE,
       component: AdminSite,
+      beforeEnter: siteGuard
     },
     {
       path: '/admin/game',
@@ -55,7 +56,8 @@ export default {
           path: '/admin/game/character/:id',
           component: AdminGameCharacter,
         }
-      ]
+      ],
+      beforeEnter: adminGuard
     },
     {
       path: 'commerce',
@@ -66,18 +68,21 @@ export default {
           path: 'categories',
           component: AdminCommerceCategories,
         }
-      ]
+      ],
+
+      beforeEnter: adminGuard
     },
     {
       path: '/admin/news/create',
       name: RouteNames.ADMIN.NEWS.CREATE,
       component: NewsCreate,
+      beforeEnter: siteGuard,
     },
     {
       path: '/admin/news/edit/:id/',
       name: RouteNames.ADMIN.NEWS.EDIT,
-      component: NewsEdit
+      component: NewsEdit,
+      beforeEnter: siteGuard
     }
   ],
-  beforeEnter: adminGuard
 };

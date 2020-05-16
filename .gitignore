@@ -15,8 +15,7 @@ api/package-lock.json
 api/database/config/config.json
 web/.env
 api/doc
-api/data/ItemInfoCache/*.dat
 api/dist
 web/dist
 api/src/frontend
-s
+api/src/data/ItemInfoCache/*

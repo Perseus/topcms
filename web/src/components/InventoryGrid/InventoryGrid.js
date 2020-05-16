@@ -32,22 +32,11 @@ const InventoryGrid = {
 
   methods: {
     getItemIcon( item ) {
-      try {
-        const itemIcon = item.itemInfo[ ItemAttributeMap.ICON ];
-        return itemIcon;
-      } catch ( err ) {
-        return '';
-      }
+      return item.itemInfo.ICON;
     },
 
     doesItemHaveIcon( item ) {
-      try {
-        const itemIcon = item.itemInfo[ ItemAttributeMap.ICON ];
-
-        return Boolean( itemIcon );
-      } catch ( err ) {
-        return false;
-      }
+      return Boolean( item.itemInfo.ICON );
     },
 
     getEmptyGridItems() {
@@ -62,12 +51,17 @@ const InventoryGrid = {
         return '';
       }
 
-      const itemName = item.itemInfo[ ItemAttributeMap.NAME ];
+      console.log( item.itemInfo );
+      const itemName = item.itemInfo.NAME;
 
       return itemName;
     },
 
     getItemAtSlot( index ) {
+      if ( !this.inventoryContent || !Array.isArray( this.inventoryContent ) ) {
+        return;
+      }
+
       const item = this.inventoryContent.filter( inventoryItem => Number( inventoryItem.slot ) === index );
       if ( item && item[ 0 ] ) {
         return item[ 0 ];

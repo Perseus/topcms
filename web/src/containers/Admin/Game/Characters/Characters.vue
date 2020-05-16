@@ -1,5 +1,5 @@
 <template>
-  <div class="filtered-accounts">
+  <div class="filtered-characters">
     <h1 class="is-size-3">Results</h1>
     <b-table
       :data="filteredCharacters"
@@ -16,8 +16,8 @@
       aria-page-label="Page"
       aria-current-label="Current page"
       @page-change="handlePageChange"
+      v-if="filteredCharacters.length > 0"
     >
-      ssssssssssssssssssssssssssssssssssssss
       <template slot-scope="props">
         <b-table-column field="id" label="ID" width="40" sortable numeric>{{ props.row.cha_id }}</b-table-column>
         <b-table-column field="name" label="Name">{{ props.row.cha_name }}</b-table-column>
@@ -38,6 +38,10 @@
         </b-table-column>
       </template>
     </b-table>
+    <div class="no-character-results" v-else>
+      No characters matching the filter found
+      <a @click.prevent="redirectToBaseAdmin" class="search-different" href=""> Search using a different filter </a> 
+    </div>
   </div>
 </template>
 

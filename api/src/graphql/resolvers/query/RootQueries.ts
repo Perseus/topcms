@@ -34,8 +34,8 @@ export const User = {
   /**
    * Fetches character details from GameDB for a User
    */
-  async character_details( obj: ResolverSuccessResponse ): Promise<Character[]> {
-    const accountID = obj.data.id;
+  async character_details( obj: UserModel ): Promise<Character[]> {
+    const accountID = obj.id;
     if ( accountID ) {
       try {
         const characterDetails = await Character.findAll( {

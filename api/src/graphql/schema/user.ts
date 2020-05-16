@@ -9,7 +9,7 @@ export const typeDefs = gql`
     charactersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredCharactersResponse @isAuthenticated(role: ADMIN)
     logout: String @isAuthenticated(role: USER)
     filteredUser(id: ID!): FilteredUserResponse
-    filteredCharacter(id: ID!): Character @isAuthenticated(role: ADMIN)
+    filteredCharacter(id: ID!): CharacterResponse @isAuthenticated(role: ADMIN)
     usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersResponse @isAuthenticated(role: ADMIN)
   }
 
@@ -46,6 +46,11 @@ export const typeDefs = gql`
   type FilteredUsersItem {
     users: [User]
     total: Int
+  }
+
+  type CharacterResponse {
+    ${getCommonResponseFields()}
+    data: Character
   }
 
   type FilteredUsersResponse {

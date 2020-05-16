@@ -87,11 +87,11 @@ Character.init( {
   map_y: DataTypes.STRING,
   look: {
     type: DataTypes.TEXT,
-    async get(): Promise<string> {
+    async get(): Promise<Record<any, any>> {
       const look = this.getDataValue( 'look' );
       const inventory = new InventoryParser( 0, look );
 
-      return JSON.stringify( await inventory.retrieveItemsFromGear() );
+      return inventory.retrieveItemsFromGear();
     },
   },
   kb_capacity: DataTypes.DECIMAL,

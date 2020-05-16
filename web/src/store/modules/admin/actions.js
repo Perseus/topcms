@@ -13,19 +13,20 @@ import {
 import { toggleUserBan, updateUserFromAdmin, resetUserSecurityCode } from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
 import socketHandler from '../../../socket';
+import { handleCharacterSearchErrors } from '../../helpers/admin';
 import RouteNames from '../../../config/RouteNames';
 
 const Actions = {
-  async [ ActionTypes.retrieveFilteredAccounts ]( { commit, dispatch }, payload ) {
+  async [ ActionTypes.retrieveFilteredAccounts ]( { commit }, payload ) {
     try {
       const { offset, filter, searchKey } = payload;
-      const response = await request.query( getFilteredAccounts, {
+      const { usersWithFilter: response } = await request.query( getFilteredAccounts, {
         offset,
         filter,
         searchKey
       } );
 
-      commit( MutationTypes.UPDATE_FILTERED_ACCOUNTS, { data: response.data.usersWithFilter, filter, searchKey } );
+      commit( MutationTypes.UPDATE_FILTERED_ACCOUNTS, { data: response.data, filter, searchKey } );
     } catch ( err ) {
       Logger.log( `Error at action retrieveFilteredAccounts: ${err}` );
     }
@@ -41,11 +42,11 @@ const Actions = {
         newBan = 0;
       }
 
-      const response = await request.mutation( toggleUserBan, {
-        id: Number( id ),
+      const { toggleUserBan: response } = await request.mutation( toggleUserBan, {
+        id: parseInt( id ),
         newBanStatus: newBan
       } );
-      commit( MutationTypes.UPDATE_USER_BAN, { id: response.data.toggleUserBan.id, banStatus: response.data.toggleUserBan.ban } );
+      commit( MutationTypes.UPDATE_USER_BAN, { id: response.data.id, banStatus: response.data.ban } );
       Snackbar.open( {
         position: 'is-top-right',
         message: 'Ban status updated!',
@@ -57,23 +58,23 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.retrieveAccountData ]( { commit, dispatch }, payload ) {
+  async [ ActionTypes.retrieveAccountData ]( { commit }, payload ) {
     try {
       const { id } = payload;
-      const response = await request.query( getAccountData, {
-        id: Number( id ),
+      const { filteredUser: response } = await request.query( getAccountData, {
+        id: parseInt( id ),
       } );
 
-      commit( MutationTypes.SET_FETCHED_ACCOUNT_DATA, { user: response.data.filteredUser } );
+      commit( MutationTypes.SET_FETCHED_ACCOUNT_DATA, { user: response.data } );
     } catch ( err ) {
       Logger.log( `Error at action retrieveAccountData: ${err} ` );
     }
   },
 
-  async [ ActionTypes.adminUpdateUserEmail ]( { commit, dispatch }, payload ) {
+  async [ ActionTypes.adminUpdateUserEmail ]( { commit }, payload ) {
     try {
       const { email, id } = payload;
-      const response = await request.mutation( updateUserFromAdmin, {
+      const { updateUserFromAdmin: response } = await request.mutation( updateUserFromAdmin, {
         id,
         email
       } );
@@ -94,7 +95,7 @@ const Actions = {
         position: 'is-top-right',
         type: 'is-success',
       } );
-      commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data.updateUserFromAdmin } );
+      commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data } );
     } catch ( err ) {
       Logger.log( `Error at action adminUpdateUserEmail: ${err}` );
     }
@@ -102,7 +103,7 @@ const Actions = {
 
   async [ ActionTypes.adminUpdateUser ]( { commit, dispatch }, payload ) {
     try {
-      const response = await request.mutation( updateUserFromAdmin, {
+      const { updateUserFromAdmin: response } = await request.mutation( updateUserFromAdmin, {
         ...payload
       } );
 
@@ -122,7 +123,7 @@ const Actions = {
         duration: 2000,
         type: 'is-success',
       } );
-      commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data.updateUserFromAdmin } );
+      commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data } );
     } catch ( err ) {
       Logger.log( `Error at action adminUpdateUser: ${err}` );
     }
@@ -132,13 +133,13 @@ const Actions = {
     try {
       const { offset, filter, searchKey } = payload;
 
-      const response = await request.query( getFilteredCharacters, {
+      const { charactersWithFilter: response } = await request.query( getFilteredCharacters, {
         offset,
         filter,
         searchKey
       } );
 
-      commit( MutationTypes.UPDATE_FILTERED_CHARACTERS, { data: response.data.charactersWithFilter, filter, searchKey } );
+      commit( MutationTypes.UPDATE_FILTERED_CHARACTERS, { data: response.data, filter, searchKey } );
     } catch ( err ) {
       Logger.log( `Error at action retrieveFilteredCharacters: ${err}` );
     }
@@ -148,18 +149,14 @@ const Actions = {
     try {
       const { id } = payload;
 
-      const response = await request.query( getCharacterData, {
-        id: Number( id ),
+      const { filteredCharacter: response } = await request.query( getCharacterData, {
+        id: parseInt( id ),
       } );
-      const characterDetails = characterInventoryCooker( response.data.filteredCharacter );
 
-      if ( !characterDetails ) {
-        dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.GAME.INDEX } );
-      }
-
-      commit( MutationTypes.SET_FETCHED_CHARACTER_DATA, { characterDetails } );
+      commit( MutationTypes.SET_FETCHED_CHARACTER_DATA, { characterDetails: response.data } );
     } catch ( err ) {
-      Logger.log( `Error at action retrieveCharacter: ${err} ` );
+      handleCharacterSearchErrors( err );
+      dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.GAME.INDEX } );
     }
   },
 
@@ -210,7 +207,7 @@ const Actions = {
     try {
       dispatch( ActionTypes.updateRequestsInProgress, { type: 'START', name: 'uploadItemInfo' } );
 
-      const response = await axios.post( `${process.env.VUE_APP_HTTP_URL}/api/uploadItemInfo`, payload.file, {
+      const response = await axios.post( `${process.env.VUE_APP_HTTP_URL}/uploadItemInfo`, payload.file, {
       } );
 
       if ( response.data.status === 'success' ) {
@@ -237,7 +234,7 @@ const Actions = {
     try {
       const { id } = payload;
       await request.mutation( resetUserSecurityCode, {
-        id: Number( id )
+        id: parseInt( id )
       } );
 
       Snackbar.open( {

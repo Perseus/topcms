@@ -1,11 +1,12 @@
+import request from '@services/GraphQLRequest';
 import GeneralConfig from '../../../config/GeneralConfig';
 
 const Getters = {
-  isUserRegistering( state, getters, rootState ) {
-    return ( rootState.application.currentRequestsInProgress.includes( 'createUser' ) );
+  isUserRegistering() {
+    return ( request.isRequestInProgress( 'createUser' ) );
   },
-  isUserLoggingIn( state, getters, rootState ) {
-    return ( rootState.application.currentRequestsInProgress.includes( 'loginUser' ) );
+  isUserLoggingIn() {
+    return ( request.isRequestInProgress( 'loginUser' ) );
   },
   isUserLoggedIn( state ) {
     return state.isLoggedIn;

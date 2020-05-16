@@ -8,6 +8,10 @@ import Logger from '../../services/Logger';
 const RouteResolvers = {
 
   [ RouteNames.ROOT.__ROOT__ ]: async( route ) => {
+    if ( store.state.application.isAppLoaded ) {
+      return true;
+    }
+
     await store.dispatch( ActionTypes.bootstrapApplication, { route } );
     return true;
   },

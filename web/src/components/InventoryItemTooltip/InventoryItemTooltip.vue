@@ -42,5 +42,11 @@
   margin-bottom: 5px;
 }
 
+.item-bonus-stats-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
 
 </style>

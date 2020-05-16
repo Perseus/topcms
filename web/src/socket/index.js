@@ -5,10 +5,11 @@ class SocketHandler {
     this.connectionURL = process.env.VUE_APP_SOCKET_URL || 'http://localhost:3000';
   }
 
-  init( ) {
+  init() {
     this.socket = socketio.connect( this.connectionURL, {
       autoConnect: true,
     } );
+    console.log( this.socket );
   }
 
   emit( eventName, params ) {

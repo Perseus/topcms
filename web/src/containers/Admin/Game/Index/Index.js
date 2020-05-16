@@ -1,6 +1,7 @@
 import { mapActions, mapState } from 'vuex';
 import _ from 'lodash';
 
+import request from '@services/GraphQLRequest';
 import GeneralConfig from '../../../../config/GeneralConfig';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
@@ -23,15 +24,15 @@ const Index = {
     ...mapStateToComputed(),
 
     isFetchingAccounts() {
-      return this.currentRequestsInProgress.includes( 'getFilteredAccounts' );
+      return request.isRequestInProgress( 'usersWithFilter' );
     },
 
     isFetchingCharacters() {
-      return this.currentRequestsInProgress.includes( 'getFilteredCharacters' );
+      return request.isRequestInProgress( 'charactersWithFilter' );
     },
 
     isUploadingItemInfo() {
-      return this.currentRequestsInProgress.includes( 'uploadItemInfo' );
+      return request.isRequestInProgress( 'uploadItemInfo' );
     },
     itemCachedPercentage() {
       if ( this.totalItemsToCache === 0 ) {
@@ -52,7 +53,6 @@ const Index = {
     this.selectedCharacterSearchFilter = this.characterSearchFilters.ACCOUNT_NAME;
     this.selectedAccountSearchFilter = this.accountSearchFilters.ACCOUNT_NAME;
   },
-
 
   methods: {
     ...mapActionsToMethods(),

@@ -19,8 +19,11 @@ export const updateServerRatesMutation = gql`
 export const toggleUserBan = gql`
   mutation toggleUserBan($id: Int!, $newBanStatus: Int!) {
     toggleUserBan(id: $id, newBanStatus: $newBanStatus) {
-      id
-      ban
+      ${commonQueryFields()}
+      data {
+        id
+        ban
+      }
     }
   }
 `;
@@ -29,8 +32,11 @@ export const toggleUserBan = gql`
 export const updateUserEmail = gql`
   mutation updateUserEmail($id: ID!, $email: String!) {
     updateUserEmail(id: $id, email: $email) {
-      id
-      email
+      ${commonQueryFields()}
+      data {
+        id
+        email
+      }
     }
   }
 `;
@@ -38,11 +44,14 @@ export const updateUserEmail = gql`
 export const updateUserFromAdmin = gql`
   mutation updateUserFromAdmin($id: ID!, $email: String, $password: String, $gm: Int) {
     updateUserFromAdmin(id: $id, email: $email, password: $password, gm: $gm) {
-      id
-      email
-      name
-      account_details {
-        gm
+      ${commonQueryFields()}
+      data {
+        id
+        email
+        name
+        account_details {
+          gm
+        }
       }
     }
   }
@@ -51,7 +60,10 @@ export const updateUserFromAdmin = gql`
 export const resetUserSecurityCode = gql`
   mutation resetUserSecurityCode($id: ID!) {
     resetUserSecurityCode(id: $id) {
-      id
+      ${commonQueryFields()}
+      data {
+        id
+      }
     }
   }
 `;

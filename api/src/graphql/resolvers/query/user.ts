@@ -67,7 +67,7 @@ export const logout = resolve( {
 export const usersWithFilter = resolve( {
   validationSchema: {
     filter: Joi.string().valid( ...Object.keys( AccountSearchFilters ) ),
-    searchKey: Joi.string().exist(),
+    searchKey: Joi.string().allow( '' ),
     offset: Joi.number().default( 0 ),
     limit: Joi.number().default( 10 ),
   },
@@ -143,7 +143,7 @@ export const filteredUser = resolve( {
 export const charactersWithFilter = resolve( {
   validationSchema: {
     filter: Joi.string().valid( ...Object.keys( CharacterSearchFilters ) ),
-    searchKey: Joi.string().exist(),
+    searchKey: Joi.string().allow( '' ),
     offset: Joi.number().default( 0 ),
     limit: Joi.number().default( 10 ),
   },

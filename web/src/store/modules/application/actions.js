@@ -9,19 +9,21 @@ import SocketHandler from '../../../socket';
 import request from '../../../services/GraphQLRequest';
 
 const Actions = {
-  async [ ActionTypes.bootstrapApplication ]( { commit, dispatch }, payload ) {
+  async [ ActionTypes.bootstrapApplication ]( { commit, dispatch, state }, payload ) {
     commit( MutationTypes.APPLICATION_LOADING );
 
     await dispatch( ActionTypes.retrieveUser );
     await dispatch( ActionTypes.connectToSocketServer );
-    await dispatch( ActionTypes.setInitialRoute, payload.route );
-
     commit( MutationTypes.APPLICATION_LOADED );
+
+    await dispatch( ActionTypes.setInitialRoute, payload.route );
   },
 
-  async [ ActionTypes.connectToSocketServer ]( { commit, state, rootState } ) {
+  async [ ActionTypes.connectToSocketServer ]( {
+    rootState, getters
+  } ) {
     const { user } = rootState;
-    if ( user.isLoggedIn && user.permissions.includes( 'ADMIN' ) ) {
+    if ( user.isLoggedIn && getters.canAccessGameAdmin ) {
       SocketHandler.init();
     }
   },

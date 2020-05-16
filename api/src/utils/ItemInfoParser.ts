@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import serialize from 'serialize-javascript';
-import { ItemInfoAttributeMap } from '../config';
+import { ItemInfoAttributeMap, serializeItemData } from '../config';
 
 import TError from './TError';
 
@@ -36,7 +35,6 @@ export default class ItemInfoParser {
       } );
     }
 
-    await this.setCurrentChecksum( fileHash );
 
     for ( const item of items ) {
       if ( !item.includes( '//' ) ) {
@@ -48,6 +46,8 @@ export default class ItemInfoParser {
         }
       }
     }
+
+    // await this.setCurrentChecksum( fileHash );
   }
 
   async getCurrentChecksum(): Promise<string> {
@@ -62,11 +62,13 @@ export default class ItemInfoParser {
   async writeItemData( itemData: string[] ): Promise<void> {
     try {
       const itemId = parseInt( itemData[ ItemInfoAttributeMap.ID ], 10 );
-      await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, serialize( itemData ), 'utf-8' );
+      await fs.promises.writeFile( `${this.filePath}/ItemInfoCache/${itemId}.dat`, serializeItemData( itemData ), 'utf-8' );
     } catch ( err ) {
+      console.log( err );
       throw new TError( {
         code: 'cache.WRITE_ERROR',
         message: 'There was an error while trying to write the item data'
+
       } );
     }
   }

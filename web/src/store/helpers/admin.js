@@ -2,15 +2,12 @@ import { SnackbarProgrammatic as Snackbar } from 'buefy';
 
 const defaultSnackbarMessage = 'Something went wrong. Please try again.';
 
-export const handleSiteItemCreationErrors = ( error, itemType ) => {
+export const handleCharacterSearchErrors = ( error ) => {
   let snackbarErrorMessage = defaultSnackbarMessage;
 
   switch ( error.code ) {
-    case 'author.FOUND':
-      snackbarErrorMessage = 'An author with that name already exists';
-      break;
-    case 'input.VALIDATION_ERROR':
-      snackbarErrorMessage = `There was an error while creating a ${itemType}: ${error.errors[ 0 ].message}`;
+    case 'character.NOT_FOUND':
+      snackbarErrorMessage = 'The character you were looking for was not found';
       break;
     default:
   }
