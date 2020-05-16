@@ -22,6 +22,10 @@ const Characters = {
   methods: {
     ...mapActionsToMethods(),
 
+    redirectToBaseAdmin() {
+      this.changeRoute( { name: RouteNames.ADMIN.GAME.INDEX } );
+    },
+
     getBanStatus( banStatus ) {
       if ( !banStatus || banStatus === 0 ) {
         return false;

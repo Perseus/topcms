@@ -1,15 +1,16 @@
 <template>
   <div class="fetched-account-details">
     <b-modal :active="shouldShowUpdateUserEmailModal" @close="toggleModal" has-modal-card>
-      <update-user-email-modal @handleUpdateEmail="handleUpdateUserEmail"></update-user-email-modal>
+      <update-user-email-modal v-if="shouldShowUpdateUserEmailModal" @handleUpdateEmail="handleUpdateUserEmail"></update-user-email-modal>
     </b-modal>
 
     <b-modal :active="shouldShowUpdatePasswordModal" @close="toggleModal" has-modal-card>
-      <update-user-password-modal @handleUpdatePassword="handleUpdateUserPassword"></update-user-password-modal>
+      <update-user-password-modal v-if="shouldShowUpdatePasswordModal" @handleUpdatePassword="handleUpdateUserPassword"></update-user-password-modal>
     </b-modal>
 
     <b-modal :active="shouldShowUpdateGMModal" @close="toggleModal" has-modal-card>
       <update-user-gm-level-modal
+      v-if="shouldShowUpdateGMModal"
         :currentLevel="accountData.account_details.gm"
         @handleUpdateGMLevel="handleUpdateUserGMLevel"
       ></update-user-gm-level-modal>

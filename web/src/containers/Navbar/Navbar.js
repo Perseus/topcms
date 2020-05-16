@@ -22,7 +22,7 @@ const Navbar = {
     },
 
     redirectToGameAdmin() {
-      this.changeRoute( { name: RouteNames.ADMIN.GAME } );
+      this.changeRoute( { name: RouteNames.ADMIN.GAME.INDEX } );
     },
 
     redirectToSignup() {

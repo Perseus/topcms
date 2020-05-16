@@ -159,6 +159,7 @@ module.exports = {
       "always",
       { exceptAfterSingleLine: true },
     ],
+    "no-plusplus": [2, { allowForLoopAfterthoughts: true } ],
     "camelcase": "off",
     "@typescript-eslint/camelcase": [ "off" ]
   },

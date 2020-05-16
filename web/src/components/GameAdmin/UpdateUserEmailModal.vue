@@ -1,42 +1,49 @@
 <template>
-  <form @submit.prevent="handleEmailUpdate">
+<ValidationObserver v-slot="{ handleSubmit }">
+  <form @submit.prevent="handleSubmit(handleEmailUpdate)">
     <div class="card email-update-card">
       <header class="card-header">
         <div class="card-header-title">Update eMail</div>
       </header>
       <div class="card-content">
-        <b-field
-          :type="{ 'is-danger': errors.has('email') }"
-          :message="errors.first('email')"
-          label="Email"
-        >
-          <b-input v-validate="'required|email'" name="email" v-model="email" type="email"></b-input>
-        </b-field>
+        <TInput v-model="email" name="EMail" label="eMail" type="email" rules="required|email" />
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">
-          <b-button type="is-primary" native-type="submit">Update</b-button>
+          <b-button type="is-primary" :loading="isUpdatingEmail" native-type="submit">Update</b-button>
         </div>
       </footer>
     </div>
   </form>
+</ValidationObserver>
 </template>
 
-<script src>
+<script>
+
+import TInput from '@components/ValidationInputs/TInput';
+import request from '@services/GraphQLRequest';
+
 export default {
-  name: "update-user-email-modal",
+  name: 'update-user-email-modal',
   data() {
     return {
-      email: ""
+      email: ''
     };
   },
-  methods: {
-    async handleEmailUpdate() {
-      const didValidationSucceed = await this.$validator.validateAll();
 
-      if (didValidationSucceed) {
-        this.$emit("handleUpdateEmail", { email: this.email });
-      }
+  components: {
+    TInput
+  },
+
+  computed: {
+    isUpdatingEmail() {
+      return request.isRequestInProgress( 'updateUserFromAdmin' );
+    }
+  },
+
+  methods: {
+     handleEmailUpdate() {
+      this.$emit('handleUpdateEmail', { email: this.email });
     }
   }
 };

@@ -1,19 +1,23 @@
-const express = require( 'express' );
-const multer = require( 'multer' );
-const path = require( 'path' );
-const itemInfoUpload = require( './fileHandlers/itemInfoUpload' );
+// const express = require( 'express' );
+// const multer = require( 'multer' );
+// const path = require( 'path' );
+// const itemInfoUpload = require( './fileHandlers/itemInfoUpload' );
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
 
+const dataDir = path.join( __dirname, '..', 'data/' );
 const router = express.Router();
 const storage = multer.diskStorage( {
-  destination( req, file, cb ) {
-    cb( null, 'data/' );
+  destination( req: express.Request, file, cb ) {
+    cb( null, dataDir );
   },
-  filename( req, file, cb ) {
+  filename( req: express.Request, file, cb ) {
     cb( null, 'ItemInfo.txt' );
   }
 } );
 const uploader = multer( {
-  dest: 'data/',
+  dest: dataDir,
   storage,
   limits: {
     fileSize: 5000000

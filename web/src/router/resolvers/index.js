@@ -10,6 +10,7 @@ export async function routeResolveHandler( to, from, next ) {
       const resolverResponse = await RouteResolvers[ to.name ]( { to, from } );
       if ( resolverResponse !== true ) {
         store.dispatch( ActionTypes.changeRoute, { name: resolverResponse.name } );
+        return;
       }
       next( resolverResponse );
     } catch ( err ) {
@@ -20,12 +21,13 @@ export async function routeResolveHandler( to, from, next ) {
       store.dispatch( ActionTypes.changeRoute, { name: from.name } );
     }
   } else {
-    next();
+    next( true );
   }
 }
 
 export async function RootResolver( to, from, next ) {
   const rootResolveFn = RouteResolvers[ RouteNames.ROOT.__ROOT__ ];
+
   try {
     await rootResolveFn( to );
     next();

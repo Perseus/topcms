@@ -37,7 +37,7 @@ const GameAdminCharacter = {
   methods: {
     getItemIcon( item ) {
       try {
-        const itemIcon = item.itemInfo[ ItemAttributeMap.ICON ];
+        const itemIcon = item.itemInfo.ICON;
         // eslint-disable-next-line
         return itemIcon;
       } catch ( err ) {
@@ -56,7 +56,7 @@ const GameAdminCharacter = {
 
     doesItemHaveIcon( item ) {
       try {
-        const itemIcon = item.itemInfo[ ItemAttributeMap.ICON ];
+        const itemIcon = item.itemInfo.ICON;
 
         return Boolean( itemIcon );
       } catch ( err ) {

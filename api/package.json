@@ -15,6 +15,7 @@
     "setup": "node dist/scripts/builder.js",
     "fetch-ssm": "ts-node src/scripts/ssm.ts topcms",
     "copy:configs": "bash src/scripts/copy-configs.sh",
+    "migrate:ts": "ts-node src/scripts/builder.ts migrate",
     "test:unit": "jest",
     "test:integration:local": "bash tests/scripts/test-integration-local.sh",
     "test:integration": "jest tests/integration/*"
@@ -46,7 +47,6 @@
     "pug": "^2.0.4",
     "sequelize": "^5.18.4",
     "sequelize-cli": "^5.5.1",
-    "serialize-javascript": "^2.1.0",
     "socket.io": "^2.3.0",
     "subscriptions-transport-ws": "^0.9.16",
     "tedious": "^6.4.0",

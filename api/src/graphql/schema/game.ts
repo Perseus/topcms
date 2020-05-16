@@ -12,7 +12,7 @@ export const typeDefs = gql`
 
   extend type Mutation {
     updateServerRates(rates: ServerRateInfoInput): ServerRateInfoResponse @isAuthenticated(role: SITE)
-    toggleUserBan(id: Int!, newBanStatus: Int!): User @isAuthenticated(role: ADMIN)
+    toggleUserBan(id: Int!, newBanStatus: Int!): UserResponse @isAuthenticated(role: ADMIN)
   }
 
   type GameStats {

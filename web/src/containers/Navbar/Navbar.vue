@@ -9,8 +9,8 @@
     <template slot="start">
       <a @click.prevent="redirectToLanding" class="navbar-item">Home</a>
       <b-navbar-dropdown label="Admin" v-if="canAccessSiteAdmin">
-        <b-navbar-item href="/admin/site">Site Admin</b-navbar-item>
-        <b-navbar-item href="/admin/game" v-if="canAccessGameAdmin">Game Admin</b-navbar-item>
+        <b-navbar-item @click.prevent="redirectToSiteAdmin" href="">Site Admin</b-navbar-item>
+        <b-navbar-item @click.prevent="redirectToGameAdmin" v-if="canAccessGameAdmin">Game Admin</b-navbar-item>
       </b-navbar-dropdown>
     </template>
 

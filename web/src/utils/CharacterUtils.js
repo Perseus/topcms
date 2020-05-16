@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { SnackbarProgrammatic as Snackbar } from 'buefy';
+
 
 import { CharacterConfig } from '../config/CharacterConfig';
 import { ItemAttributeMap, DBItemAttributeMap, getAttributesFromItem } from '../config/ItemAttributeMap';
@@ -27,30 +29,24 @@ export const PET_ITEM_TYPE = 59;
 
 // TODO: Clean this up
 export function getInventoryItemDetailHTML( item ) {
-  const { itemInfo, dbAttributes } = item;
-  const itemType = itemInfo[ ItemAttributeMap.ITEM_TYPE ];
-  const isEquippableGear = Boolean( EQUIPMENT_IDS.includes( Number( itemType ) ) );
-  const isPet = Number( itemType ) === PET_ITEM_TYPE;
+  const { itemInfo } = item;
 
-  const attributesToFetch = [
-    ItemAttributeMap.NAME,
-    ItemAttributeMap.DESCRIPTION,
-  ];
+  if ( !itemInfo ) {
+    Snackbar.open( {
+      message: 'ItemInfo data was not found. Please upload and generate the ItemInfo cache',
+      type: 'is-danger',
+      position: 'is-top-right',
+      duration: 4000
+    } );
 
-  const dbAttributesToFetch = [];
-
-
-  if ( isEquippableGear ) {
-    attributesToFetch.push( [
-
-    ] );
+    return;
   }
 
+  const itemType = itemInfo.ITEM_TYPE;
+  const isEquippableGear = EQUIPMENT_IDS.includes( parseInt( itemType ) );
+  const isPet = parseInt( itemType ) === PET_ITEM_TYPE;
 
-  const itemAttributes = getAttributesFromItem( itemInfo, attributesToFetch );
-  const fetchedDBAttributes = getAttributesFromItem( dbAttributes, dbAttributesToFetch, 'db' );
-  const parsedAttributes = parseAndCleanItemAttributes( itemAttributes );
-  let { NAME, DESCRIPTION } = parsedAttributes;
+  let { NAME, DESCRIPTION } = itemInfo;
   let petData = {};
   let htmlStructure = ``;
 
@@ -90,6 +86,11 @@ export function getInventoryItemDetailHTML( item ) {
     equipmentData.forEach( ( dataItem ) => {
       htmlStructure += dataItem;
     } );
+
+    const gearBonusData = getGearBonusData( itemInfo );
+    gearBonusData.forEach( ( dataItem ) => {
+      htmlStructure += dataItem;
+    } );
   }
 
 
@@ -102,22 +103,23 @@ export function getInventoryItemDetailHTML( item ) {
   htmlStructure += `
     </div>
   `;
+
   return htmlStructure;
 }
 
 
 function getPetData( pet ) {
   const { dbAttributes } = pet;
-  const Strength = Number( dbAttributes[ DBItemAttributeMap.STRENGTH ] );
-  const Accuracy = Number( dbAttributes[ DBItemAttributeMap.ACCURACY ] );
-  const Constitution = Number( dbAttributes[ DBItemAttributeMap.CONSTITUTION ] );
-  const Spirit = Number( dbAttributes[ DBItemAttributeMap.SPIRIT ] );
-  const Agility = Number( dbAttributes[ DBItemAttributeMap.AGILITY ] );
+  const Strength = parseInt( dbAttributes[ DBItemAttributeMap.STRENGTH ] );
+  const Accuracy = parseInt( dbAttributes[ DBItemAttributeMap.ACCURACY ] );
+  const Constitution = parseInt( dbAttributes[ DBItemAttributeMap.CONSTITUTION ] );
+  const Spirit = parseInt( dbAttributes[ DBItemAttributeMap.SPIRIT ] );
+  const Agility = parseInt( dbAttributes[ DBItemAttributeMap.AGILITY ] );
 
-  const currentStamina = Number( dbAttributes[ DBItemAttributeMap.CURRENT_PET_STAMINA ] ) / 50;
-  const maximumStamina = Number( dbAttributes[ DBItemAttributeMap.MAX_PET_STAMINA ] ) / 50;
-  const currentPetGrowth = Number( dbAttributes[ DBItemAttributeMap.CURRENT_PET_GROWTH ] );
-  const maximumPetGrowth = Number( dbAttributes[ DBItemAttributeMap.MAX_PET_GROWTH ] );
+  const currentStamina = parseInt( dbAttributes[ DBItemAttributeMap.CURRENT_PET_STAMINA ] ) / 50;
+  const maximumStamina = parseInt( dbAttributes[ DBItemAttributeMap.MAX_PET_STAMINA ] ) / 50;
+  const currentPetGrowth = parseInt( dbAttributes[ DBItemAttributeMap.CURRENT_PET_GROWTH ] );
+  const maximumPetGrowth = parseInt( dbAttributes[ DBItemAttributeMap.MAX_PET_GROWTH ] );
 
   const totalLevel = ( Strength + Accuracy + Constitution + Spirit + Agility );
   return {
@@ -139,7 +141,7 @@ function getPetData( pet ) {
 
 function getEquipmentData( eq, isGear = false ) {
   const { dbAttributes, itemInfo } = eq;
-  const equipmentType = Number( itemInfo[ ItemAttributeMap.ITEM_TYPE ] );
+  const equipmentType = parseInt( itemInfo.ITEM_TYPE );
   const equipmentData = [];
 
   equipmentData.push( '<div class="item-eq-stats-section">' );
@@ -164,10 +166,47 @@ function getEquipmentData( eq, isGear = false ) {
 
   equipmentData.push( '</div>' );
 
-  equipmentData.push( `<div class="item-level-req"> Level Requirement: ${itemInfo[ ItemAttributeMap.LEVEL_REQUIREMENT ]} </div>` );
+  equipmentData.push( `<div class="item-level-req"> Level Requirement: ${itemInfo.LEVEL_REQUIREMENT} </div>` );
 
 
   return equipmentData;
+}
+
+function getGearBonusData( itemInfo ) {
+  const {
+    STRENGTH_BONUS, CONSTITUTION_BONUS, ACCURACY_BONUS, AGILITY_BONUS, SPIRIT_BONUS
+  } = itemInfo;
+  const gearBonusData = [];
+
+  gearBonusData.push( `<div class="item-bonus-stats-section">` );
+
+  const strengthBonus = parseInt( STRENGTH_BONUS.split( ',' )[ 0 ] );
+  const constitutionBonus = parseInt( CONSTITUTION_BONUS.split( ',' )[ 0 ] );
+  const accuracyBonus = parseInt( ACCURACY_BONUS.split( ',' )[ 0 ] );
+  const agilityBonus = parseInt( AGILITY_BONUS.split( ',' )[ 0 ] );
+  const spiritBonus = parseInt( SPIRIT_BONUS.split( ',' )[ 0 ] );
+
+  if ( strengthBonus ) {
+    gearBonusData.push( `<div class="item-bonus-stat"> Strength Bonus: +${strengthBonus}` );
+  }
+
+  if ( constitutionBonus ) {
+    gearBonusData.push( `<div class="item-bonus-stat"> Constitution Bonus: +${constitutionBonus}` );
+  }
+
+  if ( accuracyBonus ) {
+    gearBonusData.push( `<div class="item-bonus-stat"> Accuracy Bonus: +${accuracyBonus}` );
+  }
+
+  if ( agilityBonus ) {
+    gearBonusData.push( `<div class="item-bonus-stat"> Agility Bonus: +${agilityBonus}` );
+  }
+
+  if ( spiritBonus ) {
+    gearBonusData.push( `<div class="item-bonus-stat"> Spirit Bonus: +${spiritBonus}` );
+  }
+
+  return gearBonusData;
 }
 
 function parseAndCleanItemAttributes( attributes ) {

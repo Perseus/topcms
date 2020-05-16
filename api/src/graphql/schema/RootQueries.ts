@@ -21,7 +21,7 @@ export const typeDefs = gql`
     map_x: String
     map_y: String
     map: String
-    look: String
+    look: JSON
     birth: String
     credit: String
     estop: String
@@ -35,6 +35,6 @@ export const typeDefs = gql`
     id: ID
     cha_id: ID
     type_id: Int
-    content: String
+    content: JSON
   }
 `;

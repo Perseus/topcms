@@ -1,49 +1,62 @@
+
 <template>
-  <form @submit.prevent="handleGMUpdate">
-    <div class="card update-card">
-      <header class="card-header">
-        <div class="card-header-title">Update GM Level</div>
-      </header>
-      <div class="card-content">
-        <b-field :type="{ 'is-danger': errors.has('gm') }" :message="errors.first('gm')" label="GM">
-          <b-input v-validate="'required'" name="gm" v-model="gm" type="gm"></b-input>
-        </b-field>
-      </div>
-      <footer class="card-footer">
-        <div class="card-footer-item">
-          <b-button type="is-primary" native-type="submit">Update</b-button>
+  <ValidationObserver v-slot="{ handleSubmit }">
+    <form @submit.prevent="handleSubmit(handleGMUpdate)">
+      <div class="card update-card">
+        <header class="card-header">
+          <div class="card-header-title">Update GM Level</div>
+        </header>
+        <div class="card-content">
+          <TInput v-model="gm" rules="required|numeric" label="GM" name="GM" />
         </div>
-      </footer>
-    </div>
-  </form>
+        <footer class="card-footer">
+          <div class="card-footer-item">
+            <b-button type="is-primary" :loading="isUpdatingGM" native-type="submit">Update</b-button>
+          </div>
+        </footer>
+      </div>
+    </form>
+  </ValidationObserver>
 </template>
 
-<script src>
+<script>
+
+import TInput from '@components/ValidationInputs/TInput';
+import request from '@services/GraphQLRequest';
+
 export default {
-  name: "update-user-email-modal",
+  name: 'update-user-gm-modal',
   props: {
     currentLevel: {
       type: Number,
       default: 0
     }
   },
+
+  components: {
+    TInput
+  },
+  
   data() {
     return {
       gm: 0
     };
   },
 
+
   created() {
     this.gm = this.currentLevel;
   },
 
-  methods: {
-    async handleGMUpdate() {
-      const didValidationSucceed = await this.$validator.validateAll();
+  computed: {
+    isUpdatingGM() {
+      return request.isRequestInProgress( 'updateUserFromAdmin' );
+    }
+  },
 
-      if (didValidationSucceed) {
-        this.$emit("handleUpdateGMLevel", { gm: Number( this.gm ) });
-      }
+  methods: {
+     handleGMUpdate() {
+      this.$emit('handleUpdateGMLevel', { gm: Number( this.gm ) });
     }
   }
 };
