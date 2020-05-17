@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+  - 12
+
+services:
+  - docker
+
+before_install:
+  - cd api/tests
+  - docker build -t topdb .
+  - docker run -d -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=SM8&Y8xiu}' -e 'MSSQL_PID=Express' -p 1433:1433 topdb
+
+install:
+  - cd ..
+  - npm install
+
+script:
+  - npm run test:integration
