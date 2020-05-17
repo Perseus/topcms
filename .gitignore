@@ -19,3 +19,4 @@ api/dist
 web/dist
 api/src/frontend
 api/src/data/ItemInfoCache/*
+api/src/logs/*

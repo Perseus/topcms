@@ -6,3 +6,12 @@ export function getCommonResponseFields(): string {
     errors: JSON
   `;
 }
+
+export function getCommonRequestFields(): string {
+  return `
+  code
+  message
+  success
+  errors
+  `;
+}

@@ -12,12 +12,17 @@ module.exports = {
     },
     price: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: Sequelize.FLOAT,
     },
     availableQuantity: {
       allowNull: false,
       type: Sequelize.INTEGER,
-      default: -1,
+      defaultValue: -1,
+    },
+    numOfItems: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+      defaultValue: 1,
     },
     category_id: {
       type: Sequelize.INTEGER,
@@ -28,9 +33,9 @@ module.exports = {
         }
       }
     },
-    mall_type: {
+    mallType: {
       allowNull: false,
-      type: Sequelize.STRING,
+      type: Sequelize.ENUM( 'MALL', 'CREDIT' ),
     }
   } ),
 

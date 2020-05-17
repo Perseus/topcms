@@ -5,5 +5,6 @@ module.exports = {
     'ts-jest': {
       diagnostics: false,
     }
-  }
+  },
+  setupFiles: [ '<rootDir>/tests/jest/setEnvVars.ts' ],
 };
