@@ -31,6 +31,7 @@
         @createCommerceCategory="handleCreateCategory"
         :isLoading="isCreatingCommerceCategory"
         :categoryCreationError="categoryCreationError"
+        v-if="shouldShowAddCategoryModal"
       ></add-commerce-category>
     </b-modal>
 
@@ -40,6 +41,7 @@
         :isLoading="isEditingCommerceCategory"
         :categoryEditingError="categoryEditingError"
         :modalOptions="modalOptions"
+        v-if="shouldShowEditCategoryModal"
       />
     </b-modal>
   </div>
