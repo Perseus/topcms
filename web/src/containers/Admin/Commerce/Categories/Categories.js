@@ -1,9 +1,11 @@
 import { mapState, mapActions } from 'vuex';
 
+import request from '@services/GraphQLRequest';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import Constants from '../../../../config/GeneralConfig';
 import AddCategoryModal from '../../../../components/CommerceCategories/AddCommerceCategory.vue';
 import EditCategoryModal from '../../../../components/CommerceCategories/EditCommerceCategory.vue';
+
 
 export default {
   name: 'admin-commerce-categories',
@@ -16,7 +18,7 @@ export default {
     ...mapStateToComputed(),
 
     isFetchingCategories() {
-      return this.requestsInProgress.includes( 'getCommerceCategories' );
+      return request.isRequestInProgress( 'commerceCategories' );
     },
 
     shouldShowAddCategoryModal() {
@@ -28,10 +30,10 @@ export default {
     },
 
     isEditingCommerceCategory() {
-      return this.requestsInProgress.includes( 'editMallCategory' );
+      return request.isRequestInProgress( 'editMallCategory' );
     },
     isCreatingCommerceCategory() {
-      return this.requestsInProgress.includes( 'createMallCategory' );
+      return request.isRequestInProgress( 'createMallCategory' );
     },
   },
 

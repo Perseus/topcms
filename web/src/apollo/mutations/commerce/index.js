@@ -1,11 +1,16 @@
 import gql from 'graphql-tag';
 
+import { commonQueryFields } from '../../utils';
+
 export const createMallCategoryMutation = gql`
   mutation createMallCategory($name: String!) {
     createCommerceCategory(name: $name) {
-      id
-      name
-      total_items
+      ${commonQueryFields()}
+      data {
+        id
+        name
+        total_items   
+      }
     }
   }
 `;
@@ -13,9 +18,12 @@ export const createMallCategoryMutation = gql`
 export const editMallCategoryMutation = gql`
   mutation editMallCategory($id: ID!, $name: String!) {
     editCommerceCategory(id: $id, name: $name) {
-      id
-      name
-      total_items
+      ${commonQueryFields()}
+      data {
+        id
+        name
+        total_items
+      }
     }
   }
 `;
@@ -23,7 +31,10 @@ export const editMallCategoryMutation = gql`
 export const deleteMallCategoryMutation = gql`
   mutation deleteMallCategory($id: ID!) {
     deleteCommerceCategory(id: $id) {
-      id
+      ${commonQueryFields()}
+      data {
+        id
+      }
     }
   }
 `;

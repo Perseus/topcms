@@ -11,23 +11,21 @@ import Logger from '../../../services/Logger';
 const Actions = {
   async [ ActionTypes.retrieveMallCategories ]( { commit, dispatch } ) {
     try {
-      const response = await request.query( getCommerceCategories );
-      const { commerceCategories } = response.data;
+      const { commerceCategories: response } = await request.query( getCommerceCategories );
 
-      commit( MutationTypes.FETCHED_COMMERCE_CATEGORIES, { commerceCategories } );
+      commit( MutationTypes.FETCHED_COMMERCE_CATEGORIES, { commerceCategories: response.data } );
     } catch ( err ) {
       Logger.log( `Error at action retrieveMallCategories ${err}`, 'error' );
     }
   },
 
-  async [ ActionTypes.createMallCategory ]( { commit, dispatch }, { name } ) {
+  async [ ActionTypes.createMallCategory ]( { commit }, { name } ) {
     try {
-      const response = await request.mutation( createMallCategoryMutation, {
+      const { createCommerceCategory: response } = await request.mutation( createMallCategoryMutation, {
         name
       } );
 
-      const { createCommerceCategory: commerceCategory } = response.data;
-      commit( MutationTypes.COMMERCE_CATEGORY_CREATED, { commerceCategory } );
+      commit( MutationTypes.COMMERCE_CATEGORY_CREATED, { commerceCategory: response.data } );
     } catch ( err ) {
       Logger.log( `Error at action createMallCategory ${err}`, 'error' );
     }
@@ -35,13 +33,12 @@ const Actions = {
 
   async [ ActionTypes.editMallCategory ]( { commit }, { id, name } ) {
     try {
-      const response = await request.mutation( editMallCategoryMutation, {
+      const { editCommerceCategory: response } = await request.mutation( editMallCategoryMutation, {
         id,
         name
       } );
 
-      const { editCommerceCategory: commerceCategory } = response.data;
-      commit( MutationTypes.UPDATE_COMMERCE_CATEGORY, { commerceCategory } );
+      commit( MutationTypes.UPDATE_COMMERCE_CATEGORY, { commerceCategory: response.data } );
     } catch ( err ) {
       Logger.log( `Error at action editMallCategory ${err}`, 'error' );
     }

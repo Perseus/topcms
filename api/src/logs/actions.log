@@ -15,3 +15,4 @@
 {"type":"commerceCategory","level":"debug","message":"Commerce category 11 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:10"}
 {"type":"commerceCategory","level":"debug","message":"Commerce category 12 deleted. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:11"}
 {"type":"commerceCategory","level":"debug","message":"Commerce category Pets created. ","user":1002,"service":"topCMS","timestamp":"2020-02-08 10:38:21"}
+{"type":"commerceCategory","level":"debug","message":"Commerce category 2. Apparels4 edited. ","user":{"id":1,"createdAt":1589691061833,"scope":[2,0,1],"iat":1589691061,"exp":1589712661},"service":"topCMS","timestamp":"2020-05-17 10:36:33"}

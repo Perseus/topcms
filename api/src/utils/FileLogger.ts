@@ -1,8 +1,8 @@
 import { createLogger, format, transports } from 'winston';
 import path from 'path';
 
-const errorsFilePath = path.join( 'logs', 'errors.log' );
-const actionsFilePath = path.join( 'logs', 'actions.log' );
+const errorsFilePath = path.join( __dirname, '..', 'logs', 'errors.log' );
+const actionsFilePath = path.join( __dirname, '..', 'logs', 'actions.log' );
 
 const logger = createLogger( {
   level: 'info',
