@@ -1,6 +1,6 @@
 const getters = {
   isAppBootstrapping( state ) {
-    return state.isAppLoading;
+    return state.isAppLoading || state.isRouteResolving;
   },
 };
 

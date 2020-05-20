@@ -47,7 +47,6 @@ export function resolve( params: ResolverWrapperParams ): IFieldResolver<Resolve
       try {
         await Joi.object( validationSchema ).validateAsync( args );
       } catch ( err ) {
-        console.log( err );
         return {
           code: 'input.VALIDATION_ERROR',
           success: false,

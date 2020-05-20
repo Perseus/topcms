@@ -1,6 +1,6 @@
 import { extend } from 'vee-validate';
 import {
-  required, min, email, confirmed, required_if, numeric
+  required, min, email, confirmed, required_if, numeric, integer
 } from 'vee-validate/dist/rules';
 
 
@@ -29,6 +29,11 @@ extend( 'required_if', required_if );
 
 extend( 'numeric', {
   ...numeric,
+  message: fieldName => `${fieldName} needs to be a valid number`
+} );
+
+extend( 'integer', {
+  ...integer,
   message: fieldName => `${fieldName} needs to be a valid number`
 } );
 

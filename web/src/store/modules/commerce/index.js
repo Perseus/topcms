@@ -5,6 +5,7 @@ import mutations from './mutations';
 export function getInitialState() {
   return {
     commerceCategories: [],
+    commerceItems: [],
   };
 }
 

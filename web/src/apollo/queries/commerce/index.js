@@ -13,3 +13,23 @@ export const getCommerceCategories = gql`
     }
   }
 `;
+
+export const getCommerceItems = gql`
+  query getCommerceItems {
+    commerceItems {
+      ${commonQueryFields()}
+      data {
+        id
+        itemId
+        price
+        numOfItems
+        availableQuantity
+        category {
+          id
+          name
+        }
+        mallType
+      }
+    }
+  }
+`;

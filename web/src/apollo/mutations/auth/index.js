@@ -34,7 +34,10 @@ export const registerUserMutation = gql`
 export const logoutUserMutation = gql`
     mutation logoutUser {
         logoutUser {
-            name
+            ${commonQueryFields()}
+            data {
+                name
+            }
         }
     }
 `;
@@ -42,8 +45,11 @@ export const logoutUserMutation = gql`
 export const updateUserMutation = gql`
     mutation updateUser($userInfo: UpdateUserInput!) {
         updateUser(userInfo: $userInfo) {
-            name
-            email
+            ${commonQueryFields()}
+            data {
+                name
+                email
+            }
         }
     }
 `;

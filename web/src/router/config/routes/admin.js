@@ -1,3 +1,5 @@
+import AdminCommerceItems from '@containers/Admin/Commerce/Items/Items.vue';
+
 import AdminPanel from '../../../containers/Admin/Admin.vue';
 import AdminSite from '../../../containers/Admin/Site/Site.vue';
 import AdminGame from '../../../containers/Admin/Game/Game.vue';
@@ -11,6 +13,7 @@ import AdminGameCharacters from '../../../containers/Admin/Game/Characters/Chara
 import AdminGameCharacter from '../../../containers/Admin/Game/Character/Character.vue';
 import AdminCommerce from '../../../containers/Admin/Commerce/AdminCommerceIndex.vue';
 import AdminCommerceCategories from '../../../containers/Admin/Commerce/Categories/Categories.vue';
+
 import RouteNames from '../../../config/RouteNames';
 
 import { adminGuard, siteGuard } from '../../guards';
@@ -67,6 +70,11 @@ export default {
           name: RouteNames.ADMIN.COMMERCE.CATEGORIES,
           path: 'categories',
           component: AdminCommerceCategories,
+        },
+        {
+          name: RouteNames.ADMIN.COMMERCE.ITEMS,
+          path: 'items',
+          component: AdminCommerceItems
         }
       ],
 

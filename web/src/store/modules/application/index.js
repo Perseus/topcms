@@ -4,6 +4,7 @@ import mutations from './mutations';
 
 function getInitialState() {
   return {
+    isRouteResolving: false,
     isAppLoading: false,
     isAppLoaded: false,
     fetchingNewsFeed: false,

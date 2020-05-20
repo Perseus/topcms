@@ -38,3 +38,53 @@ export const deleteMallCategoryMutation = gql`
     }
   }
 `;
+
+
+export const createMallItemMutation = gql`
+  mutation createMallItem($itemId: Int!, $price: Float!, $availableQuantity: Int, $categoryId: Int!, $mallType: String!) {
+    createCommerceItem(itemId: $itemId, price: $price, availableQuantity: $availableQuantity, categoryId: $categoryId, mallType: $mallType) {
+      ${commonQueryFields()}
+      data {
+        id
+        itemId
+        price
+        availableQuantity
+        category {
+          id
+          name
+        }
+        mallType
+      }
+    }
+  }
+`;
+
+export const editMallItemMutation = gql`
+mutation editMallItem($id: Int!, $itemId: Int, $price: Float, $availableQuantity: Int, $categoryId: Int, $mallType: String) {
+  editCommerceItem(id: $id, itemId: $itemId, price: $price, availableQuantity: $availableQuantity, categoryId: $categoryId, mallType: $mallType) {
+    ${commonQueryFields()}
+    data {
+      id
+      itemId
+      price
+      availableQuantity
+      category {
+        id
+        name
+      }
+      mallType
+    }
+  }
+}
+`;
+
+export const deleteMallItemMutation = gql`
+  mutation deleteMallItem($id: Int!) {
+    deleteCommerceItem(id: $id) {
+      ${commonQueryFields()}
+      data {
+        id
+      }
+    }
+  }
+`;
