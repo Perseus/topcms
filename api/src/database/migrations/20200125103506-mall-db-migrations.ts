@@ -1,5 +1,7 @@
+import { QueryInterface, } from 'sequelize';
+
 module.exports = {
-  up: ( queryInterface, Sequelize ) => queryInterface.createTable( 'ItemMall', {
+  up: ( queryInterface: QueryInterface, Sequelize ) => queryInterface.createTable( 'ItemMall', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -27,16 +29,16 @@ module.exports = {
     category_id: {
       type: Sequelize.INTEGER,
       references: {
-        field: 'id',
-        model: {
-          tableName: 'MallCategories',
-        }
+        model: 'MallCategories',
+        key: 'id'
       }
     },
     mallType: {
       allowNull: false,
       type: Sequelize.ENUM( 'MALL', 'CREDIT' ),
-    }
+    },
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
   } ),
 
   down: queryInterface => queryInterface.dropTable( 'ItemMall' )

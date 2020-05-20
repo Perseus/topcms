@@ -12,6 +12,8 @@ export default class ItemMall extends BaseModel {
   public category_id!: number;
   public mallType!: string;
   public numOfItems!: number;
+  public createdAt!: Date;
+  public updatedAt: Date;
 }
 
 ItemMall.init( {
@@ -48,5 +50,5 @@ ItemMall.init( {
   },
 }, {
   tableName: 'ItemMall',
-  sequelize: GameDB
+  sequelize: GameDB,
 } );

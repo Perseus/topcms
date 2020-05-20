@@ -1,5 +1,7 @@
-import { getCommerceCategories } from '../../../apollo/queries/commerce';
-import { createMallCategoryMutation, editMallCategoryMutation, deleteMallCategoryMutation } from '../../../apollo/mutations/commerce';
+import { getCommerceCategories, getCommerceItems } from '../../../apollo/queries/commerce';
+import {
+  createMallCategoryMutation, editMallCategoryMutation, deleteMallCategoryMutation, createMallItemMutation, editMallItemMutation, deleteMallItemMutation
+} from '../../../apollo/mutations/commerce';
 
 
 import ActionTypes from '../../types/ActionTypes';
@@ -53,6 +55,47 @@ const Actions = {
       commit( MutationTypes.DELETE_COMMERCE_CATEGORY, { id } );
     } catch ( err ) {
       Logger.log( `Error at action deleteMallCategory ${err}`, 'error' );
+    }
+  },
+
+  async [ ActionTypes.retrieveMallItems ]( { commit } ) {
+    try {
+      const { commerceItems: response } = await request.query( getCommerceItems );
+      commit( MutationTypes.FETCHED_MALL_ITEMS, { commerceItems: response.data } );
+    } catch ( err ) {
+      Logger.log( `Error at action retrieveMallItems ${err}`, 'error' );
+    }
+  },
+
+  async [ ActionTypes.createMallItem ]( { commit, dispatch }, payload ) {
+    try {
+      const { createCommerceItem: response } = await request.mutation( createMallItemMutation, payload );
+      commit( MutationTypes.CREATE_MALL_ITEM, response.data );
+
+      dispatch( 'toggleModal' );
+    } catch ( err ) {
+      Logger.log( `Error at action createMallItem ${err}`, 'error' );
+    }
+  },
+
+  async [ ActionTypes.editMallItem ]( { commit, dispatch }, payload ) {
+    try {
+      const { editCommerceItem: response } = await request.mutation( editMallItemMutation, payload );
+
+      commit( MutationTypes.UPDATE_MALL_ITEM, response.data );
+      dispatch( 'toggleModal' );
+    } catch ( err ) {
+      Logger.log( `Error at action editMallItem ${err}`, 'error' );
+    }
+  },
+
+  async [ ActionTypes.deleteMallItem ]( { commit, dispatch }, payload ) {
+    try {
+      await request.mutation( deleteMallItemMutation, payload );
+
+      commit( MutationTypes.DELETE_MALL_ITEM, payload );
+    } catch ( err ) {
+      Logger.log( `Error at action deleteMallItem ${err}`, 'error' );
     }
   }
 };

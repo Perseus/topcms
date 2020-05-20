@@ -139,7 +139,18 @@ const RouteResolvers = {
     } catch ( err ) {
       return { name: RouteNames.ADMIN.GAME.INDEX };
     }
-  }
+  },
+
+  [ RouteNames.ADMIN.COMMERCE.ITEMS ]: async() => {
+    try {
+      await store.dispatch( ActionTypes.retrieveMallCategories );
+      await store.dispatch( ActionTypes.retrieveMallItems );
+
+      return true;
+    } catch ( err ) {
+      return { name: RouteNames.ADMIN.GAME.INDEX };
+    }
+  },
 };
 
 export default RouteResolvers;
