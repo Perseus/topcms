@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import Joi from '@hapi/joi';
 import { resolve } from '../../utils/resolver';
+import { MallTypes } from '../../../config';
 import TError from '../../../utils/TError';
 import User from '../../../database/models/AccountServer/User';
 import Account from '../../../database/models/GameDB/Account';
@@ -49,7 +50,6 @@ export const updateUser = resolve( {
       }
 
       found.set( {
-        originalPassword: new_password,
         password: crypto.createHash( 'md5' ).update( new_password ).digest( 'hex' ).toUpperCase()
       } );
     }
@@ -156,6 +156,48 @@ export const resetUserSecurityCode = resolve( {
 
     return {
       data: account
+    };
+  }
+} );
+
+
+export const addMallPoints = resolve( {
+  validationSchema: {
+    id: Joi.number().required(),
+    type: Joi.string().valid( ...Object.values( MallTypes ) ).required(),
+    numPoints: Joi.number().required(),
+  },
+  async action( { args } ) {
+    const { id, type, numPoints } = args;
+
+    const user = await User.findOne( {
+      where: {
+        id
+      }
+    } );
+
+    switch ( type ) {
+      case MallTypes.AWARD_CENTER:
+        user.awardCenterPoints = user.awardCenterPoints || 0;
+        user.awardCenterPoints += numPoints;
+        break;
+
+      case MallTypes.MALL:
+        user.mallPoints = user.mallPoints || 0;
+        user.mallPoints += numPoints;
+        break;
+
+      default:
+        throw new TError( {
+          code: 'mall.INVALID_TYPE',
+          message: 'Invalid mall type given'
+        } );
+    }
+
+    await user.save();
+
+    return {
+      data: user
     };
   }
 } );

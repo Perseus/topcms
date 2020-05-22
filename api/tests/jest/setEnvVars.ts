@@ -1,4 +1,3 @@
-
 process.env.ACCOUNT_SERVER_DB = 'AccountServer';
 process.env.ACCOUNT_SERVER_USER = 'sa';
 process.env.ACCOUNT_SERVER_HOST = '127.0.0.1';

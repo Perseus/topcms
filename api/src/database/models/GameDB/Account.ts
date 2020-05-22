@@ -68,7 +68,7 @@ Account.init( {
   gm: DataTypes.DECIMAL,
   cha_ids: DataTypes.STRING,
   last_ip: DataTypes.STRING,
-  password: DataTypes.STRING
+  password: DataTypes.STRING,
 }, {
   tableName: 'account',
   timestamps: false,

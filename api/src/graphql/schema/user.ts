@@ -20,6 +20,8 @@ export const typeDefs = gql`
     updateUser(userInfo: UpdateUserInput!): UserResponse @isAuthenticated(role: USER)
     updateUserFromAdmin(id: ID!, email: String, password: String, gm: Int): UserResponse @isAuthenticated(role: ADMIN)
     resetUserSecurityCode(id: ID!): UserResponse @isAuthenticated(role: ADMIN)
+
+    addMallPoints(id: Int!, type: String!, numPoints: Int!): UserResponse @isAuthenticated(role: ADMIN)
   }
 
   type UserResponse {
@@ -33,7 +35,7 @@ export const typeDefs = gql`
   }
 
   type User {
-    id: ID
+    id: Int
     name: String
     email: String
     ban: Int
@@ -41,6 +43,8 @@ export const typeDefs = gql`
     last_login_mac: String
     account_details: Account
     character_details: [Character]
+    mallPoints: Int
+    awardCenterPoints: Int
   }
 
   type FilteredUsersItem {

@@ -15,7 +15,7 @@ import colors from 'colors/safe';
 import path from 'path';
 import { promises } from 'fs';
 import uuid from 'uuid';
-import ora from 'ora';
+import ora, { Ora } from 'ora';
 import envfile from 'envfile';
 
 const { stdin, stdout } = process;
@@ -195,10 +195,18 @@ async function build( processes: Array<string> ): Promise<void> {
   }
 
   if ( processes.includes( 'migrate' ) || shouldExecuteEverything ) {
-    const spinner = ora( 'Migrating GameDB Tables' );
-    spinner.start();
-    await runShellScript( 'npx sequelize db:migrate --env="GameDB"' );
-    spinner.succeed();
+    let spinner: Ora;
+    console.log( __dirname );
+    if ( processes.includes( 'account' ) ) {
+      spinner = ora( 'Migrating AccountServer Tables' );
+      await runShellScript( `npx sequelize db:migrate --env="AccountServer" --migrations-path="${path.join( __dirname, '..', '..', 'dist' )}/database/migrations/AccountServer/"` );
+      spinner.succeed();
+    } else if ( processes.includes( 'game' ) ) {
+      spinner = ora( 'Migrating GameDB Tables' );
+      spinner.start();
+      await runShellScript( `npx sequelize db:migrate --env="GameDB" --migrations-path="${path.join( __dirname, '..', '..', 'dist' )}/database/migrations/GameDB/"` );
+      spinner.succeed();
+    }
   }
 
   console.log( colors.bgMagenta( '\nWEBSITE SETUP DONE! \n' ) );

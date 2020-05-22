@@ -15,7 +15,9 @@ import routes from './routes';
 
 
 // initialize environment variables
-env.config();
+env.config( {
+  path: path.join( __dirname, '..', '.env' )
+} );
 
 // initialize express app
 const app = express();
@@ -34,7 +36,7 @@ const corsOptions = {
   origin: ( origin: string, callback: Function ): void => {
     if ( process.env.NODE_ENV === 'development' ) {
       callback( null, true );
-    } else if ( urlWhitelist.includes( origin ) ) {
+    } else if ( urlWhitelist.includes( origin ) || !origin ) {
       callback( null, true );
     } else {
       callback( new Error( 'Restricted by CORS' ) );

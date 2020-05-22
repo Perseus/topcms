@@ -1,6 +1,9 @@
 import { Options } from 'sequelize/types';
+import path from 'path';
 
-require( 'dotenv' ).config();
+require( 'dotenv' ).config( {
+  path: path.join( __dirname, '..', '..', '..', '.env' )
+} );
 
 
 const queryLoggingFunction = ( process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test' ? console.log : (): boolean => false );

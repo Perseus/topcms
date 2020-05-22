@@ -1,9 +1,13 @@
 import Joi from '@hapi/joi';
+
 import MallCategory from '../../../database/models/GameDB/MallCategory';
 import ItemMall from '../../../database/models/GameDB/ItemMall';
+import User from '../../../database/models/AccountServer/User';
 
 import { resolve } from '../../utils/resolver';
 import logger from '../../../utils/FileLogger';
+import TError from '../../../utils/TError';
+import { MallTypes } from '../../../config';
 
 /**
  * REQUIRES_ADMIN
@@ -233,6 +237,78 @@ export const deleteCommerceItem = resolve( {
 
     return {
       data: item
+    };
+  }
+} );
+
+export const purchaseCommerceItem = resolve( {
+  validationSchema: {
+    id: Joi.number().required(),
+    quantity: Joi.number().required(),
+  },
+  async action( { args, context } ) {
+    const { req } = context;
+    const userId = req.user.id;
+    const { id, quantity } = args;
+
+    const itemBeingPurchased = await ItemMall.findOne( {
+      where: {
+        id
+      }
+    } );
+
+    if ( itemBeingPurchased.availableQuantity !== -1 && itemBeingPurchased.availableQuantity < quantity ) {
+      throw new TError( {
+        code: 'itemmall.INSUFFICIENT_QUANTITY',
+        message: 'Item doesn\'t have enough available quantity',
+      } );
+    }
+
+    const user = await User.findOne( {
+      where: {
+        id: userId
+      }
+    } );
+
+    const totalItemPrice = quantity * itemBeingPurchased.price;
+
+    const isItemForItemMall = ( itemBeingPurchased.mallType === MallTypes.MALL );
+    const pointsToCheck = ( isItemForItemMall ? user.mallPoints : user.awardCenterPoints );
+
+    if ( pointsToCheck < totalItemPrice ) {
+      throw new TError( {
+        code: 'user.NOT_ENOUGH_POINTS',
+        message: 'User does not have enough points to purchase this item',
+        params: {
+          mallType: itemBeingPurchased.mallType,
+          itemId: id
+        }
+      } );
+    }
+
+    if ( isItemForItemMall ) {
+      user.mallPoints -= totalItemPrice;
+    } else {
+      user.awardCenterPoints -= totalItemPrice;
+    }
+
+    await user.save();
+
+    logger.log( {
+      type: 'commerceItem', level: 'debug', message: `Item ${itemBeingPurchased.id} bought. Quantity: ${quantity}`, user: req.user
+    } );
+
+    // TODO: Storage box logic here.
+
+
+    if ( itemBeingPurchased.availableQuantity !== -1 ) {
+      itemBeingPurchased.availableQuantity -= quantity;
+
+      await itemBeingPurchased.save();
+    }
+
+    return {
+      data: itemBeingPurchased
     };
   }
 } );

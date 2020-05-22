@@ -21,6 +21,7 @@ export const User = {
         } );
         return accountDetails;
       } catch ( err ) {
+        console.log( err );
         throw new TError( {
           code: 'user.NO_ACCOUNT_ENTRY',
           message: 'User doesn\'t have an Account entry'
@@ -38,6 +39,7 @@ export const User = {
     const accountID = obj.id;
     if ( accountID ) {
       try {
+        // TODO: This doesn't take into account multiple GameDBs (multiple server instances)
         const characterDetails = await Character.findAll( {
           where: {
             act_id: accountID,

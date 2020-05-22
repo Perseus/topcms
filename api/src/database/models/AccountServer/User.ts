@@ -20,7 +20,8 @@ export default class User extends BaseModel {
   public last_login_ip!: string;
   public last_login_mac!: string;
   public ban!: number;
-
+  public mallPoints!: number;
+  public awardCenterPoints: number;
   public accessLevels: AccessLevels[];
 
 
@@ -107,6 +108,14 @@ User.init( {
   last_login_ip: DataTypes.STRING,
   last_login_mac: DataTypes.STRING,
   ban: DataTypes.DECIMAL,
+  mallPoints: {
+    type: DataTypes.DECIMAL,
+    defaultValue: 0,
+  },
+  awardCenterPoints: {
+    type: DataTypes.DECIMAL,
+    defaultValue: 0
+  },
 }, {
   sequelize: AccountServer,
   tableName: 'account_login',
@@ -117,13 +126,3 @@ User.init( {
     }
   }
 } );
-
-User.beforeCreate( model => new Promise( ( resolve, reject ) => {
-  try {
-    const hashedPassword = crypto.createHash( 'md5' ).update( model.originalPassword ).digest( 'hex' ).toUpperCase();
-    model.password = hashedPassword;
-    resolve();
-  } catch ( err ) {
-    reject( err );
-  }
-} ) );

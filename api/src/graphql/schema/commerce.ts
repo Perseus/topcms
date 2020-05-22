@@ -16,6 +16,8 @@ export const typeDefs = gql`
     createCommerceItem(itemId: Int!, price: Float!, availableQuantity: Int, numOfItems: Int, categoryId: Int!, mallType: String!): CommerceItemResponse @isAuthenticated(role: ADMIN)
     editCommerceItem(id: Int!, itemId: Int, price: Float, availableQuantity: Int, numOfItems: Int, categoryId: Int, mallType: String): CommerceItemResponse @isAuthenticated(role: ADMIN)
     deleteCommerceItem(id: Int!): CommerceItemResponse @isAuthenticated(role: ADMIN)
+
+    purchaseCommerceItem(id: Int!, quantity: Int!): PurchaseItemResponse @isAuthenticated(role: USER)
   }
 
   type CommerceCategory {
@@ -32,6 +34,12 @@ export const typeDefs = gql`
     availableQuantity: Int
     category: CommerceCategory
     mallType: String
+  }
+
+
+  type PurchaseItemResponse {
+    ${getCommonResponseFields()}
+    data: CommerceItem
   }
 
   type CommerceItemsResponse {
