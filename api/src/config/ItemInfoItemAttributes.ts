@@ -14,6 +14,7 @@ function normalizeAttributeNames( attributes: Record<string, number> ): void {
     ACCURACY_BONUS: attributes[ 'ACC (STAT)' ],
     AGILITY_BONUS: attributes[ 'AGI (STAT)' ],
     SPIRIT_BONUS: attributes[ 'SPR (STAT)' ],
+    TRADE_PRICE: attributes[ 'SELLING PRICE' ],
   } );
 }
 

@@ -5,10 +5,12 @@ module.exports = {
     queryInterface.addColumn( 'account_login', 'mallPoints', {
       type: Sequelize.DataTypes.INTEGER,
       defaultValue: 0,
+      allowNull: false
     }, { transaction: t } ),
     queryInterface.addColumn( 'account_login', 'awardCenterPoints', {
       type: Sequelize.DataTypes.INTEGER,
       defaultValue: 0,
+      allowNull: false
     }, { transaction: t } )
   ] ) ),
 

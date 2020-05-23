@@ -41,7 +41,8 @@ const corsOptions = {
     } else {
       callback( new Error( 'Restricted by CORS' ) );
     }
-  }
+  },
+  optionsSuccessStatus: 200,
 };
 
 const frontendDirectory = path.join( __dirname, 'frontend' );
@@ -50,6 +51,7 @@ app.set( 'view engine', 'pug' );
 app.set( 'views', path.join( __dirname, 'views' ) );
 app.use( cookieParser() );
 app.use( cors( corsOptions ) );
+app.options( '*', cors( corsOptions ) );
 app.use( morgan( 'combined' ) );
 
 app.use( '/api', routes );

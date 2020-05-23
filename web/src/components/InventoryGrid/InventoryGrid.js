@@ -51,9 +51,7 @@ const InventoryGrid = {
         return '';
       }
 
-      console.log( item.itemInfo );
       const itemName = item.itemInfo.NAME;
-
       return itemName;
     },
 

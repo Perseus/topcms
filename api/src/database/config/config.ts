@@ -6,7 +6,7 @@ require( 'dotenv' ).config( {
 } );
 
 
-const queryLoggingFunction = ( process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test' ? console.log : (): boolean => false );
+const queryLoggingFunction = ( (): boolean => false );
 
 export const AccountServer: Options = {
   database: process.env.ACCOUNT_SERVER_DB,

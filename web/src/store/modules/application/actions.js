@@ -10,13 +10,18 @@ import request from '../../../services/GraphQLRequest';
 
 const Actions = {
   async [ ActionTypes.bootstrapApplication ]( { commit, dispatch, state }, payload ) {
-    commit( MutationTypes.APPLICATION_LOADING );
+    try {
+      commit( MutationTypes.APPLICATION_LOADING );
 
-    await dispatch( ActionTypes.retrieveUser );
-    await dispatch( ActionTypes.connectToSocketServer );
-    commit( MutationTypes.APPLICATION_LOADED );
+      await dispatch( ActionTypes.retrieveUser );
+      await dispatch( ActionTypes.connectToSocketServer );
+    } catch ( err ) {
+      Logger.log( `Error at bootstrapApplication: ${err}` );
+    } finally {
+      commit( MutationTypes.APPLICATION_LOADED );
 
-    await dispatch( ActionTypes.setInitialRoute, payload.route );
+      await dispatch( ActionTypes.setInitialRoute, payload.route );
+    }
   },
 
   async [ ActionTypes.connectToSocketServer ]( {

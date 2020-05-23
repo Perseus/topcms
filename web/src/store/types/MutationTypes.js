@@ -65,6 +65,8 @@ const MutationTypes = {
   UPDATE_MALL_ITEM: 'UPATE_MALL_ITEM',
   DELETE_MALL_ITEM: 'DELETE_MALL_ITEM',
 
+  UPDATE_MALL_POINTS: 'UPDATE_MALL_POINTS',
+
 };
 
 export default MutationTypes;

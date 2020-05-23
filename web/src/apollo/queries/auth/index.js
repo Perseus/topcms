@@ -11,6 +11,8 @@ const getCurrentUserQuery = gql`
                 account_details {
                     access_levels
                 }
+                mallPoints
+                awardCenterPoints
             }
         }
     }

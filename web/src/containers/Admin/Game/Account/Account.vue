@@ -16,6 +16,14 @@
       ></update-user-gm-level-modal>
     </b-modal>
 
+    <b-modal :active="shouldShowUpdatePointsModal" @close="toggleModal">
+      <update-user-mall-points
+        v-if="shouldShowUpdatePointsModal"
+        :modalOptions="modalState.options"
+        @updatePoints="handleUpdatePoints"
+      />
+    </b-modal>
+
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">Account Details</p>
@@ -47,6 +55,31 @@
             >[Edit]</a>
           </div>
         </div>
+
+        <div class="detail-row">
+          <div class="detail-title is-size-6"> Mall Points: </div>
+          <div class="detail-value is-size-6 has-text-weight-bold">
+            {{ accountData.mallPoints }}
+            
+            <a
+              @click.prevent="openPointsUpdateModal('MALL')"
+              class="is-size-7 edit-text has-text-weight-normal has-text-link"
+              >[Edit]</a>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-title is-size-6"> Award Center Points: </div>
+          <div class="detail-value is-size-6 has-text-weight-bold">
+            {{ accountData.awardCenterPoints }}
+            
+            <a
+              @click.prevent="openPointsUpdateModal('CREDIT')"
+              class="is-size-7 edit-text has-text-weight-normal has-text-link"
+              >[Edit]</a>
+          </div>
+        </div>
+        
 
         <b-button @click="handleResetUserSecurityCode">Reset Security Code</b-button>
 

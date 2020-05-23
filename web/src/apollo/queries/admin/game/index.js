@@ -110,6 +110,8 @@ export const getAccountData = gql`
                 ban
                 last_login_ip
                 last_login_mac
+                mallPoints
+                awardCenterPoints
                 account_details {
                   gm
                 }

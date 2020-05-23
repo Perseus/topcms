@@ -15,13 +15,13 @@ const Getters = {
     return state.authProcessingState.errors;
   },
   username( state ) {
-    return state.username;
+    return state.userData.username;
   },
   canAccessSiteAdmin( state ) {
-    return ( state.permissions.includes( GeneralConfig.ACCESS_LEVELS.SITE ) );
+    return ( state.userData.permissions.includes( GeneralConfig.ACCESS_LEVELS.SITE ) );
   },
   canAccessGameAdmin( state ) {
-    return ( state.permissions.includes( GeneralConfig.ACCESS_LEVELS.ADMIN ) );
+    return ( state.userData.permissions.includes( GeneralConfig.ACCESS_LEVELS.ADMIN ) );
   }
 };
 

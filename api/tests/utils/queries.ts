@@ -129,9 +129,11 @@ export const PURCHASE_MALL_ITEM = gql`
     purchaseCommerceItem(id: $id, quantity: $quantity) {
       ${getCommonRequestFields()}
       data {
-        id
-        availableQuantity
-        mallType
+        item {
+          id
+          availableQuantity
+          mallType
+        }
       }
     }
   }

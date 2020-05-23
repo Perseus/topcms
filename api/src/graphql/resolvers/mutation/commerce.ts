@@ -257,6 +257,13 @@ export const purchaseCommerceItem = resolve( {
       }
     } );
 
+    if ( quantity <= 0 ) {
+      throw new TError( {
+        code: 'input.INVALID_QUANTITY',
+        message: 'Invalid quantity for purchase provided'
+      } );
+    }
+
     if ( itemBeingPurchased.availableQuantity !== -1 && itemBeingPurchased.availableQuantity < quantity ) {
       throw new TError( {
         code: 'itemmall.INSUFFICIENT_QUANTITY',
@@ -308,7 +315,10 @@ export const purchaseCommerceItem = resolve( {
     }
 
     return {
-      data: itemBeingPurchased
+      data: {
+        item: itemBeingPurchased,
+        user,
+      }
     };
   }
 } );
