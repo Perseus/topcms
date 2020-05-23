@@ -17,7 +17,7 @@ const SidebarNavigationContainer = {
           this.changeRoute( { name: RouteNames.ROOT.__LANDING__ } );
           break;
         case 'mall':
-          //
+          this.changeRoute( { name: RouteNames.COMMERCE.ITEM_MALL } );
           break;
         case 'downloads':
           this.changeRoute( { name: RouteNames.ROOT.DOWNLOAD.LIST } );

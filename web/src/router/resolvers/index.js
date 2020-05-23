@@ -37,7 +37,7 @@ export async function RootResolver( to, from, next ) {
     await rootResolveFn( to );
     next();
   } catch ( err ) {
-    next( false );
-    store.dispatch( ActionTypes.changeRoute, { name: from.name } );
+    next( true );
+    // store.dispatch( ActionTypes.changeRoute, { name: from.name } );
   }
 }

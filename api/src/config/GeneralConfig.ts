@@ -25,6 +25,12 @@ interface AdminLevels {
   HD: string;
 }
 
+interface MallTypes {
+  [index: string]: string;
+  MALL: string;
+  AWARD_CENTER: string;
+}
+
 export const AccountSearchFilters: AccountSearchFilters = {
   ACCOUNT_NAME: 'name',
   IP_ADDRESS: 'last_login_ip',
@@ -43,6 +49,10 @@ export const PlayerRankingFilters: PlayerRankingFilters = {
   LEVEL: 'degree'
 };
 
+export const MallTypes: MallTypes = {
+  MALL: 'MALL',
+  AWARD_CENTER: 'CREDIT',
+};
 
 export const DownloadSections: string[] = [ 'Client', 'Patch', 'Other' ];
 export const IncludeAdminInRanking = true;

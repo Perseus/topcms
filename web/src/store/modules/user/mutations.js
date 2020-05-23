@@ -16,12 +16,16 @@ const Mutations = {
   },
 
   [ MutationTypes.SIGNIN_COMPLETE ]( state, payload ) {
-    const { username, email, account_details } = payload;
+    const {
+      username, email, account_details, mallPoints, awardCenterPoints
+    } = payload;
 
     state.isLoggedIn = true;
-    state.username = username;
-    state.email = email;
-    state.permissions = account_details.access_levels;
+    state.userData.username = username;
+    state.userData.email = email;
+    state.userData.permissions = account_details.access_levels;
+    state.userData.mallPoints = mallPoints;
+    state.userData.awardCenterPoints = awardCenterPoints;
   },
 
   [ MutationTypes.SIGNIN_FAILED ]( state, payload ) {
@@ -29,8 +33,7 @@ const Mutations = {
   },
 
   [ MutationTypes.UPDATED_USER ]( state, { user } ) {
-    state.username = user.name;
-    state.email = user.email;
+    Object.assign( state.userData, user );
   }
 
 };

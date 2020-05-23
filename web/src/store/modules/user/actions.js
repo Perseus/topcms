@@ -79,10 +79,14 @@ const Actions = {
         throw new Error( currentUserResponse.code );
       }
 
-      const { name, email, account_details } = currentUserResponse.data;
+      const {
+        name, email, account_details, awardCenterPoints, mallPoints
+      } = currentUserResponse.data;
       commit( MutationTypes.SIGNIN_COMPLETE, {
         username: name,
         email,
+        awardCenterPoints,
+        mallPoints,
         account_details
       } );
     } catch ( err ) {

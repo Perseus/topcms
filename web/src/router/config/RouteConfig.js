@@ -1,3 +1,5 @@
+import Mall from '@containers/Mall/Mall.vue';
+
 import App from '../../containers/App/App.vue';
 import Landing from '../../containers/Landing/Landing.vue';
 import Register from '../../containers/Register/Register.vue';
@@ -10,6 +12,7 @@ import DownloadList from '../../containers/DownloadList/DownloadList.vue';
 import Ranking from '../../containers/Ranking/Ranking.vue';
 import UserAccountManagement from '../../containers/UserAccountManagement/UserAccountManagement.vue';
 import AccountDetails from '../../containers/AccountDetails/AccountDetails.vue';
+
 
 import { RootResolver } from '../resolvers';
 import { userGuard } from '../guards';
@@ -76,6 +79,20 @@ const RouteConfig = [
         path: '/ranking',
         name: RouteNames.ROOT.RANKING.__LANDING__,
         component: Ranking,
+      },
+      {
+        path: '/commerce',
+        component: Mall,
+        children: [
+          {
+            name: RouteNames.COMMERCE.ITEM_MALL,
+            path: 'item-mall',
+          },
+          {
+            path: 'award-center',
+            name: RouteNames.COMMERCE.AWARD_CENTER,
+          }
+        ]
       },
       {
         path: '*',

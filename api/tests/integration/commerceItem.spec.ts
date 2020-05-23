@@ -1,5 +1,4 @@
 import { createTestClient } from 'apollo-server-integration-testing';
-import gql from 'graphql-tag';
 import faker from 'faker';
 import { mocked } from 'ts-jest/utils';
 import type { ExpressParams } from '../../src/types/external';
@@ -7,7 +6,10 @@ import type { ExpressParams } from '../../src/types/external';
 import { authMiddleware } from '../../src/helpers/authHelpers';
 import { server as graphQLServer } from '../../src/app';
 import { AccountServer, GameDB } from '../../src/database';
-import { getCommonRequestFields } from '../../src/graphql/utils/schema';
+import {
+  CREATE_COMMERCE_CATEGORY, CREATE_COMMERCE_ITEM, CREATE_USER, DELETE_COMMERCE_ITEM, EDIT_COMMERCE_ITEM, GET_COMMERCE_ITEM
+} from '../utils/queries';
+
 
 jest.mock( '../../src/helpers/authHelpers' );
 
@@ -18,99 +20,6 @@ const { query, mutate, setOptions } = createTestClient( {
   apolloServer: graphQLServer
 } );
 
-const CREATE_COMMERCE_CATEGORY = gql`
-mutation createMallCategory($name: String!) {
-    createCommerceCategory(name: $name) {
-      ${getCommonRequestFields()}
-      data {
-        id
-        name
-        total_items   
-      }
-    }
-  }
-`;
-
-const CREATE_COMMERCE_ITEM = gql`mutation createMallItem($itemId: Int!, $price: Float!, $availableQuantity: Int, $categoryId: Int!, $mallType: String!) {
-    createCommerceItem(itemId: $itemId, price: $price, availableQuantity: $availableQuantity, categoryId: $categoryId, mallType: $mallType) {
-      ${getCommonRequestFields()}
-      data {
-        id
-        itemId
-        price
-        availableQuantity
-        category {
-          id
-          name
-        }
-        mallType
-      }
-    }
-  }
-`;
-
-const EDIT_COMMERCE_ITEM = gql`mutation editMallItem($id: Int!, $itemId: Int, $price: Float, $availableQuantity: Int, $categoryId: Int, $mallType: String) {
-    editCommerceItem(id: $id, itemId: $itemId, price: $price, availableQuantity: $availableQuantity, categoryId: $categoryId, mallType: $mallType) {
-      ${getCommonRequestFields()}
-      data {
-        id
-        itemId
-        price
-        availableQuantity
-        category {
-          id
-          name
-        }
-        mallType
-      }
-    }
-  }
-`;
-
-const GET_COMMERCE_ITEM = gql`
-  query getCommerceItem($id: Int!) {
-    commerceItem(id: $id) {
-      ${getCommonRequestFields()}
-      data {
-        id
-        itemId
-        price
-        availableQuantity
-        category {
-          id
-          name
-        }
-        mallType
-      }
-    }
-  }
-`;
-
-const DELETE_COMMERCE_ITEM = gql`
-  mutation deleteCommerceItem($id: Int!) {
-    deleteCommerceItem(id: $id) {
-      ${getCommonRequestFields()}
-      data {
-        id
-      }
-    }
-  }
-`;
-
-const CREATE_USER = gql`
-  mutation createUser($input: SignUpInput!) {
-    createUser(input: $input) {
-        ${getCommonRequestFields()}
-        data {
-            name
-            email
-            account_details {
-                access_levels
-            }
-        }
-    }
-  }
-`;
 
 const userData = {
   username: faker.name.findName(),
@@ -189,7 +98,7 @@ describe( 'CommerceItem API -> ', () => {
       price: parseFloat( faker.finance.amount( 0, 100 ) ),
       availableQuantity: faker.random.number( 100 ),
       categoryId: commerceCategoryData.id,
-      mallType: 'AWARD'
+      mallType: 'CREDIT'
     };
 
     const { data: { createCommerceItem } } = await mutate( CREATE_COMMERCE_ITEM, {
@@ -223,7 +132,7 @@ describe( 'CommerceItem API -> ', () => {
       price: parseFloat( faker.finance.amount( 0, 100 ) ),
       availableQuantity: faker.random.number( 100 ),
       categoryId: commerceCategoryData.id,
-      mallType: 'AWARD'
+      mallType: 'CREDIT'
     };
 
     const { data: { editCommerceItem } } = await mutate( EDIT_COMMERCE_ITEM, {
@@ -253,7 +162,7 @@ describe( 'CommerceItem API -> ', () => {
       price: parseFloat( faker.finance.amount( 0, 100 ) ),
       availableQuantity: faker.random.number( 100 ),
       categoryId: commerceCategoryData.id,
-      mallType: 'AWARD'
+      mallType: 'CREDIT'
     };
 
     const response = await mutate( EDIT_COMMERCE_ITEM, {

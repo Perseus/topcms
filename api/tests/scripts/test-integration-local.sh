@@ -8,4 +8,8 @@ export GAME_DB_PASSWORD="SM8&Y8xiu}"
 export GAME_DB_HOST=localhost
 export NODE_ENV=test
 
+npm run build-ts
+npx sequelize db:migrate --env="AccountServer" --migrations-path="dist/database/migrations/AccountServer/"
+npx sequelize db:migrate --env="GameDB" --migrations-path="dist/database/migrations/GameDB/"
+
 npm run test:integration

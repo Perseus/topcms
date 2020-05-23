@@ -17,7 +17,7 @@ const AccountDetails = {
     TInput
   },
 
-  mounted() {
+  created() {
     this.userDetails = Object.assign( {}, this.user );
   },
 
@@ -66,7 +66,7 @@ const AccountDetails = {
 
 function mapComputedToState() {
   return mapState( {
-    user: state => state.user,
+    user: state => state.user.userData,
     requestsInProgress: state => state.application.currentRequestsInProgress,
   } );
 }

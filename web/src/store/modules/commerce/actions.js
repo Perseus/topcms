@@ -1,13 +1,13 @@
 import { getCommerceCategories, getCommerceItems } from '../../../apollo/queries/commerce';
 import {
-  createMallCategoryMutation, editMallCategoryMutation, deleteMallCategoryMutation, createMallItemMutation, editMallItemMutation, deleteMallItemMutation
+  createMallCategoryMutation, editMallCategoryMutation, deleteMallCategoryMutation, createMallItemMutation, editMallItemMutation, deleteMallItemMutation, purchaseMallItem
 } from '../../../apollo/mutations/commerce';
 
 
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 import request from '../../../services/GraphQLRequest';
-
+import { handleItemPurchaseErrors } from '../../helpers/commerce';
 import Logger from '../../../services/Logger';
 
 const Actions = {
@@ -96,6 +96,24 @@ const Actions = {
       commit( MutationTypes.DELETE_MALL_ITEM, payload );
     } catch ( err ) {
       Logger.log( `Error at action deleteMallItem ${err}`, 'error' );
+    }
+  },
+
+  async [ ActionTypes.purchaseMallItem ]( { commit, dispatch }, payload ) {
+    try {
+      payload.quantity = parseInt( payload.quantity );
+
+      const { purchaseCommerceItem: response } = await request.mutation( purchaseMallItem, payload );
+
+      const { user, item } = response.data;
+
+      commit( MutationTypes.UPDATED_USER, { user } );
+      commit( MutationTypes.UPDATE_MALL_ITEM, item );
+
+      dispatch( ActionTypes.toggleModal );
+    } catch ( err ) {
+      handleItemPurchaseErrors( err );
+      Logger.log( `Error at action purchaseMallItem: ${err}`, 'error' );
     }
   }
 };

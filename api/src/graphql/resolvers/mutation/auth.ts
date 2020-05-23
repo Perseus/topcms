@@ -52,7 +52,6 @@ export const createUser = resolve( {
     const user = await User.create( {
       name: username,
       email,
-      originalPassword: password,
       password: hashPassword( password ),
     } );
 

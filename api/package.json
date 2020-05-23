@@ -15,7 +15,10 @@
     "setup": "node dist/scripts/builder.js",
     "fetch-ssm": "ts-node src/scripts/ssm.ts topcms",
     "copy:configs": "bash src/scripts/copy-configs.sh",
-    "migrate:ts": "ts-node src/scripts/builder.ts migrate",
+    "migrate:ts:account": "ts-node src/scripts/builder.ts migrate account",
+    "migrate:ts:game": "ts-node src/scripts/builder.ts migrate game",
+    "migrate:undo:game": "npx sequelize db:migrate:undo:all --env GameDB --migrations-path ./dist/database/migrations/GameDB/",
+    "migrate:undo:account": "npx sequelize db:migrate:undo:all --env AccountServer --migrations-path ./dist/database/migrations/AccountServer/",
     "test:unit": "jest",
     "test:integration:local": "bash tests/scripts/test-integration-local.sh",
     "test:integration": "jest tests/integration/*"
