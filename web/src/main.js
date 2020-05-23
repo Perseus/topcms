@@ -22,7 +22,6 @@ Vue.use( Buefy, {
 } );
 Vue.component( 'ValidationObserver', ValidationObserver );
 
-
 RouterSubscriber( router, store );
 
 Vue.config.productionTip = false;

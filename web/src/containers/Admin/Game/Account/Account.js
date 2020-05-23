@@ -1,5 +1,6 @@
 import { mapState, mapActions } from 'vuex';
 
+import UpdateUserPointsModal from '@components/GameAdmin/UpdateUserMallPoints.vue';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
 import { hasValidJobIcon } from '../../../../utils/CharacterUtils';
@@ -16,6 +17,7 @@ const AdminGameAccount = {
     'update-user-email-modal': UpdateUserEmailModal,
     'update-user-password-modal': UpdateUserPasswordModal,
     'update-user-gm-level-modal': UpdateUserGMLevelModal,
+    'update-user-mall-points': UpdateUserPointsModal
   },
 
   mounted() {
@@ -38,6 +40,14 @@ const AdminGameAccount = {
     shouldShowUpdateGMModal() {
       return ( Boolean( this.modalState.type ) && this.modalState.type === GeneralConfig.MODAL_TYPES.UPDATE_USER_GM );
     },
+
+    shouldShowUpdatePointsModal() {
+      return ( this.modalState.type === GeneralConfig.MODAL_TYPES.ADD_COMMERCE_POINTS );
+    },
+
+    isUpdatingPoints() {
+
+    },
   },
 
   methods: {
@@ -49,6 +59,10 @@ const AdminGameAccount = {
       }
 
       return true;
+    },
+
+    handleUpdatePoints( payload ) {
+      this.addMallPoints( { ...payload, id: this.accountData.id } );
     },
 
     openEmailUpdateModal() {
@@ -65,6 +79,18 @@ const AdminGameAccount = {
 
     handleBanForUser( id, currentBan ) {
       this.toggleBanForUser( { id, currentBan } );
+    },
+
+    openPointsUpdateModal( type ) {
+      const points = ( type === 'CREDIT' ? this.accountData.awardCenterPoints : this.accountData.mallPoints );
+
+      this.toggleModal( {
+        type: GeneralConfig.MODAL_TYPES.ADD_COMMERCE_POINTS,
+        options: {
+          type,
+          points
+        }
+      } );
     },
 
     getValidCharacters( characters ) {
@@ -123,6 +149,7 @@ function mapMethodsToActions() {
     adminUpdateUserEmail: ActionTypes.adminUpdateUserEmail,
     adminUpdateUser: ActionTypes.adminUpdateUser,
     resetUserSecurityCode: ActionTypes.resetUserSecurityCode,
+    addMallPoints: ActionTypes.addMallPoints,
   } );
 }
 

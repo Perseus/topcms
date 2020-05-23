@@ -88,3 +88,23 @@ export const deleteMallItemMutation = gql`
     }
   }
 `;
+
+
+export const purchaseMallItem = gql`
+  mutation purchaseMallItem($id: Int!, $quantity: Int!) {
+    purchaseCommerceItem(id: $id, quantity: $quantity) {
+      ${commonQueryFields()}
+      data {
+        user {
+          id
+          mallPoints
+          awardCenterPoints
+        }
+        item {
+          id
+          availableQuantity
+        }
+      }
+    }
+  }
+`;

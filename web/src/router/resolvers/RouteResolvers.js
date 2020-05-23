@@ -151,6 +151,28 @@ const RouteResolvers = {
       return { name: RouteNames.ADMIN.GAME.INDEX };
     }
   },
+
+  [ RouteNames.COMMERCE.AWARD_CENTER ]: async() => {
+    try {
+      await store.dispatch( ActionTypes.retrieveMallCategories );
+      await store.dispatch( ActionTypes.retrieveMallItems );
+
+      return true;
+    } catch ( err ) {
+      return false;
+    }
+  },
+
+  [ RouteNames.COMMERCE.ITEM_MALL ]: async() => {
+    try {
+      await store.dispatch( ActionTypes.retrieveMallCategories );
+      await store.dispatch( ActionTypes.retrieveMallItems );
+
+      return true;
+    } catch ( err ) {
+      return false;
+    }
+  }
 };
 
 export default RouteResolvers;

@@ -39,6 +39,10 @@ const RouteNames = {
   },
   USER: {
     DETAILS: 'USER.DETAILS',
+  },
+  COMMERCE: {
+    ITEM_MALL: 'COMMERCE.ITEM_MALL',
+    AWARD_CENTER: 'COMMERCE.AWARD_CENTER',
   }
 };
 

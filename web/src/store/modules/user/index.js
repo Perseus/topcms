@@ -5,14 +5,18 @@ import mutations from './mutations';
 export function getInitialState() {
   return {
     isLoggedIn: false,
-    permissions: [],
-    username: '',
-    email: '',
     authProcessingState: {
       isRegistering: false,
       isLoggingIn: false,
       errors: [],
     },
+    userData: {
+      username: '',
+      email: '',
+      permissions: [],
+      awardCenterPoints: 0,
+      mallPoints: 0,
+    }
   };
 }
 

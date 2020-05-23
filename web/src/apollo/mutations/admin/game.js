@@ -67,3 +67,16 @@ export const resetUserSecurityCode = gql`
     }
   }
 `;
+
+export const addMallPoints = gql`
+mutation addMallPoints($id: Int!, $type: String!, $numPoints: Int!) {
+  addMallPoints(id: $id, type: $type, numPoints: $numPoints) {
+    ${commonQueryFields()}
+    data {
+      name
+      mallPoints
+      awardCenterPoints
+    }
+  }
+}
+`;

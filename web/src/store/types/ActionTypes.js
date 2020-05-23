@@ -65,6 +65,9 @@ const ActionTypes = {
   createMallItem: 'createMallItem',
   editMallItem: 'editMallItem',
   deleteMallItem: 'deleteMallItem',
+
+  addMallPoints: 'addMallPoints',
+  purchaseMallItem: 'purchaseMallItem',
 };
 
 export default ActionTypes;

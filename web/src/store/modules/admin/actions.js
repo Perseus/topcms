@@ -10,7 +10,9 @@ import request from '../../../services/GraphQLRequest';
 import {
   getFilteredAccounts, getAccountData, getCharacterData, getFilteredCharacters
 } from '../../../apollo/queries/admin/game';
-import { toggleUserBan, updateUserFromAdmin, resetUserSecurityCode } from '../../../apollo/mutations/admin/game';
+import {
+  toggleUserBan, updateUserFromAdmin, resetUserSecurityCode, addMallPoints
+} from '../../../apollo/mutations/admin/game';
 import Logger from '../../../services/Logger';
 import socketHandler from '../../../socket';
 import { handleCharacterSearchErrors } from '../../helpers/admin';
@@ -246,6 +248,27 @@ const Actions = {
       Logger.log( `Error at action resetUserSecurityCode: ${err} ` );
       Snackbar.open( {
         message: 'An error occured while trying to reset the security code',
+        duration: 3000,
+        type: 'is-danger'
+      } );
+    }
+  },
+
+  async [ ActionTypes.addMallPoints ]( { dispatch, commit }, payload ) {
+    try {
+      const { id, type, points } = payload;
+      const { addMallPoints: response } = await request.mutation( addMallPoints, {
+        id,
+        type,
+        numPoints: parseInt( points ),
+      } );
+
+      commit( MutationTypes.UPDATE_MALL_POINTS, { updatedData: response.data } );
+      dispatch( ActionTypes.toggleModal );
+    } catch ( err ) {
+      Logger.log( `Error at action addMallPoints: ${err}` );
+      Snackbar.open( {
+        message: 'An error occured while trying to update the user\'s points',
         duration: 3000,
         type: 'is-danger'
       } );

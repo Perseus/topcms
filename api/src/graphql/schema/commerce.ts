@@ -34,12 +34,17 @@ export const typeDefs = gql`
     availableQuantity: Int
     category: CommerceCategory
     mallType: String
+    itemInfo: JSON
   }
 
+  type CommerceItemAndUser {
+    user: User
+    item: CommerceItem
+  }
 
   type PurchaseItemResponse {
     ${getCommonResponseFields()}
-    data: CommerceItem
+    data: CommerceItemAndUser
   }
 
   type CommerceItemsResponse {
