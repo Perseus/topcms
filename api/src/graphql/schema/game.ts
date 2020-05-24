@@ -13,6 +13,7 @@ export const typeDefs = gql`
   extend type Mutation {
     updateServerRates(rates: ServerRateInfoInput): ServerRateInfoResponse @isAuthenticated(role: SITE)
     toggleUserBan(id: Int!, newBanStatus: Int!): UserResponse @isAuthenticated(role: ADMIN)
+    transferItemToGame(storageId: Int!, quantity: Int!, characterId: Int!): StorageBoxResponse @isAuthenticated(role: USER)
   }
 
   type GameStats {

@@ -10,7 +10,8 @@ export default class Resource extends Model {
   public id!: number;
   public cha_id!: number;
   public type_id!: number;
-  public content!: Record<string, string | number>;
+  public content!: string;
+  public rawContent!: string;
 }
 
 Resource.init( {
@@ -31,6 +32,12 @@ Resource.init( {
       return parsedInventory;
     },
   },
+  rawContent: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return this.getDataValue( 'content' );
+    }
+  }
 }, {
   timestamps: false,
   tableName: 'Resource',

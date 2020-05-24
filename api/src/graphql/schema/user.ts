@@ -11,6 +11,7 @@ export const typeDefs = gql`
     filteredUser(id: ID!): FilteredUserResponse
     filteredCharacter(id: ID!): CharacterResponse @isAuthenticated(role: ADMIN)
     usersWithFilter(filter: String!, searchKey: String, offset: Int, limit: Int): FilteredUsersResponse @isAuthenticated(role: ADMIN)
+    storageBox: StorageBoxResponse @isAuthenticated(role: USER)
   }
 
   extend type Mutation {
@@ -32,6 +33,19 @@ export const typeDefs = gql`
   type UsersResponse {
     ${getCommonResponseFields()}
     data: [User]
+  }
+
+  type StorageBox {
+    id: Int
+    act_id: Int
+    items: String
+    parsedItems: JSON
+    account: Account
+  }
+
+  type StorageBoxResponse {
+    ${getCommonResponseFields()}
+    data: StorageBox
   }
 
   type User {

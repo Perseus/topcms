@@ -1,10 +1,16 @@
 import path from 'path';
 import { promises } from 'fs';
 import Joi from '@hapi/joi';
+import _ from 'lodash';
 
 import { resolve } from '../../utils/resolver';
 
 import User from '../../../database/models/AccountServer/User';
+import StorageBox from '../../../database/models/AccountServer/StorageBox';
+import Character from '../../../database/models/GameDB/Character';
+import TError from '../../../utils/TError';
+import InventoryParser, { InventoryType } from '../../../utils/InventoryParser';
+import Resource from '../../../database/models/GameDB/Resource';
 
 /**
  * Updates the server rates stored in the config
@@ -72,6 +78,101 @@ export const toggleUserBan = resolve( {
 
     return {
       data: user
+    };
+  }
+} );
+
+
+export const transferItemToGame = resolve( {
+  validationSchema: {
+    storageId: Joi.number().required(),
+    quantity: Joi.number().required(),
+    characterId: Joi.number().required(),
+  },
+  async action( { args, context } ) {
+    const { storageId, quantity, characterId } = args;
+    const userId = context.req.user.id;
+
+    const storageBox = await StorageBox.findOne( {
+      where: {
+        act_id: userId
+      }
+    } );
+
+    const character = await Character.findOne( {
+      where: {
+        cha_id: characterId,
+        act_id: userId
+      },
+      include: [
+        {
+          model: Resource,
+          as: 'inventories'
+        }
+      ]
+    } );
+
+    // sequelize doesnt support async getters, awaiting like this works
+    const items = await storageBox.parsedItems;
+
+    if ( items.length === 0 ) {
+      throw new TError( {
+        code: 'storageBox.IS_EMPTY',
+        message: 'There are no items in the storage box'
+      } );
+    }
+
+    const itemIndex = _.findIndex( items, value => ( parseInt( value.itemId ) === storageId && parseInt( value.quantity ) === quantity ) );
+
+    if ( itemIndex === -1 ) {
+      throw new TError( {
+        code: 'storageBox.ITEM_NOT_FOUND',
+        message: 'The item was not found in the storage box'
+      } );
+    }
+
+    if ( character.isOnline() ) {
+      throw new TError( {
+        code: 'character.IS_ONLINE',
+        message: 'The character is online and cannot be assigned an item.'
+      } );
+    }
+
+    const characterResources = character.inventories;
+    const tempBag = characterResources.filter( resource => resource.type_id === InventoryType.TEMP_BAG )[ 0 ];
+
+    const newStorageBoxItemsList = items.filter( ( val, index ) => index !== itemIndex );
+
+    const parser = new InventoryParser( InventoryType.TEMP_BAG, tempBag.rawContent );
+
+    if ( parser.isInventoryFull() ) {
+      throw new TError( {
+        code: 'character.TEMP_BAG_FULL',
+        message: 'Character\'s temporary bag is full.'
+      } );
+    }
+    const itemsToAdd = [ {
+      itemId: storageId,
+      quantity,
+    } ];
+
+    const finalInventory = await parser.addItemsToInventory( itemsToAdd );
+
+    tempBag.content = finalInventory;
+    await tempBag.save();
+
+    const finalStorageBoxItemsList: string[] = [];
+
+    _.forEach( newStorageBoxItemsList, ( value ) => {
+      finalStorageBoxItemsList.push( `${value.itemId},${value.quantity}` );
+    } );
+
+    const finalStorageBoxString = finalStorageBoxItemsList.join( ';' );
+    storageBox.items = finalStorageBoxString;
+    await storageBox.save();
+
+    return {
+      data: storageBox
     };
   }
 } );

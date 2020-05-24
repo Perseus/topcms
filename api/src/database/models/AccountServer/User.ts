@@ -8,6 +8,7 @@ import { AccessLevels } from '../../../types/db';
 import { AccountServer } from '../..';
 
 import AccountModel from '../GameDB/Account';
+import StorageBox from './StorageBox';
 
 export default class User extends BaseModel {
   public id!: number;
@@ -125,4 +126,15 @@ User.init( {
       exclude: [ 'originalPassword' ],
     }
   }
+} );
+
+User.hasOne( StorageBox, {
+  foreignKey: 'act_id',
+  as: 'storageBox',
+} );
+
+StorageBox.belongsTo( User, {
+  targetKey: 'id',
+  foreignKey: 'act_id',
+  as: 'account'
 } );
