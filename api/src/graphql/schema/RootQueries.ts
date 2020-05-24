@@ -13,6 +13,7 @@ export const typeDefs = gql`
     cha_name: String
     icon: String
     job: String
+    mem_addr: Int
     guild_id: Int
     delflag: Int
     degree: Int

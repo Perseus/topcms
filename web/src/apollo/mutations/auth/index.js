@@ -11,6 +11,15 @@ export const loginUserMutation = gql`
                 account_details {
                     access_levels
                 }
+                mallPoints
+                awardCenterPoints
+                character_details {
+                    cha_id
+                    cha_name
+                    mem_addr
+                    icon
+                    job 
+                }
             }
         }
     }
@@ -49,6 +58,20 @@ export const updateUserMutation = gql`
             data {
                 name
                 email
+            }
+        }
+    }
+`;
+
+export const transferItemMutation = gql`
+    mutation transferItemToStorageBox($storageId: Int!, $quantity: Int!, $characterId: Int!) {
+        transferItemToGame(storageId: $storageId, quantity: $quantity, characterId: $characterId) {
+            ${commonQueryFields()}
+            data {
+                id
+                act_id
+                items
+                parsedItems
             }
         }
     }

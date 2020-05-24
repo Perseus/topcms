@@ -1,4 +1,5 @@
 import Joi from '@hapi/joi';
+import { v4 as uuid } from 'uuid';
 
 import MallCategory from '../../../database/models/GameDB/MallCategory';
 import ItemMall from '../../../database/models/GameDB/ItemMall';
@@ -324,7 +325,7 @@ export const purchaseCommerceItem = resolve( {
 
     const itemsInBox = storageBox.items;
     let allItems = itemsInBox.split( ';' );
-    const newItemEntry = `${itemBeingPurchased.itemId},${quantity}`;
+    const newItemEntry = `${uuid()},${itemBeingPurchased.itemId},${quantity}`;
 
     if ( itemsInBox === '' ) {
       allItems = [ newItemEntry ];

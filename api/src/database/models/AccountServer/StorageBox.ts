@@ -33,6 +33,11 @@ StorageBox.init( {
     type: DataTypes.VIRTUAL,
     async get(): Promise<Record<string, string>[]> {
       const items: string = this.getDataValue( 'items' );
+
+      if ( items === '' ) {
+        return [];
+      }
+
       const dataDir = path.join( __dirname, '..', '..', '..', 'data' );
       const itemInfoParser = new ItemInfoParser( null, dataDir );
       const finalItemsData = [];
@@ -40,9 +45,10 @@ StorageBox.init( {
 
       for ( let i = 0; i < splitItems.length; i++ ) {
         const splitItem = splitItems[ i ];
-        const [ itemId, quantity ] = splitItem.split( ',' );
+        const [ id, itemId, quantity ] = splitItem.split( ',' );
         const itemData = await itemInfoParser.getItemInformation( parseInt( itemId ) );
         finalItemsData.push( {
+          id,
           itemId,
           quantity,
           itemData: JSON.parse( itemData ),

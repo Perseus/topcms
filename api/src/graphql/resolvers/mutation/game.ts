@@ -122,7 +122,7 @@ export const transferItemToGame = resolve( {
       } );
     }
 
-    const itemIndex = _.findIndex( items, value => ( parseInt( value.itemId ) === storageId && parseInt( value.quantity ) === quantity ) );
+    const itemIndex = _.findIndex( items, value => ( parseInt( value.id ) === storageId && parseInt( value.quantity ) === quantity ) );
 
     if ( itemIndex === -1 ) {
       throw new TError( {
@@ -151,8 +151,9 @@ export const transferItemToGame = resolve( {
         message: 'Character\'s temporary bag is full.'
       } );
     }
+
     const itemsToAdd = [ {
-      itemId: storageId,
+      itemId: parseInt( items[ itemIndex ].itemId ),
       quantity,
     } ];
 

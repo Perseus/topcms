@@ -258,7 +258,7 @@ export const storageBox = resolve( {
 
     const box = await StorageBox.findOne( {
       where: {
-        id: userId
+        act_id: userId
       }
     } );
 
