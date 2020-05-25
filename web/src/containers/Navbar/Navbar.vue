@@ -30,6 +30,7 @@
             <span class="username">{{ username }}</span>
           </a>
           <b-dropdown-item aria-role="listitem" @click="redirectToUserManagement">Account</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="redirectToStorageBox">Storage Box</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="logout">Logout</b-dropdown-item>
         </b-dropdown>
       </div>

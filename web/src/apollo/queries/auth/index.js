@@ -13,6 +13,13 @@ const getCurrentUserQuery = gql`
                 }
                 mallPoints
                 awardCenterPoints
+                character_details {
+                    cha_id
+                    cha_name
+                    mem_addr
+                    icon
+                    job 
+                }
             }
         }
     }
@@ -23,4 +30,19 @@ const logoutUserQuery = gql`
         logout
     }
 `;
+
+export const getStorageBoxQuery = gql`
+    query getStorageBox {
+        storageBox {
+            ${commonQueryFields()}
+            data {
+                id
+                act_id
+                items
+                parsedItems
+            }
+        }
+    }
+`;
+
 export { getCurrentUserQuery, logoutUserQuery };

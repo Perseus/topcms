@@ -41,6 +41,10 @@ const Navbar = {
       this.changeRoute( { name: RouteNames.USER.DETAILS } );
     },
 
+    redirectToStorageBox() {
+      this.changeRoute( { name: RouteNames.USER.STORAGE_BOX } );
+    },
+
   },
 };
 

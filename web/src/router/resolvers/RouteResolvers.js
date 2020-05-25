@@ -172,7 +172,17 @@ const RouteResolvers = {
     } catch ( err ) {
       return false;
     }
-  }
+  },
+
+  [ RouteNames.USER.STORAGE_BOX ]: async() => {
+    try {
+      await store.dispatch( ActionTypes.getStorageBox );
+
+      return true;
+    } catch ( err ) {
+      return { name: RouteNames.ROOT.__LANDING__ };
+    }
+  },
 };
 
 export default RouteResolvers;

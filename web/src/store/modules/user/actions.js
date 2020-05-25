@@ -1,13 +1,13 @@
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
+import { SnackbarProgrammatic as Snackbar, ToastProgrammatic as Toast } from 'buefy';
 
 import MutationTypes from '../../types/MutationTypes';
 import ActionTypes from '../../types/ActionTypes';
 import { apolloClient } from '../../../apollo';
 import {
-  registerUserMutation, loginUserMutation, logoutUserMutation, updateUserMutation
+  registerUserMutation, loginUserMutation, logoutUserMutation, updateUserMutation, transferItemMutation
 } from '../../../apollo/mutations/auth';
 import request from '../../../services/GraphQLRequest';
-import { getCurrentUserQuery } from '../../../apollo/queries/auth';
+import { getCurrentUserQuery, getStorageBoxQuery } from '../../../apollo/queries/auth';
 import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import Logger from '../../../services/Logger';
 import RouteNames from '../../../config/RouteNames';
@@ -75,19 +75,16 @@ const Actions = {
 
       const { me: currentUserResponse } = response;
 
-      if ( currentUserResponse.code !== 'OK' ) {
-        throw new Error( currentUserResponse.code );
-      }
-
       const {
-        name, email, account_details, awardCenterPoints, mallPoints
+        name, email, account_details, awardCenterPoints, mallPoints, character_details
       } = currentUserResponse.data;
       commit( MutationTypes.SIGNIN_COMPLETE, {
         username: name,
         email,
         awardCenterPoints,
         mallPoints,
-        account_details
+        account_details,
+        character_details
       } );
     } catch ( err ) {
       commit( MutationTypes.SIGNIN_FAILED, {
@@ -144,6 +141,35 @@ const Actions = {
         position: 'is-bottom',
         duration: 4000
       } );
+    }
+  },
+
+  async [ ActionTypes.getStorageBox ]( { commit } ) {
+    try {
+      const { storageBox: response } = await request.query( getStorageBoxQuery );
+      commit( MutationTypes.UPDATE_STORAGE_BOX, response.data );
+    } catch ( err ) {
+      Logger.log( `Error at action getStorageBox: ${err}`, 'error' );
+    }
+  },
+
+  async [ ActionTypes.transferItemFromStorageBox ]( { commit }, payload ) {
+    try {
+      const { itemId, characterId, quantity } = payload;
+      const { transferItemToGame: response } = await request.mutation( transferItemMutation, {
+        storageId: parseInt( itemId ),
+        quantity: parseInt( quantity ),
+        characterId: parseInt( characterId ),
+      } );
+
+      commit( MutationTypes.UPDATE_STORAGE_BOX, response.data );
+      Toast.open( {
+        message: 'Item transferred successfully! Please check your temporary bag in game.',
+        duration: 5000,
+        type: 'is-success',
+      } );
+    } catch ( err ) {
+      Logger.log( `Error at action transferItemFromStorageBox ${err}`, 'error' );
     }
   }
 };
