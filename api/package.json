@@ -21,7 +21,8 @@
     "migrate:undo:account": "npx sequelize db:migrate:undo:all --env AccountServer --migrations-path ./dist/database/migrations/AccountServer/",
     "test:unit": "jest",
     "test:integration:local": "bash tests/scripts/test-integration-local.sh",
-    "test:integration": "jest tests/integration/*"
+    "test:integration": "jest tests/integration/*",
+    "install-wizard": "node wizard/index.js --ignore wizard/src/data --ignore dist"
   },
   "author": "Perseus",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "@hapi/joi": "^17.1.1",
     "apollo-server": "^2.9.3",
     "apollo-server-express": "^2.9.3",
+    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "csurf": "^1.10.0",
