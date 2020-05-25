@@ -16,7 +16,12 @@ export function getInitialState() {
       permissions: [],
       awardCenterPoints: 0,
       mallPoints: 0,
-    }
+      characterDetails: [],
+    },
+    storageBox: {
+      items: '',
+      itemsData: [],
+    },
   };
 }
 

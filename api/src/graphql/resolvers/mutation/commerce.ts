@@ -1,13 +1,16 @@
 import Joi from '@hapi/joi';
+import { v4 as uuid } from 'uuid';
 
 import MallCategory from '../../../database/models/GameDB/MallCategory';
 import ItemMall from '../../../database/models/GameDB/ItemMall';
 import User from '../../../database/models/AccountServer/User';
+import StorageBox from '../../../database/models/AccountServer/StorageBox';
 
 import { resolve } from '../../utils/resolver';
 import logger from '../../../utils/FileLogger';
 import TError from '../../../utils/TError';
 import { MallTypes } from '../../../config';
+import InventoryParser from '../../../utils/InventoryParser';
 
 /**
  * REQUIRES_ADMIN
@@ -305,9 +308,37 @@ export const purchaseCommerceItem = resolve( {
       type: 'commerceItem', level: 'debug', message: `Item ${itemBeingPurchased.id} bought. Quantity: ${quantity}`, user: req.user
     } );
 
-    // TODO: Storage box logic here.
+    // add item to user's storage box
+    let storageBox = await StorageBox.findOne( {
+      where: {
+        act_id: user.id,
+      },
+      rejectOnEmpty: false
+    } );
 
+    if ( !storageBox ) {
+      storageBox = await StorageBox.create( {
+        act_id: user.id,
+        items: '',
+      } );
+    }
 
+    const itemsInBox = storageBox.items;
+    let allItems = itemsInBox.split( ';' );
+    const newItemEntry = `${uuid()},${itemBeingPurchased.itemId},${quantity}`;
+
+    if ( itemsInBox === '' ) {
+      allItems = [ newItemEntry ];
+    } else {
+      allItems.push( newItemEntry );
+    }
+
+    const newItemsString = allItems.join( ';' );
+    storageBox.items = newItemsString;
+
+    await storageBox.save();
+
+    // reduce item quantity if needed
     if ( itemBeingPurchased.availableQuantity !== -1 ) {
       itemBeingPurchased.availableQuantity -= quantity;
 

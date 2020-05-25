@@ -89,7 +89,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.deleteMallItem ]( { commit, dispatch }, payload ) {
+  async [ ActionTypes.deleteMallItem ]( { commit }, payload ) {
     try {
       await request.mutation( deleteMallItemMutation, payload );
 

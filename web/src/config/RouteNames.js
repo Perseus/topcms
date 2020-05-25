@@ -39,6 +39,7 @@ const RouteNames = {
   },
   USER: {
     DETAILS: 'USER.DETAILS',
+    STORAGE_BOX: 'USER.STORAGE_BOX',
   },
   COMMERCE: {
     ITEM_MALL: 'COMMERCE.ITEM_MALL',

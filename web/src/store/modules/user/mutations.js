@@ -17,7 +17,7 @@ const Mutations = {
 
   [ MutationTypes.SIGNIN_COMPLETE ]( state, payload ) {
     const {
-      username, email, account_details, mallPoints, awardCenterPoints
+      username, email, account_details, mallPoints, awardCenterPoints, character_details
     } = payload;
 
     state.isLoggedIn = true;
@@ -26,6 +26,7 @@ const Mutations = {
     state.userData.permissions = account_details.access_levels;
     state.userData.mallPoints = mallPoints;
     state.userData.awardCenterPoints = awardCenterPoints;
+    state.userData.characterDetails = character_details;
   },
 
   [ MutationTypes.SIGNIN_FAILED ]( state, payload ) {
@@ -34,8 +35,14 @@ const Mutations = {
 
   [ MutationTypes.UPDATED_USER ]( state, { user } ) {
     Object.assign( state.userData, user );
-  }
+  },
 
+  [ MutationTypes.UPDATE_STORAGE_BOX ]( state, payload ) {
+    const { items, parsedItems } = payload;
+    console.log( payload );
+    state.storageBox.items = items;
+    state.storageBox.itemsData = parsedItems;
+  }
 };
 
 export default Mutations;

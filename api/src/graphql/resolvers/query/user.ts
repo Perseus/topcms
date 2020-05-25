@@ -7,6 +7,7 @@ import Character from '../../../database/models/GameDB/Character';
 import Resource from '../../../database/models/GameDB/Resource';
 import Guild from '../../../database/models/GameDB/Guild';
 import Account from '../../../database/models/GameDB/Account';
+import StorageBox from '../../../database/models/AccountServer/StorageBox';
 
 import { AccountSearchFilters, CharacterSearchFilters } from '../../../config';
 import TError from '../../../utils/TError';
@@ -241,6 +242,28 @@ export const filteredCharacter = resolve( {
 
     return {
       data: character,
+    };
+  }
+} );
+
+
+/**
+ * REQUIRES_USER
+ *
+ * Fetches a user's storage box content
+ */
+export const storageBox = resolve( {
+  async action( { context } ) {
+    const userId = context.req.user.id;
+
+    const box = await StorageBox.findOne( {
+      where: {
+        act_id: userId
+      }
+    } );
+
+    return {
+      data: box
     };
   }
 } );

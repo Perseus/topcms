@@ -67,6 +67,8 @@ const MutationTypes = {
 
   UPDATE_MALL_POINTS: 'UPDATE_MALL_POINTS',
 
+  UPDATE_STORAGE_BOX: 'UPDATE_STORAGE_BOX',
+
 };
 
 export default MutationTypes;

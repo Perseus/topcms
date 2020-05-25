@@ -1,7 +1,7 @@
 import { QueryInterface } from 'sequelize';
 
 module.exports = {
-  up: ( queryInterface: QueryInterface, Sequelize ): => queryInterface.sequelize.transaction( t => Promise.all( [
+  up: ( queryInterface: QueryInterface, Sequelize ): Promise<[void, void]> => queryInterface.sequelize.transaction( t => Promise.all( [
     queryInterface.addColumn( 'account_login', 'mallPoints', {
       type: Sequelize.DataTypes.INTEGER,
       defaultValue: 0,

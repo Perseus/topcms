@@ -160,7 +160,15 @@ export const resetUserSecurityCode = resolve( {
   }
 } );
 
-
+/**
+ * REQUIRES_ADMIN
+ *
+ * Allows an admin to add mall/award center points to an account
+ *
+ * @param {number} id -> ID of the user to add the points to
+ * @param {string} type -> Type of points to add (Mall, Award Center)
+ * @param {number} numPoints -> Number of points to add
+ */
 export const addMallPoints = resolve( {
   validationSchema: {
     id: Joi.number().required(),

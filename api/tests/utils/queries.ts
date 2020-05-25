@@ -138,3 +138,16 @@ export const PURCHASE_MALL_ITEM = gql`
     }
   }
 `;
+
+export const GET_STORAGE_BOX = gql`
+  query getStorageBox {
+    storageBox {
+      ${getCommonRequestFields()}
+      data {
+        id
+        act_id
+        items
+      }
+    }
+  }
+`;

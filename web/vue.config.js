@@ -33,13 +33,9 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     port: 3001,
-    writeToDisk: ( fileName ) => {
-      if ( fileName.includes( 'png' ) || fileName.includes( 'jpg' ) ) {
-        return false;
-      }
-      return true;
-    },
     contentBase: path.join( __dirname, 'dist' ),
+    hot: true,
+    clientLogLevel: 'info',
   },
   chainWebpack: ( config ) => {
     // config.output.filename( 'bundle.js' );

@@ -2,18 +2,18 @@ import path from 'path';
 import _ from 'lodash';
 
 import logger from './FileLogger';
-import { DBInventoryAttributeMap as AttributeMap, DBInventoryGearMap as GearMap } from '../config';
+import { DBInventoryAttributeMap as AttributeMap, DBInventoryGearMap as GearMap, ItemInfoAttributeMap as ItemInfoAttributes } from '../config';
 import ItemInfoParser from './ItemInfoParser';
 
 /* eslint-disable class-methods-use-this */
 
 const dataDir = path.join( __dirname, '..', 'data' );
 
-enum InventoryType {
+export enum InventoryType {
   LOOK,
   MAIN_BAG,
+  BANK,
   TEMP_BAG,
-  BANK
 }
 interface ParsedInventoryItem {
   no: number;
@@ -21,7 +21,7 @@ interface ParsedInventoryItem {
   type: string;
   crc: number;
   size: number;
-  items: Record<number, BagSingleItem>;
+  items: Record<number, number[]>;
   inventoryType: InventoryType;
 }
 
@@ -36,14 +36,11 @@ interface SingleBagItem {
   id: number;
   amount: number;
   itemInfo: string;
-  dbAttributes: string[];
+  dbAttributes: number[];
 }
 
 interface PlayerGearCollection {
   [key: string]: SingleGearItem;
-}
-type BagSingleItem = {
-  [key: number]: number;
 }
 
 export default class InventoryParser {
@@ -51,6 +48,7 @@ export default class InventoryParser {
   private inventoryContent!: string;
   private encryptedInventory!: string;
   private cryptKey!: string;
+  private decryptedInventory: string;
   private parsedInventory: ParsedInventoryItem;
 
   constructor( inventoryType: InventoryType, inventoryContent: string ) {
@@ -81,6 +79,8 @@ export default class InventoryParser {
 
     this.encryptedInventory = encryptedInventory;
     const decryptedInventory = this.decryptInventory( encryptedInventory.trim() );
+    this.decryptedInventory = decryptedInventory;
+
     if ( this.inventoryType === InventoryType.LOOK ) {
       return;
     }
@@ -98,6 +98,7 @@ export default class InventoryParser {
     let decryptedInventory = '';
 
     // ToP used a weird way to encrypt their inventories
+    // subtract the ascii value of characters of the encrypted inventory by the ascii value of characters of the encryption key.
     for ( let i = 0; i < inventoryLength; i += 1 ) {
       const asciiDifference = encryptedInventory[ i ].charCodeAt( 0 ) - this.cryptKey[ i % cryptKeyLength ].charCodeAt( 0 );
       decryptedInventory += String.fromCharCode( asciiDifference );
@@ -105,6 +106,81 @@ export default class InventoryParser {
 
     return decryptedInventory;
   }
+
+  encryptInventory( decryptedInventory: Record<string, string> ): string {
+    const cryptKeyLength = this.cryptKey.length;
+    const { sizeAndNo, compressedItemString } = decryptedInventory;
+    const inventoryLength = compressedItemString.length;
+
+    let encryptedInventory = '';
+
+    for ( let i = 0; i < inventoryLength; i++ ) {
+      const asciiSum = compressedItemString[ i ].charCodeAt( 0 ) + this.cryptKey[ i % cryptKeyLength ].charCodeAt( 0 );
+      encryptedInventory += String.fromCharCode( asciiSum );
+    }
+
+    return `${sizeAndNo}${encryptedInventory}`;
+  }
+
+  async addItemsToInventory( items: Record<string, number>[] ): Promise<string> {
+    const itemInfoParser = new ItemInfoParser( null, dataDir );
+
+    for ( let i = 0; i < items.length; i++ ) {
+      const item = items[ i ];
+      const { itemId, quantity } = item;
+      const itemData = await itemInfoParser.getItemInformation( itemId );
+      this.addItemToInventory( itemId, quantity, itemData );
+    }
+
+    this.parsedInventory.crc = this.computeCrc( this.parsedInventory );
+
+    const { sizeAndNo, compressedItemString } = this.compressParsedInventory();
+    const finalInventoryContent = this.encryptInventory( {
+      sizeAndNo,
+      compressedItemString
+    } );
+
+    return finalInventoryContent;
+  }
+
+  compressParsedInventory(): Record<string, string> {
+    const inventory = this.parsedInventory;
+    const compressedInventory = `${inventory.maxSize}@${inventory.no}#`;
+
+    let compressedItemString = ``;
+    for ( let i = 0; i < inventory.maxSize; i++ ) {
+      if ( inventory.items[ i ] !== null ) {
+        compressedItemString = `${compressedItemString}${inventory.items[ i ].join( ',' )};`;
+      }
+    }
+
+    const { crc } = this.parsedInventory;
+    compressedItemString = `${inventory.type};${inventory.size};${compressedItemString}${crc}`;
+
+    return {
+      sizeAndNo: compressedInventory,
+      compressedItemString,
+    };
+  }
+
+  private addItemToInventory( itemId: number, quantity: number, item: string ): void {
+    const inventory = this.parsedInventory;
+    const parsedItem = JSON.parse( item );
+    const durability = parsedItem.DURABILITY.split( ',' );
+    const energy = parsedItem.ENERGY.split( ',' );
+    let itemsAdded = 0;
+
+    for ( let i = 0; ( i < inventory.maxSize && itemsAdded < quantity ); i++ ) {
+      if ( inventory.items[ i ] === null ) {
+        const finalItem = [ i, itemId, quantity, parseInt( durability[ 0 ] ), parseInt( durability[ 1 ] ), parseInt( energy[ 0 ] ), parseInt( energy[ 1 ] ), 0, 0, 0, 0 ];
+        inventory.items[ i ] = finalItem;
+        itemsAdded += quantity;
+      }
+    }
+
+    inventory.size += itemsAdded;
+  }
+
 
   retrieveItemsFromInventory( maxSize: number, numberOfSomething: number, inventory: string ): ParsedInventoryItem {
     const parsedInventory: ParsedInventoryItem = {
@@ -135,7 +211,7 @@ export default class InventoryParser {
     // item[ 0 ] contains the slot at which the item exists
     // set that slot = the item
     for ( let i = 2; i < totalItemsInInventory - 1; i += 1 ) {
-      const item: BagSingleItem = splitInventory[ i ].split( ',' ).map( invItem => parseInt( invItem ) );
+      const item: number[] = splitInventory[ i ].split( ',' ).map( invItem => parseInt( invItem ) );
       parsedInventory.items[ item[ 0 ] ] = item;
     }
 
@@ -166,7 +242,6 @@ export default class InventoryParser {
   computeCrc( inventory: ParsedInventoryItem ): number {
     const inventoryItems = inventory.items || [];
     let crc = parseInt( inventory.type );
-
     const totalInventoryItems = Object.keys( inventoryItems ).length;
 
     for ( let itemIndex = 0; itemIndex < totalInventoryItems; itemIndex += 1 ) {
@@ -175,7 +250,7 @@ export default class InventoryParser {
 
       for ( let i = 0; i < totalItemAttributes; i += 1 ) {
         if ( i !== 0 && i !== 10 ) {
-          crc += Number( item[ i ] );
+          crc += item[ i ];
         }
       }
     }
@@ -216,7 +291,7 @@ export default class InventoryParser {
     return items;
   }
 
-  async getItemInformation( item: BagSingleItem ): Promise<SingleBagItem> {
+  async getItemInformation( item: number[] ): Promise<SingleBagItem> {
     if ( !item || !Array.isArray( item ) ) {
       return;
     }
@@ -267,5 +342,22 @@ export default class InventoryParser {
 
 
     console.log( gemString );
+  }
+
+  isInventoryFull(): boolean {
+    let totalOccupiedSlots = 0;
+    const { items } = this.parsedInventory;
+
+    _.forEach( items, ( value ) => {
+      if ( value !== null ) {
+        totalOccupiedSlots += 1;
+      }
+    } );
+
+    if ( totalOccupiedSlots >= this.parsedInventory.maxSize ) {
+      return true;
+    }
+
+    return false;
   }
 }

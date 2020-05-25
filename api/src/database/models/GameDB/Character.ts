@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { DataTypes, Association } from 'sequelize';
+import { DataTypes, Association, HasManyGetAssociationsMixin } from 'sequelize';
 
 // const { isUnique } = require( '../../validators/validators' );
 import Guild from './Guild';
@@ -10,7 +10,7 @@ import { GameDB } from '../..';
 import BaseModel from '../../utils/model';
 import InventoryParser from '../../../utils/InventoryParser';
 
-const { JobTypes, CharacterModelTypes } = require( '../../../config' );
+import { JobTypes, CharacterModelTypes } from '../../../config';
 
 export default class Character extends BaseModel {
   public cha_id!: number;
@@ -36,10 +36,20 @@ export default class Character extends BaseModel {
   public bank!: number;
   public estop!: string;
   public delflag!: number;
+  public mem_addr!: number;
+
+  public getResource!: HasManyGetAssociationsMixin<Resource>;
 
   public static associations: {
     guild: Association<Character, Guild>;
     resource: Association<Character, Resource>;
+  }
+
+  public readonly inventories?: Resource[];
+
+  isOnline(): boolean {
+    const memAddr = this.mem_addr;
+    return ( memAddr !== 0 );
   }
 }
 
@@ -55,6 +65,7 @@ Character.init( {
   },
   act_id: DataTypes.DECIMAL,
   guild_id: DataTypes.DECIMAL,
+  mem_addr: DataTypes.INTEGER,
   job: {
     type: DataTypes.STRING,
     get(): string {

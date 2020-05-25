@@ -9,7 +9,7 @@ import { isAuthenticatedDirective } from '../../src/graphql/directives/auth';
 import { server as graphQLServer } from '../../src/app';
 import { AccountServer, GameDB } from '../../src/database';
 import {
-  CREATE_COMMERCE_CATEGORY, CREATE_COMMERCE_ITEM, CREATE_USER, GET_USER, ADD_MALL_POINTS, PURCHASE_MALL_ITEM, GET_COMMERCE_ITEM
+  CREATE_COMMERCE_CATEGORY, CREATE_COMMERCE_ITEM, CREATE_USER, GET_USER, ADD_MALL_POINTS, PURCHASE_MALL_ITEM, GET_COMMERCE_ITEM, GET_STORAGE_BOX
 } from '../utils/queries';
 
 
@@ -243,6 +243,30 @@ describe( 'PurchaseItem API -> ', () => {
     } );
 
     expect( newCommerceItem.data.availableQuantity ).toBe( initialQuantity - 1 );
+  } );
+
+  it( 'adds an entry to the storage box when user purchases an item', async() => {
+    await mutate( ADD_MALL_POINTS, {
+      variables: {
+        id: state.user.id,
+        type: 'MALL',
+        numPoints: ( state.createdMallItem.price * 2 )
+      }
+    } );
+
+    const { data: { storageBox: initialStorageBox } } = await query( GET_STORAGE_BOX );
+
+    await mutate( PURCHASE_MALL_ITEM, {
+      variables: {
+        id: state.createdMallItem.id,
+        quantity: 2,
+      }
+    } );
+
+    const { data: { storageBox: finalStorageBox } } = await query( GET_STORAGE_BOX );
+
+    expect( finalStorageBox.data.items ).toContain( `${state.createdMallItem.itemId},2` );
+    expect( finalStorageBox.data.items ).not.toEqual( initialStorageBox.data.items );
   } );
 
 
