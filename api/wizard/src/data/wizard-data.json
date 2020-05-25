@@ -1,0 +1,11 @@
+{
+  "currentStep": 0,
+  "stepsFinished": {
+    "general": false,
+    "typescript": false,
+    "db": false,
+    "jwt": false,
+    "web": false
+  },
+  "finished": false
+}
