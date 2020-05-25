@@ -15,6 +15,8 @@
     "setup": "node dist/scripts/builder.js",
     "fetch-ssm": "ts-node src/scripts/ssm.ts topcms",
     "copy:configs": "bash src/scripts/copy-configs.sh",
+    "migrate:account": "node dist/scripts/builder.js migrate account",
+    "migrate:game": "node dist/scripts/builder.js migrate game",
     "migrate:ts:account": "ts-node src/scripts/builder.ts migrate account",
     "migrate:ts:game": "ts-node src/scripts/builder.ts migrate game",
     "migrate:undo:game": "npx sequelize db:migrate:undo:all --env GameDB --migrations-path ./dist/database/migrations/GameDB/",

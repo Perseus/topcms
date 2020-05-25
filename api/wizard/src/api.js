@@ -236,6 +236,8 @@ router.post( '/migrate', async( req, res ) => {
   try {
     shell.cd( '../api' );
     await runShellScript( 'npm run migrate:ts:account && npm run migrate:ts:game' );
+    shell.cp( '-R', 'src/views', 'dist' );
+    shell.cp( 'src/config/interactableConfig.json', 'dist/config' );
   } catch ( err ) {
     console.log( err );
   }
