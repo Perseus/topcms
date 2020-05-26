@@ -19,13 +19,15 @@ phases:
   
   post_build:
     commands:
+      - echo Copying views and frontend folders
+      - cp -R api/src/views api/dist
+      - cp api/src/config/interactableConfig.json api/dist/config
       - echo Moving build output
       - mkdir build-output
       - cp -R api/dist/* build-output
-      - mkdir build-output/node_modules
-      - cp -R api/node_modules build-output/
       - cp api/package.json build-output/
       - cp api/.env build-output/.env
+      - cp api/.sequelizerc build-output/.sequelizerc
       - cp buildspec.yaml build-output/buildspec.yaml
       - cp appspec.yml build-output/appspec.yml
       - mkdir build-output/build

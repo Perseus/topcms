@@ -7,6 +7,9 @@ hooks:
   BeforeInstall:
     - location: build/install-dependencies.sh
       runas: root
+  AfterInstall:
+    - location: build/after-install.sh
+      runas: root
   ApplicationStart:
     - location: build/start-prod.sh
       runas: root

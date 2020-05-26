@@ -9,7 +9,6 @@ class SocketHandler {
     this.socket = socketio.connect( this.connectionURL, {
       autoConnect: true,
     } );
-    console.log( this.socket );
   }
 
   emit( eventName, params ) {
