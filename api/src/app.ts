@@ -39,7 +39,7 @@ const corsOptions = {
     } else if ( urlWhitelist.includes( origin ) || !origin ) {
       callback( null, true );
     } else {
-      callback( new Error( 'Restricted by CORS' ) );
+      callback( new Error( `Restricted by CORS ${origin} ${JSON.stringify( urlWhitelist )}, ${JSON.stringify( process.env )}` ) );
     }
   },
   optionsSuccessStatus: 200,

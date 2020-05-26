@@ -64,6 +64,7 @@ router.post( '/compile-ts', async( req, res ) => {
     await fs.writeFile( wizardDataFile, JSON.stringify( wizardData, null, 2 ) );
 
     shell.cp( 'src/config/interactableConfig.json', 'dist/config/' );
+    shell.mkdir( 'dist/data' );
   } catch ( err ) {
     console.log( err );
   }
@@ -236,6 +237,8 @@ router.post( '/migrate', async( req, res ) => {
   try {
     shell.cd( '../api' );
     await runShellScript( 'npm run migrate:ts:account && npm run migrate:ts:game' );
+    shell.cp( '-R', 'src/views', 'dist' );
+    shell.cp( 'src/config/interactableConfig.json', 'dist/config' );
   } catch ( err ) {
     console.log( err );
   }

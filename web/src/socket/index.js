@@ -10,9 +10,13 @@ class SocketHandler {
       autoConnect: true,
     } );
     console.log( this.socket );
+    this.socket.on( 'error', ( err ) => {
+      console.log( 'error on socket', err );
+    } );
   }
 
   emit( eventName, params ) {
+    console.log( this.socket, this.connectionURL, 'emitting', eventName, params );
     return this.socket.emit( eventName, params );
   }
 

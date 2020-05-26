@@ -1,6 +1,8 @@
 export default {
   log( text, type = 'error' ) {
-    if ( process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'test' ) {
+    const LoggingAllowed = localStorage.getItem( 'lgAl' );
+
+    if ( process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'test' && !LoggingAllowed ) {
       return;
     }
     let color = '';

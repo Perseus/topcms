@@ -83,12 +83,13 @@ function normalizeDBKeys( dbDetails: Record<string, Record<string, string>> ): R
 async function getWebEnvDetails(): Promise<void> {
   const websiteTitle = await prompt( colors.yellow( ` Enter your website's title: ` ) );
   let apiHost = await prompt( colors.yellow( ` Enter the IP address/website address where your API is hosted (leave empty for localhost): ` ) );
-  apiHost = ( apiHost === '' ) ? 'http://localhost:3000/graphql' : `${apiHost}/graphql`;
-
+  apiHost = ( apiHost === '' ) ? 'http://localhost:3000' : apiHost;
+  const apiURL = ( apiHost === '' ) ? 'http://localhost:3000/api' : `${apiHost}/api`;
+  const graphqlHost = ( apiHost === '' ) ? 'http://localhost:3000/graphql' : `${apiHost}/graphql`;
   const webEnvDetails = {
-    VUE_APP_GRAPHQL_HTTP: apiHost,
+    VUE_APP_GRAPHQL_HTTP: graphqlHost,
     VUE_APP_TITLE: websiteTitle,
-    VUE_APP_HTTP_URL: apiHost,
+    VUE_APP_HTTP_URL: apiURL,
     VUE_APP_SOCKET_URL: apiHost
   };
 
