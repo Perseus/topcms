@@ -1,4 +1,4 @@
-import { DataTypes, Association } from 'sequelize';
+import { DataTypes, Association, HasManyGetAssociationsMixin } from 'sequelize';
 
 import ItemMall from './ItemMall';
 
@@ -13,6 +13,8 @@ export default class MallCategory extends BaseModel {
   public static associations: {
     mallItems: Association<MallCategory, ItemMall>;
   };
+
+  public getMallItems!: HasManyGetAssociationsMixin<ItemMall>;
 }
 
 MallCategory.init( {
@@ -24,6 +26,13 @@ MallCategory.init( {
   },
   name: {
     type: DataTypes.STRING,
+  },
+  total_items: {
+    type: DataTypes.VIRTUAL,
+    async get(): Promise<number> {
+      const items = await this.getMallItems();
+      return items.length;
+    }
   }
 }, {
   sequelize: GameDB,
