@@ -173,11 +173,15 @@ const Actions = {
             type: 'is-danger',
             duration: 3000
           } );
-        }
-
-        if ( error.error.code === 'cache.UNKNOWN_ITEMINFO' ) {
+        } else if ( error.error.code === 'cache.UNKNOWN_ITEMINFO' ) {
           Snackbar.open( {
             message: 'The uploaded ItemInfo has an invalid format. Please check the uploaded file.',
+            type: 'is-danger',
+            duration: 3000
+          } );
+        } else {
+          Snackbar.open( {
+            message: `There was an error while trying to generate the cache: ${error}`,
             type: 'is-danger',
             duration: 3000
           } );

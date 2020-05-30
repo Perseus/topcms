@@ -53,6 +53,7 @@ export const createMallItemMutation = gql`
           id
           name
         }
+        numOfItems
         mallType
       }
     }
@@ -72,6 +73,7 @@ mutation editMallItem($id: Int!, $itemId: Int, $price: Float, $availableQuantity
         id
         name
       }
+      numOfItems
       mallType
     }
   }

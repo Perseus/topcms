@@ -107,10 +107,10 @@ const AdminGameAccount = {
     getCharacterIcon( character ) {
       try {
         // eslint-disable-next-line
-          return `${this.publicPath}/img/chars/${character.icon.toLowerCase()}_${character.job.toLowerCase()}.gif`;
+          return `${this.publicPath}img/chars/${character.icon.toLowerCase()}_${character.job.toLowerCase()}.gif`;
       } catch ( err ) {
         // eslint-disable-next-line
-        return `${this.publicPath}/img/chars/unknown.gif`;
+        return `${this.publicPath}img/chars/unknown.gif`;
       }
     },
 
