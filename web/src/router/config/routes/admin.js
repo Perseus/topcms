@@ -1,22 +1,23 @@
-import AdminCommerceItems from '@containers/Admin/Commerce/Items/Items.vue';
-
-import AdminPanel from '../../../containers/Admin/Admin.vue';
-import AdminSite from '../../../containers/Admin/Site/Site.vue';
-import AdminGame from '../../../containers/Admin/Game/Game.vue';
-import NewsCreate from '../../../containers/Admin/Site/NewsCreate/NewsCreate.vue';
-import NewsEdit from '../../../containers/Admin/Site/NewsEdit/NewsEdit.vue';
-
-import AdminGameIndex from '../../../containers/Admin/Game/Index/Index.vue';
-import AdminGameAccounts from '../../../containers/Admin/Game/Accounts/Accounts.vue';
-import AdminGameAccount from '../../../containers/Admin/Game/Account/Account.vue';
-import AdminGameCharacters from '../../../containers/Admin/Game/Characters/Characters.vue';
-import AdminGameCharacter from '../../../containers/Admin/Game/Character/Character.vue';
-import AdminCommerce from '../../../containers/Admin/Commerce/AdminCommerceIndex.vue';
-import AdminCommerceCategories from '../../../containers/Admin/Commerce/Categories/Categories.vue';
-
 import RouteNames from '../../../config/RouteNames';
 
 import { adminGuard, siteGuard } from '../../guards';
+
+const AdminCommerceItems = () => import( /* webpackChunkName: "admin-commerce" */ '@containers/Admin/Commerce/Items/Items.vue' );
+const AdminCommerce = () => import( /* webpackChunkName: "admin-commerce" */ '@containers/Admin/Commerce/AdminCommerceIndex.vue' );
+const AdminCommerceCategories = () => import( /* webpackChunkName: "admin-commerce" */ '@containers/Admin/Commerce/Categories/Categories.vue' );
+
+const AdminPanel = () => import( /* webpackChunkName: "admin-panel" */ '@containers/Admin/Admin.vue' );
+const AdminSite = () => import( /* webpackChunkName: "admin-site" */ '@containers/Admin/Site/Site.vue' );
+const AdminGame = () => import( /* webpackChunkName: "admin-game" */ '@containers/Admin/Game/Game.vue' );
+const NewsCreate = () => import( /* webpackChunkName: "admin-site" */ '@containers/Admin/Site/NewsCreate/NewsCreate.vue' );
+const NewsEdit = () => import( /* webpackChunkName: "admin-site" */ '@containers/Admin/Site/NewsEdit/NewsEdit.vue' );
+
+const AdminGameIndex = () => import( /* webpackChunkName: "admin-game" */ '@containers/Admin/Game/Index/Index.vue' );
+const AdminGameAccounts = () => import( /* webpackChunkName: "admin-game" */ '@containers/Admin/Game/Accounts/Accounts.vue' );
+const AdminGameAccount = () => import( /* webpackChunkName: "admin-game" */ '@containers/Admin/Game/Account/Account.vue' );
+const AdminGameCharacters = () => import( /* webpackChunkName: "admin-game" */ '@containers/Admin/Game/Characters/Characters.vue' );
+const AdminGameCharacter = () => import( /* webpackChunkName: "admin-game" */ '@containers/Admin/Game/Character/Character.vue' );
+
 
 export default {
   name: RouteNames.ADMIN.DASHBOARD,

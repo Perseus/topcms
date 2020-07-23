@@ -1,22 +1,21 @@
-import Mall from '@containers/Mall/Mall.vue';
-
-import StorageBox from '@containers/StorageBox/StorageBox.vue';
-import App from '../../containers/App/App.vue';
-import Landing from '../../containers/Landing/Landing.vue';
-import Register from '../../containers/Register/Register.vue';
-import Login from '../../containers/Login/Login.vue';
 import RouteNames from '../../config/RouteNames';
-import NewsItemContainer from '../../containers/NewsItemContainer/NewsItemContainer.vue';
-import NewsContainer from '../../containers/NewsContainer/NewsContainer.vue';
-import NewsList from '../../containers/NewsList/NewsList.vue';
-import DownloadList from '../../containers/DownloadList/DownloadList.vue';
-import Ranking from '../../containers/Ranking/Ranking.vue';
-import UserAccountManagement from '../../containers/UserAccountManagement/UserAccountManagement.vue';
-import AccountDetails from '../../containers/AccountDetails/AccountDetails.vue';
-
 import { RootResolver } from '../resolvers';
 import { userGuard } from '../guards';
 import adminRoutes from './routes/admin';
+
+const Mall = () => import( /* webpackChunkName: 'mall' */ '@containers/Mall/Mall.vue' );
+const StorageBox = () => import( /* webpackChunkName: 'user' */ '@containers/StorageBox/StorageBox.vue' );
+const App = () => import( /* webpackChunkName: 'app-main' */ '@containers/App/App.vue' );
+const Landing = () => import( /* webpackChunkName: 'app-main' */ '@containers/Landing/Landing.vue' );
+const Register = () => import( /* webpackChunkName: 'user' */ '@containers/Register/Register.vue' );
+const Login = () => import( /* webpackChunkName: 'user' */ '@containers/Login/Login.vue' );
+const NewsItemContainer = () => import( /* webpackChunkName: 'site-data' */ '@containers/NewsItemContainer/NewsItemContainer.vue' );
+const NewsContainer = () => import( /* webpackChunkName: 'site-data' */ '@containers/NewsContainer/NewsContainer.vue' );
+const NewsList = () => import( /* webpackChunkName: 'site-data' */ '@containers/NewsList/NewsList.vue' );
+const DownloadList = () => import( /* webpackChunkName: 'site-data' */ '@containers/DownloadList/DownloadList.vue' );
+const Ranking = () => import( /* webpackChunkName: 'site-data' */ '@containers/Ranking/Ranking.vue' );
+const UserAccountManagement = () => import( /* webpackChunkName: 'user' */ '@containers/UserAccountManagement/UserAccountManagement.vue' );
+const AccountDetails = () => import( /* webpackChunkName: 'user' */ '@containers/AccountDetails/AccountDetails.vue' );
 
 const RouteConfig = [
   {

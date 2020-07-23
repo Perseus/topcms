@@ -2,6 +2,7 @@ const webpack = require( 'webpack' );
 const shell = require( 'shelljs' );
 const path = require( 'path' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
+const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
 
 const constants = require( './build/Constants' );
 
@@ -22,6 +23,7 @@ module.exports = {
     },
     plugins: [
       new CleanWebpackPlugin(),
+      // new BundleAnalyzerPlugin(),
     ]
   },
 
@@ -36,6 +38,7 @@ module.exports = {
     contentBase: path.join( __dirname, 'dist' ),
     hot: true,
     clientLogLevel: 'info',
+    compress: true,
   },
   chainWebpack: ( config ) => {
     // config.output.filename( 'bundle.js' );
