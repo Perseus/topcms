@@ -22,12 +22,15 @@ module.exports = {
       }
     }
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2018,
     "ecmaFeatures": {
       "impliedStrict": true,
       "classes": true
-    }
+    },
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
   "env": {
     "browser": true,
