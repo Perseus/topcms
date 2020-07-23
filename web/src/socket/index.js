@@ -12,6 +12,7 @@ class SocketHandler {
   }
 
   emit( eventName, params ) {
+    console.log( this.socket, this.connectionURL, 'emitting', eventName, params );
     return this.socket.emit( eventName, params );
   }
 
