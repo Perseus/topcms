@@ -7,7 +7,7 @@ const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
 const constants = require( './build/Constants' );
 
 module.exports = {
-  publicPath: '/',
+  publicPath: '/frontend',
 
   assetsDir: 'assets/',
 
