@@ -11,4 +11,3 @@ echo "APP_URL=https://topcms.anirudhsingh.dev" >> .env
 cp .env ../.env
 
 mkdir -p dist/database/config
-cp database/config/config.js dist/database/config/config.js
