@@ -99,3 +99,57 @@ export const getNewsFeedQuery = gql`
         }
     }
 `;
+
+export const getServerDetailStructureInformation = gql`
+    query getServerDetailStructureInformation {
+
+        gameStats {
+            ${commonQueryFields()}
+            data {
+                accounts
+                characters
+                online
+                onlineRecord
+            }
+        }
+
+        newsFeed(offset: 0, limit: 5) {
+            ${commonQueryFields()}
+            data {
+                articles {
+                        id
+                        title
+                        createdAt
+                        updatedAt
+                        content
+                        author {
+                            id
+                            name
+                        }
+                    }
+                offset
+                total_articles
+            }
+        }
+
+        staffStatuses {
+            ${commonQueryFields()}
+            data {
+                name
+                type
+                is_online
+            }
+        }
+
+        serverRateInfo {
+            ${commonQueryFields()}
+            data {
+                solo
+                party
+                fairy
+                ship
+                drop
+            }
+        }
+    }
+`;

@@ -6,8 +6,6 @@ import StaffStatusContainer from '../../components/StaffStatusContainer/StaffSta
 import ServerRatesContainer from '../../components/ServerRates/ServerRates.vue';
 import SidebarNavigationContainer from '../../components/SidebarNavigationContainer/SidebarNavigationContainer.vue';
 
-import RouteNames from '../../config/RouteNames';
-
 const ServerDetailStructure = {
   name: 'server-detail-structure',
 
@@ -19,10 +17,7 @@ const ServerDetailStructure = {
   },
 
   created() {
-    this.getServerStats();
     this.retrieveLandingPageInformation();
-    this.retrieveStaffInfo();
-    this.fetchServerRates();
   },
 
   computed: {
@@ -46,8 +41,6 @@ function getActionDispatchers() {
     getServerStats: ActionTypes.getServerStats,
     changeRoute: ActionTypes.changeRoute,
     retrieveLandingPageInformation: ActionTypes.retrieveLandingPageInformation,
-    retrieveStaffInfo: ActionTypes.retrieveStaffOnlineStatus,
-    fetchServerRates: ActionTypes.fetchServerRates,
   } );
 }
 

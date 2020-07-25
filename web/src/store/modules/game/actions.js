@@ -27,15 +27,6 @@ const Actions = {
   },
 
 
-  async [ ActionTypes.retrieveStaffOnlineStatus ]( { commit, } ) {
-    try {
-      const { staffStatuses: staffStatusResponse } = await request.query( getStaffOnlineStatusQuery );
-      commit( MutationTypes.FETCHED_STAFF_ONLINE_STATUS, { staffData: staffStatusResponse.data.staffStatuses } );
-    } catch ( err ) {
-      Logger.log( `Error at retrieveStaffOnlineStatus: ${err}` );
-    }
-  },
-
   async [ ActionTypes.fetchServerRates ]( { commit } ) {
     try {
       const response = await request.query( getServerRatesQuery, null, {
