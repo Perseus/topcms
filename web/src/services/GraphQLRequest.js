@@ -40,23 +40,28 @@ async function graphQLRequest( dispatch, type = 'query', requestSchema, variable
       ...options,
     } );
 
-    response = response.data;
-    const objectKeys = Object.keys( response );
-    const firstDataKey = objectKeys[ 0 ];
+    // if there is only one query in the request
+    if ( Object.keys( response ).length === 0 ) {
+      response = response.data;
+      const objectKeys = Object.keys( response );
+      const firstDataKey = objectKeys[ 0 ];
 
-    if ( response[ firstDataKey ] ) {
-      const {
-        success, message, code, errors, data
-      } = response[ firstDataKey ];
-      if ( success !== true || code !== 'OK' ) {
-        throw new TError( {
-          success,
-          message,
-          code,
-          errors,
-          data
-        } );
+      if ( response[ firstDataKey ] ) {
+        const {
+          success, message, code, errors, data
+        } = response[ firstDataKey ];
+        if ( success !== true || code !== 'OK' ) {
+          throw new TError( {
+            success,
+            message,
+            code,
+            errors,
+            data
+          } );
+        }
       }
+    } else {
+      response = response.data;
     }
   } catch ( err ) {
     throw new TError( err );

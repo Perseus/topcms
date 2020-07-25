@@ -1,7 +1,10 @@
+import { ToastProgrammatic as Toast } from 'buefy';
+
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 
-import { getNewsFeedQuery } from '../../../apollo/queries/admin/site';
+
+import { getNewsFeedQuery, getServerDetailStructureInformation } from '../../../apollo/queries/admin/site';
 import {} from '../../../apollo/queries/admin/game';
 import Logger from '../../../services/Logger';
 import { newsFeedCooker } from '../../cookers/applicationCooker';
@@ -33,8 +36,40 @@ const Actions = {
     }
   },
 
-  [ ActionTypes.retrieveLandingPageInformation ]( { commit, dispatch }, payload ) {
-    dispatch( ActionTypes.getSiteNewsFeed );
+  async [ ActionTypes.retrieveLandingPageInformation ]( { commit, dispatch }, payload ) {
+    try {
+      const resp = await request.query( getServerDetailStructureInformation, null, {
+        fetchPolicy: 'network-only'
+      } );
+
+      const {
+        gameStats, newsFeed, serverRateInfo, staffStatuses
+      } = resp;
+
+      if ( gameStats.success ) {
+        commit( MutationTypes.RETRIEVED_GAME_STATS, { gameStats: gameStats.data } );
+      }
+
+      if ( newsFeed.success ) {
+        commit( MutationTypes.FETCHED_NEWS_FEED, { feed: newsFeed.data.articles, offset: newsFeed.data.offset } );
+      }
+
+      if ( serverRateInfo.success ) {
+        commit( MutationTypes.FETCHED_SERVER_RATES, { rates: serverRateInfo.data } );
+      }
+
+      if ( staffStatuses.success ) {
+        commit( MutationTypes.FETCHED_STAFF_ONLINE_STATUS, { staffData: staffStatuses.data } );
+      }
+    } catch ( err ) {
+      Logger.log( `Error at retrieveLandingPageInformation: ${err} ` );
+      Toast.open( {
+        message: 'There was an error while trying to fetch some server information',
+        position: 'is-bottom',
+        duration: 3000,
+        type: 'is-danger'
+      } );
+    }
   },
 
   async [ ActionTypes.getSiteNewsFeed ]( { commit }, payload ) {
@@ -42,7 +77,6 @@ const Actions = {
     const offset = payload ? payload.offset || 0 : 0;
 
     try {
-      commit( MutationTypes.FETCHING_NEWS_FEED );
       const { newsFeed: newsFeedResponse } = await request.query( getNewsFeedQuery, {
         limit,
         offset
@@ -51,7 +85,7 @@ const Actions = {
       const feed = newsFeedResponse.data.articles;
       commit( MutationTypes.FETCHED_NEWS_FEED, { feed, offset: newsFeedResponse.data.offset } );
     } catch ( err ) {
-      Logger.log( `Error at retrieveLandingPageInformation: ${err}` );
+      Logger.log( `Error at getSiteNewsFeed: ${err}` );
     }
   },
 

@@ -7,7 +7,7 @@ const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
 const constants = require( './build/Constants' );
 
 module.exports = {
-  publicPath: '/frontend',
+  publicPath: '/',
 
   assetsDir: 'assets/',
 
@@ -18,8 +18,8 @@ module.exports = {
   configureWebpack: {
     devtool: 'cheap-module-eval-source-map',
     output: {
-      filename: '[name].js',
-      chunkFilename: '[name].js',
+      filename: 'frontend/[name].js',
+      chunkFilename: 'frontend/[name].js',
     },
     plugins: [
       new CleanWebpackPlugin(),
@@ -72,6 +72,8 @@ function bundleCopyHandler( percentage, message, ...args ) {
     if ( isBuildingProd() ) {
       shell.mkdir( constants.PROD_BUNDLE_COPY_DIRECTORY );
       shell.cp( '-R', 'dist/*', constants.PROD_BUNDLE_COPY_DIRECTORY );
+      shell.rm( '-rf', `${constants.PROD_BUNDLE_COPY_DIRECTORY}/frontend` );
+      shell.cp( '-R', 'dist/frontend/*', constants.PROD_BUNDLE_COPY_DIRECTORY );
       shell.cp( '-R', 'public/img/*', `${constants.PROD_BUNDLE_COPY_DIRECTORY}/assets/img` );
     }
   }

@@ -92,9 +92,6 @@ function getActionDispatchers() {
   return mapActions( {
     getServerStats: ActionTypes.getServerStats,
     changeRoute: ActionTypes.changeRoute,
-    retrieveLandingPageInformation: ActionTypes.retrieveLandingPageInformation,
-    retrieveStaffInfo: ActionTypes.retrieveStaffOnlineStatus,
-    fetchServerRates: ActionTypes.fetchServerRates,
     getSiteNewsFeed: ActionTypes.getSiteNewsFeed,
     getSiteDownloads: ActionTypes.getSiteDownloads,
   } );

@@ -1,7 +1,6 @@
 const ActionTypes = {
   bootstrapApplication: 'bootstrapApplication',
   retrieveLandingPageInformation: 'retrieveLandingPageInformation',
-  retrieveStaffOnlineStatus: 'retrieveStaffOnlineStatus',
   connectToSocketServer: 'connectToSocketServer',
 
   registerUser: 'registerUser',
