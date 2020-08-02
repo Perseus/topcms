@@ -21,7 +21,9 @@ export default {
   },
 
   mounted() {
-    this.activeCategory = this.mallCategories[ 0 ].id;
+    if ( this.mallCategories.length > 0 ) {
+      this.activeCategory = this.mallCategories[ 0 ].id;
+    }
   },
 
   components: {
@@ -29,6 +31,7 @@ export default {
     'b-menu': BMenu,
     'b-menu-list': BMenuList,
     'b-menu-item': BMenuItem,
+    'b-modal': BModal,
   },
 
   computed: {
@@ -40,6 +43,14 @@ export default {
 
     isAwardCenter() {
       return ( this.currentRoute === RouteNames.COMMERCE.AWARD_CENTER );
+    },
+
+    noItemsErrorMessage() {
+      if ( this.mallCategories.length === 0 ) {
+        return 'There\'s nothing to purchase at the moment';
+      }
+
+      return 'There are no items in this category right now.';
     },
 
     itemsList() {

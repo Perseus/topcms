@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="no-items card" v-else>
-        There are no items in this category right now.
+        {{ noItemsErrorMessage }}
       </div>
     </section>
 
