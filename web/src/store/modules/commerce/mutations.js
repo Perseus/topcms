@@ -5,7 +5,7 @@ import MutationTypes from '../../types/MutationTypes';
 
 const Mutations = {
   [ MutationTypes.FETCHED_COMMERCE_CATEGORIES ]( state, payload ) {
-    state.commerceCategories = payload.commerceCategories;
+    state.commerceCategories = payload.commerceCategories || [];
   },
 
   [ MutationTypes.COMMERCE_CATEGORY_CREATED ]( state, payload ) {
@@ -32,7 +32,7 @@ const Mutations = {
 
   [ MutationTypes.FETCHED_MALL_ITEMS ]( state, payload ) {
     const { commerceItems } = payload;
-    state.commerceItems = commerceItems;
+    state.commerceItems = commerceItems || [];
   },
 
   [ MutationTypes.CREATE_MALL_ITEM ]( state, payload ) {
