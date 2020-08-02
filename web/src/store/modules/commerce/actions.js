@@ -1,5 +1,3 @@
-import { ToastProgrammatic as Toast } from 'buefy';
-
 import { getCommerceCategories, getCommerceItems } from '../../../apollo/queries/commerce';
 import {
   createMallCategoryMutation, editMallCategoryMutation, deleteMallCategoryMutation, createMallItemMutation, editMallItemMutation, deleteMallItemMutation, purchaseMallItem
@@ -50,7 +48,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.deleteMallCategory ]( { commit }, { id } ) {
+  async [ ActionTypes.deleteMallCategory ]( { commit, dispatch }, { id } ) {
     try {
       await request.mutation( deleteMallCategoryMutation, {
         id
@@ -59,10 +57,10 @@ const Actions = {
       commit( MutationTypes.DELETE_COMMERCE_CATEGORY, { id } );
     } catch ( err ) {
       if ( err.code === 'db.FK_CONSTRAINT' ) {
-        Toast.open( {
-          message: 'There are some mall items that depend on this category. Please delete those before deleting the category',
+        dispatch( ActionTypes.triggerToast, {
+          content: 'There are some mall items that depend on this category. Please delete those before deleting the category',
           position: 'is-top',
-          type: 'is-danger',
+          type: 'error',
           duration: 4000
         } );
       }
@@ -124,7 +122,7 @@ const Actions = {
 
       dispatch( ActionTypes.toggleModal );
     } catch ( err ) {
-      handleItemPurchaseErrors( err );
+      handleItemPurchaseErrors( err, { dispatch } );
       Logger.log( `Error at action purchaseMallItem: ${err}`, 'error' );
     }
   }

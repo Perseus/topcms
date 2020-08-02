@@ -1,4 +1,7 @@
 import { mapState, mapActions } from 'vuex';
+import { BButton } from 'buefy/dist/components/button';
+import { BSwitch } from 'buefy/dist/components/switch';
+import { BTable } from 'buefy/dist/components/table';
 
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
@@ -11,6 +14,13 @@ const Accounts = {
       currentPage: 1,
     };
   },
+
+  components: {
+    'b-button': BButton,
+    'b-switch': BSwitch,
+    'b-table': BTable
+  },
+
   computed: {
     ...mapStateToComputed(),
 

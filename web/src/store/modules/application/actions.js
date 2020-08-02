@@ -1,13 +1,9 @@
-import { ToastProgrammatic as Toast } from 'buefy';
-
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
 
 
 import { getNewsFeedQuery, getServerDetailStructureInformation } from '../../../apollo/queries/admin/site';
-import {} from '../../../apollo/queries/admin/game';
 import Logger from '../../../services/Logger';
-import { newsFeedCooker } from '../../cookers/applicationCooker';
 import SocketHandler from '../../../socket';
 import request from '../../../services/GraphQLRequest';
 
@@ -32,7 +28,7 @@ const Actions = {
   } ) {
     const { user } = rootState;
     if ( user.isLoggedIn && getters.canAccessGameAdmin ) {
-      SocketHandler.init();
+      await SocketHandler.init();
     }
   },
 
@@ -63,11 +59,11 @@ const Actions = {
       }
     } catch ( err ) {
       Logger.log( `Error at retrieveLandingPageInformation: ${err} ` );
-      Toast.open( {
-        message: 'There was an error while trying to fetch some server information',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'There was an error while trying to fetch some server information',
         position: 'is-bottom',
         duration: 3000,
-        type: 'is-danger'
+        type: 'error'
       } );
     }
   },
@@ -96,6 +92,23 @@ const Actions = {
   [ ActionTypes.toggleModal ]( { commit }, payload = {} ) {
     const { type = '', options = {} } = payload;
     commit( MutationTypes.TOGGLE_MODAL, { type, options } );
+  },
+
+  [ ActionTypes.triggerToast ]( { commit }, { content = '', type = 'success', timeout = 4000 } ) {
+    const identifier = `Toast-${type}-${Date.now()}`;
+    commit( MutationTypes.TRIGGER_NEW_TOAST, {
+      action: 'add',
+      content,
+      identifier,
+      type
+    } );
+
+    setTimeout( () => {
+      commit( MutationTypes.TRIGGER_NEW_TOAST, {
+        action: 'remove',
+        identifier
+      } );
+    }, timeout );
   }
 };
 

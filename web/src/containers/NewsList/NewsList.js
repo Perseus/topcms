@@ -1,15 +1,21 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 import clip from 'text-clipper';
+import { BLoading } from 'buefy/dist/components/loading';
+import { BPagination } from 'buefy/dist/components/pagination';
 
 import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
+import { getDateInWordsToNow } from '@utils/DateUtils';
+
 import ActionTypes from '../../store/types/ActionTypes';
 import RouteNames from '../../config/RouteNames';
-import { getDateInWordsToNow } from '../../utils/DateUtils';
+
 
 const NewsList = {
   name: 'news-list',
   components: {
-    'server-detail-structure': ServerDetailStructure
+    'server-detail-structure': ServerDetailStructure,
+    'b-loading': BLoading,
+    'b-pagination': BPagination,
   },
   created() {
   },

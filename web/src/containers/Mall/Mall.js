@@ -1,4 +1,7 @@
 import { mapState, mapActions } from 'vuex';
+import { BModal } from 'buefy/dist/components/modal';
+import { BMenu, BMenuList, BMenuItem } from 'buefy/dist/components/menu';
+
 
 import ActionTypes from '@store/types/ActionTypes';
 import PurchaseItem from '@components/Mall/PurchaseItem.vue';
@@ -23,6 +26,9 @@ export default {
 
   components: {
     'purchase-item': PurchaseItem,
+    'b-menu': BMenu,
+    'b-menu-list': BMenuList,
+    'b-menu-item': BMenuItem,
   },
 
   computed: {

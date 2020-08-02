@@ -26,7 +26,7 @@
       <div class="navbar-item" v-else>
         <b-dropdown position="is-bottom-left" aria-role="list">
           <a class="user-dropdown navbar-link" slot="trigger">
-            <b-icon icon="user" size="is-small"></b-icon>
+            <b-icon icon="user" size="is-small" pack="fas"></b-icon>
             <span class="username">{{ username }}</span>
           </a>
           <b-dropdown-item aria-role="listitem" @click="redirectToUserManagement">Account</b-dropdown-item>

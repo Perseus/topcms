@@ -1,18 +1,18 @@
-import socketio from 'socket.io-client';
+const socketio = () => import( /* webpackChunkName: 'socketio' */ 'socket.io-client' );
 
 class SocketHandler {
   constructor() {
     this.connectionURL = process.env.VUE_APP_SOCKET_URL || 'http://localhost:3000';
   }
 
-  init() {
-    this.socket = socketio.connect( this.connectionURL, {
+  async init() {
+    const socket = await socketio();
+    this.socket = socket.connect( this.connectionURL, {
       autoConnect: true,
     } );
   }
 
   emit( eventName, params ) {
-    console.log( this.socket, this.connectionURL, 'emitting', eventName, params );
     return this.socket.emit( eventName, params );
   }
 

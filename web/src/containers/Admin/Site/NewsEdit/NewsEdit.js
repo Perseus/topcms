@@ -1,6 +1,11 @@
 import { mapState, mapActions, mapGetters } from 'vuex';
-import _ from 'lodash';
+import find from 'lodash/find';
 import { ValidationProvider } from 'vee-validate';
+import { BButton } from 'buefy/dist/components/button';
+import { BDropdown, BDropdownItem } from 'buefy/dist/components/dropdown';
+import { BIcon } from 'buefy/dist/components/icon';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 import TInput from '@components/ValidationInputs/TInput.vue';
@@ -16,16 +21,22 @@ const NewsEdit = {
       content: '',
       author: {},
       currentNewsId: this.$route.params.id,
+      editor: ClassicEditor,
     };
   },
 
   components: {
     TInput,
-    ValidationProvider
+    ValidationProvider,
+    'b-button': BButton,
+    'ck-editor': CKEditor.component,
+    'b-dropdown': BDropdown,
+    'b-dropdown-item': BDropdownItem,
+    'b-icon': BIcon
   },
 
   created() {
-    const currentNewsItem = _.find( this.news, news => news.id === Number( this.currentNewsId ) );
+    const currentNewsItem = find( this.news, news => news.id === Number( this.currentNewsId ) );
     if ( currentNewsItem ) {
       this.title = currentNewsItem.title;
       this.content = currentNewsItem.content;
@@ -40,7 +51,7 @@ const NewsEdit = {
     ...mapComputedToGetters(),
 
     currentAuthorDetails() {
-      return _.find( this.authors, { id: this.author } );
+      return find( this.authors, { id: this.author } );
     },
   },
   methods: {

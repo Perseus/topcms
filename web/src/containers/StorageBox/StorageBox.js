@@ -1,4 +1,6 @@
 import { mapState, mapActions } from 'vuex';
+import { BButton } from 'buefy/dist/components/button';
+
 import ActionTypes from '@store/types/ActionTypes';
 import GraphQLRequest from '@services/GraphQLRequest';
 
@@ -12,6 +14,10 @@ export default {
       selectedItem: -1,
       selectedCharacter: -1,
     };
+  },
+
+  components: {
+    'b-button': BButton,
   },
 
   computed: {
@@ -87,7 +93,7 @@ export default {
         return;
       }
 
-      const item = _.find( this.storageBox.itemsData, intItem => intItem.id === this.selectedItem );
+      const item = find( this.storageBox.itemsData, intItem => intItem.id === this.selectedItem );
       const characterId = this.selectedCharacter;
 
       this.handleTransferItem( { itemId: item.id, quantity: item.quantity, characterId } );

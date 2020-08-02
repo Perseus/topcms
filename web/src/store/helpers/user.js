@@ -1,8 +1,8 @@
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
+import ActionTypes from '@store/types/ActionTypes';
 
 const defaultSnackbarMessage = 'Something went wrong. Please try again.';
 
-export const handleRegistrationErrors = function( error ) {
+export const handleRegistrationErrors = function( error, { dispatch } ) {
   let snackbarErrorMessage = defaultSnackbarMessage;
   switch ( error.code ) {
     case 'user.FOUND':
@@ -12,16 +12,16 @@ export const handleRegistrationErrors = function( error ) {
       snackbarErrorMessage = 'Something went wrong. Please try again.';
   }
 
-  Snackbar.open( {
+  dispatch( ActionTypes.triggerToast, {
+    content: snackbarErrorMessage,
     duration: 5000,
-    message: snackbarErrorMessage,
-    position: 'is-top',
-    type: 'is-danger'
+    type: 'error'
   } );
 };
 
-export const handleLoginErrors = function( error ) {
+export const handleLoginErrors = function( error, { dispatch } ) {
   let snackbarErrorMessage = defaultSnackbarMessage;
+
   switch ( error.code ) {
     case 'user.NOT_FOUND':
       snackbarErrorMessage = 'Invalid username or password';
@@ -29,10 +29,27 @@ export const handleLoginErrors = function( error ) {
     default:
   }
 
-  Snackbar.open( {
+  dispatch( ActionTypes.triggerToast, {
+    content: snackbarErrorMessage,
     duration: 5000,
-    message: snackbarErrorMessage,
-    position: 'is-top-right',
-    type: 'is-danger'
+    type: 'error'
+  } );
+};
+
+
+export const handleUpdateUserErrors = function( error, { dispatch } ) {
+  let snackbarErrorMessage = defaultSnackbarMessage;
+
+  switch ( error.code ) {
+    case 'user.PASSWORD_MISMATCH':
+      snackbarErrorMessage = 'The old password is incorrect. Please enter the correct password';
+      break;
+    default:
+  }
+
+  dispatch( ActionTypes.triggerToast, {
+    content: snackbarErrorMessage,
+    duration: 5000,
+    type: 'error'
   } );
 };

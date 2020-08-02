@@ -1,8 +1,8 @@
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
+import ActionTypes from '@store/types/ActionTypes';
 
 const defaultSnackbarMessage = 'Something went wrong. Please try again.';
 
-export const handleSiteItemCreationErrors = ( error, itemType ) => {
+export const handleSiteItemCreationErrors = ( error, itemType, { dispatch } ) => {
   let snackbarErrorMessage = defaultSnackbarMessage;
 
   switch ( error.code ) {
@@ -15,10 +15,9 @@ export const handleSiteItemCreationErrors = ( error, itemType ) => {
     default:
   }
 
-  Snackbar.open( {
-    duration: 5000,
-    message: snackbarErrorMessage,
-    position: 'is-top-right',
-    type: 'is-danger'
+  dispatch( ActionTypes.triggerToast, {
+    content: snackbarErrorMessage,
+    type: 'error',
+    duration: 5000
   } );
 };

@@ -7,7 +7,7 @@
             <div slot="trigger" slot-scope="props" role="button">
               <header class="download-section-header">
                 <span class="section-title">{{ section }}</span>
-                <b-icon :icon="props.open ? 'caret-down' : 'caret-up'"></b-icon>
+                <b-icon :icon="props.open ? 'caret-down' : 'caret-up'" pack="fas"></b-icon>
               </header>
             </div>
 

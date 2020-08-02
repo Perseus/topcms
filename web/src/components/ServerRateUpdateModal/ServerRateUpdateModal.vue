@@ -21,6 +21,8 @@
       
 
 <script>
+import { BButton } from 'buefy/dist/components/button';
+
 import TInput from '@/components/ValidationInputs/TInput.vue';
 
 export default {
@@ -31,9 +33,12 @@ export default {
       default: () => {}
     }
   },
+
   components: {
     TInput,
+    'b-button': BButton,
   },
+  
   data() {
     return {
       serverRates: {}

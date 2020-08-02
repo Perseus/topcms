@@ -16,15 +16,23 @@ module.exports = {
   filenameHashing: false,
 
   configureWebpack: {
-    devtool: 'cheap-module-eval-source-map',
+    // devtool: 'cheap-module-eval-source-map',
     output: {
       filename: 'frontend/[name].js',
       chunkFilename: 'frontend/[name].js',
     },
     plugins: [
       new CleanWebpackPlugin(),
-      // new BundleAnalyzerPlugin(),
-    ]
+      new BundleAnalyzerPlugin(),
+    ],
+
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        name: true,
+      },
+    },
+
   },
 
   css: {
@@ -46,11 +54,14 @@ module.exports = {
     config.plugin( 'progress' )
       .use( webpack.ProgressPlugin, [ bundleCopyHandler ] );
 
+    config.plugins.delete( 'prefetch' );
+
     config.resolve.alias
       .set( '@containers', path.resolve( __dirname, 'src/containers' ) )
       .set( '@services', path.resolve( __dirname, 'src/services' ) )
       .set( '@store', path.resolve( __dirname, 'src/store' ) )
-      .set( '@components', path.resolve( __dirname, 'src/components' ) );
+      .set( '@components', path.resolve( __dirname, 'src/components' ) )
+      .set( '@utils', path.resolve( __dirname, 'src/utils' ) );
   }
 };
 

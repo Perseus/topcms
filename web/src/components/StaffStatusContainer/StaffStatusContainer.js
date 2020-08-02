@@ -1,5 +1,12 @@
+import { BLoading } from 'buefy/dist/components/loading';
+
 const StaffStatusContainer = {
   name: 'staff-status-container',
+
+  components: {
+    'b-loading': BLoading,
+  },
+
   props: {
     staffInfo: {
       type: Array,

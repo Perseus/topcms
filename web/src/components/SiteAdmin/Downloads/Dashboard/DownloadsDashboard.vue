@@ -20,12 +20,14 @@
             type="is-warning"
             size="is-small"
             icon-left="edit"
+            icon-pack="fas"
             @click="editDownloadPrompt( props.row.id )"
           >Edit</b-button>
           <b-button
             type="is-danger"
             size="is-small"
             icon-left="trash"
+            icon-pack="fas"
             @click="deleteDownloadPrompt( props.row.id )"
           >Delete</b-button>
         </b-table-column>

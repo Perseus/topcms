@@ -44,6 +44,16 @@ const Mutations = {
     } else {
       state.isRouteResolving = false;
     }
+  },
+
+  [ MutationTypes.TRIGGER_NEW_TOAST ]( state, payload ) {
+    const { action, ...payloadData } = payload;
+    if ( action === 'add' ) {
+      state.toasts.push( payloadData );
+    } else {
+      const finalToastList = state.toasts.filter( toast => toast.identifier !== payload.identifier );
+      state.toasts = finalToastList;
+    }
   }
 };
 

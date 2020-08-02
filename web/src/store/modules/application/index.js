@@ -17,6 +17,7 @@ function getInitialState() {
       type: '',
       options: {},
     },
+    toasts: [],
   };
 }
 

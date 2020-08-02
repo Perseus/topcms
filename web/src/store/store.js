@@ -14,6 +14,13 @@ import Request from '../services/GraphQLRequest';
 Vue.use( Vuex );
 
 function getStore() {
+  const plugins = [];
+
+  if ( process.env.NODE_ENV !== 'production' ) {
+    plugins.push( createLogger() );
+  }
+
+
   const store = new Vuex.Store( {
     modules: {
       application: applicationModule,
@@ -24,9 +31,7 @@ function getStore() {
       admin: adminModule,
       commerce: commerceModule,
     },
-    plugins: [
-      createLogger(),
-    ]
+    plugins,
   } );
 
   Request.init( store );

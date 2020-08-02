@@ -1,4 +1,8 @@
 import { mapState, mapActions } from 'vuex';
+import { BButton } from 'buefy/dist/components/button';
+import { BSwitch } from 'buefy/dist/components/switch';
+import { BTable } from 'buefy/dist/components/table';
+import { BModal } from 'buefy/dist/components/modal';
 
 import UpdateUserPointsModal from '@components/GameAdmin/UpdateUserMallPoints.vue';
 import ActionTypes from '../../../../store/types/ActionTypes';
@@ -17,7 +21,11 @@ const AdminGameAccount = {
     'update-user-email-modal': UpdateUserEmailModal,
     'update-user-password-modal': UpdateUserPasswordModal,
     'update-user-gm-level-modal': UpdateUserGMLevelModal,
-    'update-user-mall-points': UpdateUserPointsModal
+    'update-user-mall-points': UpdateUserPointsModal,
+    'b-button': BButton,
+    'b-switch': BSwitch,
+    'b-table': BTable,
+    'b-modal': BModal
   },
 
   mounted() {

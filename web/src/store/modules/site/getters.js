@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 
 import request from '../../../services/GraphQLRequest';
 
@@ -19,7 +19,7 @@ const Getters = {
     return state.authorProcessingState.errors;
   },
   authorDeletingError( state ) {
-    const hasDeleteError = _.find( state.authorProcessingState.errors, { action: 'delete' } );
+    const hasDeleteError = find( state.authorProcessingState.errors, { action: 'delete' } );
     if ( hasDeleteError ) {
       return hasDeleteError;
     }

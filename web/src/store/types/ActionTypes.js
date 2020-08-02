@@ -2,6 +2,7 @@ const ActionTypes = {
   bootstrapApplication: 'bootstrapApplication',
   retrieveLandingPageInformation: 'retrieveLandingPageInformation',
   connectToSocketServer: 'connectToSocketServer',
+  triggerToast: 'triggerToast',
 
   registerUser: 'registerUser',
   loginUser: 'loginUser',

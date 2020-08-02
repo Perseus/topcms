@@ -1,5 +1,3 @@
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
-
 import Logger from '../../../services/Logger';
 import MutationTypes from '../../types/MutationTypes';
 import ActionTypes from '../../types/ActionTypes';
@@ -13,6 +11,7 @@ import {
 import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import request from '../../../services/GraphQLRequest';
 import { handleSiteItemCreationErrors } from '../../helpers/site';
+
 
 const Actions = {
   async [ ActionTypes.getSiteAuthors ]( { commit } ) {
@@ -57,7 +56,7 @@ const Actions = {
     await dispatch( ActionTypes.getSiteNewsArticles );
   },
 
-  async [ ActionTypes.createSiteAuthor ]( { commit }, payload ) {
+  async [ ActionTypes.createSiteAuthor ]( { commit, dispatch }, payload ) {
     const { name } = payload;
 
     try {
@@ -67,39 +66,36 @@ const Actions = {
 
       commit( MutationTypes.CREATED_SITE_INFO, { type: 'author', data: createAuthorResponse.data } );
     } catch ( err ) {
-      handleSiteItemCreationErrors( err );
+      handleSiteItemCreationErrors( err, '', { dispatch } );
     }
   },
 
-  async [ ActionTypes.deleteSiteAuthor ]( { commit }, payload ) {
+  async [ ActionTypes.deleteSiteAuthor ]( { commit, dispatch }, payload ) {
     const { id } = payload;
     try {
       await request.mutation( deleteAuthorMutation, {
         id
       } );
 
-
-      Snackbar.open( {
-        message: 'Author successfully deleted',
-        type: 'is-success',
-        position: 'is-top',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Author successfully deleted',
+        type: 'success',
         duration: 2000,
       } );
 
       commit( MutationTypes.DELETED_SITE_INFO, { type: 'author', id } );
     } catch ( err ) {
       if ( err.code === 'db.FK_CONSTRAINT' ) {
-        Snackbar.open( {
-          message: 'There are other news articles or downloads that were created by this author. Please delete those before deleting the author.',
-          type: 'is-danger',
-          position: 'is-top',
+        dispatch( ActionTypes.triggerToast, {
+          content: 'There are other news articles or downloads that were created by this author. Please delete those before deleting the author.',
+          type: 'error',
           duration: 5000
         } );
       }
     }
   },
 
-  async [ ActionTypes.updateSiteAuthor ]( { commit }, payload ) {
+  async [ ActionTypes.updateSiteAuthor ]( { commit, dispatch }, payload ) {
     const { id, name } = payload;
     try {
       await request.mutation( updateAuthorMutation, {
@@ -108,18 +104,19 @@ const Actions = {
       } );
       commit( MutationTypes.UPDATED_SITE_INFO, { type: 'author', id, name } );
 
-      Snackbar.open( {
-        message: 'Author successfully updated',
-        type: 'is-success',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Author successfully updated',
+        type: 'success',
         position: 'is-top',
         duration: 2000,
+
       } );
     } catch ( err ) {
       Logger.log( err, 'error' );
     }
   },
 
-  async [ ActionTypes.createSiteDownload ]( { commit }, payload ) {
+  async [ ActionTypes.createSiteDownload ]( { commit, dispatch }, payload ) {
     try {
       const {
         name, link, author, section, description, version
@@ -136,20 +133,20 @@ const Actions = {
 
       commit( MutationTypes.CREATED_SITE_INFO, { type: 'download', data: response.data } );
 
-      Snackbar.open( {
-        message: 'Download successfully created',
-        type: 'is-success',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Download successfully created',
+        type: 'success',
         position: 'is-top',
         duration: 2000,
       } );
     } catch ( err ) {
       Logger.log( `error at createSiteDownload: ${err}`, 'error' );
 
-      handleSiteItemCreationErrors( err, 'download' );
+      handleSiteItemCreationErrors( err, 'download', { dispatch } );
     }
   },
 
-  async [ ActionTypes.updateSiteDownload ]( { commit }, payload ) {
+  async [ ActionTypes.updateSiteDownload ]( { commit, dispatch }, payload ) {
     try {
       const {
         id, title, author, url, section, description, version
@@ -165,11 +162,12 @@ const Actions = {
         version
       } );
 
-      Snackbar.open( {
-        message: 'Download successfully updated',
-        type: 'is-success',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Download successfully updated',
+        type: 'success',
         position: 'is-top',
         duration: 2000,
+
       } );
 
       commit( MutationTypes.UPDATED_SITE_INFO, {
@@ -183,7 +181,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.deleteSiteDownload ]( { commit }, payload ) {
+  async [ ActionTypes.deleteSiteDownload ]( { commit, dispatch }, payload ) {
     const { id } = payload;
     try {
       await request.mutation( deleteDownloadMutation, {
@@ -192,9 +190,9 @@ const Actions = {
 
       commit( MutationTypes.DELETED_SITE_INFO, { type: 'download', id } );
 
-      Snackbar.open( {
-        message: 'Download successfully deleted',
-        type: 'is-success',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Download successfully deleted',
+        type: 'success',
         position: 'is-top',
         duration: 2000,
       } );
@@ -217,9 +215,10 @@ const Actions = {
       } );
 
       commit( MutationTypes.CREATED_SITE_INFO, { type: 'news', data: response.data } );
-      Snackbar.open( {
-        message: 'News article successfully created',
-        type: 'is-success',
+
+      dispatch( ActionTypes.triggerToast, {
+        content: 'News article successfully created',
+        type: 'success',
         position: 'is-top',
         duration: 2000
       } );
@@ -227,9 +226,9 @@ const Actions = {
       dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.SITE } );
     } catch ( err ) {
       Logger.log( `error at createSiteNews: ${err}` );
-      Snackbar.open( {
-        message: 'There was an error while trying to create the news article',
-        type: 'is-danger',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'There was an error while trying to create the news article',
+        type: 'error',
         position: 'is-top',
         duration: 4000
       } );
@@ -251,9 +250,9 @@ const Actions = {
         }
       } );
 
-      Snackbar.open( {
-        message: 'News Article successfully updated',
-        type: 'is-success',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'News Article successfully updated',
+        type: 'success',
         position: 'is-top',
         duration: 2000,
       } );
@@ -264,16 +263,17 @@ const Actions = {
       dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.SITE } );
     } catch ( err ) {
       Logger.log( `Error at updateSiteNews: ${err} ` );
-      Snackbar.open( {
-        message: 'There was an error while trying to update the news article',
-        type: 'is-danger',
+
+      dispatch( ActionTypes.triggerToast, {
+        content: 'There was an error while trying to update the news article',
+        type: 'error',
         position: 'is-top',
         duration: 4000
       } );
     }
   },
 
-  async [ ActionTypes.deleteSiteNews ]( { commit }, payload ) {
+  async [ ActionTypes.deleteSiteNews ]( { commit, dispatch }, payload ) {
     try {
       const { id } = payload;
 
@@ -283,9 +283,9 @@ const Actions = {
 
       commit( MutationTypes.DELETED_SITE_INFO, { type: 'news', id } );
 
-      Snackbar.open( {
-        message: 'News Article successfully deleted',
-        type: 'is-success',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'News Article successfully deleted',
+        type: 'success',
         position: 'is-top',
         duration: 2000
       } );
@@ -293,9 +293,10 @@ const Actions = {
       const extractedErrors = extractGraphQLErrors( err );
       commit( MutationTypes.DELETED_SITE_INFO, { type: 'news', hasError: true, error: extractedErrors } );
       Logger.log( `error at deleteSiteNews: ${err}` );
-      Snackbar.open( {
-        message: 'There was an error while trying to delete the news article',
-        type: 'is-danger',
+
+      dispatch( ActionTypes.triggerToast, {
+        content: 'There was an error while trying to delete the news article',
+        type: 'error',
         position: 'is-top',
         duration: 4000
       } );

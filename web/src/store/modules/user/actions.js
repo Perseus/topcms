@@ -1,5 +1,3 @@
-import { SnackbarProgrammatic as Snackbar, ToastProgrammatic as Toast } from 'buefy';
-
 import MutationTypes from '../../types/MutationTypes';
 import ActionTypes from '../../types/ActionTypes';
 import { apolloClient } from '../../../apollo';
@@ -8,11 +6,10 @@ import {
 } from '../../../apollo/mutations/auth';
 import request from '../../../services/GraphQLRequest';
 import { getCurrentUserQuery, getStorageBoxQuery } from '../../../apollo/queries/auth';
-import { extractGraphQLErrors } from '../../../utils/ErrorExtractor';
 import Logger from '../../../services/Logger';
 import RouteNames from '../../../config/RouteNames';
 
-import { handleRegistrationErrors, handleLoginErrors } from '../../helpers/user';
+import { handleRegistrationErrors, handleLoginErrors, handleUpdateUserErrors } from '../../helpers/user';
 
 const Actions = {
   async [ ActionTypes.registerUser ]( { commit, dispatch }, payload ) {
@@ -40,7 +37,7 @@ const Actions = {
         name: RouteNames.ROOT.__LANDING__
       } );
     } catch ( err ) {
-      handleRegistrationErrors( err );
+      handleRegistrationErrors( err, { dispatch } );
     }
   },
 
@@ -54,6 +51,12 @@ const Actions = {
         }
       } );
       const { loginUser: loginResponse } = response;
+
+      if ( !loginResponse.data ) {
+        handleLoginErrors( loginResponse, { dispatch } );
+        return;
+      }
+
       const { name, email, account_details } = loginResponse.data;
 
       commit( MutationTypes.SIGNIN_COMPLETE, {
@@ -65,7 +68,7 @@ const Actions = {
         name: RouteNames.ROOT.__LANDING__
       } );
     } catch ( err ) {
-      handleLoginErrors( err );
+      handleLoginErrors( err, { dispatch } );
     }
   },
 
@@ -115,32 +118,17 @@ const Actions = {
         }
       } );
       commit( MutationTypes.UPDATED_USER, { user: response.data.updateUser } );
-      Snackbar.open( {
-        message: 'User updated successfully',
-        type: 'is-success',
+
+      dispatch( ActionTypes.triggerToast, {
+        content: 'User updated successfully',
+        type: 'success',
         position: 'is-bottom',
         duration: 4000
       } );
 
       dispatch( ActionTypes.changeRoute, { name: RouteNames.ROOT.__LANDING__ } );
     } catch ( err ) {
-      const error = extractGraphQLErrors( err );
-      if ( error === 'INVALID_OLD_PASSWORD' ) {
-        Snackbar.open( {
-          message: 'The old password is incorrect. Please enter the correct password',
-          type: 'is-danger',
-          position: 'is-bottom',
-          duration: 4000,
-        } );
-        return;
-      }
-
-      Snackbar.open( {
-        message: 'There was an error while trying to update your account details. Please check the details that you have changed.',
-        type: 'is-danger',
-        position: 'is-bottom',
-        duration: 4000
-      } );
+      handleUpdateUserErrors( err );
     }
   },
 
@@ -153,7 +141,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.transferItemFromStorageBox ]( { commit }, payload ) {
+  async [ ActionTypes.transferItemFromStorageBox ]( { commit, dispatch }, payload ) {
     try {
       const { itemId, characterId, quantity } = payload;
       const { transferItemToGame: response } = await request.mutation( transferItemMutation, {
@@ -163,10 +151,10 @@ const Actions = {
       } );
 
       commit( MutationTypes.UPDATE_STORAGE_BOX, response.data );
-      Toast.open( {
-        message: 'Item transferred successfully! Please check your temporary bag in game.',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Item transferred successfully! Please check your temporary bag in game.',
         duration: 5000,
-        type: 'is-success',
+        type: 'success',
       } );
     } catch ( err ) {
       Logger.log( `Error at action transferItemFromStorageBox ${err}`, 'error' );

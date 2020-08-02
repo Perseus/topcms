@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 
 import RouteNames from '../../config/RouteNames';
 import store from '../../store/store';
@@ -38,13 +38,13 @@ const RouteResolvers = {
         await store.dispatch( ActionTypes.getSiteAuthors );
       }
 
-      let doesNewsItemExist = _.find( site.news, newsArticle => newsArticle.id === id );
+      let doesNewsItemExist = find( site.news, newsArticle => newsArticle.id === id );
       if ( doesNewsItemExist ) {
         return true;
       }
 
       await store.dispatch( ActionTypes.getSiteNewsArticle, { id: Number( id ) } );
-      doesNewsItemExist = _.find( site.news, newsArticle => newsArticle.id === Number( id ) );
+      doesNewsItemExist = find( site.news, newsArticle => newsArticle.id === Number( id ) );
       if ( !doesNewsItemExist ) {
         return { name: RouteNames.ADMIN.SITE };
       }
@@ -63,12 +63,12 @@ const RouteResolvers = {
       const { params: { id } } = to;
 
       const { news } = site;
-      let newsItem = _.find( news, { id } );
+      let newsItem = find( news, { id } );
       if ( !newsItem ) {
         await store.dispatch( ActionTypes.getSiteNewsArticle, { id: Number( id ) } );
       }
 
-      newsItem = _.find( news, { id } );
+      newsItem = find( news, { id } );
       if ( !newsItem ) {
         return { name: RouteNames.ROOT.__LANDING__ };
       }

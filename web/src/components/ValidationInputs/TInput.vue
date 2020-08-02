@@ -18,10 +18,15 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate';
+import { BField } from 'buefy/dist/components/field';
+import { BInput } from 'buefy/dist/components/input';
+
 
 export default {
   components: {
-    ValidationProvider
+    ValidationProvider,
+    'b-field': BField,
+    'b-input': BInput
   },
   props: {
     vId: {
@@ -50,10 +55,6 @@ export default {
     value(newVal) {
       this.innerValue = newVal;
     }
-  },
-
-  created() {
-    this.innerValue = this.value;
   },
 
   mounted() {

@@ -1,9 +1,20 @@
 import { mapActions, mapState } from 'vuex';
+import { BTabItem, BTabs } from 'buefy/dist/components/tabs';
+import { BRadio } from 'buefy/dist/components/radio';
+import { BTable } from 'buefy/dist/components/table';
 
 import ActionTypes from '../../store/types/ActionTypes';
 
 const RankingPage = {
   name: 'ranking-page',
+
+  components: {
+    'b-tabs': BTabs,
+    'b-tab-item': BTabItem,
+    'b-radio': BRadio,
+    'b-table': BTable
+  },
+
   data() {
     return {
       playerFilter: 'GOLD',

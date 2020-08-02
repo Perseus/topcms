@@ -1,8 +1,4 @@
 import Vue from 'vue';
-import Buefy from 'buefy';
-import VueFroala from 'vue-froala-wysiwyg';
-import * as Sentry from '@sentry/browser';
-import * as Integrations from '@sentry/integrations';
 import { ValidationObserver } from 'vee-validate';
 
 import AppBootstrapper from './containers/AppBootstrapper.vue';
@@ -13,13 +9,8 @@ import './services/Validations';
 
 import { apolloProvider } from './apollo';
 import './assets/_main.scss';
-import 'buefy/dist/buefy.css';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'buefy/dist/buefy.min.css';
 
-Vue.use( VueFroala );
-Vue.use( Buefy, {
-  defaultIconPack: 'fas',
-} );
 Vue.component( 'ValidationObserver', ValidationObserver );
 
 RouterSubscriber( router, store );

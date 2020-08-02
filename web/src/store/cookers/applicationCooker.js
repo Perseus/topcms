@@ -1,10 +1,11 @@
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
+import find from 'lodash/find';
 
 export function newsFeedCooker( state, fetchedNewsFeedItems ) {
   const newsFeed = [ ...state.newsFeed ];
 
-  _.forEach( fetchedNewsFeedItems, ( newsFeedItem ) => {
-    let item = _.find( newsFeed, { id: newsFeedItem.id } );
+  forEach( fetchedNewsFeedItems, ( newsFeedItem ) => {
+    let item = find( newsFeed, { id: newsFeedItem.id } );
     if ( item ) {
       item = newsFeedItem;
     } else {

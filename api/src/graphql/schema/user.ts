@@ -97,20 +97,20 @@ export const typeDefs = gql`
   }
 
   input SignUpInput {
-    email: String! @constraint(format: "email", minLength: 1)
-    username: String! @constraint(minLength: 5)
-    password: String! @constraint(minLength: 8)
+    email: String!
+    username: String!
+    password: String!
   }
 
   input LoginInput {
-    username: String! @constraint(minLength: 5)
-    password: String! @constraint(minLength: 8)
+    username: String!
+    password: String!
   }
 
   input UpdateUserInput {
-    email: String @constraint(minLength: 5, format: "email")
-    old_password: String @constraint(minLength: 5)
-    new_password: String @constraint(minLength: 5)
+    email: String
+    old_password: String
+    new_password: String
   }
 
 `;

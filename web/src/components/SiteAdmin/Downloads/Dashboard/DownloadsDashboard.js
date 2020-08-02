@@ -1,4 +1,7 @@
-import { distanceInWordsToNow } from 'date-fns';
+import { getDateInWordsToNow } from '@utils/DateUtils';
+
+import { BButton } from 'buefy/dist/components/button';
+
 import CreateDownloadModal from '../CreateDownload/CreateDownload.vue';
 import EditDownloadModal from '../EditDownload/EditDownload.vue';
 
@@ -42,7 +45,7 @@ const DownloadsDashboard = {
       default: false,
     }
   },
-  components: { CreateDownloadModal, EditDownloadModal },
+  components: { CreateDownloadModal, EditDownloadModal, 'b-button': BButton },
   data() {
     return {
       shouldShowCreateDownloadModal: false,
@@ -63,8 +66,7 @@ const DownloadsDashboard = {
       this.shouldShowCreateDownloadModal = true;
     },
     getDateInWords( date ) {
-      // TODO: figure out why I need to mutiply the date by 1, probably a typecasting issue
-      return distanceInWordsToNow( date * 1 );
+      return getDateInWordsToNow( date );
     },
     handleCreateDownload( downloadDetails ) {
       this.$emit( 'createDownload', downloadDetails );

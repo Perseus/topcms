@@ -19,7 +19,7 @@
           <div class="storage-box-item" v-for="item in storageBox.itemsData" :key="item.id" @click="toggleItemSelect(item.id)">
             <img :src="getItemIcon(item)" />
             <div class="storage-box-item-selected" v-if="selectedItem === item.id">
-              <b-icon type="is-success" icon="check" size="is-small"></b-icon>
+              <b-icon type="is-success" icon="check" size="is-small" pack="fas"></b-icon>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
               </div>
 
               <div class="character-selected-overlay" v-if="selectedCharacter === char.cha_id">
-                <b-icon type="is-success" icon="check" size="is-small"></b-icon>
+                <b-icon type="is-success" icon="check" size="is-small" pack="fas"></b-icon>
               </div>
 
             </div>

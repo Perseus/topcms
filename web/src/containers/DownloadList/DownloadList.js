@@ -1,15 +1,26 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
+import { BLoading } from 'buefy/dist/components/loading';
+import { BCollapse } from 'buefy/dist/components/collapse';
+import { BIcon } from 'buefy/dist/components/icon';
+
 
 import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
+import { getDateInWordsToNow } from '@utils/DateUtils';
+
 import ActionTypes from '../../store/types/ActionTypes';
 import GeneralConfig from '../../config/GeneralConfig';
-import { getDateInWordsToNow } from '../../utils/DateUtils';
+
 
 const DownloadList = {
   name: 'download-list',
+
   components: {
     'server-detail-structure': ServerDetailStructure,
+    'b-loading': BLoading,
+    'b-collapse': BCollapse,
+    'b-icon': BIcon
   },
+
   created() {
     this.getSiteDownloads();
   },

@@ -1,5 +1,6 @@
-import { distanceInWordsToNow } from 'date-fns';
+import { getDateInWordsToNow } from '@utils/DateUtils';
 import clip from 'text-clipper';
+import { BButton } from 'buefy/dist/components/button';
 
 const NewsDashboard = {
   name: 'admin-news-dashboard',
@@ -14,14 +15,16 @@ const NewsDashboard = {
     }
   },
 
+  components: {
+    'b-button': BButton
+  },
 
   methods: {
     moveToCreateNewsPage() {
       this.$emit( 'moveToCreateNewsPage' );
     },
     getDateInWords( date ) {
-      // TODO: figure out why I need to mutiply the date by 1, probably a typecasting issue
-      return distanceInWordsToNow( date * 1 );
+      return getDateInWordsToNow( date );
     },
     deleteArticle( articleId ) {
       this.$emit( 'deleteNewsArticle', articleId );

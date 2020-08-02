@@ -1,7 +1,8 @@
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import forEach from 'lodash/forEach';
 
 export function characterInventoryCooker( character ) {
-  const characterDetails = _.cloneDeep( character );
+  const characterDetails = cloneDeep( character );
 
   if ( characterDetails.inventories ) {
     characterDetails.inventories.forEach( ( inventory ) => {
@@ -15,7 +16,7 @@ export function characterInventoryCooker( character ) {
   }
 
   characterDetails.look = JSON.parse( characterDetails.look || '{}' );
-  _.forEach( characterDetails.look, ( look ) => {
+  forEach( characterDetails.look, ( look ) => {
     look.itemInfo = JSON.parse( look.itemInfo );
   } );
 

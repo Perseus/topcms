@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 
 import { ItemAttributeMap } from '../../config/ItemAttributeMap';
 import { getInventoryItemDetailHTML } from '../../utils/CharacterUtils';
@@ -71,7 +71,7 @@ const InventoryGrid = {
       if ( !this.inventoryContent || !Array.isArray( this.inventoryContent ) ) {
         return false;
       }
-      const doesItemExist = _.find( this.inventoryContent, inventoryItem => Number( inventoryItem.slot ) === index );
+      const doesItemExist = find( this.inventoryContent, inventoryItem => Number( inventoryItem.slot ) === index );
       return Boolean( doesItemExist );
     },
 

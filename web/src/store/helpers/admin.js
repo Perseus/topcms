@@ -1,8 +1,8 @@
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
+import ActionTypes from '@store/types/ActionTypes';
 
 const defaultSnackbarMessage = 'Something went wrong. Please try again.';
 
-export const handleCharacterSearchErrors = ( error ) => {
+export const handleCharacterSearchErrors = ( error, { dispatch } ) => {
   let snackbarErrorMessage = defaultSnackbarMessage;
 
   switch ( error.code ) {
@@ -12,10 +12,9 @@ export const handleCharacterSearchErrors = ( error ) => {
     default:
   }
 
-  Snackbar.open( {
+  dispatch( ActionTypes.triggerToast, {
+    content: snackbarErrorMessage,
     duration: 5000,
-    message: snackbarErrorMessage,
-    position: 'is-top-right',
-    type: 'is-danger'
+    type: 'error'
   } );
 };

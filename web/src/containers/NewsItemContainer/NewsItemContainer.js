@@ -1,7 +1,8 @@
 import { mapState } from 'vuex';
-import _ from 'lodash';
+import find from 'lodash/find';
 
-import { getDateInWordsToNow } from '../../utils/DateUtils';
+import { getDateInWordsToNow } from '@utils/DateUtils';
+
 
 const NewsItemContainer = {
   name: 'news-item-container',
@@ -14,7 +15,7 @@ const NewsItemContainer = {
   computed: {
     ...mapStateToComputed(),
     currentNewsItem() {
-      return _.find( this.news, { id: Number( this.currentNewsItemID ) } );
+      return find( this.news, { id: Number( this.currentNewsItemID ) } );
     },
     newsCreatedAt() {
       return ( getDateInWordsToNow( this.currentNewsItem.createdAt ) );

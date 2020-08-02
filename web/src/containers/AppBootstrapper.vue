@@ -155,18 +155,22 @@
       </svg>
     </div>
     <router-view v-else></router-view>
+    <t-toasts-container></t-toasts-container>
   </div>
 </template>
 
 
 <script>
 import { mapGetters } from "vuex";
+import ToastsContainer from '@containers/ToastContainer/ToastContainer.vue';
+
 import ActionTypes from "../store/types/ActionTypes";
 import App from "./App/App.vue";
 
 const AppBootstrapper = {
   components: {
-    "t-app": App
+    "t-app": App,
+    't-toasts-container': ToastsContainer,
   },
   computed: {
     ...getStateGetters()
@@ -186,6 +190,7 @@ export default AppBootstrapper;
 .app-bootstrapper {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .app-loader {

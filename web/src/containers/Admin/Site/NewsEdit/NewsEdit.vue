@@ -16,7 +16,7 @@
               <b-dropdown v-else v-model="author" aria-role="list">
                 <button class="button is-primary" type="button" slot="trigger">
                   <span>{{ currentAuthorDetails.name }}</span>
-                  <b-icon icon="caret-down" size="is-small"></b-icon>
+                  <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
                 </button>
                 <b-dropdown-item
                   v-for="(authorItem) in authors"
@@ -37,13 +37,7 @@
                 :type="{ 'is-danger': errors[0], 'is-success': valid }"
                 :message="errors"
               >
-                <froala
-                  id="edit"
-                  :tag="'textarea'"
-                  name="content"
-                  v-model="content"
-                  required
-                ></froala>
+                <ck-editor :editor="editor" v-model="content"></ck-editor>
               </b-field>
             </ValidationProvider>
           </div>

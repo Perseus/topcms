@@ -29,8 +29,15 @@
 </template>
 
 <script>
+import { BLoading } from 'buefy/dist/components/loading';
+
 export default {
   name: "server-rates-container",
+
+  components: {
+    'b-loading': BLoading,
+  },
+
   props: {
     rates: {
       type: Object,
