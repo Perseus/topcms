@@ -1,7 +1,10 @@
 import { mapActions, mapGetters } from 'vuex';
+import { BButton } from 'buefy/dist/components/button';
+
 import ActionTypes from '../../store/types/ActionTypes';
 import RouteNames from '../../config/RouteNames';
 import TInput from '../../components/ValidationInputs/TInput.vue';
+
 
 const Login = {
   name: 't-login',
@@ -11,9 +14,12 @@ const Login = {
       password: '',
     };
   },
+
   components: {
     TInput,
+    'b-button': BButton,
   },
+
   computed: {
     ...getStateGetters(),
   },

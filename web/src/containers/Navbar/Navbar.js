@@ -1,4 +1,8 @@
 import { mapActions, mapGetters } from 'vuex';
+import { BNavbar, BNavbarDropdown, BNavbarItem } from 'buefy/dist/components/navbar';
+import { BDropdown, BDropdownItem } from 'buefy/dist/components/dropdown';
+import { BIcon } from 'buefy/dist/components/icon';
+
 import ActionTypes from '../../store/types/ActionTypes';
 import RouteNames from '../../config/RouteNames';
 
@@ -8,6 +12,15 @@ const Navbar = {
 
   computed: {
     ...getStateGetters(),
+  },
+
+  components: {
+    'b-navbar': BNavbar,
+    'b-navbar-dropdown': BNavbarDropdown,
+    'b-navbar-item': BNavbarItem,
+    'b-dropdown': BDropdown,
+    'b-dropdown-item': BDropdownItem,
+    'b-icon': BIcon,
   },
 
   methods: {

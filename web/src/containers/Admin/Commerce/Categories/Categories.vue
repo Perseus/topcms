@@ -14,12 +14,14 @@
             type="is-warning"
             size="is-small"
             icon-left="edit"
+            icon-pack="fas"
             @click="showCategoryEditModal(props.row.id, props.row.name)"
           >Edit</b-button>
           <b-button
             type="is-danger"
             size="is-small"
             icon-left="trash"
+            icon-pack="fas"
             @click="toggleDeletePrompt(props.row.id)"
           >Delete</b-button>
         </b-table-column>

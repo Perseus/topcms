@@ -1,4 +1,5 @@
 import { mapState, mapActions } from 'vuex';
+import { BTabItem, BTabs } from 'buefy/dist/components/tabs';
 
 import InventoryGrid from '../../../../components/InventoryGrid/InventoryGrid.vue';
 import { ItemAttributeMap } from '../../../../config/ItemAttributeMap';
@@ -11,6 +12,8 @@ const GameAdminCharacter = {
   components: {
     'inventory-grid': InventoryGrid,
     'inventory-item-tooltip': InventoryItemTooltip,
+    'b-tabs': BTabs,
+    'b-tab-item': BTabItem
   },
 
   data() {

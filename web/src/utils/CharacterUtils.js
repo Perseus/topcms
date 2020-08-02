@@ -1,6 +1,4 @@
-import _ from 'lodash';
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
-
+import forEach from 'lodash/forEach';
 
 import { CharacterConfig } from '../config/CharacterConfig';
 import { ItemAttributeMap, DBItemAttributeMap, getAttributesFromItem } from '../config/ItemAttributeMap';
@@ -31,17 +29,6 @@ export const PET_ITEM_TYPE = 59;
 export function getInventoryItemDetailHTML( item ) {
   const { itemInfo } = item;
 
-  if ( !itemInfo ) {
-    Snackbar.open( {
-      message: 'ItemInfo data was not found. Please upload and generate the ItemInfo cache',
-      type: 'is-danger',
-      position: 'is-top-right',
-      duration: 4000
-    } );
-
-    return;
-  }
-
   const itemType = itemInfo.ITEM_TYPE;
   const isEquippableGear = EQUIPMENT_IDS.includes( parseInt( itemType ) );
   const isPet = parseInt( itemType ) === PET_ITEM_TYPE;
@@ -64,7 +51,7 @@ export function getInventoryItemDetailHTML( item ) {
     htmlStructure += `
       <div class="pet-information">`;
 
-    _.forEach( petData.stats, ( stat, name ) => {
+    forEach( petData.stats, ( stat, name ) => {
       if ( stat > 0 ) {
         htmlStructure += `
         <div class="pet-stat"> ${name}: ${stat} </div>`;
@@ -210,7 +197,7 @@ function getGearBonusData( itemInfo ) {
 }
 
 function parseAndCleanItemAttributes( attributes ) {
-  _.forEach( attributes, ( attribute, key ) => {
+  forEach( attributes, ( attribute, key ) => {
     switch ( key ) {
       case 'DESCRIPTION':
         if ( attribute === '0' ) {

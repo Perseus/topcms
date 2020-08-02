@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+
 import MutationTypes from '../../types/MutationTypes';
 
 const Mutations = {
@@ -7,7 +8,7 @@ const Mutations = {
   },
 
   [ MutationTypes.RETRIEVED_GAME_STATS ]( state, payload ) {
-    state.gameStats = _.get( payload, 'gameStats' );
+    state.gameStats = get( payload, 'gameStats' );
     state.retrievingGameStats = false;
   },
 

@@ -1,12 +1,19 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
-import AdminNewsDashboard from '../../../components/SiteAdmin/News/Dashboard/NewsDashboard.vue';
-import AdminAuthorDashboard from '../../../components/SiteAdmin/Author/Dashboard/AuthorDashboard.vue';
-import AdminDownloadsDashboard from '../../../components/SiteAdmin/Downloads/Dashboard/DownloadsDashboard.vue';
-import ServerRatesUpdateModal from '../../../components/ServerRateUpdateModal/ServerRateUpdateModal.vue';
+import { BButton } from 'buefy/dist/components/button';
+import { BModal } from 'buefy/dist/components/modal';
+import { BTabItem, BTabs } from 'buefy/dist/components/tabs';
+import { BTable } from 'buefy/dist/components/table';
+// import { BModal } from 'buefy/dist/components/modal';
+
+import AdminNewsDashboard from '@components/SiteAdmin/News/Dashboard/NewsDashboard.vue';
+import AdminAuthorDashboard from '@components/SiteAdmin/Author/Dashboard/AuthorDashboard.vue';
+import AdminDownloadsDashboard from '@components/SiteAdmin/Downloads/Dashboard/DownloadsDashboard.vue';
+import ServerRatesUpdateModal from '@components/ServerRateUpdateModal/ServerRateUpdateModal.vue';
 
 import ActionTypes from '../../../store/types/ActionTypes';
 import RouteNames from '../../../config/RouteNames';
 
+// const { BModal } = () => import( 'buefy/dist/components/modal' );
 const Site = {
   name: 'admin-site',
   data() {
@@ -27,15 +34,22 @@ const Site = {
       }
     };
   },
+
   created() {
     this.fetchAllSiteInfo();
     this.fetchServerRates();
   },
+
   components: {
     'admin-news-dashboard': AdminNewsDashboard,
     'admin-author-dashboard': AdminAuthorDashboard,
     'admin-downloads-dashboard': AdminDownloadsDashboard,
     'server-rates-update-modal': ServerRatesUpdateModal,
+    'b-button': BButton,
+    'b-modal': BModal,
+    'b-tab': BTabs,
+    'b-tab-item': BTabItem,
+    'b-table': BTable
   },
   computed: {
     ...getStateGetters(),

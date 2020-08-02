@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import { BButton } from 'buefy/dist/components/button';
   import request from '@services/GraphQLRequest';
   import TInput from '@components/ValidationInputs/TInput.vue';
 
@@ -33,6 +34,7 @@
 
     components: {
       TInput,
+      'b-button': BButton
     },
 
     props: {

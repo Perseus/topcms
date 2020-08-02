@@ -19,13 +19,7 @@
                 :type="{ 'is-danger': errors[0], 'is-success': valid }"
                 :message="errors"
               >
-                <froala
-                  id="edit"
-                  :tag="'textarea'"
-                  name="description"
-                  v-model="description"
-                  required
-                ></froala>
+               <ck-editor :editor="editor" v-model="description"></ck-editor>
               </b-field>
             </ValidationProvider>
 
@@ -34,7 +28,7 @@
             <b-dropdown v-model="section" aria-role="list">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ section }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(downloadSection, index) in downloadSections"
@@ -56,7 +50,7 @@
             <b-dropdown v-else v-model="author" aria-role="list">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ author.name }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(authorItem) in authors"
@@ -82,8 +76,15 @@
 
 
 <script>
-import GeneralConfig from '../../../../config/GeneralConfig';
 import { ValidationProvider } from 'vee-validate';
+import { BField } from 'buefy/dist/components/field';
+import { BDropdown, BDropdownItem } from 'buefy/dist/components/dropdown';
+import { BIcon } from 'buefy/dist/components/icon';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import find from 'lodash/find';
+
+import GeneralConfig from '../../../../config/GeneralConfig';
 import TInput from '@components/ValidationInputs/TInput';
 
 export default {
@@ -114,13 +115,19 @@ export default {
       url: '',
       description: '',
       version: '',
-      section: 'Client'
+      section: 'Client',
+      editor: ClassicEditor,
     };
   },
 
  components: {
     TInput,
-    ValidationProvider
+    ValidationProvider,
+    'b-field': BField,
+    'b-dropdown': BDropdown,
+    'b-dropdown-item': BDropdownItem,
+    'b-icon': BIcon,
+    'ck-editor': CKEditor.component,
   },
   
   computed: {

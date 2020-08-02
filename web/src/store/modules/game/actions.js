@@ -1,4 +1,4 @@
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
+import mapValues from 'lodash/mapValues';
 
 import ActionTypes from '../../types/ActionTypes';
 import MutationTypes from '../../types/MutationTypes';
@@ -9,6 +9,7 @@ import { updateServerRatesMutation } from '../../../apollo/mutations/admin/game'
 
 import request from '../../../services/GraphQLRequest';
 import Logger from '../../../services/Logger';
+
 
 const Actions = {
   async [ ActionTypes.getServerStats ]( { commit } ) {
@@ -41,10 +42,10 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.updateServerRates ]( { commit }, payload ) {
+  async [ ActionTypes.updateServerRates ]( { commit, dispatch }, payload ) {
     try {
       const { rates } = payload;
-      const parsedRates = _.mapValues( rates, parseInt );
+      const parsedRates = mapValues( rates, parseInt );
 
       const { updateServerRates: updatedServerRatesResponse } = await request.mutation( updateServerRatesMutation, {
         rates: parsedRates
@@ -52,24 +53,23 @@ const Actions = {
 
       commit( MutationTypes.FETCHED_SERVER_RATES, { rates: updatedServerRatesResponse.data } );
 
-      Snackbar.open( {
+      dispatch( ActionTypes.triggerToast, {
         duration: 2000,
-        message: 'Server Rates updated successfully!',
-        position: 'is-top',
-        type: 'is-success',
+        content: 'Server Rates updated successfully!',
+        type: 'success',
       } );
     } catch ( err ) {
       Logger.log( `Error at updateServerRates: ${err}` );
-      Snackbar.open( {
+
+      dispatch( ActionTypes.triggerToast, {
         duration: 5000,
-        message: 'There was an error while trying to update server rates!',
-        position: 'is-top',
-        type: 'is-danger',
+        content: 'There was an error while trying to update server rates!',
+        type: 'error'
       } );
     }
   },
 
-  async [ ActionTypes.retrievePlayerRanking ]( { commit }, { filter } ) {
+  async [ ActionTypes.retrievePlayerRanking ]( { commit, dispatch }, { filter } ) {
     try {
       const { playerRankings: playerRankingsResponse } = await request.query( getPlayerRanking, {
         filter
@@ -78,11 +78,11 @@ const Actions = {
       commit( MutationTypes.RETRIEVED_PLAYER_RANKING, { playerRanking: playerRankingsResponse.data } );
     } catch ( err ) {
       Logger.log( `Error at action retrievePlayerRanking: ${err} ` );
-      Snackbar.open( {
+
+      dispatch( ActionTypes.triggerToast, {
         duration: 5000,
-        message: 'There was an error while trying to fetch player ranking',
-        position: 'is-bottom',
-        type: 'is-danger',
+        content: 'There was an error while trying to fetch player ranking',
+        type: 'error'
       } );
     }
   },

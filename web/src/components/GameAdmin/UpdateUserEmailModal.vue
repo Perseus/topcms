@@ -22,6 +22,7 @@
 
 import TInput from '@components/ValidationInputs/TInput';
 import request from '@services/GraphQLRequest';
+import { BButton } from 'buefy/dist/components/button';
 
 export default {
   name: 'update-user-email-modal',
@@ -32,7 +33,8 @@ export default {
   },
 
   components: {
-    TInput
+    TInput,
+    'b-button': BButton,
   },
 
   computed: {

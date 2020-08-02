@@ -15,6 +15,7 @@ module.exports = {
         map: [
           ['@containers', path.join(__dirname, 'src/containers')],
           ['@services', path.join(__dirname, 'src/services')],
+          ['@utils', path.join(__dirname, 'src/utils')],
           ['@store', path.join(__dirname, 'src/store')],
           ['@components', path.join(__dirname, 'src/components')]
         ],

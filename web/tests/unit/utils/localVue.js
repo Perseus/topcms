@@ -1,6 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import { ValidationObserver } from 'vee-validate';
-import Buefy from 'buefy';
+//import Buefy from 'buefy';
+
 import Vuex from 'vuex';
 
 import '@services/Validations';

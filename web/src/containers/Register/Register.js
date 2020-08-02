@@ -1,4 +1,5 @@
 import { mapActions, mapGetters } from 'vuex';
+import { BButton } from 'buefy/dist/components/button';
 
 import ActionTypes from '../../store/types/ActionTypes';
 import { changeRoute } from '../../utils/RouterUtils';
@@ -16,7 +17,8 @@ const Register = {
     };
   },
   components: {
-    TInput
+    TInput,
+    'b-button': BButton,
   },
   methods: {
     ...getActionDispatchers(),

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 
 import MutationTypes from '../../types/MutationTypes';
 
@@ -12,7 +12,7 @@ const Mutations = {
   },
 
   [ MutationTypes.UPDATE_USER_BAN ]( state, payload ) {
-    const accountToUpdateFromAccountsList = _.find( state.filteredAccountData.filteredAccounts, { id: payload.id } );
+    const accountToUpdateFromAccountsList = find( state.filteredAccountData.filteredAccounts, { id: payload.id } );
     const doesFetchedAccountNeedToBeUpdated = ( state.retrievedAccountData.id === payload.id );
     if ( doesFetchedAccountNeedToBeUpdated ) {
       state.retrievedAccountData.ban = payload.banStatus;

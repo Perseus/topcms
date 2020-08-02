@@ -15,7 +15,7 @@
             <b-dropdown v-model="category" aria-role="list" v-if="areThereMallCategories">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ getCategoryName(category) }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(category, index) in mallCategories"
@@ -30,7 +30,7 @@
             <b-dropdown v-model="mallType" aria-role="list">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ getTypeName(mallType) }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(mallType, key) in Constants.MALL_TYPES"
@@ -56,8 +56,13 @@
 </template>
 
 <script>
+import { BField } from 'buefy/dist/components/field';
+import { BDropdown, BDropdownItem } from 'buefy/dist/components/dropdown';
+import { BIcon } from 'buefy/dist/components/icon';
+
 import TInput from '@components/ValidationInputs/TInput';
 import Constants from '../../config/GeneralConfig';
+
 
 export default {
   name: 'add-commerce-category',
@@ -74,7 +79,11 @@ export default {
   },
 
   components: {
-    TInput
+    TInput,
+    'b-field': BField,
+    'b-dropdown': BDropdown,
+    'b-dropdown-item': BDropdownItem,
+    'b-icon': BIcon,
   },
 
   data() {

@@ -16,7 +16,7 @@
             <b-dropdown v-model="category" aria-role="list" v-if="areThereMallCategories">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ getCategoryName(category) }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(category, index) in mallCategories"
@@ -31,7 +31,7 @@
             <b-dropdown v-model="mallType" aria-role="list">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ getTypeName(mallType) }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(mallType, key) in Constants.MALL_TYPES"
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import findIndex from 'lodash/findIndex';
 
 import TInput from '@components/ValidationInputs/TInput';
 import Constants from '../../config/GeneralConfig';
@@ -105,7 +105,7 @@ export default {
     this.price = mallItem.price;
     this.availableQuantity = mallItem.availableQuantity;
     this.numOfItems = mallItem.numOfItems;
-    this.category = _.findIndex(this.mallCategories, (cat => cat.id === mallItem.category.id));
+    this.category = findIndex(this.mallCategories, (cat => cat.id === mallItem.category.id));
     this.mallType = mallItem.mallType;
     this.id = mallItem.id;
   },

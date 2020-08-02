@@ -1,4 +1,3 @@
-import { SnackbarProgrammatic as Snackbar } from 'buefy';
 import axios from 'axios';
 
 import ActionTypes from '../../types/ActionTypes';
@@ -17,6 +16,7 @@ import Logger from '../../../services/Logger';
 import socketHandler from '../../../socket';
 import { handleCharacterSearchErrors } from '../../helpers/admin';
 import RouteNames from '../../../config/RouteNames';
+
 
 const Actions = {
   async [ ActionTypes.retrieveFilteredAccounts ]( { commit }, payload ) {
@@ -49,11 +49,11 @@ const Actions = {
         newBanStatus: newBan
       } );
       commit( MutationTypes.UPDATE_USER_BAN, { id: response.data.id, banStatus: response.data.ban } );
-      Snackbar.open( {
-        position: 'is-top-right',
-        message: 'Ban status updated!',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Ban status updated!',
         duration: 1500,
-        type: 'is-success'
+        type: 'success',
+
       } );
     } catch ( err ) {
       Logger.log( `Error at action toggleBanForUser: ${err}` );
@@ -73,7 +73,7 @@ const Actions = {
     }
   },
 
-  async [ ActionTypes.adminUpdateUserEmail ]( { commit }, payload ) {
+  async [ ActionTypes.adminUpdateUserEmail ]( { commit, dispatch }, payload ) {
     try {
       const { email, id } = payload;
       const { updateUserFromAdmin: response } = await request.mutation( updateUserFromAdmin, {
@@ -82,21 +82,20 @@ const Actions = {
       } );
 
       if ( !response ) {
-        Snackbar.open( {
-          message: 'There was an error while trying to update the email',
+        dispatch( ActionTypes.triggerToast, {
+          content: 'There was an error while trying to update the email',
           duration: 2000,
-          position: 'is-top-right',
-          type: 'is-error',
+          type: 'error',
         } );
         return;
       }
 
-      Snackbar.open( {
-        message: 'Email updated successfully',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Email updated successfully',
         duration: 2000,
-        position: 'is-top-right',
-        type: 'is-success',
+        type: 'error',
       } );
+
       commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data } );
     } catch ( err ) {
       Logger.log( `Error at action adminUpdateUserEmail: ${err}` );
@@ -110,21 +109,20 @@ const Actions = {
       } );
 
       if ( !response ) {
-        Snackbar.open( {
-          message: 'There was an error while trying to update user information',
+        dispatch( ActionTypes.triggerToast, {
+          content: 'There was an error while trying to update user information',
           duration: 2000,
-          position: 'is-top-right',
-          type: 'is-error'
+          type: 'error'
         } );
         return;
       }
 
-      Snackbar.open( {
-        message: 'User information updated successfully!',
-        position: 'is-top-right',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'User information updated successfully!',
         duration: 2000,
-        type: 'is-success',
+        type: 'success'
       } );
+
       commit( MutationTypes.SET_UPDATED_USER_DATA, { ...response.data } );
     } catch ( err ) {
       Logger.log( `Error at action adminUpdateUser: ${err}` );
@@ -157,7 +155,7 @@ const Actions = {
 
       commit( MutationTypes.SET_FETCHED_CHARACTER_DATA, { characterDetails: response.data } );
     } catch ( err ) {
-      handleCharacterSearchErrors( err );
+      handleCharacterSearchErrors( err, { dispatch } );
       dispatch( ActionTypes.changeRoute, { name: RouteNames.ADMIN.GAME.INDEX } );
     }
   },
@@ -168,22 +166,23 @@ const Actions = {
       socketHandler.emit( 'generateItemInfoCache' );
       socketHandler.listen( 'failed', ( error, cb ) => {
         if ( error.error.code === 'cache.CHECKSUM_LATEST' ) {
-          Snackbar.open( {
-            message: 'The ItemInfo cache is already up to date',
-            type: 'is-danger',
-            duration: 3000
+          dispatch( ActionTypes.triggerToast, {
+            content: 'The ItemInfo cache is already up to date',
+            duration: 3000,
+            type: 'error'
           } );
         } else if ( error.error.code === 'cache.UNKNOWN_ITEMINFO' ) {
-          Snackbar.open( {
-            message: 'The uploaded ItemInfo has an invalid format. Please check the uploaded file.',
-            type: 'is-danger',
+          dispatch( ActionTypes.triggerToast, {
+            content: 'The uploaded ItemInfo has an invalid format. Please check the uploaded file.',
+            type: 'error',
             duration: 3000
           } );
         } else {
-          Snackbar.open( {
-            message: `There was an error while trying to generate the cache: ${error}`,
-            type: 'is-danger',
+          dispatch( ActionTypes.triggerToast, {
+            content: `There was an error while trying to generate the cache: ${error}`,
+            type: 'error',
             duration: 3000
+
           } );
         }
 
@@ -197,9 +196,10 @@ const Actions = {
 
       socketHandler.listen( 'itemCacheFinished', ( ) => {
         commit( MutationTypes.CACHED_ITEM_INFO );
-        Snackbar.open( {
-          message: 'ItemInfo cached successfully!',
-          type: 'is-success',
+
+        dispatch( ActionTypes.triggerToast, {
+          content: 'ItemInfo cached successfully!',
+          type: 'success',
           duration: 3000
         } );
       } );
@@ -217,15 +217,15 @@ const Actions = {
       } );
 
       if ( response.data.status === 'success' ) {
-        Snackbar.open( {
-          message: 'File uploaded successfully',
-          type: 'is-success',
+        dispatch( ActionTypes.triggerToast, {
+          content: 'File uploaded successfully',
+          type: 'success',
           duration: 3000
         } );
       } else {
-        Snackbar.open( {
-          message: 'There was an error while trying to upload the file',
-          type: 'is-danger',
+        dispatch( ActionTypes.triggerToast, {
+          content: 'There was an error while trying to upload the file',
+          type: 'error',
           duration: 3000
         } );
       }
@@ -243,17 +243,17 @@ const Actions = {
         id: parseInt( id )
       } );
 
-      Snackbar.open( {
-        message: 'Security code reset successfully',
-        type: 'is-success',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'Security code reset successfully',
+        type: 'success',
         duration: 3000
       } );
     } catch ( err ) {
       Logger.log( `Error at action resetUserSecurityCode: ${err} ` );
-      Snackbar.open( {
-        message: 'An error occured while trying to reset the security code',
+      dispatch( ActionTypes.triggerToast, {
+        content: 'An error occured while trying to reset the security code',
         duration: 3000,
-        type: 'is-danger'
+        type: 'error'
       } );
     }
   },
@@ -271,10 +271,11 @@ const Actions = {
       dispatch( ActionTypes.toggleModal );
     } catch ( err ) {
       Logger.log( `Error at action addMallPoints: ${err}` );
-      Snackbar.open( {
-        message: 'An error occured while trying to update the user\'s points',
+
+      dispatch( ActionTypes.triggerToast, {
+        content: 'An error occured while trying to update the user\'s points',
         duration: 3000,
-        type: 'is-danger'
+        type: 'error'
       } );
     }
   }

@@ -1,4 +1,8 @@
 import { mapState, mapActions } from 'vuex';
+import { BButton } from 'buefy/dist/components/button';
+import { BField } from 'buefy/dist/components/field';
+import { BInput } from 'buefy/dist/components/input';
+
 import ActionTypes from '../../store/types/ActionTypes';
 
 import TInput from '../../components/ValidationInputs/TInput.vue';
@@ -14,7 +18,10 @@ const AccountDetails = {
   },
 
   components: {
-    TInput
+    TInput,
+    'b-button': BButton,
+    'b-field': BField,
+    'b-input': BInput,
   },
 
   created() {
@@ -51,12 +58,6 @@ const AccountDetails = {
     },
 
     async handleUpdateUser() {
-      const didFormValidationSucceed = await this.$validator.validateAll();
-
-      if ( !didFormValidationSucceed ) {
-        return;
-      }
-
       this.updateUser( { newPassword: this.newPassword, oldPassword: this.oldPassword, email: this.userDetails.email } );
     },
   }

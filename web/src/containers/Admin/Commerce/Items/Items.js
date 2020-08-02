@@ -1,5 +1,6 @@
 import { mapState, mapActions } from 'vuex';
-import _ from 'lodash';
+import find from 'lodash/find';
+import { BButton } from 'buefy/dist/components/button';
 
 import ActionTypes from '@store/types/ActionTypes';
 import AddCommerceItem from '@components/CommerceItems/AddCommerceItem.vue';
@@ -12,7 +13,8 @@ export default {
 
   components: {
     'add-commerce-item': AddCommerceItem,
-    'edit-commerce-item': EditCommerceItem
+    'edit-commerce-item': EditCommerceItem,
+    'b-button': BButton,
   },
 
   methods: {
@@ -25,7 +27,7 @@ export default {
     },
 
     showItemEditModal( id ) {
-      const itemInfo = _.find( this.mallItems, item => item.id === id );
+      const itemInfo = find( this.mallItems, item => item.id === id );
       this.toggleModal( {
         type: Constants.MODAL_TYPES.EDIT_COMMERCE_ITEM,
         options: {

@@ -1,16 +1,24 @@
 import { mapState, mapActions } from 'vuex';
-
+import { BButton } from 'buefy/dist/components/button';
+import { BTable } from 'buefy/dist/components/table';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
 
 const Characters = {
   name: 'admin-game-Characters',
+
   data() {
     return {
       perPage: 10,
       currentPage: 1,
     };
   },
+
+  components: {
+    'b-button': BButton,
+    'b-table': BTable
+  },
+
   computed: {
     ...mapStateToComputed(),
 

@@ -1,5 +1,11 @@
 import { mapActions, mapState } from 'vuex';
-import _ from 'lodash';
+import findKey from 'lodash/findKey';
+import { BButton } from 'buefy/dist/components/button';
+import { BField } from 'buefy/dist/components/field';
+import { BInput } from 'buefy/dist/components/input';
+import { BDropdown, BDropdownItem } from 'buefy/dist/components/dropdown';
+import { BIcon } from 'buefy/dist/components/icon';
+import { BProgress } from 'buefy/dist/components/progress';
 
 import request from '@services/GraphQLRequest';
 import GeneralConfig from '../../../../config/GeneralConfig';
@@ -18,6 +24,16 @@ const Index = {
       characterSearchFilters: {},
       selectedCharacterSearchFilter: '',
     };
+  },
+
+  components: {
+    'b-button': BButton,
+    'b-field': BField,
+    'b-input': BInput,
+    'b-icon': BIcon,
+    'b-dropdown': BDropdown,
+    'b-dropdown-item': BDropdownItem,
+    'b-progress': BProgress
   },
 
   computed: {
@@ -66,13 +82,13 @@ const Index = {
     },
 
     async searchAccounts() {
-      const filterKey = _.findKey( this.accountSearchFilters, filter => filter === this.selectedAccountSearchFilter );
+      const filterKey = findKey( this.accountSearchFilters, filter => filter === this.selectedAccountSearchFilter );
       await this.retrieveFilteredAccounts( { filter: filterKey, searchKey: this.accountSearchTerm, offset: 0 } );
       this.changeRoute( { name: RouteNames.ADMIN.GAME.ACCOUNTS } );
     },
 
     async searchCharacters() {
-      const filterKey = _.findKey( this.characterSearchFilters, filter => filter === this.selectedCharacterSearchFilter );
+      const filterKey = findKey( this.characterSearchFilters, filter => filter === this.selectedCharacterSearchFilter );
       await this.retrieveFilteredCharacters( { filter: filterKey, searchKey: this.characterSearchTerm, offset: 0 } );
       this.changeRoute( { name: RouteNames.ADMIN.GAME.CHARACTERS } );
     },

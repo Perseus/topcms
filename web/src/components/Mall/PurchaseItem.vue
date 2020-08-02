@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { BButton } from 'buefy/dist/components/button';
+
 import TInput from '@components/ValidationInputs/TInput';
 import GraphQLRequest from '../../services/GraphQLRequest';
 
@@ -28,7 +30,8 @@ export default {
   name: 'purchase-item-modal',
   
   components: {
-    TInput
+    TInput,
+    'b-button': BButton,
   },
 
   props: {

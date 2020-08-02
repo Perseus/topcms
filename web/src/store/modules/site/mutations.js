@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import find from 'lodash/find';
+import get from 'lodash/get';
+import findIndex from 'lodash/findIndex';
+
 import MutationTypes from '../../types/MutationTypes';
 
 const Mutations = {
@@ -13,7 +16,7 @@ const Mutations = {
   },
   [ MutationTypes.FETCHED_SITE_NEWS ]( state, { newsArticles, newsArticle } ) {
     if ( newsArticle ) {
-      if ( !_.find( state.news, { id: newsArticle.id } ) ) {
+      if ( !find( state.news, { id: newsArticle.id } ) ) {
         state.news.push( newsArticle );
       }
     }
@@ -32,7 +35,7 @@ const Mutations = {
   [ MutationTypes.CREATED_SITE_INFO ]( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isCreating = false;
 
-    const hasError = _.get( payload, 'hasError', false );
+    const hasError = get( payload, 'hasError', false );
     if ( hasError ) {
       state[ `${payload.type}ProcessingState` ].errors = payload.error;
       return;
@@ -53,17 +56,17 @@ const Mutations = {
   },
   [ MutationTypes.UPDATED_SITE_INFO ]( state, payload ) {
     if ( payload.type === 'author' ) {
-      const authorIndex = _.findIndex( state.authors, author => author.id === payload.id );
+      const authorIndex = findIndex( state.authors, author => author.id === payload.id );
       state.authors[ authorIndex ].name = payload.name;
     }
 
     if ( payload.type === 'download' ) {
-      const downloadIndex = _.findIndex( state.downloads, download => download.id === payload.id );
+      const downloadIndex = findIndex( state.downloads, download => download.id === payload.id );
       Object.assign( state.downloads[ downloadIndex ], payload );
     }
 
     if ( payload.type === 'news' ) {
-      const newsIndex = _.findIndex( state.news, newsArticle => newsArticle.id === Number( payload.id ) );
+      const newsIndex = findIndex( state.news, newsArticle => newsArticle.id === Number( payload.id ) );
       state.news[ newsIndex ].title = payload.title;
       state.news[ newsIndex ].content = payload.content;
       state.news[ newsIndex ].author = payload.author;
@@ -75,7 +78,7 @@ const Mutations = {
   [ MutationTypes.DELETED_SITE_INFO ]( state, payload ) {
     state[ `${payload.type}ProcessingState` ].isDeleting = false;
 
-    const hasError = _.get( payload, 'hasError', false );
+    const hasError = get( payload, 'hasError', false );
     if ( hasError ) {
       state[ `${payload.type}ProcessingState` ].errors = payload.error;
       return;

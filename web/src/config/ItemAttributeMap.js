@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
 
 export const ItemAttributeMap = {
   ID: 0,
@@ -61,7 +61,7 @@ export function getAttributesFromItem( item, attributes = [], type = 'iteminfo' 
     attributeMap = DBItemAttributeMap;
   }
 
-  _.forEach( attributeMap, ( value, key ) => {
+  forEach( attributeMap, ( value, key ) => {
     if ( attributes.includes( value ) ) {
       itemAttributes[ key ] = item[ value ];
     }

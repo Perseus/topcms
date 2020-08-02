@@ -1,7 +1,8 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
-import { distanceInWordsToNow } from 'date-fns';
+import { getDateInWordsToNow } from '@utils/DateUtils';
 import clip from 'text-clipper';
-
+import { BLoading } from 'buefy/dist/components/loading';
+import { BButton } from 'buefy/dist/components/button';
 
 import ActionTypes from '../../store/types/ActionTypes';
 import ServerDetailStructure from '../ServerDetailStructure/ServerDetailStructure.vue';
@@ -12,6 +13,8 @@ const Landing = {
   name: 't-landing',
   components: {
     'server-detail-structure': ServerDetailStructure,
+    'b-loading': BLoading,
+    'b-button': BButton,
   },
   created() {
   },
@@ -33,8 +36,7 @@ const Landing = {
       return clip( htmlContent, 60, { html: true, maxLines: 6 } );
     },
     getDateInWords( date ) {
-      // todo: figure out why I need to mutiply the date by 1, probably a typecasting issue
-      return distanceInWordsToNow( date * 1 );
+      return getDateInWordsToNow( date );
     },
     goToNewsPage( id ) {
       this.changeRoute( { name: RouteNames.ROOT.NEWS.ARTICLE, metaData: { params: { id } } } );

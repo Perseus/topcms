@@ -1,6 +1,10 @@
-import { distanceInWordsToNow } from 'date-fns';
+import { BButton } from 'buefy/dist/components/button';
+
+import { getDateInWordsToNow } from '@utils/DateUtils';
+
 import CreateAuthor from '../CreateAuthor/CreateAuthor.vue';
 import EditAuthor from '../EditAuthor/EditAuthor.vue';
+
 
 const AuthorDashboard = {
   name: 'admin-author-dashboard',
@@ -41,6 +45,7 @@ const AuthorDashboard = {
   components: {
     'create-author-modal': CreateAuthor,
     'edit-author-modal': EditAuthor,
+    'b-button': BButton,
   },
   data() {
     return {
@@ -76,8 +81,7 @@ const AuthorDashboard = {
 
   methods: {
     getDateInWords( date ) {
-      // todo: figure out why I need to mutiply the date by 1, probably a typecasting issue
-      return distanceInWordsToNow( date * 1 );
+      return getDateInWordsToNow( date );
     },
     showCreateAuthorModal() {
       this.shouldShowCreateAuthorModal = true;

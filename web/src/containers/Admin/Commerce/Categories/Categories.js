@@ -1,4 +1,5 @@
 import { mapState, mapActions } from 'vuex';
+import { BButton } from 'buefy/dist/components/button';
 
 import request from '@services/GraphQLRequest';
 import ActionTypes from '../../../../store/types/ActionTypes';
@@ -13,6 +14,7 @@ export default {
   components: {
     'add-commerce-category': AddCategoryModal,
     'edit-commerce-category': EditCategoryModal,
+    'b-button': BButton,
   },
   computed: {
     ...mapStateToComputed(),

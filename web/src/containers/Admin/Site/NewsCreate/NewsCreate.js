@@ -1,6 +1,11 @@
 import { mapState, mapActions, mapGetters } from 'vuex';
-import _ from 'lodash';
+import find from 'lodash/find';
+import { BButton } from 'buefy/dist/components/button';
+import { BDropdown, BDropdownItem } from 'buefy/dist/components/dropdown';
+import { BIcon } from 'buefy/dist/components/icon';
 import { ValidationProvider } from 'vee-validate';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import TInput from '@components/ValidationInputs/TInput.vue';
 import ActionTypes from '../../../../store/types/ActionTypes';
@@ -13,12 +18,18 @@ const NewsCreate = {
       title: '',
       content: '',
       author: {},
+      editor: ClassicEditor,
     };
   },
 
   components: {
     TInput,
-    ValidationProvider
+    ValidationProvider,
+    'b-button': BButton,
+    'ck-editor': CKEditor.component,
+    'b-dropdown': BDropdown,
+    'b-dropdown-item': BDropdownItem,
+    'b-icon': BIcon
   },
 
   created() {
@@ -29,7 +40,7 @@ const NewsCreate = {
     ...mapComputedToGetters(),
 
     currentAuthorDetails() {
-      return _.find( this.authors, { id: this.author } );
+      return find( this.authors, { id: this.author } );
     }
   },
   methods: {

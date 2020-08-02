@@ -6,5 +6,4 @@ export NVM_DIR="$HOME/.nvm"
 
 npx sequelize db:migrate --env="GameDB" --migrations-path="./database/migrations/GameDB"
 npx sequelize db:migrate --env="AccountServer" --migrations-path="./database/migrations/AccountServer"
-npm i pm2
 npm run prod

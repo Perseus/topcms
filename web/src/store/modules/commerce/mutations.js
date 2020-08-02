@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 
 import MutationTypes from '../../types/MutationTypes';
 
@@ -15,7 +16,7 @@ const Mutations = {
   [ MutationTypes.UPDATE_COMMERCE_CATEGORY ]( state, payload ) {
     const { commerceCategory } = payload;
     const { id, name } = commerceCategory;
-    const existingCategory = _.findIndex( state.commerceCategories, category => category.id === id );
+    const existingCategory = findIndex( state.commerceCategories, category => category.id === id );
 
     if ( existingCategory === -1 ) {
       state.commerceCategories.push( commerceCategory );
@@ -40,7 +41,7 @@ const Mutations = {
 
   [ MutationTypes.UPDATE_MALL_ITEM ]( state, payload ) {
     const { id } = payload;
-    const commerceItemToUpdate = _.find( state.commerceItems, item => item.id === id );
+    const commerceItemToUpdate = find( state.commerceItems, item => item.id === id );
     Object.assign( commerceItemToUpdate, payload );
   },
 

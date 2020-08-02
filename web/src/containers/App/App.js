@@ -1,9 +1,10 @@
+
 import Navbar from '../Navbar/Navbar.vue';
 
 const App = {
   name: 'main-app',
   components: {
-    't-navbar': Navbar,
+    't-navbar': Navbar
   },
 };
 

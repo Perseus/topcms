@@ -18,8 +18,8 @@
 </ValidationObserver>
 </template>
 
-<script src>
-
+<script>
+import { BButton } from 'buefy/dist/components/button';
 import TInput from '@components/ValidationInputs/TInput';
 import request from '@services/GraphQLRequest';
 
@@ -32,7 +32,8 @@ export default {
   },
 
   components: {
-    TInput
+    TInput,
+    'b-button': BButton,
   },
 
   computed: {

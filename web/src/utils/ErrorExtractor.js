@@ -1,14 +1,14 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 
 export function extractGraphQLErrors( serverResponse ) {
-  const graphQLErrors = _.get( serverResponse, 'graphQLErrors' );
-  const networkError = _.get( serverResponse, 'networkError.result.errors' );
+  const graphQLErrors = get( serverResponse, 'graphQLErrors' );
+  const networkError = get( serverResponse, 'networkError.result.errors' );
   if ( !graphQLErrors && !networkError ) {
     return [];
   }
 
   const errors = graphQLErrors.length > 0 ? graphQLErrors : networkError;
-  const errorType = _.get( errors[ 0 ], 'message', 'INTERNAL_SERVER_ERROR' );
+  const errorType = get( errors[ 0 ], 'message', 'INTERNAL_SERVER_ERROR' );
   const error = errors[ 0 ].extensions;
 
   switch ( errorType ) {

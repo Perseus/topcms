@@ -13,7 +13,7 @@
             <b-dropdown v-model="selectedAccountSearchFilter" aria-role="list">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ selectedAccountSearchFilter }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(value, key) in accountSearchFilters"
@@ -45,7 +45,7 @@
             <b-dropdown v-model="selectedCharacterSearchFilter" aria-role="list">
               <button class="button is-primary" type="button" slot="trigger">
                 <span>{{ selectedCharacterSearchFilter }}</span>
-                <b-icon icon="caret-down" size="is-small"></b-icon>
+                <b-icon icon="caret-down" size="is-small" pack="fas"></b-icon>
               </button>
               <b-dropdown-item
                 v-for="(value, key) in characterSearchFilters"
