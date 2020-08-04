@@ -3,7 +3,7 @@
     <template slot="brand">
       <a class="navbar-item" @click.prevent="redirectToLanding">
         <img class="logo-image" src="@/assets/img/logo.png" />
-        <span class="logo-text">topCMS</span>
+        <span class="logo-text">{{ serverTitle }}</span>
       </a>
     </template>
     <template slot="start">

@@ -12,6 +12,10 @@ const Navbar = {
 
   computed: {
     ...getStateGetters(),
+
+    serverTitle() {
+      return ( window.serverTitle || 'topCMS' );
+    },
   },
 
   components: {
@@ -22,6 +26,7 @@ const Navbar = {
     'b-dropdown-item': BDropdownItem,
     'b-icon': BIcon,
   },
+
 
   methods: {
     ...getActionDispatchers(),

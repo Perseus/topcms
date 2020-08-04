@@ -60,7 +60,7 @@ app.use( '/assets', express.static( `${frontendDirectory}/assets` ) );
 app.use( '/img', express.static( `${frontendDirectory}/assets/img/` ) );
 
 app.get( '/*', ( req, res ) => {
-  res.render( 'index', { pageTitle: 'topCMS' } );
+  res.render( 'index', { pageTitle: 'topCMS', serverTitle: process.env.SERVER_TITLE || 'topCMS' } );
 } );
 
 
