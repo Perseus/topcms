@@ -1,5 +1,7 @@
 import { getDateInWordsToNow } from '@utils/DateUtils';
 
+import { BTable, BTableColumn } from 'buefy/dist/components/table';
+import { BModal } from 'buefy/dist/components/modal';
 import { BButton } from 'buefy/dist/components/button';
 
 import CreateDownloadModal from '../CreateDownload/CreateDownload.vue';
@@ -45,7 +47,16 @@ const DownloadsDashboard = {
       default: false,
     }
   },
-  components: { CreateDownloadModal, EditDownloadModal, 'b-button': BButton },
+
+  components: {
+    CreateDownloadModal,
+    EditDownloadModal,
+    'b-button': BButton,
+    'b-table': BTable,
+    'b-modal': BModal,
+    'b-table-column': BTableColumn,
+  },
+
   data() {
     return {
       shouldShowCreateDownloadModal: false,

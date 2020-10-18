@@ -3,6 +3,7 @@ import { BButton } from 'buefy/dist/components/button';
 import { BSwitch } from 'buefy/dist/components/switch';
 import { BTable } from 'buefy/dist/components/table';
 
+import request from '@services/GraphQLRequest';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
 
@@ -25,7 +26,7 @@ const Accounts = {
     ...mapStateToComputed(),
 
     isRetrievingAccounts() {
-      return this.currentRequestsInProgress.includes( 'getFilteredAccounts' );
+      return request.isRequestInProgress( 'getFilteredAccounts' );
     },
   },
 

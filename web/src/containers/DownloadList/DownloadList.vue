@@ -15,7 +15,7 @@
               <div class="no-downloads-found" v-if="!areThereAnyDownloadsForSection(section)">
                 No downloads found for this section
               </div>
-              <div class="card" v-for="(download) in getDownloads( section )" :key="download.id" v-else>
+              <div class="card download-card" v-for="(download) in getDownloads( section )" :key="download.id" v-else>
                 <header class="card-header">
                   <div class="card-header-title">
                     <div
@@ -29,7 +29,7 @@
                 <section class="card-content">
                   <div class="content" v-html="download.description"></div>
                   <div
-                    class="created-at is-size-7 is-pulled-right"
+                    class="created-at is-size-7"
                   >{{ getDateInWords( download.createdAt ) }} ago</div>
                 </section>
                 <footer class="card-footer">

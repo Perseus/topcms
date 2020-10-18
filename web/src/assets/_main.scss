@@ -1,7 +1,8 @@
 html, 
 body {
-    height: 100vh;
+    min-height: 100vh;
     box-sizing: border-box;
+    background-color: #0f151b;
 }
 
 html {
@@ -14,8 +15,78 @@ html {
   box-sizing: inherit;
 }
 
-#app {
-  height: 100%;
-  width: 100%;
+body {
+  background: url('~/img/assets/Header.png') no-repeat;
+  background-position: top;
+  background-color: #0F151B;
 }
 
+.app-bootstrapper {
+  height: 100%;
+  width: 100%;
+
+  .button {
+    &.is-primary {
+      background-color: #0d1014;
+      color: #F7AD3B;
+
+      &:hover {
+        cursor: pointer;
+        color: #FFFFFF;
+        background-color: #0D1014;
+      }
+
+      &:active {
+        background-color: #0d1014;
+        color: #F7AD3B;
+      }
+
+      &:focus:not(:active) {
+        box-shadow: 0 0 0 .125em rgba(247, 173, 59, 0.25);
+      }
+    }
+  }
+
+  a {
+    color: #F7AD3B;
+
+    &:hover {
+      color: #FFFFFF;
+    }
+  }
+
+
+  .input {
+    background-color: #0D1014;
+    color: #F7AD3B;
+    box-shadow: none;
+    border-color: rgba(247, 173, 59, 0.5);
+  }
+
+  .label {
+    color: #F7AD3B;
+    font-size: 12px;
+  }
+
+  .card-content {
+    padding: 0 1.5rem;
+  }
+
+  .loading-overlay {
+    .loading-background {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .loading-icon::after {
+      border-color: #F7AD3B;
+      border-right-color: transparent;
+      border-top-color: transparent;
+    }
+  }
+
+  .collapse.card {
+    background-color: #0C1317;
+    color: #F7AD3B;
+    box-shadow: 0 2px 3px rgba(231,184,55,.1),0 0 0 1px rgba(231,184,55,.1);
+  }
+}

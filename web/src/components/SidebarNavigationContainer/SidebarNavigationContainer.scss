@@ -1,0 +1,44 @@
+.sidebar-card {
+  width: 250px;
+  background-color: transparent;
+}
+.card-header {
+  background: url('~/img/assets/Menu_Head.png') no-repeat;
+  min-height: 51px;
+}
+
+
+.card-header-title {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #F7AD3B;
+}
+
+.card-content {
+  background: url('~/img/assets/Menu_Content.png') repeat-y;
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    a {
+      color: #F7AD3B;
+      font-weight: bold;
+
+      &:hover {
+        cursor: pointer;
+        color: #FFFFFF;
+      }
+    }
+    font-size: 14px;
+  }
+}
+
+.card-footer {
+  height: 50px;
+  border-top: none;
+  background: url('~/img/assets/Menu_Bottom.png') no-repeat;
+}

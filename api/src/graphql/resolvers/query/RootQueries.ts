@@ -25,10 +25,7 @@ export const User = {
         } );
         return accountDetails;
       } catch ( err ) {
-        throw new TError( {
-          code: 'user.NO_ACCOUNT_ENTRY',
-          message: 'User doesn\'t have an Account entry'
-        } );
+        return null;
       }
     }
 

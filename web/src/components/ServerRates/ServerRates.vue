@@ -1,5 +1,8 @@
 <template>
   <div class="card server-info">
+    <header class="card-header">
+      <div class="card-header-title">Server Information</div>
+    </header>
     <div class="card-content">
       <ul>
         <li class="server-rate">
@@ -23,8 +26,9 @@
           <span class="rate-number">{{ rates.fairy }}</span>
         </li>
       </ul>
+      <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
     </div>
-    <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
+    <div class="card-footer"></div>
   </div>
 </template>
 
@@ -51,6 +55,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.server-info {
+  width: 250px;
+  background: transparent;
+}
 .server-rate {
   display: flex;
   width: 100%;
@@ -59,5 +67,30 @@ export default {
   &:not(:last-child) {
     margin-bottom: 0.5rem;
   }
+}
+
+.card-header {
+  background: url('~/img/assets/Menu_Head.png') no-repeat;
+  min-height: 51px;
+}
+
+.card-header-title {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #F7AD3B;
+}
+
+.card-content {
+  background: url('~/img/assets/Menu_Content.png') repeat-y;
+  color: #F7AD3B;
+  font-size: 14px;
+}
+
+.card-footer {
+  height: 50px;
+  border-top: none;
+  background: url('~/img/assets/Menu_Bottom.png') no-repeat;
 }
 </style>

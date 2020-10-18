@@ -1,5 +1,8 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 
+import SidebarLoginCard from '@components/SidebarLoginCard/SidebarLoginCard.vue';
+import SidebarMyAccountCard from '@components/SidebarMyAccountCard/SidebarMyAccountCard';
+import RouteNames from '../../config/RouteNames';
 import ActionTypes from '../../store/types/ActionTypes';
 import ServerInfo from '../../components/ServerInfo/ServerInfo.vue';
 import StaffStatusContainer from '../../components/StaffStatusContainer/StaffStatusContainer.vue';
@@ -14,6 +17,14 @@ const ServerDetailStructure = {
     'staff-status-container': StaffStatusContainer,
     'server-rates-container': ServerRatesContainer,
     'sidebar-navigation-container': SidebarNavigationContainer,
+    'sidebar-login-card': SidebarLoginCard,
+    'sidebar-myaccount-card': SidebarMyAccountCard,
+  },
+
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+    };
   },
 
   created() {
@@ -32,6 +43,36 @@ const ServerDetailStructure = {
 
   methods: {
     ...getActionDispatchers(),
+
+    redirectToRegistration() {
+      this.changeRoute( {
+        name: RouteNames.AUTH.REGISTER,
+      } );
+    },
+
+    handleAccountRedirects( { name } ) {
+      switch ( name ) {
+        case 'admin':
+          this.changeRoute( {
+            name: RouteNames.ADMIN.GAME.INDEX
+          } );
+          break;
+        case 'account':
+          this.changeRoute( {
+            name: RouteNames.USER.DETAILS
+          } );
+          break;
+        case 'storage':
+          this.changeRoute( {
+            name: RouteNames.USER.STORAGE_BOX
+          } );
+          break;
+        case 'logout':
+          this.logoutUser();
+          break;
+        default:
+      }
+    },
   }
 };
 
@@ -41,6 +82,7 @@ function getActionDispatchers() {
     getServerStats: ActionTypes.getServerStats,
     changeRoute: ActionTypes.changeRoute,
     retrieveLandingPageInformation: ActionTypes.retrieveLandingPageInformation,
+    logoutUser: ActionTypes.logoutUser,
   } );
 }
 
@@ -56,12 +98,14 @@ function mapStateToComputed() {
     serverRates: state => state.game.serverRates,
     requestsInProgress: state => state.application.currentRequestsInProgress,
     gameStats: state => state.game.gameStats,
+    userData: state => state.user.userData,
   } );
 }
 
 function getStateGetters() {
   return mapGetters( {
-    isRetrievingGameStats: 'isRetrievingGameStats'
+    isRetrievingGameStats: 'isRetrievingGameStats',
+    isUserLoggedIn: 'isUserLoggedIn',
   } );
 }
 

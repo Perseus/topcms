@@ -3,6 +3,7 @@ import { BButton } from 'buefy/dist/components/button';
 import { BField } from 'buefy/dist/components/field';
 import { BInput } from 'buefy/dist/components/input';
 
+import request from '@services/GraphQLRequest';
 import ActionTypes from '../../store/types/ActionTypes';
 
 import TInput from '../../components/ValidationInputs/TInput.vue';
@@ -44,7 +45,7 @@ const AccountDetails = {
     },
 
     isUpdatingUser() {
-      return ( this.requestsInProgress.includes( 'updateUser' ) );
+      return request.isRequestInProgress( 'updateUser' );
     },
   },
 

@@ -37,6 +37,7 @@ const Actions = {
         name: RouteNames.ROOT.__LANDING__
       } );
     } catch ( err ) {
+      console.log( err );
       handleRegistrationErrors( err, { dispatch } );
     }
   },

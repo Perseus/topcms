@@ -1,7 +1,29 @@
 .server-rates-container {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .server-info-container {
-  margin-top: 2rem;
+  margin-top: 1rem;
+}
+
+.navi-column {
+  margin-left: auto;
+  flex-grow: 0;
+}
+
+.rates-column {
+  margin-right: auto;
+  flex-grow: 0;
+}
+
+.main-column {
+  flex-grow: 1;
+  max-width: 525px;
+}
+
+.registration-img {
+  margin-bottom: 10px;
+  &:hover {
+    cursor: pointer;
+  }
 }

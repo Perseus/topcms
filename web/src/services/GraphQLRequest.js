@@ -41,7 +41,7 @@ async function graphQLRequest( dispatch, type = 'query', requestSchema, variable
     } );
 
     // if there is only one query in the request
-    if ( Object.keys( response ).length === 0 ) {
+    if ( Object.keys( response ).length === 1 ) {
       response = response.data;
       const objectKeys = Object.keys( response );
       const firstDataKey = objectKeys[ 0 ];

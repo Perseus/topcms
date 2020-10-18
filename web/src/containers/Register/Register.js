@@ -1,6 +1,8 @@
 import { mapActions, mapGetters } from 'vuex';
 import { BButton } from 'buefy/dist/components/button';
 
+import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
+import TemplateCard from '@components/TemplateCard/TemplateCard.vue';
 import ActionTypes from '../../store/types/ActionTypes';
 import { changeRoute } from '../../utils/RouterUtils';
 import RouteNames from '../../config/RouteNames';
@@ -19,6 +21,8 @@ const Register = {
   components: {
     TInput,
     'b-button': BButton,
+    'server-detail-structure': ServerDetailStructure,
+    'template-card': TemplateCard,
   },
   methods: {
     ...getActionDispatchers(),

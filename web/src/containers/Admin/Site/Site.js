@@ -47,7 +47,7 @@ const Site = {
     'server-rates-update-modal': ServerRatesUpdateModal,
     'b-button': BButton,
     'b-modal': BModal,
-    'b-tab': BTabs,
+    'b-tabs': BTabs,
     'b-tab-item': BTabItem,
     'b-table': BTable
   },

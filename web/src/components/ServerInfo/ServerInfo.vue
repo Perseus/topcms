@@ -1,5 +1,8 @@
 <template>
   <div class="card server-info">
+    <header class="card-header">
+      <div class="card-header-title">Server Stats</div>
+    </header>
     <div class="card-content">
       <ul>
         <li class="server-stat">
@@ -20,6 +23,7 @@
         </li>
       </ul>
     </div>
+    <div class="card-footer"></div>
     <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
   </div>
 </template>

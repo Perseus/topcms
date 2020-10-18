@@ -3,6 +3,7 @@ import clip from 'text-clipper';
 import { BLoading } from 'buefy/dist/components/loading';
 import { BPagination } from 'buefy/dist/components/pagination';
 
+import TemplateCard from '@components/TemplateCard/TemplateCard';
 import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
 import { getDateInWordsToNow } from '@utils/DateUtils';
 
@@ -16,6 +17,7 @@ const NewsList = {
     'server-detail-structure': ServerDetailStructure,
     'b-loading': BLoading,
     'b-pagination': BPagination,
+    'template-card': TemplateCard,
   },
   created() {
   },
@@ -57,7 +59,7 @@ const NewsList = {
       }
     },
     getTruncatedHtml( htmlContent ) {
-      return clip( htmlContent, 40, { html: true, maxLines: 1 } );
+      return clip( htmlContent, 250, { html: true, maxLines: 10 } );
     },
     getDateInWords( date ) {
       return getDateInWordsToNow( date );

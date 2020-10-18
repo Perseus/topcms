@@ -1,4 +1,5 @@
 import { BButton } from 'buefy/dist/components/button';
+import { BModal } from 'buefy/dist/components/modal';
 
 import { getDateInWordsToNow } from '@utils/DateUtils';
 
@@ -46,6 +47,7 @@ const AuthorDashboard = {
     'create-author-modal': CreateAuthor,
     'edit-author-modal': EditAuthor,
     'b-button': BButton,
+    'b-modal': BModal,
   },
   data() {
     return {

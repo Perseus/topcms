@@ -3,7 +3,7 @@ import { BLoading } from 'buefy/dist/components/loading';
 import { BCollapse } from 'buefy/dist/components/collapse';
 import { BIcon } from 'buefy/dist/components/icon';
 
-
+import TemplateCard from '@components/TemplateCard/TemplateCard';
 import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
 import { getDateInWordsToNow } from '@utils/DateUtils';
 
@@ -18,7 +18,8 @@ const DownloadList = {
     'server-detail-structure': ServerDetailStructure,
     'b-loading': BLoading,
     'b-collapse': BCollapse,
-    'b-icon': BIcon
+    'b-icon': BIcon,
+    'template-card': TemplateCard,
   },
 
   created() {

@@ -1,6 +1,5 @@
 <template>
   <section class="main-app">
-    <t-navbar></t-navbar>
     <section class="section">
       <router-view></router-view>
     </section>

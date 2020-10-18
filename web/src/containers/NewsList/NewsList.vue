@@ -23,7 +23,19 @@
         <div class="no-news-found" v-if="newsFeed.length === 0">
           No news articles found
         </div>
-        <div class="card news-feed-card" v-for="(news) in newsFeed" :key="news.id">
+        <template-card v-for="(newsArticle) in newsFeed" :key="newsArticle.id" size="large" class="news-card">
+            <template slot="title"> [News] {{ newsArticle.title }} </template>
+            <template slot="card-content">
+              <div class="card-content">
+                <div class="content" v-html="getTruncatedHtml( newsArticle.content )"></div>
+              </div>
+            </template>
+            <template slot="footer">
+              by {{ newsArticle.author.name }} - {{ getDateInWords( newsArticle.updatedAt ) }} ago
+              <a class="read-more-btn" @click.prevent="goToNewsPage(newsArticle.id)" >Read More</a>
+            </template>
+        </template-card>
+        <!-- <div class="card news-feed-card" v-for="(news) in newsFeed" :key="news.id">
           <header class="card-header">
             <p class="card-header-title news-title">{{ news.title }}</p>
           </header>
@@ -36,7 +48,7 @@
               class="news-metadata"
             >by {{ news.author.name }} - {{ getDateInWords( news.updatedAt ) }} ago</div>
           </footer>
-        </div>
+        </div> -->
         <b-loading :is-full-page="false" :active.sync="fetchingNewsFeed" :can-cancel="false"></b-loading>
         
     </template>

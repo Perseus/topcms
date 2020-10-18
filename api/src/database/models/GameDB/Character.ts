@@ -79,7 +79,7 @@ Character.init( {
   },
   icon: {
     type: DataTypes.INTEGER,
-    get(): number {
+    get(): string|number {
       const retrievedIcon = this.getDataValue( 'icon' );
       if ( CharacterModelTypes[ retrievedIcon ] ) {
         return CharacterModelTypes[ retrievedIcon ];

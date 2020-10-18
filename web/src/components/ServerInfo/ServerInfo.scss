@@ -2,4 +2,35 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  
+}
+
+.server-info {
+  background-color: transparent;
+  width: 250px;
+}
+
+.card-header {
+  background: url('~/img/assets/Menu_Head.png') no-repeat;
+  min-height: 51px;
+}
+
+.card-header-title {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #F7AD3B;
+}
+
+.card-content {
+  background: url('~/img/assets/Menu_Content.png') repeat-y;
+  color: #F7AD3B;
+  font-size: 14px;
+}
+
+.card-footer {
+  height: 50px;
+  border-top: none;
+  background: url('~/img/assets/Menu_Bottom.png') no-repeat;
 }

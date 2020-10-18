@@ -1,6 +1,7 @@
 import { mapState, mapActions } from 'vuex';
 import { BButton } from 'buefy/dist/components/button';
 import { BTable } from 'buefy/dist/components/table';
+import request from '@services/GraphQLRequest';
 import ActionTypes from '../../../../store/types/ActionTypes';
 import RouteNames from '../../../../config/RouteNames';
 
@@ -23,7 +24,7 @@ const Characters = {
     ...mapStateToComputed(),
 
     isRetrievingCharacters() {
-      return this.currentRequestsInProgress.includes( 'retrievingFilteredCharacters' );
+      return request.isRequestInProgress( 'retrievingFilteredCharacters' );
     },
   },
 

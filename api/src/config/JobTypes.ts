@@ -1,4 +1,8 @@
-export const JobTypes = {
+interface JobTypes {
+  [key: string]: string;
+}
+
+export const JobTypes: JobTypes = {
 
   // top-1 uses IDs for their jobs
   0: 'Newbie',

@@ -69,15 +69,18 @@ export const staffStatuses = resolve( {
         attributes: [ 'cha_name' ],
       } );
 
-      let firstCharacter: Character;
 
-      if ( characterDetails.length > 0 ) {
-        [ firstCharacter ] = characterDetails;
-        adminAccounts.push( {
-          name: firstCharacter.cha_name,
-          type: ( retrievedAdminAccounts[ i ].gm === 99 ? 'GM' : 'HD' ),
-          isOnline: accountData.login_status === 1
-        } );
+      if ( accountData ) {
+        let firstCharacter: Character;
+
+        if ( characterDetails.length > 0 ) {
+          [ firstCharacter ] = characterDetails;
+          adminAccounts.push( {
+            name: firstCharacter.cha_name,
+            type: ( retrievedAdminAccounts[ i ].gm === 99 ? 'GM' : 'HD' ),
+            isOnline: accountData.login_status === 1
+          } );
+        }
       }
     }
 

@@ -1,7 +1,9 @@
 <template>
   <div class="card">
+    <header class="card-header">
+      <div class="card-header-title">Staff Status</div>
+    </header>
     <div class="card-content is-medium">
-      <div class="is-size-5 card-title">Staff Status</div>
       <b-loading
         :is-full-page="false"
         :active.sync="isFetchingStaffInfo"
@@ -25,6 +27,7 @@
 
       </template>
     </div>
+    <div class="card-footer"></div>
   </div>
 </template>
 

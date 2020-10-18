@@ -35,8 +35,9 @@ export default class User extends BaseModel {
     const accountDetails = await AccountModel.findOne( {
       where: {
         act_id: this.id
-      }
-    } );
+      },
+      rejectOnEmpty: false,
+    }, );
 
     return accountDetails;
   }
@@ -48,6 +49,10 @@ export default class User extends BaseModel {
    */
   async getAccessLevel(): Promise<[AccessLevels]> {
     const accountDetails = await this.getAccount();
+    if ( !accountDetails ) {
+      return [ AccessLevels.USER ];
+    }
+
     const gmLevel = accountDetails.gm;
     const accessLevels: [AccessLevels] = [ AccessLevels.USER ];
 

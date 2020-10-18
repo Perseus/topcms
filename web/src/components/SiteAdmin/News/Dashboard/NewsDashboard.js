@@ -1,6 +1,7 @@
 import { getDateInWordsToNow } from '@utils/DateUtils';
 import clip from 'text-clipper';
 import { BButton } from 'buefy/dist/components/button';
+import { BTable } from 'buefy/dist/components/table';
 
 const NewsDashboard = {
   name: 'admin-news-dashboard',
@@ -16,7 +17,8 @@ const NewsDashboard = {
   },
 
   components: {
-    'b-button': BButton
+    'b-button': BButton,
+    'b-table': BTable
   },
 
   methods: {

@@ -4,6 +4,8 @@ import clip from 'text-clipper';
 import { BLoading } from 'buefy/dist/components/loading';
 import { BButton } from 'buefy/dist/components/button';
 
+import TemplateCard from '@components/TemplateCard/TemplateCard';
+import request from '@services/GraphQLRequest';
 import ActionTypes from '../../store/types/ActionTypes';
 import ServerDetailStructure from '../ServerDetailStructure/ServerDetailStructure.vue';
 
@@ -15,6 +17,7 @@ const Landing = {
     'server-detail-structure': ServerDetailStructure,
     'b-loading': BLoading,
     'b-button': BButton,
+    'template-card': TemplateCard
   },
   created() {
   },
@@ -26,14 +29,14 @@ const Landing = {
       return ( Object.keys( this.newsFeed ).length > 0 );
     },
     fetchingNewsFeed() {
-      return ( this.requestsInProgress.includes( 'getNewsFeed' ) );
+      return ( request.isRequestInProgress( 'getServerDetailStructureInformation' ) );
     },
   },
 
   methods: {
     ...getActionDispatchers(),
     getTruncatedHtml( htmlContent ) {
-      return clip( htmlContent, 60, { html: true, maxLines: 6 } );
+      return clip( htmlContent, 250, { html: true, maxLines: 10 } );
     },
     getDateInWords( date ) {
       return getDateInWordsToNow( date );

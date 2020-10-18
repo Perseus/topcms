@@ -1,10 +1,13 @@
 <template>
-  <div class="card">
+  <div class="card sidebar-card">
     <header class="card-header">
-      <div class="card-header-title">Navigation</div>
+      <div class="card-header-title">Main Navigation</div>
     </header>
     <div class="card-content">
       <ul>
+        <li>
+          <a @click="redirectTo('home')">Home</a>
+        </li>
         <li>
           <a @click="redirectTo('news')">News</a>
         </li>
@@ -22,6 +25,7 @@
         </li>
       </ul>
     </div>
+    <div class="card-footer"></div>
   </div>
 </template>
 

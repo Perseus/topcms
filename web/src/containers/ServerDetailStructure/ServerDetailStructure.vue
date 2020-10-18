@@ -1,6 +1,9 @@
 <template>
   <div class="columns">
-    <div class="column is-one-fifths">
+    <div class="column navi-column">
+      <div class="registration-link" v-if="!isUserLoggedIn" @click="redirectToRegistration">
+        <img class="registration-img" src="/img/assets/Registration_Main.png" />
+      </div>
       <sidebar-navigation-container></sidebar-navigation-container>
       <server-info
         class="server-info-container"
@@ -8,10 +11,12 @@
         :gameStats="gameStats"
       ></server-info>
     </div>
-    <div class="column is-three-fifths">
+    <div class="column main-column">
       <slot name="main-content"></slot>
     </div>
-    <div class="column is-one-fifths">
+    <div class="column rates-column">
+      <sidebar-login-card v-if="!isUserLoggedIn" />
+      <sidebar-myaccount-card :userData="userData" @handleRedirect="handleAccountRedirects" v-else />
       <staff-status-container :staffInfo="GMInfo" :isFetchingStaffInfo="fetchingStaffInfo"></staff-status-container>
       <server-rates-container
         class="server-rates-container"
