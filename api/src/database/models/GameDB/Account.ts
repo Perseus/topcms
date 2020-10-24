@@ -35,6 +35,8 @@ class Account extends BaseModel {
           },
           attributes
         } );
+
+        console.log( accountDetails );
       } else {
         accountDetails = await UserModel.findOne( {
           where: {

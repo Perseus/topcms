@@ -44,6 +44,9 @@ export const handleUpdateUserErrors = function( error, { dispatch } ) {
     case 'user.PASSWORD_MISMATCH':
       snackbarErrorMessage = 'The old password is incorrect. Please enter the correct password';
       break;
+    case 'input.VALIDATION_ERROR':
+      snackbarErrorMessage = 'Please make sure all the fields have been filled properly. Your old password is required to change any of your account details';
+      break;
     default:
   }
 

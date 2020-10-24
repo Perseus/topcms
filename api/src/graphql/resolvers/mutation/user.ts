@@ -18,7 +18,7 @@ export const updateUser = resolve( {
     userInfo: Joi.object( {
       email: Joi.string().min( 5 ).email().optional(),
       old_password: Joi.string().min( 5 ).when( 'new_password', { is: Joi.string().min( 5 ), then: Joi.required(), otherwise: Joi.optional() } ),
-      new_password: Joi.string().min( 5 ).optional(),
+      new_password: Joi.string().optional().min( 5 ),
     } )
   },
   async action( { args, context } ) {

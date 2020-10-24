@@ -4,6 +4,12 @@
       <div class="registration-link" v-if="!isUserLoggedIn" @click="redirectToRegistration">
         <img class="registration-img" src="/img/assets/Registration_Main.png" />
       </div>
+      <div class="registration-link" @click="redirectToDownloads">
+        <img class="registration-img" src="/img/assets/Download_Main.png" />
+      </div>
+      <div class="registration-link" @click="redirectToRanking">
+        <img class="registration-img" src="/img/assets/player_ranking.png" />
+      </div>
       <sidebar-navigation-container></sidebar-navigation-container>
       <server-info
         class="server-info-container"

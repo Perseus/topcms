@@ -111,14 +111,23 @@ const Actions = {
   async [ ActionTypes.updateUser ]( { commit, dispatch }, payload ) {
     try {
       const { newPassword: new_password, oldPassword: old_password, email } = payload;
+      const requestPayload = {};
+
+      if ( new_password ) {
+        requestPayload.new_password = new_password;
+      }
+
+      if ( old_password ) {
+        requestPayload.old_password = old_password;
+      }
+
+      if ( email ) {
+        requestPayload.email = email;
+      }
       const response = await request.mutation( updateUserMutation, {
-        userInfo: {
-          new_password,
-          old_password,
-          email
-        }
+        userInfo: requestPayload
       } );
-      commit( MutationTypes.UPDATED_USER, { user: response.data.updateUser } );
+      commit( MutationTypes.UPDATED_USER, { user: response.updateUser } );
 
       dispatch( ActionTypes.triggerToast, {
         content: 'User updated successfully',
@@ -126,10 +135,9 @@ const Actions = {
         position: 'is-bottom',
         duration: 4000
       } );
-
-      dispatch( ActionTypes.changeRoute, { name: RouteNames.ROOT.__LANDING__ } );
     } catch ( err ) {
-      handleUpdateUserErrors( err );
+      console.log( err );
+      handleUpdateUserErrors( err, { dispatch } );
     }
   },
 

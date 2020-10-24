@@ -31,7 +31,7 @@ export const typeDefs = gql`
   type StaffStatus {
     name: String
     type: String
-    is_online: String
+    isOnline: Boolean
   }
 
   type ServerRateInfoResponse {

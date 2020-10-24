@@ -73,6 +73,18 @@ const ServerDetailStructure = {
         default:
       }
     },
+
+    redirectToDownloads() {
+      this.changeRoute( {
+        name: RouteNames.ROOT.DOWNLOAD.LIST,
+      } );
+    },
+
+    redirectToRanking() {
+      this.changeRoute( {
+        name: RouteNames.ROOT.RANKING.__LANDING__
+      } );
+    },
   }
 };
 

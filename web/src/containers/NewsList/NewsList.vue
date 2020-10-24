@@ -20,8 +20,12 @@
           aria-current-label="Current page"
           v-if="newsFeed.length > 0"
         ></b-pagination>
-        <div class="no-news-found" v-if="newsFeed.length === 0">
-          No news articles found
+        <div class="no-news-articles" v-if="newsFeed.length === 0">
+          <template-card size="large">
+            <template slot="card-content">
+              <span> No news articles </span>
+            </template>
+          </template-card>
         </div>
         <template-card v-for="(newsArticle) in newsFeed" :key="newsArticle.id" size="large" class="news-card">
             <template slot="title"> [News] {{ newsArticle.title }} </template>
@@ -35,20 +39,6 @@
               <a class="read-more-btn" @click.prevent="goToNewsPage(newsArticle.id)" >Read More</a>
             </template>
         </template-card>
-        <!-- <div class="card news-feed-card" v-for="(news) in newsFeed" :key="news.id">
-          <header class="card-header">
-            <p class="card-header-title news-title">{{ news.title }}</p>
-          </header>
-          <div class="card-content">
-            <div class="content" v-html="getTruncatedHtml( news.content )"></div>
-            <a @click.prevent="goToNewsPage( news.id )" class="read-more-link">Read More</a>
-          </div>
-          <footer class="card-footer">
-            <div
-              class="news-metadata"
-            >by {{ news.author.name }} - {{ getDateInWords( news.updatedAt ) }} ago</div>
-          </footer>
-        </div> -->
         <b-loading :is-full-page="false" :active.sync="fetchingNewsFeed" :can-cancel="false"></b-loading>
         
     </template>

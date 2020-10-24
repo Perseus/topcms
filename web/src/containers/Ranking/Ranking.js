@@ -1,8 +1,9 @@
 import { mapActions, mapState } from 'vuex';
 import { BTabItem, BTabs } from 'buefy/dist/components/tabs';
 import { BRadio } from 'buefy/dist/components/radio';
-import { BTable } from 'buefy/dist/components/table';
+import { BTable, BTableColumn } from 'buefy/dist/components/table';
 
+import ServerDetailStructure from '@containers/ServerDetailStructure/ServerDetailStructure.vue';
 import ActionTypes from '../../store/types/ActionTypes';
 
 const RankingPage = {
@@ -12,7 +13,9 @@ const RankingPage = {
     'b-tabs': BTabs,
     'b-tab-item': BTabItem,
     'b-radio': BRadio,
-    'b-table': BTable
+    'b-table': BTable,
+    'b-table-column': BTableColumn,
+    'server-detail-structure': ServerDetailStructure,
   },
 
   data() {

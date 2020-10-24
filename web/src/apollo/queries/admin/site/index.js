@@ -137,7 +137,7 @@ export const getServerDetailStructureInformation = gql`
             data {
                 name
                 type
-                is_online
+                isOnline
             }
         }
 

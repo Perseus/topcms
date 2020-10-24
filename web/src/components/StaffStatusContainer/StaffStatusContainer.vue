@@ -20,7 +20,7 @@
           <li class="staff-item" v-for="(staff) in staffInfo" :key="staff.name">
             <span class="is-size-6 has-text-info">[{{ staff.type }}] {{ staff.name }}</span>
             <div
-              :class="['staff-indicator', { 'has-background-success': isStaffOnline( staff.is_online ), 'has-background-danger': !isStaffOnline( staff.is_online ) } ]"
+              :class="['staff-indicator', { 'has-background-success': isStaffOnline( staff.isOnline ), 'has-background-danger': !isStaffOnline( staff.isOnline ) } ]"
             ></div>
           </li>
         </ul>

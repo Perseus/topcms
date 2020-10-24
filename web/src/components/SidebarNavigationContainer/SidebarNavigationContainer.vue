@@ -6,22 +6,22 @@
     <div class="card-content">
       <ul>
         <li>
-          <a @click="redirectTo('home')">Home</a>
+          <router-link to="/">Home</router-link>
         </li>
         <li>
-          <a @click="redirectTo('news')">News</a>
+          <router-link to="/news">News</router-link>
         </li>
         <li>
-          <a @click="redirectTo('downloads')">Downloads</a>
+          <router-link to="/downloads">Downloads</router-link>
         </li>
         <li>
-          <a @click="redirectTo('ranking')">Ranking</a>
+          <router-link to="/ranking">Ranking</router-link>
         </li>
         <li>
-          <a @click="redirectTo('mall')">Item Mall</a>
+          <router-link to="/commerce/item-mall">Item Mall</router-link>
         </li>
         <li>
-          <a @click="redirectTo('awardCenter')">Award Center</a>
+          <router-link to="/commerce/award-center">Award Center</router-link>
         </li>
       </ul>
     </div>

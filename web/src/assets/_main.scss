@@ -61,6 +61,12 @@ body {
     color: #F7AD3B;
     box-shadow: none;
     border-color: rgba(247, 173, 59, 0.5);
+    
+    &:disabled {
+      background-color: #13181D;
+      color: rgba(247,173,59, 0.5);
+      border-color: rgba(247,173,59, 0.3);
+    }
   }
 
   .label {
@@ -88,5 +94,64 @@ body {
     background-color: #0C1317;
     color: #F7AD3B;
     box-shadow: 0 2px 3px rgba(231,184,55,.1),0 0 0 1px rgba(231,184,55,.1);
+  }
+
+  .tabs.is-toggle {
+    li {
+      a {
+        background-color: #13181D;
+        border-color: rgba(231,184,55,.1);
+        color: #F7AD3B;
+      }
+    }
+    li.is-active {
+      a {
+        background-color: #F7AD3B;
+        border-color: rgba(231,184,55,.1);
+        color: black;
+      }
+    }
+  }
+
+  .b-radio.radio {
+    input[type="radio"] + .check::before {
+      background-color: #F7AD3B;
+    }
+
+    input[type="radio"] + .check {
+      border-color: #F7AD3B;
+    }
+    
+    input[type="radio"]:checked + .check {
+      border-color: #F7AD3B;
+    }
+
+    input[type="radio"]:focus:checked + .check {
+      box-shadow: 0 0 .5em rgba(231,184,55,.1);
+    }
+
+    .control-label {
+      color: #F7AD3B;
+    }
+  }
+
+
+
+
+  .table-wrapper {
+    .table {
+      background-color: #0E151B;
+      color: #F7AD3B;
+      border-color: #F7AD3B;
+    
+      td, th {
+        border-color: #F7AD3B;
+        padding: .75em .75em;
+      }
+
+      thead td, thead th {
+        color: #F7AD3B;
+      }
+    }
   }
 }

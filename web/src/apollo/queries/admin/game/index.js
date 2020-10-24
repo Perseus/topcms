@@ -22,7 +22,7 @@ export const getStaffOnlineStatusQuery = gql`
             data {
                 name
                 type
-                is_online
+                isOnline
             }
         }
     }
