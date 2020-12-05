@@ -29,7 +29,7 @@ export const server = new ApolloServer( {
   validationRules: [ depthLimit( 5 ) ]
 } );
 
-const urlWhitelist = [ 'http://localhost:3000', 'http://localhost:3001', process.env.APP_URL ];
+const urlWhitelist = [ 'http://localhost', process.env.APP_URL ];
 
 const corsOptions = {
   credentials: true,

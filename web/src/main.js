@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { ValidationObserver } from 'vee-validate';
+import regeneratorRuntime from 'regenerator-runtime';
 
 import AppBootstrapper from './containers/AppBootstrapper.vue';
 import router from './router/router';
